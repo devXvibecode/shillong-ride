@@ -38,9 +38,7 @@ function scanImages() {
       }
     }
 
-    if (files.length > 0) {
-      manifest[placeId] = files;
-    }
+    manifest[placeId] = files;
   }
 
   return manifest;
@@ -74,8 +72,9 @@ writeManifest(manifest);
 const totalImages = Object.values(manifest).reduce((sum, arr) => sum + arr.length, 0);
 const placesWithImages = Object.keys(manifest).length;
 
+const emptyPlaces = Object.values(manifest).filter(a => a.length === 0).length;
 console.log(` Done!`);
 console.log(`   ${created} new folders created`);
-console.log(`   ${placesWithImages} places with images`);
-console.log(`   ${totalImages} images found`);
+console.log(`   ${placesWithImages} places with images (${emptyPlaces} empty)`);
+console.log(`   ${totalImages} total images`);
 console.log(`   Manifest written: src/data/images-manifest.json`);
