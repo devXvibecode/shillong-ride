@@ -1,0 +1,6 @@
+[
+  { "id": "bara_bazar", "name": "Bara Bazar", "lat": 25.5744, "lng": 91.8832 },
+  { "id": "laitumkhrah", "name": "Laitumkhrah", "lat": 25.5800, "lng": 91.8950 },
+  { "id": "police_bazar", "name": "Police Bazar", "lat": 25.5760, "lng": 91.8800 },
+  { "id": "mawlai", "name": "Mawlai", "lat": 25.5600, "lng": 91.8700 }
+]

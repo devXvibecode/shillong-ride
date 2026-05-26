@@ -1,0 +1,137 @@
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const faqs = [
+  {
+    q: 'How do I book a tour?',
+    a: 'Pick a direction, choose up to 3 spots, review your itinerary and pricing, then share your details. No account needed, no payment upfront — just confirm and we\'ll take it from there.',
+  },
+  {
+    q: 'Who will I ride with?',
+    a: 'Every tour pairs you with a local guide who handles the riding, navigation, and photography. They know the terrain intimately — the best angles, the quietest times, the hidden lookouts. One person, fully dedicated to your experience.',
+  },
+  {
+    q: 'How is pricing structured?',
+    a: 'Three simple components: a flat ₹1200 Processing & Platform Fee, a fixed Rider Cost based on your chosen route (₹400–₹600), and Fuel charged at ₹10 per km. The total distance is calculated from Shillong to your spots and back. No surge pricing, no bargaining.',
+  },
+  {
+    q: 'Can I customize my route?',
+    a: 'Absolutely. Pick any combination of up to 3 destinations within your chosen route. Our routing engine automatically maps the most efficient loop. You can change your selection freely before confirming.',
+  },
+  {
+    q: 'When does the tour happen?',
+    a: 'After confirmation, our team contacts you to coordinate the exact pickup time. This flexibility ensures your schedule fits naturally — no rigid time slots at booking.',
+  },
+  {
+    q: 'How do I pay?',
+    a: 'Payment is handled offline after your ride. We\'ll reach out to arrange it — cash and UPI are both accepted. No need to pull out your wallet mid-journey.',
+  },
+  {
+    q: 'What if I need to cancel?',
+    a: 'Reach us at least 24 hours before your scheduled pickup for a full refund. Late cancellations may incur a nominal charge. Contact us at hello@shillongride.in or +91 9591794044.',
+  },
+  {
+    q: 'Is solo travel safe?',
+    a: 'Absolutely. Our guides are trained locals who accompany you from pickup to drop-off. Vetted, reliable, and deeply familiar with the terrain. Solo travelers make up most of our bookings.',
+  },
+  {
+    q: 'Can I book for a group?',
+    a: 'ShillongRide is designed for one passenger per experience — a private pillion tour on a scooty or bike with your personal guide. We don\'t currently support group bookings. Each traveler books individually and is assigned their own guide.',
+  },
+];
+
+export default function Contact() {
+  const [openFaq, setOpenFaq] = useState(null);
+
+  return (
+    <div className="min-h-screen pb-16 px-4">
+      <div className="max-w-4xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
+          <div className="inline-block px-3 py-1 bg-orange-500/10 border border-orange-500/30 mb-3">
+            <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.15em]">HELP DESK</span>
+          </div>
+          <h1 className="font-['Anton'] text-4xl sm:text-6xl text-white uppercase tracking-[0.02em] mb-4">Contact & FAQ</h1>
+          <p className="text-white/40 text-sm font-['Anton'] uppercase tracking-wider">Everything you need to know before you ride.</p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+          {[
+            { label: 'Email', value: 'hello@shillongride.in', icon: (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            )},
+            { label: 'Enquiry & Emergency', value: '+91 9591794044', icon: (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            )},
+            { label: 'Location', value: 'Shillong, Meghalaya', icon: (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+              </svg>
+            )},
+          ].map(item => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-[#1a1a1a] border-2 border-black grunt-border p-4 sm:p-5 text-center shadow-[0_2px_0_0_rgba(0,0,0,0.3)]"
+            >
+              <div className="text-orange-500 mb-3 flex justify-center">{item.icon}</div>
+              <p className="text-white/30 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">{item.label}</p>
+              <p className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider">{item.value}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em] mb-6">
+            Frequently Asked <span className="text-orange-500">Questions</span>
+          </h2>
+
+          <div className="space-y-2">
+            {faqs.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.03 }}
+                className="bg-[#1a1a1a] border-2 border-black grunt-border overflow-hidden"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full p-4 sm:p-5 flex items-center justify-between text-left"
+                >
+                  <span className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider pr-4">{faq.q}</span>
+                  <span className={`text-orange-500 transition-transform duration-300 flex-shrink-0 ${openFaq === i ? 'rotate-45' : ''}`}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                  </span>
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="px-4 sm:px-5 pb-4 sm:pb-5 border-t-2 border-white/5 pt-4"
+                    >
+                      <p className="text-white/50 text-sm sm:text-base leading-relaxed">{faq.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
