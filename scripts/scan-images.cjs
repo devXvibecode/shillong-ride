@@ -4,56 +4,44 @@ const path = require('path');
 
 const PLACES_DIR = path.resolve(__dirname, '..', 'public', 'images', 'places');
 const MANIFEST_PATH = path.resolve(__dirname, '..', 'src', 'data', 'images-manifest.json');
-const PLACES_JSON = path.resolve(__dirname, '..', 'src', 'data', 'places.json');
 
 const IMAGE_EXTS = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif'];
-
-function getAllPlaceIds() {
-  const raw = fs.readFileSync(PLACES_JSON, 'utf-8');
-  const places = JSON.parse(raw);
-  return places.map(p => p.id);
-}
 
 function scanImages() {
   const manifest = {};
 
   if (!fs.existsSync(PLACES_DIR)) {
-    console.log('No images directory found. Creating empty manifest.');
-    fs.mkdirSync(PLACES_DIR, { recursive: true });
+    console.log('No images directory found.');
+    return manifest;
   }
 
-  const placeIds = getAllPlaceIds();
+  const circuitDirs = fs.readdirSync(PLACES_DIR, { withFileTypes: true })
+    .filter(d => d.isDirectory() && !d.name.startsWith('.'))
+    .map(d => d.name)
+    .sort();
 
-  for (const placeId of placeIds) {
-    const dir = path.join(PLACES_DIR, placeId);
-    const files = [];
+  if (circuitDirs.length === 0) {
+    console.log('No circuit folders found in public/images/places/');
+    return manifest;
+  }
 
-    if (fs.existsSync(dir)) {
-      const entries = fs.readdirSync(dir).sort();
-      for (const entry of entries) {
-        const ext = path.extname(entry).toLowerCase();
-        if (IMAGE_EXTS.includes(ext) && !entry.startsWith('.')) {
-          files.push(`/images/places/${placeId}/${entry}`);
-        }
-      }
+  for (const circuitName of circuitDirs) {
+    const circuitDir = path.join(PLACES_DIR, circuitName);
+    const entries = fs.readdirSync(circuitDir).sort();
+
+    for (const entry of entries) {
+      const ext = path.extname(entry).toLowerCase();
+      if (!IMAGE_EXTS.includes(ext)) continue;
+
+      const spotId = path.basename(entry, ext);
+      const imagePath = `/images/places/${circuitName}/${entry}`;
+
+      if (!manifest[spotId]) manifest[spotId] = [];
+      manifest[spotId].push(imagePath);
     }
-
-    manifest[placeId] = files;
   }
 
   return manifest;
-}
-
-function createMissingDirs(placeIds) {
-  let created = 0;
-  for (const placeId of placeIds) {
-    const dir = path.join(PLACES_DIR, placeId);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-      created++;
-    }
-  }
-  return created;
 }
 
 function writeManifest(manifest) {
@@ -64,17 +52,12 @@ function writeManifest(manifest) {
   fs.writeFileSync(MANIFEST_PATH, JSON.stringify(sorted, null, 2) + '\n', 'utf-8');
 }
 
-const placeIds = getAllPlaceIds();
-const created = createMissingDirs(placeIds);
 const manifest = scanImages();
 writeManifest(manifest);
 
 const totalImages = Object.values(manifest).reduce((sum, arr) => sum + arr.length, 0);
 const placesWithImages = Object.keys(manifest).length;
 
-const emptyPlaces = Object.values(manifest).filter(a => a.length === 0).length;
 console.log(` Done!`);
-console.log(`   ${created} new folders created`);
-console.log(`   ${placesWithImages} places with images (${emptyPlaces} empty)`);
-console.log(`   ${totalImages} total images`);
+console.log(`   ${totalImages} images found for ${placesWithImages} spots`);
 console.log(`   Manifest written: src/data/images-manifest.json`);
