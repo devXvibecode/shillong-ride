@@ -18,7 +18,7 @@ function AppLayout({ children }) {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1 pt-[72px] sm:pt-[80px] pb-safe">
+      <main className="flex-1 pt-[88px] sm:pt-[96px] pb-safe">
         {children}
       </main>
       <Footer />
