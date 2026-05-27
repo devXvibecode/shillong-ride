@@ -45,51 +45,6 @@
     "emailSent": false
   },
   {
-    "id": "SR-20260527-OYMI",
-    "name": "Chukss",
-    "phone": "8415017201",
-    "pickupLocation": "Zaza hotel",
-    "circuitId": "shillong_local",
-    "spots": [
-      "umiam_lake",
-      "shillong_peak",
-      "wards_lake"
-    ],
-    "route": [
-      "police_bazar",
-      "wards_lake",
-      "shillong_peak",
-      "umiam_lake",
-      "police_bazar"
-    ],
-    "timeSlot": "",
-    "vehicleType": "bike",
-    "notes": "",
-    "priceBreakdown": {
-      "fuelCost": 490,
-      "riderFee": 400,
-      "ownerFee": 1200,
-      "total": 2090,
-      "routeDistance": 49
-    },
-    "status": "pending",
-    "createdAt": "2026-05-27T07:21:57.214Z",
-    "circuitName": "The Shillong Central & Local Circuit",
-    "spotNames": [
-      "Umiam Lake",
-      "Shillong Peak",
-      "Wardâs Lake"
-    ],
-    "routeNames": [
-      "Shillong City",
-      "Umiam Lake",
-      "Shillong Peak",
-      "Wardâs Lake",
-      "Shillong City"
-    ],
-    "emailSent": false
-  },
-  {
     "id": "SR-20260527-YJ6K",
     "name": "Zaza",
     "phone": "8564613894",
