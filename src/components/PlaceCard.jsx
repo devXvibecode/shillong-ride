@@ -47,7 +47,7 @@ const cardRotations = [-0.5, 0.3, -0.8, 0.6, -0.3, 0.5, -0.7, 0.4, -0.6, 0.8, -0
 export default function PlaceCard({ place, index }) {
   const { selectedSpots, addSpot } = useBooking();
   const isSelected = selectedSpots.includes(place.id);
-  const isMaxedOut = selectedSpots.length >= 3 && !isSelected;
+  const isMaxedOut = selectedSpots.length >= 4 && !isSelected;
 
   return (
     <motion.div

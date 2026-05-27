@@ -257,7 +257,7 @@ export default function Checkout() {
                   <div className="flex justify-between items-center py-2 border-b border-white/5">
                     <div>
                       <p className="text-white/80 font-['Anton'] text-sm tracking-wider">1. Processing &amp; Platform Fee</p>
-                      <p className="text-white/25 text-[10px] font-mono">Flat platform charge</p>
+                      <p className="text-white/25 text-[10px] font-mono">Platform, booking system &amp; support</p>
                     </div>
                     <span className="text-orange-400 font-['Anton'] text-base">₹{price.ownerFee}</span>
                   </div>

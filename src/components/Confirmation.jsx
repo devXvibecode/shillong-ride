@@ -95,7 +95,7 @@ export default function Confirmation() {
               <p className="text-white font-['Anton'] text-sm tracking-wider">
                   <span className="text-orange-500 mr-1">1.</span>Processing &amp; Platform Fee
                   </p>
-                  <p className="text-white/30 text-[11px] font-mono">Flat platform charge</p>
+                  <p className="text-white/30 text-[11px] font-mono">Platform, booking system &amp; support</p>
             </div>
             <span className="text-orange-500 font-['Anton']">₹{p.ownerFee}</span>
           </div>

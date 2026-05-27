@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import places from '../data/places.json';
+import { fetchAllBookings, updateSingleBooking } from '../engines/bookingSyncService';
+import EditSpotModal from '../components/EditSpotModal';
 
 function loadBookings() {
   try {
@@ -12,23 +14,69 @@ function loadBookings() {
   }
 }
 
+function saveBookings(bookings) {
+  localStorage.setItem('sr_bookings', JSON.stringify(bookings));
+}
+
 const STATUS_COLORS = {
   pending: 'bg-yellow-500/20 border-yellow-500/30 text-yellow-400',
   approved: 'bg-blue-500/20 border-blue-500/30 text-blue-400',
   assigned: 'bg-purple-500/20 border-purple-500/30 text-purple-400',
   completed: 'bg-green-500/20 border-green-500/30 text-green-400',
   rejected: 'bg-red-500/20 border-red-500/30 text-red-400',
+  cancel_requested: 'bg-orange-500/20 border-orange-500/30 text-orange-400',
+  cancelled: 'bg-red-500/20 border-red-500/30 text-red-400',
 };
 
 export default function MyBookings() {
   const navigate = useNavigate();
-  const [bookings] = useState(loadBookings);
+  const [localBookings, setLocalBookings] = useState(loadBookings);
+  const [sharedBookings, setSharedBookings] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
+  const [editingBooking, setEditingBooking] = useState(null);
+
+  useEffect(() => {
+    fetchAllBookings().then(shared => {
+      setSharedBookings(shared);
+    }).catch(() => {});
+  }, []);
+
+  const seen = new Set();
+  const bookings = [...sharedBookings, ...localBookings].filter(b => {
+    if (seen.has(b.id)) return false;
+    seen.add(b.id);
+    return true;
+  });
 
   const filtered = statusFilter === 'all' ? bookings : bookings.filter(b => b.status === statusFilter);
 
   const getPlaceName = (id) => places.find(p => p.id === id)?.name || id;
+
+  const handleCancelRequest = async (bookingId) => {
+    if (!window.confirm('Cancel this booking? An admin will review your request.')) return;
+    const local = loadBookings();
+    const updated = local.map(b => {
+      if (b.id === bookingId) return { ...b, status: 'cancel_requested' };
+      return b;
+    });
+    saveBookings(updated);
+    setLocalBookings(updated);
+    await updateSingleBooking(bookingId, { status: 'cancel_requested' });
+  };
+
+  const handleEditSave = async (updatedBooking) => {
+    const local = loadBookings();
+    const updated = local.map(b => b.id === updatedBooking.id ? updatedBooking : b);
+    saveBookings(updated);
+    setLocalBookings(updated);
+    setEditingBooking(null);
+    await updateSingleBooking(updatedBooking.id, {
+      spots: updatedBooking.spots,
+      route: updatedBooking.route,
+      priceBreakdown: updatedBooking.priceBreakdown,
+    });
+  };
 
   return (
     <div className="min-h-screen pb-16 px-4">
@@ -43,7 +91,7 @@ export default function MyBookings() {
 
         {bookings.length > 0 && (
           <div className="flex gap-2 mb-6 overflow-x-auto pb-1 scrollbar-hide">
-            {['all', 'pending', 'approved', 'assigned', 'completed', 'rejected'].map(status => (
+            {['all', 'pending', 'approved', 'assigned', 'completed', 'rejected', 'cancel_requested', 'cancelled'].map(status => (
               <button
                 key={status}
                 type="button"
@@ -152,7 +200,10 @@ export default function MyBookings() {
                     <div className="space-y-2 pb-3 border-b-2 border-orange-500/20 mb-3">
                       <p className="text-orange-500 text-[10px] font-['Anton'] uppercase tracking-wider mb-2">BREAKDOWN</p>
                       <div className="flex justify-between text-sm">
-                        <span className="text-white/50 font-['Anton'] uppercase tracking-wider">Processing &amp; Platform Fee</span>
+                        <div>
+                          <span className="text-white/50 font-['Anton'] uppercase tracking-wider">Processing &amp; Platform Fee</span>
+                          <p className="text-white/25 text-[10px] font-mono">Platform, booking system &amp; support</p>
+                        </div>
                         <span className="text-orange-500 font-['Anton']">₹{booking.priceBreakdown.ownerFee || booking.priceBreakdown.processingCharge}</span>
                       </div>
                       <div className="flex justify-between text-sm">
@@ -190,6 +241,37 @@ export default function MyBookings() {
                         <p className="text-red-400 text-[11px] font-['Anton'] uppercase tracking-wider">This booking was not approved.</p>
                       </div>
                     )}
+
+                    {booking.status === 'cancel_requested' && (
+                      <div className="mt-3 px-3 py-2 bg-orange-500/10 border-2 border-orange-500/20">
+                        <p className="text-orange-400 text-[11px] font-['Anton'] uppercase tracking-wider">Cancellation requested — awaiting admin approval.</p>
+                      </div>
+                    )}
+
+                    {booking.status === 'cancelled' && (
+                      <div className="mt-3 px-3 py-2 bg-red-500/10 border-2 border-red-500/20">
+                        <p className="text-red-400 text-[11px] font-['Anton'] uppercase tracking-wider">This booking has been cancelled.</p>
+                      </div>
+                    )}
+
+                    {(booking.status === 'pending' || booking.status === 'approved') && (
+                      <div className="mt-4 pt-3 border-t-2 border-white/5 flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setEditingBooking(booking)}
+                          className="px-4 py-2 text-[11px] font-['Anton'] uppercase tracking-wider bg-blue-500/20 border-2 border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-all"
+                        >
+                          Edit Spots
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleCancelRequest(booking.id)}
+                          className="px-4 py-2 text-[11px] font-['Anton'] uppercase tracking-wider bg-red-500/20 border-2 border-red-500/30 text-red-400 hover:bg-red-500/30 transition-all"
+                        >
+                          Request Cancellation
+                        </button>
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </motion.div>
@@ -197,6 +279,14 @@ export default function MyBookings() {
           </div>
         )}
       </div>
+
+      {editingBooking && (
+        <EditSpotModal
+          booking={editingBooking}
+          onClose={() => setEditingBooking(null)}
+          onSave={handleEditSave}
+        />
+      )}
     </div>
   );
 }

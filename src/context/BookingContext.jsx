@@ -32,7 +32,7 @@ export function BookingProvider({ children }) {
   const addSpot = useCallback((spotId) => {
     setSelectedSpots(prev => {
       if (prev.includes(spotId)) return prev.filter(id => id !== spotId);
-      if (prev.length >= 3) return prev;
+      if (prev.length >= 4) return prev;
       return [...prev, spotId];
     });
   }, []);

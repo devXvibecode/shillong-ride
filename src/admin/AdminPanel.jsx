@@ -40,6 +40,8 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
     assigned: bookings.filter(b => b.status === 'assigned').length,
     completed: bookings.filter(b => b.status === 'completed').length,
     rejected: bookings.filter(b => b.status === 'rejected').length,
+    cancel_requested: bookings.filter(b => b.status === 'cancel_requested').length,
+    cancelled: bookings.filter(b => b.status === 'cancelled').length,
   };
 
   const updateStatus = (bookingId, newStatus, rider) => {
@@ -58,13 +60,15 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
   return (
     <div>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <div className="grid grid-cols-2 sm:grid-cols-6 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-8 gap-3 mb-8">
           {[
             { label: 'Total', value: stats.total, color: 'text-white' },
             { label: 'Pending', value: stats.pending, color: 'text-yellow-400' },
             { label: 'Approved', value: stats.approved, color: 'text-blue-400' },
             { label: 'Assigned', value: stats.assigned, color: 'text-purple-400' },
             { label: 'Completed', value: stats.completed, color: 'text-green-400' },
+            { label: 'Cancellation', value: stats.cancel_requested, color: 'text-orange-400' },
+            { label: 'Cancelled', value: stats.cancelled, color: 'text-red-400' },
             { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
           ].map(s => (
             <div key={s.label} className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 p-4 text-center">
@@ -76,7 +80,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
       </motion.div>
 
       <div className="flex gap-2 mb-6 overflow-x-auto">
-        {['all', 'pending', 'approved', 'assigned', 'completed', 'rejected'].map(status => (
+        {['all', 'pending', 'approved', 'assigned', 'completed', 'cancel_requested', 'cancelled', 'rejected'].map(status => (
           <button
             key={status}
             type="button"
@@ -118,7 +122,9 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                       booking.status === 'completed' ? 'bg-green-500/20 text-green-400' :
                       booking.status === 'assigned' ? 'bg-purple-500/20 text-purple-400' :
                       booking.status === 'approved' ? 'bg-blue-500/20 text-blue-400' :
+                      booking.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
                       booking.status === 'rejected' ? 'bg-red-500/20 text-red-400' :
+                      booking.status === 'cancel_requested' ? 'bg-orange-500/20 text-orange-400' :
                       'bg-yellow-500/20 text-yellow-400'
                     }`}>
                       {booking.status}
@@ -179,7 +185,10 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                   <div className="space-y-2 pb-3 border-b border-amber-400/20 mb-3">
                     <p className="text-amber-400 text-[10px] font-semibold uppercase tracking-wider mb-2">Breakdown</p>
                     <div className="flex justify-between text-xs">
-                      <span className="text-white/60">Processing &amp; Platform Fee</span>
+                      <div>
+                        <span className="text-white/60">Processing &amp; Platform Fee</span>
+                        <p className="text-white/30 text-[9px] font-mono">Platform, booking system &amp; support</p>
+                      </div>
                       <span className="text-amber-400 font-extrabold">&#x20B9;{booking.priceBreakdown.ownerFee || booking.priceBreakdown.processingCharge}</span>
                     </div>
                     <div className="flex justify-between text-xs">
@@ -230,7 +239,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                           </button>
                         </>
                       )}
-                      {['approved', 'assigned', 'completed', 'rejected'].map(s => (
+                      {['approved', 'assigned', 'completed', 'cancel_requested', 'cancelled', 'rejected'].map(s => (
                         <button
                           key={s}
                           type="button"
@@ -260,6 +269,28 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                               }
                             }}
                           />
+                        </div>
+                      </div>
+                    )}
+
+                    {booking.status === 'cancel_requested' && (
+                      <div className="mt-3 pt-3 border-t border-orange-500/20">
+                        <p className="text-white/40 text-[10px] mb-2">Cancellation Request</p>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => updateStatus(booking.id, 'cancelled')}
+                            className="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all"
+                          >
+                            Approve Cancellation
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => updateStatus(booking.id, 'pending')}
+                            className="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-all"
+                          >
+                            Deny Cancellation
+                          </button>
                         </div>
                       </div>
                     )}

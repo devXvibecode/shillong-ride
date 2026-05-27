@@ -18,7 +18,7 @@ export default function SpotSelector() {
         <div className="h-10" />
         <div className="flex items-center justify-between mb-2">
           <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em]">{selectedCircuit.shortName}</h2>
-          <div className="font-['Anton'] text-lg px-4 py-2 border-2 border-orange-500/30 bg-orange-500/10 text-orange-500">0/3</div>
+          <div className="font-['Anton'] text-lg px-4 py-2 border-2 border-orange-500/30 bg-orange-500/10 text-orange-500">0/4</div>
         </div>
         <p className="text-white/40 mb-4">Loading destinations...</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-28">
@@ -55,21 +55,21 @@ export default function SpotSelector() {
           </div>
         </div>
         <div className={`font-['Anton'] text-lg px-4 py-2 border-2 transition-all flex-shrink-0 ${
-          selectedSpots.length === 3
+          selectedSpots.length === 4
             ? 'text-green-400 border-green-400/30 bg-green-400/10'
             : 'text-orange-500 border-orange-500/30 bg-orange-500/10'
         }`}>
-          {selectedSpots.length}/3
+          {selectedSpots.length}/4
         </div>
       </div>
 
-      {selectedSpots.length >= 3 && (
+      {selectedSpots.length >= 4 && (
         <motion.p
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           className="text-green-400/80 text-sm font-medium border-l-2 border-green-400/30 pl-3"
         >
-          Maximum 3 spots selected. Tap a selected place to deselect.
+          Maximum 4 spots selected. Tap a selected place to deselect.
         </motion.p>
       )}
 
@@ -119,9 +119,9 @@ export default function SpotSelector() {
                 })}
               </div>
               <div className={`text-xs sm:text-sm font-['Anton'] tracking-wider whitespace-nowrap ${
-                selectedSpots.length === 3 ? 'text-green-400' : 'text-white/50'
+                selectedSpots.length === 4 ? 'text-green-400' : 'text-white/50'
               }`}>
-                {selectedSpots.length}/3
+                {selectedSpots.length}/4
               </div>
               <button
                 type="button"
