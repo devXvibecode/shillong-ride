@@ -1,0 +1,47 @@
+[
+  {
+    "id": "SR-20260527-JSUI",
+    "name": "Bbpssss",
+    "phone": "9996666669",
+    "pickupLocation": "Vivanta hotel",
+    "circuitId": "shillong_local",
+    "spots": [
+      "laitlum_canyon",
+      "elephant_falls",
+      "shillong_peak"
+    ],
+    "route": [
+      "police_bazar",
+      "shillong_peak",
+      "elephant_falls",
+      "laitlum_canyon",
+      "police_bazar"
+    ],
+    "timeSlot": "",
+    "vehicleType": "bike",
+    "notes": "Need one joint",
+    "priceBreakdown": {
+      "fuelCost": 620,
+      "riderFee": 400,
+      "ownerFee": 1200,
+      "total": 2220,
+      "routeDistance": 62
+    },
+    "status": "pending",
+    "createdAt": "2026-05-27T06:34:47.991Z",
+    "circuitName": "The Shillong Central & Local Circuit",
+    "spotNames": [
+      "Laitlum Canyon",
+      "Elephant Falls",
+      "Shillong Peak"
+    ],
+    "routeNames": [
+      "Shillong City",
+      "Laitlum Canyon",
+      "Elephant Falls",
+      "Shillong Peak",
+      "Shillong City"
+    ],
+    "emailSent": false
+  }
+]
