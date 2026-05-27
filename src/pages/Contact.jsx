@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const faqs = [
   {
     q: 'How do I book a tour?',
-    a: 'Pick a direction, choose up to 3 spots, review your itinerary and pricing, then share your details. No account needed, no payment upfront — just confirm and we\'ll take it from there.',
+    a: 'Pick a direction, choose up to 4 spots, review your itinerary and pricing, then share your details. No account needed, no payment upfront — just confirm and we\'ll take it from there.',
   },
   {
     q: 'Who will I ride with?',
@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: 'Can I customize my route?',
-    a: 'Absolutely. Pick any combination of up to 3 destinations within your chosen route. Our routing engine automatically maps the most efficient loop. You can change your selection freely before confirming.',
+    a: 'Absolutely. Pick any combination of up to 4 destinations within your chosen route. Our routing engine automatically maps the most efficient loop. You can change your selection freely before confirming.',
   },
   {
     q: 'When does the tour happen?',
@@ -47,11 +47,11 @@ export default function Contact() {
     <div className="min-h-screen pb-16 px-4">
       <div className="max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <div className="inline-block px-3 py-1 bg-orange-500/10 border border-orange-500/30 mb-3">
+          <div className="inline-block px-3 py-1 bg-orange-500/10 border border-orange-500/30 rounded-lg mb-3">
             <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.15em]">HELP DESK</span>
           </div>
           <h1 className="font-['Anton'] text-4xl sm:text-6xl text-white uppercase tracking-[0.02em] mb-4">Contact & FAQ</h1>
-          <p className="text-white/40 text-sm font-['Anton'] uppercase tracking-wider">Everything you need to know before you ride.</p>
+          <p className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Everything you need to know before you ride.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
@@ -76,10 +76,10 @@ export default function Contact() {
               key={item.label}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-[#1a1a1a] border-2 border-black grunt-border p-4 sm:p-5 text-center shadow-[0_2px_0_0_rgba(0,0,0,0.3)]"
+              className="glass-card p-4 sm:p-5 text-center"
             >
               <div className="text-orange-500 mb-3 flex justify-center">{item.icon}</div>
-              <p className="text-white/30 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">{item.label}</p>
+              <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">{item.label}</p>
               <p className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider">{item.value}</p>
             </motion.div>
           ))}
@@ -101,7 +101,7 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="bg-[#1a1a1a] border-2 border-black grunt-border overflow-hidden"
+                className="glass-card overflow-hidden"
               >
                 <button
                   type="button"
@@ -121,9 +121,9 @@ export default function Contact() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="px-4 sm:px-5 pb-4 sm:pb-5 border-t-2 border-white/5 pt-4"
+                      className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-white/5 pt-4"
                     >
-                      <p className="text-white/50 text-sm sm:text-base leading-relaxed">{faq.a}</p>
+                      <p className="text-white/55 text-sm sm:text-base leading-relaxed">{faq.a}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>

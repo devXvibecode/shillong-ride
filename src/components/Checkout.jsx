@@ -43,7 +43,7 @@ export default function Checkout() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <div className="mb-10 mt-4">
-        <p className="text-white/40 font-['Anton'] text-xs uppercase tracking-[0.2em]">Step 3 of 4</p>
+        <p className="text-white/55 font-['Anton'] text-xs uppercase tracking-[0.2em]">Step 3 of 4</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
@@ -51,10 +51,10 @@ export default function Checkout() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-[#1a1a1a] border-2 border-black grunt-border p-5 sm:p-6 shadow-[0_3px_0_0_rgba(0,0,0,0.3)]"
+            className="glass-card p-5 sm:p-6"
           >
-            <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-orange-500/20">
-              <div className="w-8 h-8 bg-orange-500/15 border-2 border-orange-500/30 flex items-center justify-center">
+            <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/5">
+              <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                 </svg>
@@ -63,13 +63,13 @@ export default function Checkout() {
             </div>
 
             <div className="mb-2">
-              <span className="px-3 py-1.5 bg-orange-500/10 text-orange-400 border-2 border-orange-500/20 text-xs font-['Anton'] uppercase tracking-wider">
+              <span className="px-3 py-1.5 bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">
                 {selectedCircuit.shortName}
               </span>
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border-2 border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider">Shillong</span>
+              <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">Shillong</span>
               {spotIds.map((spotId, i) => {
                 const p = places.find(x => x.id === spotId);
                 return (
@@ -77,16 +77,16 @@ export default function Checkout() {
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20">
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
-                    <span className="px-3 py-1.5 bg-white/10 text-white border-2 border-white/10 text-xs font-['Anton'] uppercase tracking-wider">{p?.name || spotId}</span>
+                    <span className="px-3 py-1.5 bg-white/10 text-white border border-white/10 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">{p?.name || spotId}</span>
                   </span>
                 );
               })}
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20">
                 <polyline points="9 18 15 12 9 6" />
               </svg>
-              <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border-2 border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider">Shillong</span>
+              <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">Shillong</span>
             </div>
-            <p className="text-white/30 text-xs mt-3 font-mono tracking-wider">
+            <p className="text-white/40 text-xs mt-3 font-mono tracking-wider">
               ROUND TRIP · {price.routeDistance} KM TOTAL
             </p>
           </motion.div>
@@ -96,10 +96,10 @@ export default function Checkout() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 }}
-              className="bg-[#1a1a1a] border-2 border-black grunt-border p-5 sm:p-6 shadow-[0_3px_0_0_rgba(0,0,0,0.3)]"
+              className="glass-card p-5 sm:p-6"
             >
-              <div className="flex items-center gap-3 mb-5 pb-3 border-b-2 border-white/10">
-                <div className="w-8 h-8 bg-white/10 border-2 border-white/20 flex items-center justify-center">
+              <div className="flex items-center gap-3 mb-5 pb-3 border-b border-white/10">
+                <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/70">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
@@ -111,27 +111,27 @@ export default function Checkout() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-white/50 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Your Name</label>
+                    <label className="block text-white/55 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Your Name</label>
                     <input
                       type="text"
                       value={formData.name}
                       onChange={e => updateFormField('name', e.target.value)}
                       placeholder="Enter your full name"
-                      className={`w-full px-4 py-3 bg-[#2a2a2a] border-2 text-white placeholder-white/20 focus:outline-none transition-all ${
-                        errors.name ? 'border-red-500/60' : 'border-white/10 focus:border-orange-500/50'
+                      className={`glass-input w-full px-4 py-3 ${
+                        errors.name ? 'border-red-500/60' : ''
                       }`}
                     />
                     {errors.name && <p className="text-red-400 text-xs mt-1 font-['Anton'] uppercase tracking-wider">{errors.name}</p>}
                   </div>
                   <div>
-                    <label className="block text-white/50 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Phone Number</label>
+                    <label className="block text-white/55 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Phone Number</label>
                     <input
                       type="tel"
                       value={formData.phone}
                       onChange={e => updateFormField('phone', e.target.value)}
                       placeholder="Enter your 10-digit number"
-                      className={`w-full px-4 py-3 bg-[#2a2a2a] border-2 text-white placeholder-white/20 focus:outline-none transition-all ${
-                        errors.phone ? 'border-red-500/60' : 'border-white/10 focus:border-orange-500/50'
+                      className={`glass-input w-full px-4 py-3 ${
+                        errors.phone ? 'border-red-500/60' : ''
                       }`}
                     />
                     {errors.phone && <p className="text-red-400 text-xs mt-1 font-['Anton'] uppercase tracking-wider">{errors.phone}</p>}
@@ -139,26 +139,26 @@ export default function Checkout() {
                 </div>
 
                 <div>
-                  <label className="block text-white/50 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Pickup Location</label>
+                  <label className="block text-white/55 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Pickup Location</label>
                   <input
                     type="text"
                     value={formData.pickupLocation}
                     onChange={e => updateFormField('pickupLocation', e.target.value)}
                     placeholder="Your hotel or address in Shillong"
-                    className="w-full px-4 py-3 bg-[#2a2a2a] border-2 border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange-500/50 transition-all"
+                    className="glass-input w-full px-4 py-3"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-white/50 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Vehicle Type</label>
+                  <label className="block text-white/55 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Vehicle Type</label>
                   <div className="grid grid-cols-2 gap-2.5">
                     <button
                       type="button"
                       onClick={() => setVehicleType('scooty')}
-                      className={`p-3 border-2 text-center transition-all duration-200 flex items-center justify-center gap-2 ${
+                      className={`p-3 rounded-xl border text-center transition-all duration-200 flex items-center justify-center gap-2 ${
                         vehicleType === 'scooty'
-                          ? 'bg-orange-500/15 border-orange-500/50 text-orange-400 shadow-[0_0_10px_rgba(230,81,0,0.1)]'
-                          : 'bg-[#2a2a2a] border-white/10 text-white/50 hover:border-white/25'
+                          ? 'bg-orange-500/15 border-orange-500/40 text-orange-400'
+                          : 'bg-white/5 border-white/10 text-white/50 hover:border-white/25'
                       }`}
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -174,10 +174,10 @@ export default function Checkout() {
                     <button
                       type="button"
                       onClick={() => setVehicleType('bike')}
-                      className={`p-3 border-2 text-center transition-all duration-200 flex items-center justify-center gap-2 ${
+                      className={`p-3 rounded-xl border text-center transition-all duration-200 flex items-center justify-center gap-2 ${
                         vehicleType === 'bike'
-                          ? 'bg-orange-500/15 border-orange-500/50 text-orange-400 shadow-[0_0_10px_rgba(230,81,0,0.1)]'
-                          : 'bg-[#2a2a2a] border-white/10 text-white/50 hover:border-white/25'
+                          ? 'bg-orange-500/15 border-orange-500/40 text-orange-400'
+                          : 'bg-white/5 border-white/10 text-white/50 hover:border-white/25'
                       }`}
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -190,17 +190,17 @@ export default function Checkout() {
                       <span className="font-['Anton'] text-sm tracking-wider">Bike</span>
                     </button>
                   </div>
-                  <p className="text-white/25 text-[10px] font-mono mt-1.5">Choose your ride — scooty or bike</p>
+                  <p className="text-white/40 text-[10px] font-mono mt-1.5">Choose your ride — scooty or bike</p>
                 </div>
 
                 <div>
-                  <label className="block text-white/50 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Special Requests (optional)</label>
+                  <label className="block text-white/55 text-xs font-['Anton'] uppercase tracking-wider mb-1.5">Special Requests (optional)</label>
                   <textarea
                     value={formData.notes}
                     onChange={e => updateFormField('notes', e.target.value)}
                     placeholder="Any special requests..."
                     rows={2}
-                    className="w-full px-4 py-3 bg-[#2a2a2a] border-2 border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-orange-500/50 transition-all"
+                    className="glass-input w-full px-4 py-3"
                   />
                 </div>
               </div>
@@ -214,7 +214,7 @@ export default function Checkout() {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="px-6 py-3.5 bg-[#1a1a1a] text-orange-400 font-['Anton'] text-sm uppercase tracking-wider border-2 border-orange-500/30 hover:bg-orange-500/10 hover:border-orange-500/60 hover:shadow-[2px_2px_0_0_rgba(230,81,0,0.3)] transition-all duration-200"
+                className="px-6 py-3.5 glass-btn text-sm uppercase tracking-wider"
               >
                 ← Change Route
               </button>
@@ -223,8 +223,8 @@ export default function Checkout() {
                 disabled={submitting}
                 className={`flex-1 px-6 py-3.5 font-['Anton'] text-base uppercase tracking-wider transition-all duration-300 ${
                   submitting
-                    ? 'bg-orange-500/30 text-white/40 cursor-not-allowed border-2 border-black'
-                    : 'industrial-btn rounded-none'
+                    ? 'glass-btn-primary opacity-40 cursor-not-allowed'
+                    : 'glass-btn-primary'
                 }`}
               >
                 {submitting ? 'PROCESSING...' : 'APPROVE & CONFIRM →'}
@@ -240,9 +240,9 @@ export default function Checkout() {
             transition={{ delay: 0.1 }}
             className="lg:sticky lg:top-24"
           >
-            <div className="bg-[#1a1a1a] border-2 border-black grunt-border p-5 sm:p-6 shadow-[0_3px_0_0_rgba(0,0,0,0.3)]">
-                <div className="flex items-center gap-3 mb-5 pb-3 border-b-2 border-orange-500/20">
-                  <div className="w-8 h-8 bg-orange-500/15 border-2 border-orange-500/30 flex items-center justify-center">
+            <div className="glass-card p-5 sm:p-6">
+                <div className="flex items-center gap-3 mb-5 pb-3 border-b border-orange-500/20">
+                  <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
                       <line x1="4" y1="7" x2="20" y2="7" />
                       <line x1="7" y1="7" x2="13" y2="21" />
@@ -257,7 +257,7 @@ export default function Checkout() {
                   <div className="flex justify-between items-center py-2 border-b border-white/5">
                     <div>
                       <p className="text-white/80 font-['Anton'] text-sm tracking-wider">1. Processing &amp; Platform Fee</p>
-                      <p className="text-white/25 text-[10px] font-mono">Platform, booking system &amp; support</p>
+                      <p className="text-white/40 text-[10px] font-mono">Platform, booking system &amp; support</p>
                     </div>
                     <span className="text-orange-400 font-['Anton'] text-base">₹{price.ownerFee}</span>
                   </div>
@@ -265,7 +265,7 @@ export default function Checkout() {
                   <div className="flex justify-between items-center py-2 border-b border-white/5">
                     <div>
                       <p className="text-white/80 font-['Anton'] text-sm tracking-wider">2. Rider Cost</p>
-                      <p className="text-white/25 text-[10px] font-mono">Your personal guide</p>
+                      <p className="text-white/40 text-[10px] font-mono">Your personal guide</p>
                     </div>
                     <span className="text-orange-400 font-['Anton'] text-base">₹{price.riderFee}</span>
                   </div>
@@ -273,7 +273,7 @@ export default function Checkout() {
                   <div className="flex justify-between items-center py-2">
                     <div>
                       <p className="text-white/80 font-['Anton'] text-sm tracking-wider">3. Fuel Cost</p>
-                      <p className="text-white/25 text-[10px] font-mono">{price.routeDistance} km travelled</p>
+                      <p className="text-white/40 text-[10px] font-mono">{price.routeDistance} km travelled</p>
                     </div>
                     <span className="text-orange-400 font-['Anton'] text-base">₹{price.fuelCost}</span>
                   </div>
@@ -284,8 +284,8 @@ export default function Checkout() {
                 <span className="font-['Anton'] text-orange-500 text-2xl tracking-wider">₹{price.total}</span>
               </div>
 
-              <div className="mt-4 pt-4 border-t-2 border-dashed border-white/10 text-center">
-                <p className="text-white/20 text-[10px] font-mono uppercase tracking-wider">Invoice #SR-{Date.now().toString(36).toUpperCase()}</p>
+              <div className="mt-4 pt-4 border-t border-dashed border-white/10 text-center">
+                <p className="text-white/30 text-[10px] font-mono uppercase tracking-wider">Invoice #SR-{Date.now().toString(36).toUpperCase()}</p>
               </div>
             </div>
           </motion.div>

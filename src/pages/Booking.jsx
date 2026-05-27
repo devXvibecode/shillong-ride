@@ -19,7 +19,7 @@ export default function Booking() {
   return (
     <div className="min-h-screen pb-16 px-4">
       <div className="max-w-5xl mx-auto">
-        <div className="bg-[#1a1a1a] border-2 border-black grunt-border p-4 sm:p-5 mb-10 shadow-[0_4px_0_0_rgba(0,0,0,0.4)]">
+        <div className="glass-card p-4 sm:p-5 mb-10">
           <div className="flex items-center justify-center gap-1 sm:gap-2">
             {steps.map((s, i) => (
               <div key={i} className="flex items-center gap-1 sm:gap-3">
@@ -29,12 +29,12 @@ export default function Booking() {
                   className="flex flex-col items-center gap-1"
                 >
                   <div
-                    className={`diamond w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center transition-all duration-300 ${
+                    className={`w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center transition-all duration-300 rounded-lg ${
                       i === step
-                        ? 'bg-orange-500 border-2 border-black shadow-[0_0_15px_rgba(230,81,0,0.4)]'
+                        ? 'bg-orange-500 shadow-[0_0_15px_rgba(230,81,0,0.4)]'
                         : i < step
-                        ? 'bg-orange-500/30 border-2 border-orange-500/50 cursor-pointer'
-                        : 'bg-[#2a2a2a] border-2 border-white/10'
+                        ? 'bg-orange-500/30 border border-orange-500/50 cursor-pointer'
+                        : 'glass-card'
                     }`}
                     title={canGoBack(i) ? `Go to ${s.label}` : ''}
                   >
@@ -49,7 +49,7 @@ export default function Booking() {
                     </span>
                   </div>
                   <span className={`font-['Anton'] text-[9px] sm:text-[10px] tracking-[0.15em] ${
-                    i === step ? 'text-orange-500' : 'text-white/30'
+                    i === step ? 'text-orange-500' : 'text-white/55'
                   }`}>
                     {s.label}
                   </span>

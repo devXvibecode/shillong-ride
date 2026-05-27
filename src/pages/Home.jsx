@@ -31,7 +31,7 @@ const services = [
       </svg>
     ),
     title: 'Smart Routing',
-    description: 'Pick a direction and up to 3 spots. Our engine maps the most efficient loop so you spend time at destinations, not on the road between them.',
+    description: 'Pick a direction and up to 4 spots. Our engine maps the most efficient loop so you spend time at destinations, not on the road between them.',
   },
   {
     icon: (
@@ -80,19 +80,19 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
             >
-              <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 mb-6">
+              <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg mb-6">
                 <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.2em]">About ShillongRide</span>
               </div>
               <h2 className="font-['Anton'] text-3xl sm:text-4xl lg:text-5xl text-white uppercase leading-tight mb-6 tracking-[0.02em]">
                 Your Ride into<br />
                 <span className="text-orange-500">MEGHALAYA'S SOUL</span>
               </h2>
-              <p className="text-white/50 text-base sm:text-lg leading-relaxed mb-6 border-l-2 border-orange-500/30 pl-4">
+              <p className="text-white/55 text-base sm:text-lg leading-relaxed mb-6 border-l-2 border-orange-500/30 pl-4">
                 We bridge travelers with the raw, untamed beauty of Northeast India. 
                 Every ShillongRide experience is built around one idea — you should 
                 never have to choose between safety and spontaneity.
               </p>
-              <p className="text-white/40 text-base leading-relaxed mb-8">
+              <p className="text-white/55 text-base leading-relaxed mb-8">
                 Our local guides handle the road, the route, and the logistics. 
                 You get the waterfalls, the misty valleys, the living root bridges, 
                 and the quiet moments between destinations.
@@ -105,11 +105,11 @@ export default function Home() {
                 ].map((s, i) => (
                   <div
                     key={s.label}
-                    className="sticker px-5 py-3"
+                    className="glass-card px-5 py-3"
                     style={{ transform: `rotate(${i === 0 ? -1 : i === 1 ? 0.8 : -0.5}deg)` }}
                   >
                     <p className="text-orange-500 font-['Anton'] text-2xl sm:text-3xl">{s.value}</p>
-                    <p className="text-white/40 text-xs tracking-wider">{s.label}</p>
+                    <p className="text-white/55 text-xs tracking-wider">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -131,7 +131,7 @@ export default function Home() {
               Four Ways to Experience<br />
               <span className="text-orange-500">MEGHALAYA</span>
             </h2>
-            <p className="text-white/45 text-base sm:text-lg max-w-2xl mx-auto">
+            <p className="text-white/55 text-base sm:text-lg max-w-2xl mx-auto">
               Each route is a different direction, a different rhythm, a different Meghalaya.
             </p>
           </motion.div>
@@ -144,25 +144,25 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-[#1a1a1a] border-2 border-white/10 p-5 sm:p-6 grunt-border"
+                className="glass-card p-5 sm:p-6"
                 style={{ transform: `rotate(${i % 2 === 0 ? -0.3 : 0.3}deg)` }}
               >
                 <div className="flex items-start gap-3 mb-3">
                   <div
-                    className="w-12 h-12 flex items-center justify-center flex-shrink-0 border-2 border-black"
-                    style={{ backgroundColor: `${circuit.color}22`, borderColor: `${circuit.color}40` }}
+                    className="w-12 h-12 flex items-center justify-center flex-shrink-0 rounded-lg glass-card"
+                    style={{ backgroundColor: `${circuit.color}22` }}
                   >
                     <span style={{ color: circuit.color }}>{circuitIcons[circuit.id]}</span>
                   </div>
                   <div>
                     <h3 className="font-['Bebas_Neue'] text-white text-lg tracking-wider">{circuit.shortName}</h3>
-                    <p className="text-white/35 text-xs font-['Anton'] uppercase tracking-wider">{circuit.tagline}</p>
+                    <p className="text-white/55 text-xs font-['Anton'] uppercase tracking-wider">{circuit.tagline}</p>
                   </div>
                 </div>
-                <p className="text-white/45 text-sm leading-relaxed mb-3">{circuit.description}</p>
-                <p className="text-white/30 text-xs italic leading-relaxed border-l-2 border-orange-500/20 pl-3">{circuit.travelReality}</p>
+                <p className="text-white/55 text-sm leading-relaxed mb-3">{circuit.description}</p>
+                <p className="text-white/55 text-xs italic leading-relaxed border-l-2 border-orange-500/20 pl-3">{circuit.travelReality}</p>
                 <div className="mt-3 flex items-center gap-2">
-                  <span className="px-2.5 py-1 bg-[#2a2a2a] text-white/50 text-[10px] font-['Anton'] uppercase tracking-wider border border-white/10">
+                  <span className="px-2.5 py-1 glass text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">
                     {circuit.spots.length} SPOTS
                   </span>
                 </div>
@@ -197,14 +197,14 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="sign p-6 sm:p-8 group hover:border-orange-500/40 transition-all duration-500"
+                className="glass-card p-6 sm:p-8 hover:border-orange-500/40 transition-all duration-500"
                 style={{ transform: `rotate(${serviceRotations[i]}deg)` }}
               >
                 <div className="text-orange-500 mb-4 group-hover:scale-110 transition-transform duration-300">
                   {service.icon}
                 </div>
                 <h3 className="font-['Bebas_Neue'] text-white text-xl sm:text-2xl tracking-wider mb-2">{service.title}</h3>
-                <p className="text-white/45 text-sm sm:text-base leading-relaxed">{service.description}</p>
+                <p className="text-white/55 text-sm sm:text-base leading-relaxed">{service.description}</p>
               </motion.div>
             ))}
           </div>
@@ -226,7 +226,7 @@ export default function Home() {
               Three Moves, One<br />
               <span className="text-orange-500">UNFORGETTABLE DAY</span>
             </h2>
-            <p className="text-white/45 text-base sm:text-lg max-w-2xl mx-auto">
+            <p className="text-white/55 text-base sm:text-lg max-w-2xl mx-auto">
               No accounts. No downloads. Just pick, confirm, and go.
             </p>
           </motion.div>
@@ -241,7 +241,7 @@ export default function Home() {
               {
                 num: '02',
                 title: 'Choose Your Spots',
-                description: 'Select up to 3 destinations within that route. Review the distance, pricing, and itinerary before you confirm.',
+                description: 'Select up to 4 destinations within that route. Review the distance, pricing, and itinerary before you confirm.',
               },
               {
                 num: '03',
@@ -255,17 +255,17 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.15, duration: 0.5 }}
-                className="bg-[#1a1a1a] border-2 border-white/10 p-6 sm:p-8 grunt-border relative"
+                className="glass-card p-6 sm:p-8 relative"
                 style={{ transform: `rotate(${i === 0 ? -0.5 : i === 1 ? 0 : 0.5}deg)` }}
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="diamond w-14 h-14 bg-orange-500 border-2 border-black flex items-center justify-center flex-shrink-0 shadow-[3px_3px_0_0_rgba(0,0,0,0.5)]">
+                  <div className="w-14 h-14 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <span className="font-['Anton'] text-black text-xl font-black">{item.num}</span>
                   </div>
                   <div className="w-8 h-0.5 bg-orange-500/30" />
                 </div>
                 <h3 className="font-['Bebas_Neue'] text-white text-xl sm:text-2xl tracking-wider mb-2">{item.title}</h3>
-                <p className="text-white/45 text-sm sm:text-base leading-relaxed">{item.description}</p>
+                <p className="text-white/55 text-sm sm:text-base leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -280,14 +280,14 @@ export default function Home() {
             viewport={{ once: true, margin: '-80px' }}
             className="text-center mb-16"
           >
-            <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 mb-4">
+            <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg mb-4">
               <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.2em]">Why ShillongRide</span>
             </div>
             <h2 className="font-['Anton'] text-3xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-4">
               Built for Travelers<br />
               <span className="text-orange-500">WHO WANT MORE</span>
             </h2>
-            <p className="text-white/45 text-base sm:text-lg max-w-2xl mx-auto">
+            <p className="text-white/55 text-base sm:text-lg max-w-2xl mx-auto">
               We solved the friction so you can focus on what matters — the journey.
             </p>
           </motion.div>
@@ -325,16 +325,16 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="sticker p-6 sm:p-8"
+                className="glass-card p-6 sm:p-8"
                 style={{ transform: `rotate(${whyRotations[i]}deg)` }}
               >
-                <div className="w-10 h-10 rounded-none bg-orange-500/10 border-2 border-orange-500/30 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center mb-4">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </div>
                 <h3 className="font-['Bebas_Neue'] text-white text-lg sm:text-xl tracking-wider mb-2">{item.title}</h3>
-                <p className="text-white/45 text-sm sm:text-base leading-relaxed">{item.description}</p>
+                <p className="text-white/55 text-sm sm:text-base leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -348,7 +348,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
           >
-            <div className="inline-block px-5 py-3 bg-[#ffd600] border-2 border-black shadow-[6px_6px_0_0_rgba(0,0,0,0.6)] mb-6">
+            <div className="inline-block px-5 py-3 bg-[#ffd600] rounded-lg shadow-lg mb-6">
               <span className="font-['Anton'] text-black text-base sm:text-lg uppercase tracking-[0.1em]">
                 The Road Is Waiting
               </span>
@@ -357,13 +357,13 @@ export default function Home() {
               Ready to Ride<br />
               <span className="text-orange-500">MEGHALAYA?</span>
             </h2>
-            <p className="text-white/50 text-base sm:text-lg mb-8 sm:mb-10 max-w-xl mx-auto">
+            <p className="text-white/55 text-base sm:text-lg mb-8 sm:mb-10 max-w-xl mx-auto">
               Pick your direction, choose your spots, and let a local guide handle the rest.
               Your Meghalaya story starts with a single click.
             </p>
             <Link
               to="/booking"
-              className="industrial-btn inline-block px-12 sm:px-16 py-4 sm:py-5 text-base sm:text-lg tracking-widest"
+              className="glass-btn-primary inline-block px-12 sm:px-16 py-4 sm:py-5 text-base sm:text-lg tracking-widest"
             >
               Start Booking →
             </Link>

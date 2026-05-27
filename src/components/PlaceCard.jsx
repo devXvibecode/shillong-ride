@@ -49,6 +49,11 @@ export default function PlaceCard({ place, index }) {
   const isSelected = selectedSpots.includes(place.id);
   const isMaxedOut = selectedSpots.length >= 4 && !isSelected;
 
+  const handleClick = () => { if (!isMaxedOut) addSpot(place.id); };
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(); }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -56,15 +61,20 @@ export default function PlaceCard({ place, index }) {
       viewport={{ once: true, margin: '-40px' }}
       transition={{ delay: Math.min(index * 0.03, 0.3), duration: 0.4 }}
       layout
+      role="button"
+      tabIndex={isMaxedOut ? -1 : 0}
+      aria-disabled={isMaxedOut}
+      aria-pressed={isSelected}
+      onKeyDown={handleKeyDown}
+      onClick={handleClick}
       style={{ transform: `rotate(${cardRotations[index % cardRotations.length]}deg)` }}
-      className={`group border-2 transition-all duration-300 ${
+      className={`group transition-all duration-300 cursor-pointer rounded-2xl overflow-hidden border ${
         isSelected
-          ? 'bg-orange-500/[0.08] border-orange-500/50 shadow-[4px_4px_0_0_rgba(230,81,0,0.3)]'
+          ? 'bg-orange-500/10 border-orange-500/40'
           : isMaxedOut
-          ? 'bg-[#1a1a1a]/50 border-white/5 opacity-30 cursor-not-allowed'
-          : 'bg-[#1a1a1a] border-white/10 cursor-pointer hover:border-orange-500/40 hover:shadow-[3px_3px_0_0_rgba(230,81,0,0.15)]'
+          ? 'bg-white/5 border-white/5 opacity-30 cursor-not-allowed'
+          : 'bg-white/5 border-white/10 hover:border-orange-500/30 hover:bg-white/10'
       }`}
-      onClick={() => !isMaxedOut && addSpot(place.id)}
     >
       <div className="relative h-44 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
@@ -75,7 +85,7 @@ export default function PlaceCard({ place, index }) {
           transition={{ duration: 0.5 }}
         />
 
-        <span className="absolute top-3 right-3 z-20 px-2.5 py-1 bg-black/80 border border-white/15 text-white/80 text-[11px] font-['Anton'] uppercase tracking-wider">
+        <span className="absolute top-3 right-3 z-20 px-2.5 py-1 bg-black/60 backdrop-blur-sm border border-white/10 text-white/80 text-[11px] font-['Anton'] uppercase tracking-wider rounded-lg">
           {place.category}
         </span>
 
@@ -84,7 +94,7 @@ export default function PlaceCard({ place, index }) {
             <motion.div
               initial={{ scale: 0, rotate: -45 }}
               animate={{ scale: 1, rotate: 0 }}
-              className="w-7 h-7 bg-orange-500 border-2 border-black flex items-center justify-center"
+              className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12" />
@@ -94,9 +104,9 @@ export default function PlaceCard({ place, index }) {
         )}
       </div>
 
-      <div className="p-4 border-t-2 border-white/5">
+      <div className="p-4 border-t border-white/5">
         <h3 className="font-['Bebas_Neue'] text-white text-xl tracking-wider mb-1.5">{place.name}</h3>
-        <p className="text-white/45 text-sm leading-[1.4] line-clamp-2 mb-2">{place.description}</p>
+        <p className="text-white/55 text-sm leading-[1.4] line-clamp-2">{place.description}</p>
       </div>
     </motion.div>
   );

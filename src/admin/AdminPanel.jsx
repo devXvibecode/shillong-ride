@@ -4,6 +4,7 @@ import placesData from '../data/places.json';
 import { getPlaces } from '../engines/dataService';
 import { fetchAllBookings, updateSingleBooking, deleteBooking } from '../engines/bookingSyncService';
 import ImageUploader from '../components/ImageUploader';
+import Modal from '../components/Modal';
 import {
   getEffectiveImage,
   getAllImagesForPlace,
@@ -71,9 +72,9 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
             { label: 'Cancelled', value: stats.cancelled, color: 'text-red-400' },
             { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
           ].map(s => (
-            <div key={s.label} className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 p-4 text-center">
+            <div key={s.label} className="glass-card p-4 text-center">
               <p className={`text-2xl sm:text-3xl font-black ${s.color}`}>{s.value}</p>
-              <p className="text-white/40 text-xs sm:text-sm mt-1 capitalize">{s.label}</p>
+              <p className="text-white/55 text-xs sm:text-sm mt-1 capitalize">{s.label}</p>
             </div>
           ))}
         </div>
@@ -88,7 +89,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
             className={`px-4 py-2 rounded-lg text-sm font-bold capitalize transition-all flex-shrink-0 ${
               filter === status
                 ? 'bg-amber-400 text-black'
-                : 'bg-white/10 text-white/70 hover:bg-white/20'
+                : 'glass-btn'
             }`}
           >
             {status} {status !== 'all' && `(${stats[status] || 0})`}
@@ -98,7 +99,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
 
       {filtered.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-white/40 text-lg">No bookings found.</p>
+          <p className="text-white/55 text-lg">No bookings found.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -108,7 +109,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.03 }}
-              className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 overflow-hidden"
+              className="glass-card overflow-hidden"
             >
               <button
                 type="button"
@@ -131,16 +132,16 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                     </span>
                   </div>
                   <p className="text-white font-semibold text-sm">{booking.name}</p>
-                  <p className="text-white/50 text-xs">{booking.phone}</p>
+                  <p className="text-white/55 text-xs">{booking.phone}</p>
                 </div>
                 <div className="text-left sm:text-right flex sm:block items-center gap-4 sm:gap-0">
                   {booking.rider && (
-                    <p className="text-white/50 text-xs sm:mb-1">
+                    <p className="text-white/55 text-xs sm:mb-1">
                       Rider: <span className="text-white font-semibold">{booking.rider}</span>
                     </p>
                   )}
                   <p className="text-amber-400 font-bold">&#x20B9;{booking.priceBreakdown.total}</p>
-                  <p className="text-white/30 text-[10px]">{new Date(booking.createdAt).toLocaleDateString()}</p>
+                  <p className="text-white/40 text-[10px]">{new Date(booking.createdAt).toLocaleDateString()}</p>
                 </div>
               </button>
 
@@ -152,33 +153,33 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     <div>
-                      <p className="text-white/40 text-[10px] mb-0.5">Circuit</p>
+                      <p className="text-white/55 text-[10px] mb-0.5">Circuit</p>
                       <p className="text-white font-semibold text-sm">{booking.circuitName || booking.circuitId || '\u2014'}</p>
                     </div>
                     <div>
-                      <p className="text-white/40 text-[10px] mb-0.5">Pickup Time</p>
+                      <p className="text-white/55 text-[10px] mb-0.5">Pickup Time</p>
                       <p className="text-white font-semibold text-sm">{booking.timeSlot || 'Scheduled post-booking'}</p>
                     </div>
                     <div>
-                      <p className="text-white/40 text-[10px] mb-0.5">Pickup Location</p>
+                      <p className="text-white/55 text-[10px] mb-0.5">Pickup Location</p>
                       <p className="text-white font-semibold text-sm">{booking.pickupLocation || 'Shillong'}</p>
                     </div>
                     <div>
-                      <p className="text-white/40 text-[10px] mb-0.5">Spots</p>
+                      <p className="text-white/55 text-[10px] mb-0.5">Spots</p>
                       <p className="text-white font-semibold text-sm">{booking.spots.map(getPlaceName).join(', ')}</p>
                     </div>
                     <div>
-                      <p className="text-white/40 text-[10px] mb-0.5">Route Distance</p>
+                      <p className="text-white/55 text-[10px] mb-0.5">Route Distance</p>
                       <p className="text-white font-semibold text-sm">{booking.priceBreakdown.routeDistance} km</p>
                     </div>
                     <div>
-                      <p className="text-white/40 text-[10px] mb-0.5">Vehicle</p>
+                      <p className="text-white/55 text-[10px] mb-0.5">Vehicle</p>
                       <p className="text-white font-semibold text-sm uppercase">{booking.vehicleType || 'bike'}</p>
                     </div>
                   </div>
 
                   <div className="mb-4">
-                    <p className="text-white/40 text-[10px] mb-0.5">Full Route</p>
+                    <p className="text-white/55 text-[10px] mb-0.5">Full Route</p>
                     <p className="text-white/70 text-xs">{booking.route.map(id => getPlaceName(id) || id).join(' \u2192 ')}</p>
                   </div>
 
@@ -186,17 +187,17 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                     <p className="text-amber-400 text-[10px] font-semibold uppercase tracking-wider mb-2">Breakdown</p>
                     <div className="flex justify-between text-xs">
                       <div>
-                        <span className="text-white/60">Processing &amp; Platform Fee</span>
-                        <p className="text-white/30 text-[9px] font-mono">Platform, booking system &amp; support</p>
+                        <span className="text-white/55">Processing &amp; Platform Fee</span>
+                        <p className="text-white/40 text-[9px] font-mono">Platform, booking system &amp; support</p>
                       </div>
                       <span className="text-amber-400 font-extrabold">&#x20B9;{booking.priceBreakdown.ownerFee || booking.priceBreakdown.processingCharge}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-white/60">Rider Cost</span>
+                      <span className="text-white/55">Rider Cost</span>
                       <span className="text-white font-bold">&#x20B9;{booking.priceBreakdown.riderFee || booking.priceBreakdown.spotCost}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-white/60">Fuel Cost</span>
+                      <span className="text-white/55">Fuel Cost</span>
                       <span className="text-white font-bold">&#x20B9;{booking.priceBreakdown.fuelCost}</span>
                     </div>
                   </div>
@@ -207,8 +208,8 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
 
                   {booking.notes && (
                     <div className="mb-4">
-                      <p className="text-white/40 text-[10px] mb-0.5">Notes</p>
-                      <p className="text-white/60 text-xs">{booking.notes}</p>
+                      <p className="text-white/55 text-[10px] mb-0.5">Notes</p>
+                      <p className="text-white/55 text-xs">{booking.notes}</p>
                     </div>
                   )}
 
@@ -260,9 +261,9 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                         <div className="flex gap-2">
                           <input
                             type="text"
-                            placeholder="Rider name..."
-                            defaultValue={booking.rider || ''}
-                            className="flex-1 max-w-xs px-3 py-1.5 bg-white/10 border border-white/20 rounded-lg text-white text-xs placeholder-white/30 focus:outline-none focus:border-amber-400"
+placeholder="Rider name..."
+                             defaultValue={booking.rider || ''}
+                             className="glass-input flex-1 max-w-xs px-3 py-1.5 text-xs"
                             onKeyDown={(e) => {
                               if (e.key === 'Enter' && e.target.value.trim()) {
                                 updateStatus(booking.id, 'assigned', e.target.value.trim());
@@ -341,12 +342,12 @@ function PlacesView({ places, categories, overridesVersion, refreshOverrides }) 
           placeholder="Search places..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="flex-1 px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm placeholder-white/30 focus:outline-none focus:border-amber-400"
+          className="glass-input flex-1 px-4 py-2.5 text-sm"
         />
         <select
           value={category}
           onChange={e => setCategory(e.target.value)}
-          className="px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-amber-400"
+          className="glass-input px-4 py-2.5 text-sm"
         >
           <option value="all">All Categories</option>
           {categories.map(c => (
@@ -355,11 +356,11 @@ function PlacesView({ places, categories, overridesVersion, refreshOverrides }) 
         </select>
       </div>
 
-      <p className="text-white/40 text-xs mb-4">{filtered.length} places</p>
+      <p className="text-white/55 text-xs mb-4">{filtered.length} places</p>
 
       {filtered.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-white/40 text-lg">No places match your search.</p>
+          <p className="text-white/55 text-lg">No places match your search.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -370,7 +371,7 @@ function PlacesView({ places, categories, overridesVersion, refreshOverrides }) 
                 key={place.id}
                 type="button"
                 onClick={() => { setManagerPlace(place); setNewImageUrl(''); }}
-                className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 overflow-hidden text-left hover:border-amber-400/40 transition-all group"
+                className="glass-card overflow-hidden text-left hover:border-amber-400/40 transition-all group"
               >
                 <div className="relative h-32 overflow-hidden">
                   <div className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
@@ -381,13 +382,13 @@ function PlacesView({ places, categories, overridesVersion, refreshOverrides }) 
                       EDITED
                     </span>
                   )}
-                  <span className="absolute top-2 right-2 z-10 px-1.5 py-0.5 bg-black/60 border border-white/10 text-white/60 text-[9px] font-['Anton'] uppercase tracking-wider rounded">
+                  <span className="absolute top-2 right-2 z-10 px-1.5 py-0.5 bg-black/60 border border-white/10 text-white/55 text-[9px] font-['Anton'] uppercase tracking-wider rounded">
                     {place.category}
                   </span>
                 </div>
                 <div className="p-3">
                   <p className="text-white font-semibold text-sm leading-tight">{place.name}</p>
-                  <p className="text-white/30 text-[10px] mt-0.5">{place.distanceWeight} km</p>
+                  <p className="text-white/55 text-[10px] mt-0.5">{place.distanceWeight} km</p>
                 </div>
               </button>
             );
@@ -444,100 +445,93 @@ function ImageManager({ place, onClose, refreshOverrides }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="bg-[#12121a] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto"
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="sticky top-0 bg-[#12121a] z-10 flex items-center justify-between p-5 border-b border-white/10">
-          <div>
-            <h2 className="text-white font-bold text-lg">{place.name}</h2>
-            <p className="text-white/40 text-xs mt-0.5 capitalize">{place.category} &middot; {place.distanceWeight} km</p>
-          </div>
+    <Modal open={true} onClose={onClose}>
+      <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-white/10" style={{background:'rgba(17,17,17,0.95)'}}>
+        <div>
+          <h2 className="text-white font-bold text-lg">{place.name}</h2>
+          <p className="text-white/55 text-xs mt-0.5 capitalize">{place.category} &middot; {place.distanceWeight} km</p>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-8 h-8 rounded-lg glass-btn flex items-center justify-center"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="p-5">
+        <div className="flex gap-2 mb-4">
+          <input
+            type="text"
+            placeholder="Paste image URL..."
+            value={newUrl}
+            onChange={e => setNewUrl(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="glass-input flex-1 px-3 py-2 text-sm"
+          />
           <button
             type="button"
-            onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white transition-all"
+            onClick={handleAdd}
+            className="glass-btn-primary px-4 py-2 text-sm"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            Add Image
           </button>
         </div>
 
-        <div className="p-5">
+        {images.length > 0 && (
           <div className="flex gap-2 mb-4">
-            <input
-              type="text"
-              placeholder="Paste image URL..."
-              value={newUrl}
-              onChange={e => setNewUrl(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm placeholder-white/30 focus:outline-none focus:border-amber-400"
-            />
             <button
               type="button"
-              onClick={handleAdd}
-              className="px-4 py-2 bg-amber-400 text-black font-bold text-sm rounded-lg hover:bg-amber-500 transition-all whitespace-nowrap"
+              onClick={handleReset}
+              className="px-3 py-1.5 bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-bold rounded-lg hover:bg-red-500/30 transition-all"
             >
-              Add Image
+              Reset to Defaults
             </button>
           </div>
+        )}
 
-          {images.length > 0 && (
-            <div className="flex gap-2 mb-4">
-              <button
-                type="button"
-                onClick={handleReset}
-                className="px-3 py-1.5 bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-bold rounded-lg hover:bg-red-500/30 transition-all"
-              >
-                Reset to Defaults
-              </button>
-            </div>
-          )}
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {images.map((url, idx) => (
-              <div key={idx} className="group relative bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-                <div className="aspect-[4/3] bg-cover bg-center" style={{ backgroundImage: `url(${url})` }} />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100">
-                  <button
-                    type="button"
-                    onClick={() => handleSetPrimary(idx)}
-                    className="w-8 h-8 rounded-lg bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400 hover:bg-amber-400/40 transition-all"
-                    title="Set as primary"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleRemove(idx)}
-                    className="w-8 h-8 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 hover:bg-red-500/40 transition-all"
-                    title="Remove image"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
-                  </button>
-                </div>
-                {idx === 0 && (
-                  <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-amber-400/20 border border-amber-400/30 text-amber-400 text-[9px] font-bold rounded">
-                    PRIMARY
-                  </span>
-                )}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {images.map((url, idx) => (
+            <div key={idx} className="group relative glass-card overflow-hidden">
+              <div className="aspect-[4/3] bg-cover bg-center" style={{ backgroundImage: `url(${url})` }} />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100">
+                <button
+                  type="button"
+                  onClick={() => handleSetPrimary(idx)}
+                  className="w-8 h-8 rounded-lg bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400 hover:bg-amber-400/40 transition-all"
+                  title="Set as primary"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleRemove(idx)}
+                  className="w-8 h-8 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 hover:bg-red-500/40 transition-all"
+                  title="Remove image"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                </button>
               </div>
-            ))}
-          </div>
-
-          {images.length === 0 && (
-            <div className="text-center py-12 border border-dashed border-white/10 rounded-xl">
-              <p className="text-white/30 text-sm">No images yet. Add an image URL above.</p>
-              <p className="text-white/20 text-xs mt-1">The default image will show until you add one.</p>
+              {idx === 0 && (
+                <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-amber-400/20 border border-amber-400/30 text-amber-400 text-[9px] font-bold rounded">
+                  PRIMARY
+                </span>
+              )}
             </div>
-          )}
+          ))}
         </div>
-      </motion.div>
-    </div>
+
+        {images.length === 0 && (
+          <div className="text-center py-12 border border-dashed border-white/10 rounded-xl">
+            <p className="text-white/40 text-sm">No images yet. Add an image URL above.</p>
+            <p className="text-white/40 text-xs mt-1">The default image will show until you add one.</p>
+          </div>
+        )}
+      </div>
+    </Modal>
   );
 }
 
@@ -623,7 +617,7 @@ export default function AdminPanel() {
                  'Sync error'}
               </span>
             </div>
-            <p className="text-white/50 text-sm sm:text-base mt-1">Manage bookings, places, and images</p>
+            <p className="text-white/55 text-sm sm:text-base mt-1">Manage bookings, places, and images</p>
           </div>
           <div className="flex items-center gap-3">
             <button

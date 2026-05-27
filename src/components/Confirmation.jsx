@@ -8,8 +8,8 @@ export default function Confirmation() {
 
   if (!booking) {
     return (
-      <div className="text-center py-20 border-2 border-dashed border-white/10">
-        <p className="text-white/40 text-lg font-['Anton'] uppercase tracking-wider">No booking found.</p>
+      <div className="text-center py-20 border border-dashed border-white/10 rounded-2xl">
+        <p className="text-white/55 text-lg font-['Anton'] uppercase tracking-wider">No booking found.</p>
         <button onClick={reset} className="text-orange-500 font-['Anton'] mt-4 inline-block hover:underline uppercase tracking-wider cursor-pointer">
           Book Another Tour
         </button>
@@ -48,34 +48,34 @@ export default function Confirmation() {
       </motion.div>
 
       <h2 className="font-['Anton'] text-3xl sm:text-4xl text-white uppercase tracking-[0.02em] mb-2">Booking Confirmed!</h2>
-      <p className="text-white/40 text-sm mb-8 font-['Anton'] uppercase tracking-wider">Your Shillong adventure is booked</p>
+      <p className="text-white/55 text-sm mb-8 font-['Anton'] uppercase tracking-wider">Your Shillong adventure is booked</p>
 
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="bg-[#1a1a1a] border-2 border-black grunt-border p-5 sm:p-6 text-left mb-4 shadow-[0_3px_0_0_rgba(0,0,0,0.3)]"
+        className="glass-card p-5 sm:p-6 text-left mb-4"
       >
-        <p className="font-['Anton'] text-white/40 text-[10px] uppercase tracking-[0.15em] mb-3 border-b-2 border-white/5 pb-2">Booking Details</p>
+        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-3 border-b border-white/5 pb-2">Booking Details</p>
         <div className="space-y-2">
           <div className="flex justify-between items-center py-1.5 border-b border-white/5">
-            <span className="text-white/35 text-sm font-['Anton'] uppercase tracking-wider">Booking ID</span>
+            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Booking ID</span>
             <span className="text-orange-500 font-['Anton'] text-sm tracking-wider font-mono">{booking.id}</span>
           </div>
           <div className="flex justify-between items-center py-1.5 border-b border-white/5">
-            <span className="text-white/35 text-sm font-['Anton'] uppercase tracking-wider">Circuit</span>
+            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Circuit</span>
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.circuitName || booking.circuitId}</span>
           </div>
           <div className="flex justify-between items-center py-1.5 border-b border-white/5">
-            <span className="text-white/35 text-sm font-['Anton'] uppercase tracking-wider">Name</span>
+            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Name</span>
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.name}</span>
           </div>
           <div className="flex justify-between items-center py-1.5 border-b border-white/5">
-            <span className="text-white/35 text-sm font-['Anton'] uppercase tracking-wider">Phone</span>
+            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Phone</span>
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.phone}</span>
           </div>
           <div className="flex justify-between items-center py-1.5">
-            <span className="text-white/35 text-sm font-['Anton'] uppercase tracking-wider">Status</span>
+            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Status</span>
             <span className="text-yellow-400 font-['Anton'] text-sm uppercase tracking-wider">{booking.status}</span>
           </div>
         </div>
@@ -85,9 +85,9 @@ export default function Confirmation() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="bg-[#1a1a1a] border-2 border-black grunt-border p-5 sm:p-6 text-left mb-8 shadow-[0_3px_0_0_rgba(0,0,0,0.3)]"
+        className="glass-card p-5 sm:p-6 text-left mb-8"
       >
-        <p className="font-['Anton'] text-white/40 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">PAYMENT RECEIPT</p>
+        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b border-orange-500/20 pb-2">PAYMENT RECEIPT</p>
 
         <div className="space-y-3">
           <div className="flex justify-between items-center pb-2 border-b border-orange-500/15">
@@ -95,7 +95,7 @@ export default function Confirmation() {
               <p className="text-white font-['Anton'] text-sm tracking-wider">
                   <span className="text-orange-500 mr-1">1.</span>Processing &amp; Platform Fee
                   </p>
-                  <p className="text-white/30 text-[11px] font-mono">Platform, booking system &amp; support</p>
+                  <p className="text-white/40 text-[11px] font-mono">Platform, booking system &amp; support</p>
             </div>
             <span className="text-orange-500 font-['Anton']">₹{p.ownerFee}</span>
           </div>
@@ -105,7 +105,7 @@ export default function Confirmation() {
               <p className="text-white font-['Anton'] text-sm tracking-wider">
                 <span className="text-white/40 mr-1">2.</span>Rider Cost
               </p>
-              <p className="text-white/30 text-[11px] font-mono">Your personal guide</p>
+              <p className="text-white/40 text-[11px] font-mono">Your personal guide</p>
             </div>
             <span className="text-white font-['Anton']">₹{p.riderFee}</span>
           </div>
@@ -115,7 +115,7 @@ export default function Confirmation() {
               <p className="text-white font-['Anton'] text-sm tracking-wider">
                 <span className="text-white/40 mr-1">3.</span>Fuel Cost
               </p>
-              <p className="text-white/30 text-[11px] font-mono">{p.routeDistance} km travelled</p>
+              <p className="text-white/40 text-[11px] font-mono">{p.routeDistance} km travelled</p>
             </div>
             <span className="text-white font-['Anton']">₹{p.fuelCost}</span>
           </div>
@@ -126,12 +126,12 @@ export default function Confirmation() {
           <span className="font-['Anton'] text-orange-500 text-lg tracking-wider">₹{p.total}</span>
         </div>
 
-        <div className="mt-4 pt-3 border-t-2 border-dashed border-white/10 text-center">
-          <p className="text-white/20 text-[10px] font-mono uppercase tracking-widest">THANK YOU — RIDE SAFE</p>
+        <div className="mt-4 pt-3 border-t border-dashed border-white/10 text-center">
+          <p className="text-white/30 text-[10px] font-mono uppercase tracking-widest">THANK YOU — RIDE SAFE</p>
         </div>
       </motion.div>
 
-      <p className="text-white/35 text-sm mb-8 max-w-sm mx-auto leading-relaxed font-['Anton'] uppercase tracking-wider text-xs">
+      <p className="text-white/55 text-sm mb-8 max-w-sm mx-auto leading-relaxed font-['Anton'] uppercase tracking-wider text-xs">
         A confirmation has been sent to our team. Your guide will be assigned shortly.
         Payment is collected after the ride.
       </p>
@@ -139,13 +139,13 @@ export default function Confirmation() {
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <button
           onClick={() => { reset(); navigate('/'); }}
-          className="industrial-btn px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block"
+          className="glass-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block"
         >
           Book Another Tour
         </button>
         <button
           onClick={() => navigate('/my-bookings')}
-          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block bg-transparent border-2 border-white/20 text-white/70 hover:border-orange-500 hover:text-orange-500 transition-all font-['Anton'] uppercase"
+          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block glass-btn"
         >
           View My Bookings
         </button>
