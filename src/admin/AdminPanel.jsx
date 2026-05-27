@@ -607,7 +607,7 @@ export default function AdminPanel() {
 
   return (
     <div className="min-h-screen bg-[#0b0b12]">
-      <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
+      <div className="max-w-6xl mx-auto px-4 pt-20 sm:pt-24 pb-8 sm:pb-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <div className="flex items-center gap-3">

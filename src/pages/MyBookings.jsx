@@ -100,7 +100,7 @@ export default function MyBookings() {
     }`;
 
   return (
-    <div className="min-h-screen px-5 pb-16">
+    <div className="min-h-screen px-5 pb-16 pt-20 sm:pt-24">
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h1 className="font-['Anton'] text-4xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-2">My Bookings</h1>

@@ -8,7 +8,7 @@ export default function Booking() {
   const { step } = useBooking();
 
   return (
-    <div className="px-5 pb-20 min-h-screen">
+    <div className="px-5 pb-20 pt-20 sm:pt-24 min-h-screen">
       <div className="max-w-6xl mx-auto">
         <div className="brut-card p-4 sm:p-5 mb-6">
           <div className="flex items-center justify-between">
