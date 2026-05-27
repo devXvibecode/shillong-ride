@@ -1,14 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
+import { fetchAllBookings } from '../engines/bookingSyncService';
 import places from '../data/places.json';
 
 export default function Admin() {
-  const { bookings, updateBookingStatus } = useBooking();
+  const { bookings: localBookings, updateBookingStatus } = useBooking();
+  const [sharedBookings, setSharedBookings] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [synced, setSynced] = useState(false);
 
-  const filtered = filter === 'all' ? bookings : bookings.filter(b => b.status === filter);
+  useEffect(() => {
+    fetchAllBookings().then(shared => {
+      setSharedBookings(shared);
+      setSynced(true);
+    });
+  }, []);
+
+  const seen = new Set();
+  const allBookings = [...sharedBookings, ...localBookings].filter(b => {
+    if (seen.has(b.id)) return false;
+    seen.add(b.id);
+    return true;
+  });
+
+  const filtered = filter === 'all' ? allBookings : allBookings.filter(b => b.status === filter);
 
   const getPlaceName = (id) => places.find(p => p.id === id)?.name || id;
 
@@ -19,8 +36,17 @@ export default function Admin() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="text-3xl sm:text-5xl font-black text-white mb-2">Admin Panel</h1>
-          <p className="text-white/60 mb-8">Manage bookings and assign riders</p>
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="text-3xl sm:text-5xl font-black text-white">Admin Panel</h1>
+            <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded ${synced ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+              {synced ? `Synced (${sharedBookings.length} remote)` : 'Local only'}
+            </span>
+          </div>
+          <p className="text-white/60 mb-8">
+            {synced
+              ? `Showing ${allBookings.length} booking(s) across all devices`
+              : 'GitHub token not set — only showing local bookings. Set VITE_GITHUB_TOKEN to sync across devices.'}
+          </p>
         </motion.div>
 
         <div className="flex gap-2 mb-8 overflow-x-auto">

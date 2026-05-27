@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import { createBooking } from '../engines/bookingService';
 import { sendBookingEmail } from '../engines/emailService';
+import { pushBooking } from '../engines/bookingSyncService';
 import places from '../data/places.json';
 import circuits from '../data/circuits.json';
 
@@ -92,6 +93,7 @@ export function BookingProvider({ children }) {
         return updated;
       });
       setBooking(bookingData);
+      pushBooking(bookingData);
       return bookingData;
     } finally {
       setSubmitting(false);
