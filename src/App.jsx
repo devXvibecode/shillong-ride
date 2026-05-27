@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { DataProvider } from './context/DataContext';
 import { BookingProvider } from './context/BookingContext';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -24,7 +24,7 @@ function AppLayout({ children }) {
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <DataProvider>
         <BookingProvider>
           <ErrorBoundary>
@@ -39,7 +39,7 @@ function App() {
           </ErrorBoundary>
         </BookingProvider>
       </DataProvider>
-    </BrowserRouter>
+      </HashRouter>
   );
 }
 

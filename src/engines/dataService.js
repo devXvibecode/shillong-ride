@@ -3,7 +3,7 @@ import hubsData from '../data/hubs.json';
 import distanceMatrixData from '../data/distance-matrix.json';
 import circuitsData from '../data/circuits.json';
 
-const GITHUB_BASE = import.meta.env.VITE_GITHUB_DATA_URL || 'https://raw.githubusercontent.com/anomalyco/shillong-ride/main/data';
+const GITHUB_BASE = import.meta.env.VITE_GITHUB_DATA_URL || 'https://raw.githubusercontent.com/devXvibecode/shillong-ride/main/data';
 
 const cached = {};
 
