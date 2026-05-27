@@ -27,7 +27,9 @@ export async function sendBookingEmail(bookingData) {
       status: bookingData.status,
     };
 
+    console.log('EmailJS: sending email with params:', { serviceId, templateId, templateParams });
     const result = await emailjs.send(serviceId, templateId, templateParams, { publicKey });
+    console.log('EmailJS: success', result);
     return { success: true, result };
   } catch (error) {
     console.error('EmailJS send failed:', error);

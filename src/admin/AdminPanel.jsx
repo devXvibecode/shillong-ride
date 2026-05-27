@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import placesData from '../data/places.json';
 import { getPlaces } from '../engines/dataService';
+import { fetchAllBookings, updateSingleBooking } from '../engines/bookingSyncService';
+import ImageUploader from '../components/ImageUploader';
 import {
   getEffectiveImage,
   getAllImagesForPlace,
@@ -25,7 +27,7 @@ function saveBookings(bookings) {
   localStorage.setItem('sr_bookings', JSON.stringify(bookings));
 }
 
-function BookingsView({ bookings, places, exportCSV }) {
+function BookingsView({ bookings, places, exportCSV, onUpdateStatus }) {
   const [filter, setFilter] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
 
@@ -47,7 +49,7 @@ function BookingsView({ bookings, places, exportCSV }) {
       return b;
     });
     saveBookings(updated);
-    const current = JSON.parse(localStorage.getItem('sr_bookings') || '[]');
+    if (onUpdateStatus) onUpdateStatus(bookingId, newStatus, rider);
     window.location.reload();
   };
 
@@ -501,6 +503,8 @@ function ImageManager({ place, onClose, refreshOverrides }) {
 export default function AdminPanel() {
   const [tab, setTab] = useState('bookings');
   const [bookings, setBookings] = useState(loadBookings);
+  const [sharedBookings, setSharedBookings] = useState([]);
+  const [syncState, setSyncState] = useState('loading');
   const [places, setPlaces] = useState(placesData);
   const [overridesVersion, setOverridesVersion] = useState(0);
   const refreshOverrides = () => setOverridesVersion(v => v + 1);
@@ -509,6 +513,27 @@ export default function AdminPanel() {
   useEffect(() => {
     getPlaces().then(setPlaces).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    const token = import.meta.env.VITE_GITHUB_TOKEN;
+    fetchAllBookings().then(shared => {
+      setSharedBookings(shared);
+      setSyncState(token ? 'synced' : 'token_missing');
+    }).catch(() => {
+      setSyncState('error');
+    });
+  }, []);
+
+  const seen = new Set();
+  const allBookings = [...sharedBookings, ...bookings].filter(b => {
+    if (seen.has(b.id)) return false;
+    seen.add(b.id);
+    return true;
+  });
+
+  const handleStatusUpdate = (bookingId, newStatus, rider) => {
+    updateSingleBooking(bookingId, { status: newStatus, rider });
+  };
 
   const exportCSV = () => {
     const headers = ['ID', 'Name', 'Phone', 'Circuit', 'Vehicle', 'Pickup Location', 'Spots', 'Pickup Time', 'Status', 'Rider', 'Processing & Platform Fee', 'Rider Cost', 'Fuel Cost', 'Total', 'Route Distance', 'Notes', 'Created At'];
@@ -538,7 +563,19 @@ export default function AdminPanel() {
       <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl sm:text-5xl font-black text-white">Admin Panel</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl sm:text-5xl font-black text-white">Admin Panel</h1>
+              <span className={'px-2 py-0.5 text-[10px] font-bold uppercase rounded ' + (
+                syncState === 'loading' ? 'bg-yellow-500/20 text-yellow-400' :
+                syncState === 'synced' ? 'bg-green-500/20 text-green-400' :
+                'bg-red-500/20 text-red-400'
+              )}>
+                {syncState === 'loading' ? 'Connecting...' :
+                 syncState === 'synced' ? `Synced (${sharedBookings.length} remote)` :
+                 syncState === 'token_missing' ? 'Token not set' :
+                 'Sync error'}
+              </span>
+            </div>
             <p className="text-white/50 text-sm sm:text-base mt-1">Manage bookings, places, and images</p>
           </div>
           <div className="flex items-center gap-3">
@@ -554,7 +591,7 @@ export default function AdminPanel() {
         </div>
 
         <div className="flex gap-2 mb-6">
-          {['bookings', 'places'].map(t => (
+          {['bookings', 'places', 'images'].map(t => (
             <button
               key={t}
               type="button"
@@ -571,7 +608,7 @@ export default function AdminPanel() {
         </div>
 
         {tab === 'bookings' && (
-          <BookingsView bookings={bookings} places={places} exportCSV={exportCSV} />
+          <BookingsView bookings={allBookings} places={places} exportCSV={exportCSV} onUpdateStatus={handleStatusUpdate} />
         )}
         {tab === 'places' && (
           <PlacesView
@@ -581,6 +618,7 @@ export default function AdminPanel() {
             refreshOverrides={refreshOverrides}
           />
         )}
+        {tab === 'images' && <ImageUploader />}
       </div>
     </div>
   );
