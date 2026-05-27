@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext';
 
 export default function Confirmation() {
+  const navigate = useNavigate();
   const { booking, reset } = useBooking();
 
   if (!booking) {
@@ -134,12 +136,20 @@ export default function Confirmation() {
         Payment is collected after the ride.
       </p>
 
-      <button
-        onClick={reset}
-        className="industrial-btn px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block"
-      >
-        Book Another Tour
-      </button>
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <button
+          onClick={() => { reset(); navigate('/'); }}
+          className="industrial-btn px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block"
+        >
+          Book Another Tour
+        </button>
+        <button
+          onClick={() => navigate('/my-bookings')}
+          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block bg-transparent border-2 border-white/20 text-white/70 hover:border-orange-500 hover:text-orange-500 transition-all font-['Anton'] uppercase"
+        >
+          View My Bookings
+        </button>
+      </div>
     </motion.div>
   );
 }

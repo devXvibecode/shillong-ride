@@ -8,6 +8,7 @@ export default function Navbar() {
 
   const links = [
     { to: '/', label: 'Home' },
+    { to: '/my-bookings', label: 'My Bookings' },
     { to: '/contact', label: 'Contact' },
   ];
 
