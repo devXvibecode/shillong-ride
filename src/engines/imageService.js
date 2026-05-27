@@ -19,7 +19,6 @@ const defaultImages = {
   nohkalikai_falls: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=300&fit=crop',
   seven_sisters_falls: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=400&h=300&fit=crop',
   mawsmai_caves: 'https://images.unsplash.com/photo-1462690419189-5f4e7e1b5c9b?w=400&h=300&fit=crop',
-  mawkdok_valley: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
   air_force_museum: 'https://images.unsplash.com/photo-1566125882500-87e10f726cdc?w=400&h=300&fit=crop',
   rhino_museum: 'https://images.unsplash.com/photo-1566125882500-87e10f726cdc?w=400&h=300&fit=crop',
   golf_course: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?w=400&h=300&fit=crop',
