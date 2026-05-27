@@ -5,6 +5,7 @@ import { getPlaces } from '../engines/dataService';
 import { fetchAllBookings, updateSingleBooking, deleteBooking } from '../engines/bookingSyncService';
 import ImageUploader from '../components/ImageUploader';
 import Modal from '../components/Modal';
+import ConfirmDialog from '../components/ConfirmDialog';
 import {
   getEffectiveImage,
   getAllImagesForPlace,
@@ -53,7 +54,6 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
     });
     saveBookings(updated);
     if (onUpdateStatus) onUpdateStatus(bookingId, newStatus, rider);
-    window.location.reload();
   };
 
   const getPlaceName = (id) => places.find(p => p.id === id)?.name || id;
@@ -187,7 +187,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                     <p className="text-amber-400 text-[10px] font-semibold uppercase tracking-wider mb-2">Breakdown</p>
                     <div className="flex justify-between text-xs">
                       <div>
-                        <span className="text-white/55">Processing &amp; Platform Fee</span>
+                        <span className="text-white/55">Booking Fee</span>
                         <p className="text-white/40 text-[9px] font-mono">Platform, booking system &amp; support</p>
                       </div>
                       <span className="text-amber-400 font-extrabold">&#x20B9;{booking.priceBreakdown.ownerFee || booking.priceBreakdown.processingCharge}</span>
@@ -446,7 +446,7 @@ function ImageManager({ place, onClose, refreshOverrides }) {
 
   return (
     <Modal open={true} onClose={onClose}>
-      <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-white/10" style={{background:'rgba(17,17,17,0.95)'}}>
+      <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-white/10">
         <div>
           <h2 className="text-white font-bold text-lg">{place.name}</h2>
           <p className="text-white/55 text-xs mt-0.5 capitalize">{place.category} &middot; {place.distanceWeight} km</p>
@@ -537,12 +537,18 @@ function ImageManager({ place, onClose, refreshOverrides }) {
 
 export default function AdminPanel() {
   const [tab, setTab] = useState('bookings');
-  const [bookings, setBookings] = useState(loadBookings);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [bookings, setBookings] = useState(() => loadBookings());
+  const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [sharedBookings, setSharedBookings] = useState([]);
   const [syncState, setSyncState] = useState('loading');
   const [places, setPlaces] = useState(placesData);
   const [overridesVersion, setOverridesVersion] = useState(0);
   const refreshOverrides = () => setOverridesVersion(v => v + 1);
+  const refreshBookings = () => {
+    setBookings(loadBookings());
+    setRefreshKey(k => k + 1);
+  };
   const categories = [...new Set(places.map(p => p.category))];
 
   useEffect(() => {
@@ -566,18 +572,18 @@ export default function AdminPanel() {
     return true;
   });
 
-  const handleStatusUpdate = (bookingId, newStatus, rider) => {
+  const handleStatusUpdate = async (bookingId, newStatus, rider) => {
     updateSingleBooking(bookingId, { status: newStatus, rider });
+    refreshBookings();
   };
 
   const handleDeleteBooking = async (bookingId) => {
-    if (!window.confirm(`Delete booking ${bookingId} from server? This won't affect the customer's local copy.`)) return;
     await deleteBooking(bookingId);
-    window.location.reload();
+    refreshBookings();
   };
 
   const exportCSV = () => {
-    const headers = ['ID', 'Name', 'Phone', 'Circuit', 'Vehicle', 'Pickup Location', 'Spots', 'Pickup Time', 'Status', 'Rider', 'Processing & Platform Fee', 'Rider Cost', 'Fuel Cost', 'Total', 'Route Distance', 'Notes', 'Created At'];
+    const headers = ['ID', 'Name', 'Phone', 'Circuit', 'Vehicle', 'Pickup Location', 'Spots', 'Pickup Time', 'Status', 'Rider', 'Booking Fee', 'Rider Cost', 'Fuel Cost', 'Total', 'Route Distance', 'Notes', 'Created At'];
     const rows = bookings.map(b => [
       b.id, b.name, b.phone, b.circuitName || b.circuitId || '', b.vehicleType || 'bike', b.pickupLocation || 'Shillong',
       (b.spots || []).map(id => places.find(p => p.id === id)?.name || id).join('; '),
@@ -640,7 +646,7 @@ export default function AdminPanel() {
               className={`px-5 py-2 rounded-lg text-sm font-bold capitalize transition-all ${
                 tab === t
                   ? 'bg-amber-400 text-black'
-                  : 'bg-white/10 text-white/70 hover:bg-white/20'
+                  : 'glass-btn'
               }`}
             >
               {t}
@@ -649,7 +655,7 @@ export default function AdminPanel() {
         </div>
 
         {tab === 'bookings' && (
-          <BookingsView bookings={allBookings} places={places} exportCSV={exportCSV} onUpdateStatus={handleStatusUpdate} onDeleteBooking={handleDeleteBooking} />
+          <BookingsView bookings={allBookings} places={places} exportCSV={exportCSV} onUpdateStatus={handleStatusUpdate} onDeleteBooking={(id) => setDeleteConfirmId(id)} />
         )}
         {tab === 'places' && (
           <PlacesView
@@ -661,6 +667,20 @@ export default function AdminPanel() {
         )}
         {tab === 'images' && <ImageUploader />}
       </div>
+
+      <ConfirmDialog
+        open={!!deleteConfirmId}
+        title="Delete Booking?"
+        message="This will permanently remove this booking from the server. The customer's local copy will not be affected."
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        destructive
+        onConfirm={async () => {
+          if (deleteConfirmId) await handleDeleteBooking(deleteConfirmId);
+          setDeleteConfirmId(null);
+        }}
+        onCancel={() => setDeleteConfirmId(null)}
+      />
     </div>
   );
 }

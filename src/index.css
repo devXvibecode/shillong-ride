@@ -19,7 +19,7 @@
   --text-muted: rgba(255, 255, 255, 0.4);
   --bg-base: #0a0a0f;
   --bg-elevated: rgba(255, 255, 255, 0.04);
-  --radius-full: 16px;
+  --radius-xl: 16px;
   --radius-lg: 14px;
   --radius-md: 12px;
   --radius-sm: 10px;
@@ -114,7 +114,11 @@ input:focus, textarea:focus, select:focus, button:focus-visible, [role="button"]
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-xl);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass { background: rgba(17, 17, 17, 0.92); }
 }
 
 .glass-elevated {
@@ -122,8 +126,12 @@ input:focus, textarea:focus, select:focus, button:focus-visible, [role="button"]
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: var(--glass-border-strong);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-xl);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-elevated { background: rgba(25, 25, 30, 0.97); }
 }
 
 .glass-card {
@@ -131,8 +139,12 @@ input:focus, textarea:focus, select:focus, button:focus-visible, [role="button"]
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-xl);
   transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-card { background: rgba(17, 17, 17, 0.92); }
 }
 
 .glass-card:hover {
@@ -144,7 +156,7 @@ input:focus, textarea:focus, select:focus, button:focus-visible, [role="button"]
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid rgba(249, 115, 22, 0.25);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-xl);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -182,6 +194,7 @@ input:focus, textarea:focus, select:focus, button:focus-visible, [role="button"]
   font-weight: 600;
   transition: all 0.15s;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .glass-btn:hover {
@@ -230,38 +243,6 @@ input:focus, textarea:focus, select:focus, button:focus-visible, [role="button"]
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-
-/* ── Legacy decorative (kept for reference) ── */
-
-.diamond {
-  transform: rotate(45deg);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.diamond > * {
-  transform: rotate(-45deg);
-}
-
-.stamp {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 4px double rgba(46, 125, 50, 0.6);
-  border-radius: 8px;
-  background: rgba(46, 125, 50, 0.05);
-  transform: rotate(-3deg);
-}
-
-.stamp::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border: 2px solid rgba(46, 125, 50, 0.2);
-  border-radius: 10px;
 }
 
 /* ── Animations ── */

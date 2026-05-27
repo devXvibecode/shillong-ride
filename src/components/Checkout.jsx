@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import { useData } from '../context/DataContext';
 import { optimizeRoute } from '../engines/routeOptimizer';
 import { calculatePrice } from '../engines/pricingEngine';
+
+function fmt(n) {
+  return '₹' + Number(n).toLocaleString('en-IN');
+}
+
+function validatePhone(v) {
+  const cleaned = v.replace(/[\s\-\(\)]/g, '').replace(/^\+?91?/, '');
+  return /^[0-9]{10}$/.test(cleaned) ? cleaned : null;
+}
 
 export default function Checkout() {
   const {
@@ -13,32 +22,42 @@ export default function Checkout() {
   } = useBooking();
   const { places } = useData();
   const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  const route = useMemo(() => optimizeRoute(selectedSpots), [selectedSpots]);
+  const price = useMemo(() => calculatePrice(route, selectedCircuit?.id), [route, selectedCircuit?.id]);
+  const spotIds = route.filter(id => id !== 'police_bazar');
+
+  useEffect(() => {
+    const errs = {};
+    if (touched.name && !formData.name.trim()) errs.name = 'Name is required';
+    if (touched.phone) {
+      if (!formData.phone.trim()) errs.phone = 'Phone is required';
+      else if (!validatePhone(formData.phone)) errs.phone = 'Enter a valid 10-digit number';
+    }
+    setErrors(errs);
+  }, [formData.name, formData.phone, touched]);
 
   if (!selectedCircuit || selectedSpots.length === 0) return null;
 
-  const route = optimizeRoute(selectedSpots);
-  const price = calculatePrice(route, selectedCircuit.id);
-  const spotIds = route.filter(id => id !== 'police_bazar');
-
-  const validate = () => {
-    const errs = {};
-    if (!formData.name.trim()) errs.name = 'Name is required';
-    if (!formData.phone.trim()) errs.phone = 'Phone is required';
-    else if (!/^[0-9]{10}$/.test(formData.phone.trim())) errs.phone = 'Enter a valid 10-digit number';
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
+  const handleBlur = (field) => setTouched(prev => ({ ...prev, [field]: true }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    setTouched({ name: true, phone: true });
+    if (errors.name || errors.phone || !formData.name.trim() || !validatePhone(formData.phone)) return;
     try {
       await submitBooking();
       setStep(3);
     } catch {
-      setErrors({ submit: 'Something went wrong. Please try again.' });
+      setErrors(prev => ({ ...prev, submit: 'Something went wrong. Please try again.' }));
     }
   };
+
+  const invoiceId = useMemo(() => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    return 'SR-' + Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  }, []);
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -55,7 +74,7 @@ export default function Checkout() {
           >
             <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/5">
               <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500" aria-hidden="true">
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                 </svg>
               </div>
@@ -74,24 +93,24 @@ export default function Checkout() {
                 const p = places.find(x => x.id === spotId);
                 return (
                   <span key={spotId} className="flex items-center gap-2">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" aria-hidden="true">
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
                     <span className="px-3 py-1.5 bg-white/10 text-white border border-white/10 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">{p?.name || spotId}</span>
                   </span>
                 );
               })}
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" aria-hidden="true">
                 <polyline points="9 18 15 12 9 6" />
               </svg>
               <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">Shillong</span>
             </div>
-            <p className="text-white/40 text-xs mt-3 font-mono tracking-wider">
+            <p className="text-white/55 text-xs mt-3 font-mono tracking-wider">
               ROUND TRIP · {price.routeDistance} KM TOTAL
             </p>
           </motion.div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -100,7 +119,7 @@ export default function Checkout() {
             >
               <div className="flex items-center gap-3 mb-5 pb-3 border-b border-white/10">
                 <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/70">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/70" aria-hidden="true">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
                   </svg>
@@ -116,10 +135,9 @@ export default function Checkout() {
                       type="text"
                       value={formData.name}
                       onChange={e => updateFormField('name', e.target.value)}
+                      onBlur={() => handleBlur('name')}
                       placeholder="Enter your full name"
-                      className={`glass-input w-full px-4 py-3 ${
-                        errors.name ? 'border-red-500/60' : ''
-                      }`}
+                      className={`glass-input w-full px-4 py-3 ${errors.name ? 'border-red-500/60' : ''}`}
                     />
                     {errors.name && <p className="text-red-400 text-xs mt-1 font-['Anton'] uppercase tracking-wider">{errors.name}</p>}
                   </div>
@@ -129,10 +147,9 @@ export default function Checkout() {
                       type="tel"
                       value={formData.phone}
                       onChange={e => updateFormField('phone', e.target.value)}
-                      placeholder="Enter your 10-digit number"
-                      className={`glass-input w-full px-4 py-3 ${
-                        errors.phone ? 'border-red-500/60' : ''
-                      }`}
+                      onBlur={() => handleBlur('phone')}
+                      placeholder="10-digit number"
+                      className={`glass-input w-full px-4 py-3 ${errors.phone ? 'border-red-500/60' : ''}`}
                     />
                     {errors.phone && <p className="text-red-400 text-xs mt-1 font-['Anton'] uppercase tracking-wider">{errors.phone}</p>}
                   </div>
@@ -161,13 +178,10 @@ export default function Checkout() {
                           : 'bg-white/5 border-white/10 text-white/50 hover:border-white/25'
                       }`}
                     >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="5.5" cy="17.5" r="2.5" />
-                        <circle cx="18.5" cy="17.5" r="2.5" />
-                        <path d="M15 6h4l2 4" />
-                        <path d="M8 17h7" />
-                        <path d="M15 14L14 8H8" />
-                        <path d="M5.5 17L3 8h2" />
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <circle cx="5.5" cy="17.5" r="2.5" /><circle cx="18.5" cy="17.5" r="2.5" />
+                        <path d="M15 6h4l2 4" /><path d="M8 17h7" />
+                        <path d="M15 14L14 8H8" /><path d="M5.5 17L3 8h2" />
                       </svg>
                       <span className="font-['Anton'] text-sm tracking-wider">Scooty</span>
                     </button>
@@ -180,17 +194,14 @@ export default function Checkout() {
                           : 'bg-white/5 border-white/10 text-white/50 hover:border-white/25'
                       }`}
                     >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="5.5" cy="17.5" r="2.5" />
-                        <circle cx="18.5" cy="17.5" r="2.5" />
-                        <path d="M15 6L13 10h4" />
-                        <path d="M8 17l3-9h4" />
-                        <path d="M5.5 17l-2-4h2" />
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <circle cx="5.5" cy="17.5" r="2.5" /><circle cx="18.5" cy="17.5" r="2.5" />
+                        <path d="M15 6L13 10h4" /><path d="M8 17l3-9h4" /><path d="M5.5 17l-2-4h2" />
                       </svg>
                       <span className="font-['Anton'] text-sm tracking-wider">Bike</span>
                     </button>
                   </div>
-                  <p className="text-white/40 text-[10px] font-mono mt-1.5">Choose your ride — scooty or bike</p>
+                  <p className="text-white/55 text-[10px] font-mono mt-1.5">Choose your ride — scooty or bike</p>
                 </div>
 
                 <div>
@@ -221,13 +232,19 @@ export default function Checkout() {
               <button
                 type="submit"
                 disabled={submitting}
-                className={`flex-1 px-6 py-3.5 font-['Anton'] text-base uppercase tracking-wider transition-all duration-300 ${
-                  submitting
-                    ? 'glass-btn-primary opacity-40 cursor-not-allowed'
-                    : 'glass-btn-primary'
+                className={`flex-1 px-6 py-3.5 font-['Anton'] text-base uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
+                  submitting ? 'glass-btn-primary opacity-40 cursor-not-allowed' : 'glass-btn-primary'
                 }`}
               >
-                {submitting ? 'PROCESSING...' : 'APPROVE & CONFIRM →'}
+                {submitting ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    PROCESSING...
+                  </>
+                ) : 'APPROVE & CONFIRM →'}
               </button>
             </div>
           </form>
@@ -243,11 +260,9 @@ export default function Checkout() {
             <div className="glass-card p-5 sm:p-6">
                 <div className="flex items-center gap-3 mb-5 pb-3 border-b border-orange-500/20">
                   <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
-                      <line x1="4" y1="7" x2="20" y2="7" />
-                      <line x1="7" y1="7" x2="13" y2="21" />
-                      <line x1="8" y1="13" x2="18" y2="13" />
-                      <line x1="7" y1="17" x2="16" y2="17" />
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500" aria-hidden="true">
+                      <line x1="4" y1="7" x2="20" y2="7" /><line x1="7" y1="7" x2="13" y2="21" />
+                      <line x1="8" y1="13" x2="18" y2="13" /><line x1="7" y1="17" x2="16" y2="17" />
                     </svg>
                   </div>
                   <h3 className="font-['Bebas_Neue'] text-white text-base tracking-wider">INVOICE</h3>
@@ -256,36 +271,36 @@ export default function Checkout() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-white/5">
                     <div>
-                      <p className="text-white/80 font-['Anton'] text-sm tracking-wider">1. Processing &amp; Platform Fee</p>
-                      <p className="text-white/40 text-[10px] font-mono">Platform, booking system &amp; support</p>
+                      <p className="text-white/80 font-['Anton'] text-sm tracking-wider">1. Booking Fee</p>
+                      <p className="text-white/55 text-[10px] font-mono">Platform, booking system &amp; support</p>
                     </div>
-                    <span className="text-orange-400 font-['Anton'] text-base">₹{price.ownerFee}</span>
+                    <span className="text-orange-400 font-['Anton'] text-base">{fmt(price.ownerFee)}</span>
                   </div>
 
                   <div className="flex justify-between items-center py-2 border-b border-white/5">
                     <div>
                       <p className="text-white/80 font-['Anton'] text-sm tracking-wider">2. Rider Cost</p>
-                      <p className="text-white/40 text-[10px] font-mono">Your personal guide</p>
+                      <p className="text-white/55 text-[10px] font-mono">Your personal guide</p>
                     </div>
-                    <span className="text-orange-400 font-['Anton'] text-base">₹{price.riderFee}</span>
+                    <span className="text-orange-400 font-['Anton'] text-base">{fmt(price.riderFee)}</span>
                   </div>
 
                   <div className="flex justify-between items-center py-2">
                     <div>
                       <p className="text-white/80 font-['Anton'] text-sm tracking-wider">3. Fuel Cost</p>
-                      <p className="text-white/40 text-[10px] font-mono">{price.routeDistance} km travelled</p>
+                      <p className="text-white/55 text-[10px] font-mono">{price.routeDistance} km travelled</p>
                     </div>
-                    <span className="text-orange-400 font-['Anton'] text-base">₹{price.fuelCost}</span>
+                    <span className="text-orange-400 font-['Anton'] text-base">{fmt(price.fuelCost)}</span>
                   </div>
                 </div>
 
               <div className="flex justify-between items-center mt-5 pt-4 border-t-2 border-orange-500/20">
                 <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-                <span className="font-['Anton'] text-orange-500 text-2xl tracking-wider">₹{price.total}</span>
+                <span className="font-['Anton'] text-orange-500 text-2xl tracking-wider">{fmt(price.total)}</span>
               </div>
 
               <div className="mt-4 pt-4 border-t border-dashed border-white/10 text-center">
-                <p className="text-white/30 text-[10px] font-mono uppercase tracking-wider">Invoice #SR-{Date.now().toString(36).toUpperCase()}</p>
+                <p className="text-white/55 text-[10px] font-mono uppercase tracking-wider">Invoice #{invoiceId}</p>
               </div>
             </div>
           </motion.div>

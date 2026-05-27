@@ -17,7 +17,7 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50"
     >
       <div className="relative">
-        <div className="h-3 bg-gradient-to-r from-orange-700 via-orange-600 to-orange-700 shadow-[0_2px_0_rgba(255,255,255,0.1)]" />
+        <div className="h-3 bg-gradient-to-r from-orange-700 via-orange-600 to-orange-700 shadow-[0_2px_0_rgba(255,255,255,0.1)]" aria-hidden="true" />
         <div
           style={{
             background: 'rgba(17, 17, 17, 0.85)',
@@ -39,10 +39,11 @@ export default function Navbar() {
                   <Link
                     key={l.to}
                     to={l.to}
+                    aria-current={location.pathname === l.to ? 'page' : undefined}
                     className={`text-sm font-semibold uppercase tracking-[0.15em] px-5 py-3 transition-all duration-200 rounded-lg ${
                       location.pathname === l.to
                         ? 'text-orange-500 bg-orange-500/10 border border-orange-500/30'
-                        : 'text-white/60 hover:text-white border border-transparent hover:border-white/10'
+                        : 'text-white/55 hover:text-white border border-transparent hover:border-white/10'
                     }`}
                   >
                     {l.label}

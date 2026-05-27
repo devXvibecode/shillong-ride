@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const faqs = [
@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: 'How is pricing structured?',
-    a: 'Three simple components: a flat ₹1200 Processing & Platform Fee, a fixed Rider Cost based on your chosen route (₹400–₹600), and Fuel charged at ₹10 per km. The total distance is calculated from Shillong to your spots and back. No surge pricing, no bargaining.',
+    a: 'Three simple components: a flat ₹1,200 Booking Fee, a fixed Rider Cost based on your chosen route (₹400–₹600), and Fuel charged at ₹10 per km. The total distance is calculated from Shillong to your spots and back. No surge pricing, no bargaining.',
   },
   {
     q: 'Can I customize my route?',
@@ -40,6 +40,11 @@ const faqs = [
   },
 ];
 
+function useAccordionHeight() {
+  const ref = useRef(null);
+  return ref;
+}
+
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -55,34 +60,27 @@ export default function Contact() {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-          {[
-            { label: 'Email', value: 'hello@shillongride.in', icon: (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
-            )},
-            { label: 'Enquiry & Emergency', value: '+91 9591794044', icon: (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-            )},
-            { label: 'Location', value: 'Shillong, Meghalaya', icon: (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
-              </svg>
-            )},
-          ].map(item => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="glass-card p-4 sm:p-5 text-center"
-            >
-              <div className="text-orange-500 mb-3 flex justify-center">{item.icon}</div>
-              <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">{item.label}</p>
-              <p className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider">{item.value}</p>
-            </motion.div>
-          ))}
+          <div className="glass-card p-4 sm:p-5 text-center">
+            <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+            </div>
+            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Email</p>
+            <a href="mailto:hello@shillongride.in" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-orange-500 transition-colors">hello@shillongride.in</a>
+          </div>
+          <div className="glass-card p-4 sm:p-5 text-center">
+            <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+            </div>
+            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Enquiry & Emergency</p>
+            <a href="tel:+919591794044" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-orange-500 transition-colors">+91 9591794044</a>
+          </div>
+          <div className="glass-card p-4 sm:p-5 text-center">
+            <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
+            </div>
+            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Location</p>
+            <p className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider">Shillong, Meghalaya</p>
+          </div>
         </div>
 
         <motion.div
@@ -107,23 +105,29 @@ export default function Contact() {
                   type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full p-4 sm:p-5 flex items-center justify-between text-left"
+                  aria-expanded={openFaq === i}
+                  aria-controls={`faq-panel-${i}`}
                 >
                   <span className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider pr-4">{faq.q}</span>
-                  <span className={`text-orange-500 transition-transform duration-300 flex-shrink-0 ${openFaq === i ? 'rotate-45' : ''}`}>
+                  <span className={`text-orange-500 transition-transform duration-300 flex-shrink-0 ${openFaq === i ? 'rotate-45' : ''}`} aria-hidden="true">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
                     </svg>
                   </span>
                 </button>
-                <AnimatePresence>
+                <AnimatePresence initial={false}>
                   {openFaq === i && (
                     <motion.div
+                      key="panel"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-white/5 pt-4"
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className="overflow-hidden"
                     >
-                      <p className="text-white/55 text-sm sm:text-base leading-relaxed">{faq.a}</p>
+                      <div id={`faq-panel-${i}`} className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-white/5 pt-4">
+                        <p className="text-white/55 text-sm sm:text-base leading-relaxed">{faq.a}</p>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>

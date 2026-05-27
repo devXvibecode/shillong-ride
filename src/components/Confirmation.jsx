@@ -2,6 +2,10 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext';
 
+function fmt(n) {
+  return '₹' + Number(n).toLocaleString('en-IN');
+}
+
 export default function Confirmation() {
   const navigate = useNavigate();
   const { booking, reset } = useBooking();
@@ -24,6 +28,8 @@ export default function Confirmation() {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className="max-w-lg mx-auto text-center"
+      role="status"
+      aria-live="polite"
     >
       <motion.div
         initial={{ scale: 0, rotate: -45 }}
@@ -31,7 +37,7 @@ export default function Confirmation() {
         transition={{ type: 'spring', stiffness: 200, damping: 12 }}
         className="w-24 h-24 mx-auto mb-6"
       >
-        <div className="stamp w-full h-full">
+        <div className="w-full h-full flex items-center justify-center border-4 border-green-700/50 rounded-xl bg-green-900/10" style={{ borderStyle: 'double' }}>
           <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12" />
           </svg>
@@ -42,7 +48,8 @@ export default function Confirmation() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.3, type: 'spring', stiffness: 150 }}
-        className="stamp px-6 py-3 mx-auto mb-6"
+        className="inline-flex items-center px-6 py-3 mx-auto mb-6 border-4 border-green-700/50 rounded-xl bg-green-900/10"
+        style={{ borderStyle: 'double' }}
       >
         <span className="font-['Anton'] text-green-600 text-xl sm:text-2xl uppercase tracking-[0.15em]">APPROVED</span>
       </motion.div>
@@ -93,11 +100,11 @@ export default function Confirmation() {
           <div className="flex justify-between items-center pb-2 border-b border-orange-500/15">
             <div>
               <p className="text-white font-['Anton'] text-sm tracking-wider">
-                  <span className="text-orange-500 mr-1">1.</span>Processing &amp; Platform Fee
+                  <span className="text-orange-500 mr-1">1.</span>Booking Fee
                   </p>
                   <p className="text-white/40 text-[11px] font-mono">Platform, booking system &amp; support</p>
             </div>
-            <span className="text-orange-500 font-['Anton']">₹{p.ownerFee}</span>
+            <span className="text-orange-500 font-['Anton']">{fmt(p.ownerFee)}</span>
           </div>
 
           <div className="flex justify-between items-center pb-2 border-b border-white/5">
@@ -107,7 +114,7 @@ export default function Confirmation() {
               </p>
               <p className="text-white/40 text-[11px] font-mono">Your personal guide</p>
             </div>
-            <span className="text-white font-['Anton']">₹{p.riderFee}</span>
+            <span className="text-white font-['Anton']">{fmt(p.riderFee)}</span>
           </div>
 
           <div className="flex justify-between items-center pb-2 border-b border-white/5">
@@ -117,13 +124,13 @@ export default function Confirmation() {
               </p>
               <p className="text-white/40 text-[11px] font-mono">{p.routeDistance} km travelled</p>
             </div>
-            <span className="text-white font-['Anton']">₹{p.fuelCost}</span>
+            <span className="text-white font-['Anton']">{fmt(p.fuelCost)}</span>
           </div>
         </div>
 
         <div className="flex justify-between items-center pt-4 mt-3 border-t-2 border-orange-500/20">
           <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-          <span className="font-['Anton'] text-orange-500 text-lg tracking-wider">₹{p.total}</span>
+          <span className="font-['Anton'] text-orange-500 text-lg tracking-wider">{fmt(p.total)}</span>
         </div>
 
         <div className="mt-4 pt-3 border-t border-dashed border-white/10 text-center">

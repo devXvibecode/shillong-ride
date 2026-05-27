@@ -39,7 +39,7 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
 
   return (
     <Modal open={true} onClose={onClose}>
-      <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-white/10" style={{background:'rgba(17,17,17,0.95)'}}>
+      <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-white/10">
         <div>
           <h2 className="text-white font-bold text-lg font-['Anton'] uppercase tracking-wider">Edit Spots</h2>
           <p className="text-white/55 text-xs mt-0.5">{booking.circuitName || booking.circuitId}</p>

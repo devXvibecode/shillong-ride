@@ -1,26 +1,51 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Modal({ open, onClose, title, subtitle, children }) {
+  const dialogRef = useRef(null);
+  const previousFocusRef = useRef(null);
+
   const handleEscape = useCallback((e) => {
     if (e.key === 'Escape') onClose();
   }, [onClose]);
 
   useEffect(() => {
     if (open) {
+      previousFocusRef.current = document.activeElement;
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
+      requestAnimationFrame(() => {
+        if (dialogRef.current) {
+          const first = dialogRef.current.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          if (first) first.focus();
+        }
+      });
     }
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      if (previousFocusRef.current && previousFocusRef.current.focus) {
+        previousFocusRef.current.focus();
+      }
     };
   }, [open, handleEscape]);
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.key !== 'Tab' || !dialogRef.current) return;
+    const focusable = dialogRef.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }, []);
 
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={title || 'Dialog'}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -28,14 +53,17 @@ export default function Modal({ open, onClose, title, subtitle, children }) {
             transition={{ duration: 0.2 }}
             className="absolute inset-0 bg-black/65"
             onClick={onClose}
+            aria-hidden="true"
           />
           <motion.div
+            ref={dialogRef}
             initial={{ opacity: 0, scale: 0.93, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.93, y: 10 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className="relative w-full max-w-lg glass-elevated p-6 max-h-[85vh] overflow-y-auto"
             onClick={e => e.stopPropagation()}
+            onKeyDown={handleKeyDown}
           >
             <div className="flex items-start justify-between mb-5">
               <div className="flex-1 min-w-0">
@@ -43,15 +71,16 @@ export default function Modal({ open, onClose, title, subtitle, children }) {
                   <h2 className="text-white font-bold text-lg leading-tight">{title}</h2>
                 )}
                 {subtitle && (
-                  <p className="text-white/50 text-xs mt-0.5">{subtitle}</p>
+                  <p className="text-white/55 text-xs mt-0.5">{subtitle}</p>
                 )}
               </div>
               <button
                 type="button"
                 onClick={onClose}
+                aria-label="Close dialog"
                 className="ml-4 w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all flex-shrink-0"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>

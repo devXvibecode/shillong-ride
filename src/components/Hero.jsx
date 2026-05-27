@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -5,17 +6,27 @@ const BASE = import.meta.env.BASE_URL || '/';
 const heroBg = `${BASE.replace(/\/+$/, '')}/images/hero-bg.jpg`;
 
 export default function Hero() {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/30 to-black/80 z-10" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 z-10" />
 
       <div className="absolute inset-0 z-0">
+        {!imgLoaded && !imgError && (
+          <div className="w-full h-full bg-[#0a0a0f]">
+            <div className="w-full h-full skeleton" />
+          </div>
+        )}
         <motion.img
-          src={heroBg}
+          src={imgError ? 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80' : heroBg}
           alt=""
-          className="w-full h-full object-cover object-top"
-          onError={e => { e.target.src = 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80'; }}
+          role="presentation"
+          className={`w-full h-full object-cover object-top transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+          onLoad={() => setImgLoaded(true)}
+          onError={() => setImgError(true)}
           animate={{ scale: [1, 1.06, 1] }}
           transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
         />
@@ -28,12 +39,18 @@ export default function Hero() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="mb-6 sm:mb-8"
         >
-          <div className="inline-flex items-center gap-3 px-4 py-2 border-2 border-orange-500/50 bg-black/60 backdrop-blur-sm">
-            <div className="w-3 h-3 bg-orange-500 beacon" />
+          <div className="inline-flex items-center gap-3 px-4 py-2 glass-card">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500" />
+            </span>
             <span className="font-['Anton'] text-orange-400 text-xs sm:text-sm uppercase tracking-[0.15em]">
               Discover Meghalaya's Wild Beauty
             </span>
-            <div className="w-3 h-3 bg-orange-500 beacon" style={{ animationDelay: '1s' }} />
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" style={{ animationDelay: '1s' }} />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500" />
+            </span>
           </div>
         </motion.div>
 
@@ -63,7 +80,7 @@ export default function Hero() {
           transition={{ delay: 0.8, duration: 0.6 }}
           className="inline-block mb-8"
         >
-          <div className="px-4 py-2 bg-[#ffd600] border-2 border-black shadow-[4px_4px_0_0_rgba(0,0,0,0.6)]">
+          <div className="px-4 py-2 bg-[#ffd600] rounded-lg shadow-lg">
             <span className="font-['Anton'] text-black text-xs sm:text-sm uppercase tracking-[0.08em]">
               Curated Rides, Real Connections
             </span>
@@ -89,13 +106,13 @@ export default function Hero() {
         >
           <Link
             to="/booking"
-            className="industrial-btn px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg rounded-none tracking-widest"
+            className="glass-btn-primary px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg tracking-widest"
           >
             Start Your Journey
           </Link>
           <a
             href="#about"
-            className="px-10 sm:px-14 py-4 sm:py-5 bg-white/5 text-white font-['Anton'] text-base sm:text-lg border-2 border-white/20 hover:bg-white/10 hover:border-white/40 transition-all duration-300 tracking-widest uppercase rounded-none"
+            className="px-10 sm:px-14 py-4 sm:py-5 glass-btn text-base sm:text-lg tracking-widest"
           >
             Explore
           </a>
@@ -107,6 +124,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
+        aria-hidden="true"
       >
         <motion.div
           animate={{ y: [0, 6, 0] }}

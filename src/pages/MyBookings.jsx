@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import places from '../data/places.json';
 import { fetchAllBookings, updateSingleBooking } from '../engines/bookingSyncService';
 import EditSpotModal from '../components/EditSpotModal';
+import ConfirmDialog from '../components/ConfirmDialog';
+import { useToast } from '../components/Toast';
 
 function loadBookings() {
   try {
@@ -30,16 +32,21 @@ const STATUS_COLORS = {
 
 export default function MyBookings() {
   const navigate = useNavigate();
+  const { addToast } = useToast();
   const [localBookings, setLocalBookings] = useState(loadBookings);
   const [sharedBookings, setSharedBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
   const [editingBooking, setEditingBooking] = useState(null);
+  const [confirmCancel, setConfirmCancel] = useState(null);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetchAllBookings().then(shared => {
-      setSharedBookings(shared);
-    }).catch(() => {});
+    fetchAllBookings()
+      .then(shared => setSharedBookings(shared))
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   const seen = new Set();
@@ -53,30 +60,46 @@ export default function MyBookings() {
 
   const getPlaceName = (id) => places.find(p => p.id === id)?.name || id;
 
-  const handleCancelRequest = async (bookingId) => {
-    if (!window.confirm('Cancel this booking? An admin will review your request.')) return;
-    const local = loadBookings();
-    const updated = local.map(b => {
-      if (b.id === bookingId) return { ...b, status: 'cancel_requested' };
-      return b;
-    });
-    saveBookings(updated);
-    setLocalBookings(updated);
-    await updateSingleBooking(bookingId, { status: 'cancel_requested' });
-  };
+  const handleCancelRequest = useCallback(async (bookingId) => {
+    setSaving(true);
+    try {
+      const local = loadBookings();
+      const updated = local.map(b => {
+        if (b.id === bookingId) return { ...b, status: 'cancel_requested' };
+        return b;
+      });
+      saveBookings(updated);
+      setLocalBookings(updated);
+      await updateSingleBooking(bookingId, { status: 'cancel_requested' });
+      addToast('Cancellation request submitted', 'success');
+    } catch {
+      addToast('Failed to submit cancellation request', 'error');
+    } finally {
+      setSaving(false);
+      setConfirmCancel(null);
+    }
+  }, [addToast]);
 
-  const handleEditSave = async (updatedBooking) => {
-    const local = loadBookings();
-    const updated = local.map(b => b.id === updatedBooking.id ? updatedBooking : b);
-    saveBookings(updated);
-    setLocalBookings(updated);
-    setEditingBooking(null);
-    await updateSingleBooking(updatedBooking.id, {
-      spots: updatedBooking.spots,
-      route: updatedBooking.route,
-      priceBreakdown: updatedBooking.priceBreakdown,
-    });
-  };
+  const handleEditSave = useCallback(async (updatedBooking) => {
+    setSaving(true);
+    try {
+      const local = loadBookings();
+      const updated = local.map(b => b.id === updatedBooking.id ? updatedBooking : b);
+      saveBookings(updated);
+      setLocalBookings(updated);
+      setEditingBooking(null);
+      await updateSingleBooking(updatedBooking.id, {
+        spots: updatedBooking.spots,
+        route: updatedBooking.route,
+        priceBreakdown: updatedBooking.priceBreakdown,
+      });
+      addToast('Spots updated successfully', 'success');
+    } catch {
+      addToast('Failed to update spots', 'error');
+    } finally {
+      setSaving(false);
+    }
+  }, [addToast]);
 
   return (
     <div className="min-h-screen pb-16 px-4">
@@ -89,194 +112,208 @@ export default function MyBookings() {
           <p className="text-white/55 text-sm mb-8 font-['Anton'] uppercase tracking-wider">View all your ShillongRide tours</p>
         </motion.div>
 
-        {bookings.length > 0 && (
-          <div className="flex gap-2 mb-6 overflow-x-auto pb-1 scrollbar-hide">
-            {['all', 'pending', 'approved', 'assigned', 'completed', 'rejected', 'cancel_requested', 'cancelled'].map(status => (
-              <button
-                key={status}
-                type="button"
-                onClick={() => setStatusFilter(status)}
-                className={`px-4 py-2 text-sm font-['Anton'] uppercase tracking-wider transition-all flex-shrink-0 rounded-lg ${
-                  statusFilter === status
-                    ? 'bg-orange-500 text-black'
-                    : 'glass-btn'
-                }`}
-              >
-                {status}
-              </button>
+        {loading ? (
+          <div className="space-y-3">
+            {[1,2,3].map(i => (
+              <div key={i} className="glass-card p-5">
+                <div className="skeleton h-4 w-48 mb-3 rounded" />
+                <div className="skeleton h-3 w-32 mb-2 rounded" />
+                <div className="skeleton h-3 w-64 rounded" />
+              </div>
             ))}
           </div>
-        )}
-
-        {filtered.length === 0 ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20 border border-dashed border-white/10 rounded-2xl">
-            <p className="text-white/55 text-lg mb-2 font-['Anton'] uppercase tracking-wider">
-              {bookings.length === 0 ? 'No bookings yet' : 'No bookings match this filter.'}
-            </p>
-            <p className="text-white/55 text-sm mb-6 font-['Anton'] uppercase tracking-wider">
-              {bookings.length === 0 ? 'Start planning your Shillong adventure!' : 'Try a different filter.'}
-            </p>
-            <button
-              onClick={() => navigate('/')}
-              className="glass-btn-primary px-8 py-3 text-sm tracking-widest"
-            >
-              Go to Home
-            </button>
-          </motion.div>
         ) : (
-          <div className="space-y-3">
-            {filtered.map((booking, i) => (
-              <motion.div
-                key={booking.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.03 }}
-                className="glass-card overflow-hidden"
-              >
-                <button
-                  type="button"
-                  onClick={() => setExpandedId(expandedId === booking.id ? null : booking.id)}
-                  className="w-full p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 text-left"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-orange-500 font-['Anton'] text-xs sm:text-sm tracking-wider">{booking.id}</span>
-                      <span className={`px-2 py-0.5 text-[10px] font-['Anton'] uppercase tracking-wider border ${STATUS_COLORS[booking.status] || 'border-white/10 text-white/55'} rounded`}>
-                        {booking.status}
-                      </span>
-                    </div>
-                    <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.name}</p>
-                    <p className="text-white/55 text-xs font-['Anton'] uppercase tracking-wider">
-                      {booking.circuitName || 'TOUR'} · {booking.spotNames ? booking.spotNames.join(', ') : `${booking.spots.length} SPOT(S)`}
-                    </p>
-                  </div>
-                  <div className="text-left sm:text-right flex sm:block items-center gap-4 sm:gap-0">
-                    {booking.rider && (
-                      <p className="text-white/55 text-xs font-['Anton'] uppercase tracking-wider sm:mb-1">
-                        RIDER: <span className="text-white">{booking.rider}</span>
-                      </p>
-                    )}
-                    <p className="text-orange-500 font-['Anton']">₹{booking.priceBreakdown.total}</p>
-                    <p className="text-white/55 text-[10px] font-mono">{new Date(booking.createdAt).toLocaleDateString()}</p>
-                  </div>
-                </button>
-
-                {expandedId === booking.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    className="border-t border-white/5 px-4 sm:px-5 py-4"
+          <>
+            {bookings.length > 0 && (
+              <div className="flex gap-2 mb-6 overflow-x-auto pb-1 scrollbar-hide">
+                {['all', 'pending', 'approved', 'assigned', 'completed', 'rejected', 'cancel_requested', 'cancelled'].map(status => (
+                  <button
+                    key={status}
+                    type="button"
+                    onClick={() => setStatusFilter(status)}
+                    className={`px-4 py-2 text-sm font-['Anton'] uppercase tracking-wider transition-all flex-shrink-0 rounded-lg ${
+                      statusFilter === status ? 'bg-orange-500 text-black' : 'glass-btn'
+                    }`}
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Circuit</p>
-                        <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.circuitName || booking.circuitId}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Pickup Time</p>
-                        <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.timeSlot ? booking.timeSlot : 'Pending — will be scheduled after booking'}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Pickup Location</p>
-                        <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.pickupLocation || 'Shillong'}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Route Distance</p>
-                        <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.priceBreakdown.routeDistance} KM</p>
-                      </div>
-                    </div>
+                    {status}
+                  </button>
+                ))}
+              </div>
+            )}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Spots</p>
-                        <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{(booking.spotNames || booking.spots.map(getPlaceName)).join(', ')}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Vehicle</p>
-                        <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider uppercase">{(booking.vehicleType || 'bike')}</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 pb-3 border-b-2 border-orange-500/20 mb-3">
-                      <p className="text-orange-500 text-[10px] font-['Anton'] uppercase tracking-wider mb-2">BREAKDOWN</p>
-                      <div className="flex justify-between text-sm">
-                        <div>
-                          <span className="text-white/55 font-['Anton'] uppercase tracking-wider">Processing &amp; Platform Fee</span>
-                          <p className="text-white/40 text-[10px] font-mono">Platform, booking system &amp; support</p>
+            {filtered.length === 0 ? (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20 border border-dashed border-white/10 rounded-2xl">
+                <p className="text-white/55 text-lg mb-2 font-['Anton'] uppercase tracking-wider">
+                  {bookings.length === 0 ? 'No bookings yet' : 'No bookings match this filter.'}
+                </p>
+                <p className="text-white/55 text-sm mb-6 font-['Anton'] uppercase tracking-wider">
+                  {bookings.length === 0 ? 'Start planning your Shillong adventure!' : 'Try a different filter.'}
+                </p>
+                <button
+                  onClick={() => navigate('/')}
+                  className="glass-btn-primary px-8 py-3 text-sm tracking-widest"
+                >
+                  Go to Home
+                </button>
+              </motion.div>
+            ) : (
+              <div className="space-y-3">
+                {filtered.map((booking, i) => (
+                  <motion.div
+                    key={booking.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.03 }}
+                    className="glass-card overflow-hidden"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setExpandedId(expandedId === booking.id ? null : booking.id)}
+                      className="w-full p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 text-left"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-orange-500 font-['Anton'] text-xs sm:text-sm tracking-wider">{booking.id}</span>
+                          <span className={`px-2 py-0.5 text-[10px] font-['Anton'] uppercase tracking-wider border ${STATUS_COLORS[booking.status] || 'border-white/10 text-white/55'} rounded`}>
+                            {booking.status}
+                          </span>
                         </div>
-                        <span className="text-orange-500 font-['Anton']">₹{booking.priceBreakdown.ownerFee || booking.priceBreakdown.processingCharge}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-white/55 font-['Anton'] uppercase tracking-wider">Rider Cost</span>
-                        <span className="text-white font-['Anton']">₹{booking.priceBreakdown.riderFee || booking.priceBreakdown.spotCost}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-white/55 font-['Anton'] uppercase tracking-wider">Fuel Cost</span>
-                        <span className="text-white font-['Anton']">₹{booking.priceBreakdown.fuelCost}</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-white font-['Anton'] tracking-wider">TOTAL</span>
-                      <span className="text-orange-500 font-['Anton']">₹{booking.priceBreakdown.total}</span>
-                    </div>
-
-                    {booking.route && (
-                      <div className="mt-4 pt-3 border-t-2 border-white/5">
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Full Route</p>
-                        <p className="text-white/60 text-xs font-mono">
-                          {(booking.routeNames || booking.route.map(id => getPlaceName(id) || id)).join(' → ')}
+                        <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.name}</p>
+                        <p className="text-white/55 text-xs font-['Anton'] uppercase tracking-wider">
+                          {booking.circuitName || 'TOUR'} · {booking.spotNames ? booking.spotNames.join(', ') : `${booking.spots.length} SPOT(S)`}
                         </p>
                       </div>
-                    )}
-
-                    {booking.notes && (
-                      <div className="mt-3">
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Notes</p>
-                        <p className="text-white/55 text-xs">{booking.notes}</p>
+                      <div className="text-left sm:text-right flex sm:block items-center gap-4 sm:gap-0">
+                        {booking.rider && (
+                          <p className="text-white/55 text-xs font-['Anton'] uppercase tracking-wider sm:mb-1">
+                            RIDER: <span className="text-white">{booking.rider}</span>
+                          </p>
+                        )}
+                        <p className="text-orange-500 font-['Anton']">₹{booking.priceBreakdown.total}</p>
+                        <p className="text-white/55 text-[10px] font-mono">{new Date(booking.createdAt).toLocaleDateString()}</p>
                       </div>
-                    )}
+                    </button>
 
-                    {booking.status === 'rejected' && (
-                      <div className="mt-3 px-3 py-2 bg-red-500/10 border border-red-500/20 rounded-lg">
-                        <p className="text-red-400 text-[11px] font-['Anton'] uppercase tracking-wider">This booking was not approved.</p>
-                      </div>
-                    )}
+                    {expandedId === booking.id && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        className="border-t border-white/5 px-4 sm:px-5 py-4"
+                      >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                          <div>
+                            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Circuit</p>
+                            <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.circuitName || booking.circuitId}</p>
+                          </div>
+                          <div>
+                            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Pickup Time</p>
+                            <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.timeSlot ? booking.timeSlot : 'Pending — will be scheduled after booking'}</p>
+                          </div>
+                          <div>
+                            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Pickup Location</p>
+                            <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.pickupLocation || 'Shillong'}</p>
+                          </div>
+                          <div>
+                            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Route Distance</p>
+                            <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{booking.priceBreakdown.routeDistance} KM</p>
+                          </div>
+                        </div>
 
-                    {booking.status === 'cancel_requested' && (
-                      <div className="mt-3 px-3 py-2 bg-orange-500/10 border border-orange-500/20 rounded-lg">
-                        <p className="text-orange-400 text-[11px] font-['Anton'] uppercase tracking-wider">Cancellation requested — awaiting admin approval.</p>
-                      </div>
-                    )}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                          <div>
+                            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Spots</p>
+                            <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider">{(booking.spotNames || booking.spots.map(getPlaceName)).join(', ')}</p>
+                          </div>
+                          <div>
+                            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-0.5">Vehicle</p>
+                            <p className="text-white font-['Bebas_Neue'] text-sm tracking-wider uppercase">{(booking.vehicleType || 'bike')}</p>
+                          </div>
+                        </div>
 
-                    {booking.status === 'cancelled' && (
-                      <div className="mt-3 px-3 py-2 bg-red-500/10 border border-red-500/20 rounded-lg">
-                        <p className="text-red-400 text-[11px] font-['Anton'] uppercase tracking-wider">This booking has been cancelled.</p>
-                      </div>
-                    )}
+                        <div className="space-y-2 pb-3 border-b-2 border-orange-500/20 mb-3">
+                          <p className="text-orange-500 text-[10px] font-['Anton'] uppercase tracking-wider mb-2">BREAKDOWN</p>
+                          <div className="flex justify-between text-sm">
+                            <div>
+                              <span className="text-white/55 font-['Anton'] uppercase tracking-wider">Booking Fee</span>
+                              <p className="text-white/40 text-[10px] font-mono">Platform, booking system &amp; support</p>
+                            </div>
+                            <span className="text-orange-500 font-['Anton']">₹{booking.priceBreakdown.ownerFee || booking.priceBreakdown.processingCharge}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-white/55 font-['Anton'] uppercase tracking-wider">Rider Cost</span>
+                            <span className="text-white font-['Anton']">₹{booking.priceBreakdown.riderFee || booking.priceBreakdown.spotCost}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-white/55 font-['Anton'] uppercase tracking-wider">Fuel Cost</span>
+                            <span className="text-white font-['Anton']">₹{booking.priceBreakdown.fuelCost}</span>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-white font-['Anton'] tracking-wider">TOTAL</span>
+                          <span className="text-orange-500 font-['Anton']">₹{booking.priceBreakdown.total}</span>
+                        </div>
 
-                    {(booking.status === 'pending' || booking.status === 'approved') && (
-                      <div className="mt-4 pt-3 border-t border-white/5 flex gap-2">
-                        <button
-                          type="button"
-                          onClick={() => setEditingBooking(booking)}
-                          className="glass-btn px-4 py-2 text-[11px] font-['Anton'] uppercase tracking-wider"
-                        >
-                          Edit Spots
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleCancelRequest(booking.id)}
-                          className="glass-btn px-4 py-2 text-[11px] font-['Anton'] uppercase tracking-wider text-red-400"
-                        >
-                          Request Cancellation
-                        </button>
-                      </div>
+                        {booking.route && (
+                          <div className="mt-4 pt-3 border-t-2 border-white/5">
+                            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Full Route</p>
+                            <p className="text-white/55 text-xs font-mono">
+                              {(booking.routeNames || booking.route.map(id => getPlaceName(id) || id)).join(' → ')}
+                            </p>
+                          </div>
+                        )}
+
+                        {booking.notes && (
+                          <div className="mt-3">
+                            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Notes</p>
+                            <p className="text-white/55 text-xs">{booking.notes}</p>
+                          </div>
+                        )}
+
+                        {booking.status === 'rejected' && (
+                          <div className="mt-3 px-3 py-2 bg-red-500/10 border border-red-500/20 rounded-lg">
+                            <p className="text-red-400 text-[11px] font-['Anton'] uppercase tracking-wider">This booking was not approved.</p>
+                          </div>
+                        )}
+
+                        {booking.status === 'cancel_requested' && (
+                          <div className="mt-3 px-3 py-2 bg-orange-500/10 border border-orange-500/20 rounded-lg">
+                            <p className="text-orange-400 text-[11px] font-['Anton'] uppercase tracking-wider">Cancellation requested — awaiting admin approval.</p>
+                          </div>
+                        )}
+
+                        {booking.status === 'cancelled' && (
+                          <div className="mt-3 px-3 py-2 bg-red-500/10 border border-red-500/20 rounded-lg">
+                            <p className="text-red-400 text-[11px] font-['Anton'] uppercase tracking-wider">This booking has been cancelled.</p>
+                          </div>
+                        )}
+
+                        {(booking.status === 'pending' || booking.status === 'approved') && (
+                          <div className="mt-4 pt-3 border-t border-white/5 flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setEditingBooking(booking)}
+                              className="glass-btn px-4 py-2 text-[11px] font-['Anton'] uppercase tracking-wider"
+                              disabled={saving}
+                            >
+                              Edit Spots
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setConfirmCancel(booking.id)}
+                              className="glass-btn px-4 py-2 text-[11px] font-['Anton'] uppercase tracking-wider text-red-400"
+                              disabled={saving}
+                            >
+                              Request Cancellation
+                            </button>
+                          </div>
+                        )}
+                      </motion.div>
                     )}
                   </motion.div>
-                )}
-              </motion.div>
-            ))}
-          </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -287,6 +324,17 @@ export default function MyBookings() {
           onSave={handleEditSave}
         />
       )}
+
+      <ConfirmDialog
+        open={!!confirmCancel}
+        title="Cancel Booking?"
+        message="An admin will review your cancellation request. This action cannot be undone."
+        confirmLabel="Request Cancellation"
+        cancelLabel="Keep Booking"
+        destructive
+        onConfirm={() => handleCancelRequest(confirmCancel)}
+        onCancel={() => setConfirmCancel(null)}
+      />
     </div>
   );
 }
