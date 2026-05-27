@@ -7,8 +7,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
-    { to: '/', label: 'Home' },
-    { to: '/my-bookings', label: 'My Bookings' },
+    { to: '/my-bookings', label: 'Bookings' },
     { to: '/contact', label: 'Contact' },
   ];
 
@@ -30,17 +29,16 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              <div className="hidden sm:flex items-center gap-1">
+              <div className="hidden sm:flex items-center gap-8">
                 {links.map(l => (
                   <Link
                     key={l.to}
                     to={l.to}
-                    className={`text-xs font-semibold uppercase tracking-wider px-4 py-2 transition-all duration-200 ${
+                    className={`text-sm font-semibold uppercase tracking-[0.15em] px-5 py-3 transition-all duration-200 ${
                       location.pathname === l.to
                         ? 'text-orange-500 bg-orange-500/10 border border-orange-500/30'
                         : 'text-white/60 hover:text-white border border-transparent hover:border-white/10'
                     }`}
-                    style={{ transform: `rotate(${l.to === '/' ? '-0.5deg' : '0.5deg'})` }}
                   >
                     {l.label}
                   </Link>
