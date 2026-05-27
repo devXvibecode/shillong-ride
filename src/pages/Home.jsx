@@ -40,7 +40,7 @@ const services = [
       </svg>
     ),
     title: 'Transparent Pricing',
-    description: 'A flat ₹1,200 Processing & Platform Fee, a fixed Rider Cost (₹400–₹600), plus Fuel at ₹10/km. No surge pricing, no bargaining, no surprises.',
+    description: 'A flat ₹1,200 Booking Fee, a fixed Rider Cost (₹400–₹600), plus Fuel at ₹10/km. No surge pricing, no bargaining, no surprises.',
   },
 ];
 
@@ -49,9 +49,7 @@ const whyRotations = [-0.8, 1.2, -1.5, 0.5, -0.3, 0.8];
 const circuitIcons = {
   sohra:
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 2L2 7l10 5 10-5-10-5z" />
-      <path d="M2 17l10 5 10-5" />
-      <path d="M2 12l10 5 10-5" />
+      <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
     </svg>,
   dawki_mawlynnong:
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -67,12 +65,16 @@ const circuitIcons = {
     </svg>,
 };
 
+function SectionDivider() {
+  return <div className="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent mx-auto max-w-5xl" />;
+}
+
 export default function Home() {
   return (
     <div>
       <Hero />
 
-      <section id="about" className="relative py-24 sm:py-32 px-4">
+      <section id="about" className="relative py-20 sm:py-28 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-3xl mx-auto text-center">
             <motion.div
@@ -118,7 +120,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative py-24 sm:py-32 px-4">
+      <SectionDivider />
+
+      <section className="relative py-20 sm:py-28 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -126,7 +130,6 @@ export default function Home() {
             viewport={{ once: true, margin: '-80px' }}
             className="text-center mb-16"
           >
-
             <h2 className="font-['Anton'] text-3xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-4">
               Four Ways to Experience<br />
               <span className="text-orange-500">MEGHALAYA</span>
@@ -136,7 +139,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {circuits.map((circuit, i) => (
               <motion.div
                 key={circuit.id}
@@ -172,7 +175,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative py-24 sm:py-32 px-4">
+      <SectionDivider />
+
+      <section className="relative py-20 sm:py-28 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -211,7 +216,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative py-24 sm:py-32 px-4">
+      <SectionDivider />
+
+      <section className="relative py-20 sm:py-28 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -272,7 +279,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative py-24 sm:py-32 px-4">
+      <SectionDivider />
+
+      <section className="relative py-20 sm:py-28 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -292,11 +301,11 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
               {
                 title: 'Fixed, Not Flexible',
-                description: 'A flat ₹1,200 Processing & Platform Fee, a fixed Rider Cost (₹400–₹600), plus Fuel at ₹10/km. No surge pricing, no bargaining, no surprises.',
+                description: 'A flat ₹1,200 Booking Fee, a fixed Rider Cost (₹400–₹600), plus Fuel at ₹10/km. No surge pricing, no bargaining, no surprises.',
               },
               {
                 title: 'Local Knowledge, Real Insights',
@@ -341,7 +350,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative py-24 sm:py-32 px-4">
+      <SectionDivider />
+
+      <section className="relative py-20 sm:py-28 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

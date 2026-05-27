@@ -110,12 +110,6 @@ export default function Hero() {
           >
             Start Your Journey
           </Link>
-          <a
-            href="#about"
-            className="px-10 sm:px-14 py-4 sm:py-5 glass-btn text-base sm:text-lg tracking-widest"
-          >
-            Explore
-          </a>
         </motion.div>
       </div>
 
