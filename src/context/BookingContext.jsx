@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import { createBooking } from '../engines/bookingService';
 import { sendBookingEmail } from '../engines/emailService';
-import { pushBooking } from '../engines/bookingSyncService';
+import { pushBooking, updateSingleBooking } from '../engines/bookingSyncService';
 import places from '../data/places.json';
 import circuits from '../data/circuits.json';
 
@@ -111,6 +111,7 @@ export function BookingProvider({ children }) {
       localStorage.setItem('sr_bookings', JSON.stringify(updated));
       return updated;
     });
+    updateSingleBooking(bookingId, { status: newStatus, rider });
   }, []);
 
   return (

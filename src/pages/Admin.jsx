@@ -9,12 +9,15 @@ export default function Admin() {
   const [sharedBookings, setSharedBookings] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
   const [filter, setFilter] = useState('all');
-  const [synced, setSynced] = useState(false);
+  const [syncState, setSyncState] = useState('loading');
 
   useEffect(() => {
+    const token = import.meta.env.VITE_GITHUB_TOKEN;
     fetchAllBookings().then(shared => {
       setSharedBookings(shared);
-      setSynced(true);
+      setSyncState(token ? 'synced' : 'token_missing');
+    }).catch(() => {
+      setSyncState('error');
     });
   }, []);
 
@@ -38,14 +41,25 @@ export default function Admin() {
         >
           <div className="flex items-center gap-3 mb-1">
             <h1 className="text-3xl sm:text-5xl font-black text-white">Admin Panel</h1>
-            <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded ${synced ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
-              {synced ? `Synced (${sharedBookings.length} remote)` : 'Local only'}
+            <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded ${
+              syncState === 'loading' ? 'bg-yellow-500/20 text-yellow-400' :
+              syncState === 'synced' ? 'bg-green-500/20 text-green-400' :
+              'bg-red-500/20 text-red-400'
+            }`}>
+              {syncState === 'loading' ? 'Connecting...' :
+               syncState === 'synced' ? `Synced (${sharedBookings.length} remote)` :
+               syncState === 'token_missing' ? 'Token not set' :
+               'Sync error'}
             </span>
           </div>
           <p className="text-white/60 mb-8">
-            {synced
+            {syncState === 'synced'
               ? `Showing ${allBookings.length} booking(s) across all devices`
-              : 'GitHub token not set — only showing local bookings. Set VITE_GITHUB_TOKEN to sync across devices.'}
+              : syncState === 'token_missing'
+                ? 'VITE_GITHUB_TOKEN not set — only showing local bookings. Add it to your .env or deploy secrets.'
+                : syncState === 'loading'
+                  ? 'Fetching shared bookings...'
+                  : 'Failed to fetch shared bookings. Check your token and network.'}
           </p>
         </motion.div>
 

@@ -64,8 +64,35 @@ export async function pushBooking(bookingData) {
   }
 }
 
+export async function updateSingleBooking(bookingId, updates) {
+  if (!TOKEN) return false;
+  try {
+    const { sha, bookings } = await getCurrentFile();
+    const updated = bookings.map(b => b.id === bookingId ? { ...b, ...updates } : b);
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(updated, null, 2))));
+    const res = await fetch(API_URL, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: `Update booking ${bookingId}`, content, sha, branch: GITHUB_BRANCH }),
+    });
+    if (!res.ok) throw new Error(`GitHub API update error: ${res.status}`);
+    cachedSha = null;
+    return true;
+  } catch (err) {
+    console.error('Failed to update booking on GitHub:', err);
+    return false;
+  }
+}
+
 export async function fetchAllBookings() {
   try {
+    if (TOKEN) {
+      const { bookings } = await getCurrentFile();
+      return bookings;
+    }
     const res = await fetch(RAW_URL);
     if (!res.ok) {
       if (res.status === 404) return [];
