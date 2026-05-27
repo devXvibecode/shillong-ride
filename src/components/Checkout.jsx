@@ -65,15 +65,15 @@ export default function Checkout() {
         <p className="text-white/55 font-['Anton'] text-xs uppercase tracking-[0.2em]">Step 3 of 4</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
         <div className="lg:col-span-3 space-y-5">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-card p-5 sm:p-6"
+            className="brut-card p-6 sm:p-7"
           >
-            <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/5">
-              <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+            <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-[#2e2e44]">
+              <div className="w-8 h-8 rounded-lg bg-orange-500/10 border-2 border-orange-500/20 flex items-center justify-center">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500" aria-hidden="true">
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                 </svg>
@@ -82,13 +82,13 @@ export default function Checkout() {
             </div>
 
             <div className="mb-2">
-              <span className="px-3 py-1.5 bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">
+              <span className="px-3 py-1.5 bg-orange-500/10 text-orange-400 border-2 border-orange-500/20 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">
                 {selectedCircuit.shortName}
               </span>
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">Shillong</span>
+              <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border-2 border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">Shillong</span>
               {spotIds.map((spotId, i) => {
                 const p = places.find(x => x.id === spotId);
                 return (
@@ -96,14 +96,14 @@ export default function Checkout() {
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" aria-hidden="true">
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
-                    <span className="px-3 py-1.5 bg-white/10 text-white border border-white/10 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">{p?.name || spotId}</span>
+                    <span className="px-3 py-1.5 bg-white/10 text-white border-2 border-white/10 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">{p?.name || spotId}</span>
                   </span>
                 );
               })}
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" aria-hidden="true">
                 <polyline points="9 18 15 12 9 6" />
               </svg>
-              <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">Shillong</span>
+              <span className="px-3 py-1.5 bg-orange-500/15 text-orange-400 border-2 border-orange-500/30 text-xs font-['Anton'] uppercase tracking-wider rounded-lg">Shillong</span>
             </div>
             <p className="text-white/55 text-xs mt-3 font-mono tracking-wider">
               ROUND TRIP · {price.routeDistance} KM TOTAL
@@ -115,10 +115,10 @@ export default function Checkout() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 }}
-              className="glass-card p-5 sm:p-6"
+              className="brut-card p-6 sm:p-7"
             >
-              <div className="flex items-center gap-3 mb-5 pb-3 border-b border-white/10">
-                <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center">
+              <div className="flex items-center gap-3 mb-5 pb-3 border-b-2 border-[#2e2e44]">
+                <div className="w-8 h-8 rounded-lg bg-white/10 border-2 border-white/20 flex items-center justify-center">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/70" aria-hidden="true">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
@@ -137,7 +137,7 @@ export default function Checkout() {
                       onChange={e => updateFormField('name', e.target.value)}
                       onBlur={() => handleBlur('name')}
                       placeholder="Enter your full name"
-                      className={`glass-input w-full px-4 py-3 ${errors.name ? 'border-red-500/60' : ''}`}
+                      className={`brut-input w-full px-4 py-3 ${errors.name ? 'border-red-500/60' : ''}`}
                     />
                     {errors.name && <p className="text-red-400 text-xs mt-1 font-['Anton'] uppercase tracking-wider">{errors.name}</p>}
                   </div>
@@ -149,7 +149,7 @@ export default function Checkout() {
                       onChange={e => updateFormField('phone', e.target.value)}
                       onBlur={() => handleBlur('phone')}
                       placeholder="10-digit number"
-                      className={`glass-input w-full px-4 py-3 ${errors.phone ? 'border-red-500/60' : ''}`}
+                      className={`brut-input w-full px-4 py-3 ${errors.phone ? 'border-red-500/60' : ''}`}
                     />
                     {errors.phone && <p className="text-red-400 text-xs mt-1 font-['Anton'] uppercase tracking-wider">{errors.phone}</p>}
                   </div>
@@ -162,7 +162,7 @@ export default function Checkout() {
                     value={formData.pickupLocation}
                     onChange={e => updateFormField('pickupLocation', e.target.value)}
                     placeholder="Your hotel or address in Shillong"
-                    className="glass-input w-full px-4 py-3"
+                    className="brut-input w-full px-4 py-3"
                   />
                 </div>
 
@@ -172,10 +172,10 @@ export default function Checkout() {
                     <button
                       type="button"
                       onClick={() => setVehicleType('scooty')}
-                      className={`p-3 rounded-xl border text-center transition-all duration-200 flex items-center justify-center gap-2 ${
+                      className={`p-3 rounded-xl border-2 text-center transition-all duration-200 flex items-center justify-center gap-2 ${
                         vehicleType === 'scooty'
                           ? 'bg-orange-500/15 border-orange-500/40 text-orange-400'
-                          : 'bg-white/5 border-white/10 text-white/50 hover:border-white/25'
+                          : 'bg-[#16161f] border-[#2e2e44] text-white/50 hover:border-white/25'
                       }`}
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -188,10 +188,10 @@ export default function Checkout() {
                     <button
                       type="button"
                       onClick={() => setVehicleType('bike')}
-                      className={`p-3 rounded-xl border text-center transition-all duration-200 flex items-center justify-center gap-2 ${
+                      className={`p-3 rounded-xl border-2 text-center transition-all duration-200 flex items-center justify-center gap-2 ${
                         vehicleType === 'bike'
                           ? 'bg-orange-500/15 border-orange-500/40 text-orange-400'
-                          : 'bg-white/5 border-white/10 text-white/50 hover:border-white/25'
+                          : 'bg-[#16161f] border-[#2e2e44] text-white/50 hover:border-white/25'
                       }`}
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -211,7 +211,7 @@ export default function Checkout() {
                     onChange={e => updateFormField('notes', e.target.value)}
                     placeholder="Any special requests..."
                     rows={2}
-                    className="glass-input w-full px-4 py-3"
+                    className="brut-input w-full px-4 py-3"
                   />
                 </div>
               </div>
@@ -221,11 +221,11 @@ export default function Checkout() {
               <p className="text-red-400 text-sm text-center font-['Anton'] uppercase tracking-wider">{errors.submit}</p>
             )}
 
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="px-6 py-3.5 glass-btn text-sm uppercase tracking-wider"
+                className="px-6 py-3.5 brut-btn text-sm uppercase tracking-wider"
               >
                 ← Change Route
               </button>
@@ -233,7 +233,7 @@ export default function Checkout() {
                 type="submit"
                 disabled={submitting}
                 className={`flex-1 px-6 py-3.5 font-['Anton'] text-base uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
-                  submitting ? 'glass-btn-primary opacity-40 cursor-not-allowed' : 'glass-btn-primary'
+                  submitting ? 'brut-btn-primary opacity-40 cursor-not-allowed' : 'brut-btn-primary'
                 }`}
               >
                 {submitting ? (
@@ -257,9 +257,9 @@ export default function Checkout() {
             transition={{ delay: 0.1 }}
             className="lg:sticky lg:top-24"
           >
-            <div className="glass-card p-5 sm:p-6">
-                <div className="flex items-center gap-3 mb-5 pb-3 border-b border-orange-500/20">
-                  <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+            <div className="brut-card p-6 sm:p-7">
+                <div className="flex items-center gap-3 mb-5 pb-3 border-b-2 border-orange-500/20">
+                  <div className="w-8 h-8 rounded-lg bg-orange-500/10 border-2 border-orange-500/20 flex items-center justify-center">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500" aria-hidden="true">
                       <line x1="4" y1="7" x2="20" y2="7" /><line x1="7" y1="7" x2="13" y2="21" />
                       <line x1="8" y1="13" x2="18" y2="13" /><line x1="7" y1="17" x2="16" y2="17" />
@@ -269,7 +269,7 @@ export default function Checkout() {
                 </div>
 
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-white/5">
+                  <div className="flex justify-between items-center py-2 border-b-2 border-[#2e2e44]">
                     <div>
                       <p className="text-white/80 font-['Anton'] text-sm tracking-wider">1. Booking Fee</p>
                       <p className="text-white/55 text-[10px] font-mono">Platform, booking system &amp; support</p>
@@ -277,7 +277,7 @@ export default function Checkout() {
                     <span className="text-orange-400 font-['Anton'] text-base">{fmt(price.ownerFee)}</span>
                   </div>
 
-                  <div className="flex justify-between items-center py-2 border-b border-white/5">
+                  <div className="flex justify-between items-center py-2 border-b-2 border-[#2e2e44]">
                     <div>
                       <p className="text-white/80 font-['Anton'] text-sm tracking-wider">2. Rider Cost</p>
                       <p className="text-white/55 text-[10px] font-mono">Your personal guide</p>
@@ -299,7 +299,7 @@ export default function Checkout() {
                 <span className="font-['Anton'] text-orange-500 text-2xl tracking-wider">{fmt(price.total)}</span>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-dashed border-white/10 text-center">
+              <div className="mt-4 pt-4 border-t-2 border-dashed border-[#2e2e44] text-center">
                 <p className="text-white/55 text-[10px] font-mono uppercase tracking-wider">Invoice #{invoiceId}</p>
               </div>
             </div>

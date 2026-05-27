@@ -8,7 +8,7 @@ export default function CircuitSelector() {
   return (
     <div className="flex flex-col gap-6">
       {selectedSpots.length > 0 && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass-card-accent p-4 flex items-center gap-3">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="brut-card-accent p-4 flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
           <p className="text-orange-400 text-xs font-semibold">
             You have {selectedSpots.length} spot{selectedSpots.length > 1 ? 's' : ''} selected — pick a route to continue booking.
@@ -26,7 +26,7 @@ export default function CircuitSelector() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {circuits.map((circuit, i) => {
           const spotCount = circuit.spots.length;
           return (
@@ -39,7 +39,7 @@ export default function CircuitSelector() {
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => { setSelectedCircuit(circuit); setStep(1); }}
-              className="glass-card-accent p-5 sm:p-6 text-left group cursor-pointer"
+              className="brut-card-accent p-6 sm:p-7 text-left group cursor-pointer"
             >
               <div className="flex items-center gap-2 mb-3">
                 <div
@@ -59,7 +59,7 @@ export default function CircuitSelector() {
                 {circuit.description}
               </p>
 
-              <div className="flex items-center justify-between border-t border-white/5 pt-3">
+              <div className="flex items-center justify-between border-t-2 border-[#2e2e44] pt-3">
                 <span className="text-white/55 text-[11px] font-['Anton'] uppercase tracking-wider">
                   {spotCount} {spotCount === 1 ? 'Spot' : 'Spots'} Available
                 </span>
@@ -72,7 +72,7 @@ export default function CircuitSelector() {
         })}
       </div>
 
-      <div className="glass-card p-5 sm:p-6">
+      <div className="brut-card p-6 sm:p-7">
         <h4 className="font-['Anton'] text-orange-500 text-xs uppercase tracking-[0.15em] mb-3">How it works</h4>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
@@ -81,7 +81,7 @@ export default function CircuitSelector() {
             { step: '3', title: 'Confirm & Ride', desc: 'Fill in your details and confirm. Pay after the ride.' },
           ].map(item => (
             <div key={item.step} className="flex gap-3 items-start">
-              <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="w-8 h-8 rounded-lg bg-orange-500/10 border-2 border-orange-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <span className="font-['Anton'] text-orange-500 text-sm">{item.step}</span>
               </div>
               <div>

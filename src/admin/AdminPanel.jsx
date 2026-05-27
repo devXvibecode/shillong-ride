@@ -72,7 +72,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
             { label: 'Cancelled', value: stats.cancelled, color: 'text-red-400' },
             { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
           ].map(s => (
-            <div key={s.label} className="glass-card p-4 text-center">
+            <div key={s.label} className="brut-card p-4 text-center">
               <p className={`text-2xl sm:text-3xl font-black ${s.color}`}>{s.value}</p>
               <p className="text-white/55 text-xs sm:text-sm mt-1 capitalize">{s.label}</p>
             </div>
@@ -89,7 +89,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
             className={`px-4 py-2 rounded-lg text-sm font-bold capitalize transition-all flex-shrink-0 ${
               filter === status
                 ? 'bg-amber-400 text-black'
-                : 'glass-btn'
+                  : 'brut-btn'
             }`}
           >
             {status} {status !== 'all' && `(${stats[status] || 0})`}
@@ -109,7 +109,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.03 }}
-              className="glass-card overflow-hidden"
+              className="brut-card overflow-hidden"
             >
               <button
                 type="button"
@@ -263,7 +263,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                             type="text"
 placeholder="Rider name..."
                              defaultValue={booking.rider || ''}
-                             className="glass-input flex-1 max-w-xs px-3 py-1.5 text-xs"
+                             className="brut-input flex-1 max-w-xs px-3 py-1.5 text-xs"
                             onKeyDown={(e) => {
                               if (e.key === 'Enter' && e.target.value.trim()) {
                                 updateStatus(booking.id, 'assigned', e.target.value.trim());
@@ -342,12 +342,12 @@ function PlacesView({ places, categories, overridesVersion, refreshOverrides }) 
           placeholder="Search places..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="glass-input flex-1 px-4 py-2.5 text-sm"
+          className="brut-input flex-1 px-4 py-2.5 text-sm"
         />
         <select
           value={category}
           onChange={e => setCategory(e.target.value)}
-          className="glass-input px-4 py-2.5 text-sm"
+          className="brut-input px-4 py-2.5 text-sm"
         >
           <option value="all">All Categories</option>
           {categories.map(c => (
@@ -371,7 +371,7 @@ function PlacesView({ places, categories, overridesVersion, refreshOverrides }) 
                 key={place.id}
                 type="button"
                 onClick={() => { setManagerPlace(place); setNewImageUrl(''); }}
-                className="glass-card overflow-hidden text-left hover:border-amber-400/40 transition-all group"
+                className="brut-card overflow-hidden text-left hover:border-amber-400/40 transition-all group"
               >
                 <div className="relative h-32 overflow-hidden">
                   <div className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
@@ -454,7 +454,7 @@ function ImageManager({ place, onClose, refreshOverrides }) {
         <button
           type="button"
           onClick={onClose}
-          className="w-8 h-8 rounded-lg glass-btn flex items-center justify-center"
+          className="w-8 h-8 rounded-lg brut-btn flex items-center justify-center"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -470,12 +470,12 @@ function ImageManager({ place, onClose, refreshOverrides }) {
             value={newUrl}
             onChange={e => setNewUrl(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="glass-input flex-1 px-3 py-2 text-sm"
+            className="brut-input flex-1 px-3 py-2 text-sm"
           />
           <button
             type="button"
             onClick={handleAdd}
-            className="glass-btn-primary px-4 py-2 text-sm"
+            className="brut-btn-primary px-4 py-2 text-sm"
           >
             Add Image
           </button>
@@ -495,7 +495,7 @@ function ImageManager({ place, onClose, refreshOverrides }) {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {images.map((url, idx) => (
-            <div key={idx} className="group relative glass-card overflow-hidden">
+            <div key={idx} className="group relative brut-card overflow-hidden">
               <div className="aspect-[4/3] bg-cover bg-center" style={{ backgroundImage: `url(${url})` }} />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100">
                 <button
@@ -606,7 +606,7 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
+    <div className="min-h-screen bg-[#0b0b12]">
       <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
@@ -646,7 +646,7 @@ export default function AdminPanel() {
               className={`px-5 py-2 rounded-lg text-sm font-bold capitalize transition-all ${
                 tab === t
                   ? 'bg-amber-400 text-black'
-                  : 'glass-btn'
+              : 'brut-btn'
               }`}
             >
               {t}

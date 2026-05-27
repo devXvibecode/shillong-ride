@@ -39,7 +39,7 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
 
   return (
     <Modal open={true} onClose={onClose}>
-      <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-white/10">
+      <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b-2 border-[#2e2e44]">
         <div>
           <h2 className="text-white font-bold text-lg font-['Anton'] uppercase tracking-wider">Edit Spots</h2>
           <p className="text-white/55 text-xs mt-0.5">{booking.circuitName || booking.circuitId}</p>
@@ -47,7 +47,7 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
         <button
           type="button"
           onClick={onClose}
-          className="w-8 h-8 rounded-lg glass-btn flex items-center justify-center"
+          className="w-8 h-8 rounded-lg brut-btn flex items-center justify-center"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -59,7 +59,7 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
         <div className="flex items-center justify-between mb-4">
           <p className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Select up to 4 spots</p>
           <span className={`px-3 py-1 rounded-lg text-sm font-bold font-['Anton'] tracking-wider ${
-            selectedSpots.length === 4 ? 'bg-green-500/20 text-green-400' : 'glass-badge'
+            selectedSpots.length === 4 ? 'bg-green-500/20 text-green-400 border-2 border-green-400/30' : 'brut-badge'
           }`}>
             {selectedSpots.length}/4
           </span>
@@ -80,12 +80,12 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
                 type="button"
                 onClick={() => toggleSpot(spot.id)}
                 disabled={!isSelected && selectedSpots.length >= 4}
-                className={`text-left p-3 rounded-xl border transition-all ${
+                className={`text-left p-3 rounded-xl border-2 transition-all ${
                   isSelected
                     ? 'bg-amber-400/10 border-amber-400/40 text-white'
                     : selectedSpots.length >= 4
-                    ? 'bg-white/5 border-white/5 text-white/30 cursor-not-allowed'
-                    : 'glass-card hover:border-white/30'
+                    ? 'bg-[#16161f] border-[#2e2e44]/30 text-white/30 cursor-not-allowed'
+                    : 'brut-card hover:border-white/30'
                 }`}
               >
                 <p className="font-semibold text-sm">{spot.name}</p>
@@ -95,7 +95,7 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
           })}
         </div>
 
-        <div className="glass-card p-4 mb-6">
+        <div className="brut-card p-4 mb-6">
           <p className="text-white/55 text-xs font-bold uppercase tracking-wider mb-3">Updated Price</p>
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
@@ -110,7 +110,7 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
               <span className="text-white/55">Fuel Cost</span>
               <span className="text-white font-bold">₹{price.fuelCost}</span>
             </div>
-            <div className="flex justify-between text-sm pt-2 border-t border-white/10">
+            <div className="flex justify-between text-sm pt-2 border-t-2 border-[#2e2e44]">
               <span className="text-white font-bold">Total</span>
               <span className="text-amber-400 font-bold">₹{price.total}</span>
             </div>
@@ -121,7 +121,7 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 glass-btn px-4 py-3 text-sm"
+            className="flex-1 brut-btn px-4 py-3 text-sm"
           >
             Cancel
           </button>
@@ -129,7 +129,7 @@ export default function EditSpotModal({ booking, onClose, onSave }) {
             type="button"
             onClick={handleSave}
             disabled={selectedSpots.length === 0}
-            className="flex-1 glass-btn-primary px-4 py-3 text-sm disabled:opacity-40"
+            className="flex-1 brut-btn-primary px-4 py-3 text-sm disabled:opacity-40"
           >
             Save Changes
           </button>

@@ -74,7 +74,7 @@ export default function Home() {
     <div>
       <Hero />
 
-      <section id="about" className="relative py-20 sm:py-28 px-4">
+      <section id="about" className="relative py-24 sm:py-32 px-5">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-3xl mx-auto text-center">
             <motion.div
@@ -82,7 +82,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
             >
-              <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg mb-6">
+              <div className="inline-block px-4 py-2 bg-orange-500/10 border-2 border-orange-500/30 rounded-lg mb-6">
                 <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.2em]">About ShillongRide</span>
               </div>
               <h2 className="font-['Anton'] text-3xl sm:text-4xl lg:text-5xl text-white uppercase leading-tight mb-6 tracking-[0.02em]">
@@ -107,7 +107,7 @@ export default function Home() {
                 ].map((s, i) => (
                   <div
                     key={s.label}
-                    className="glass-card px-5 py-3"
+                    className="brut-card px-5 py-3"
                     style={{ transform: `rotate(${i === 0 ? -1 : i === 1 ? 0.8 : -0.5}deg)` }}
                   >
                     <p className="text-orange-500 font-['Anton'] text-2xl sm:text-3xl">{s.value}</p>
@@ -122,13 +122,13 @@ export default function Home() {
 
       <SectionDivider />
 
-      <section className="relative py-20 sm:py-28 px-4">
+      <section className="relative py-24 sm:py-32 px-5">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
             <h2 className="font-['Anton'] text-3xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-4">
               Four Ways to Experience<br />
@@ -147,12 +147,12 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.1 }}
-                className="glass-card p-5 sm:p-6"
+                className="brut-card p-6 sm:p-7"
                 style={{ transform: `rotate(${i % 2 === 0 ? -0.3 : 0.3}deg)` }}
               >
                 <div className="flex items-start gap-3 mb-3">
                   <div
-                    className="w-12 h-12 flex items-center justify-center flex-shrink-0 rounded-lg glass-card"
+                    className="w-12 h-12 flex items-center justify-center flex-shrink-0 rounded-lg brut-card"
                     style={{ backgroundColor: `${circuit.color}22` }}
                   >
                     <span style={{ color: circuit.color }}>{circuitIcons[circuit.id]}</span>
@@ -165,7 +165,7 @@ export default function Home() {
                 <p className="text-white/55 text-sm leading-relaxed mb-3">{circuit.description}</p>
                 <p className="text-white/55 text-xs italic leading-relaxed border-l-2 border-orange-500/20 pl-3">{circuit.travelReality}</p>
                 <div className="mt-3 flex items-center gap-2">
-                  <span className="px-2.5 py-1 glass text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">
+                  <span className="px-2.5 py-1 brut-badge text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">
                     {circuit.spots.length} SPOTS
                   </span>
                 </div>
@@ -177,15 +177,15 @@ export default function Home() {
 
       <SectionDivider />
 
-      <section className="relative py-20 sm:py-28 px-4">
+      <section className="relative py-24 sm:py-32 px-5">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 mb-4">
+            <div className="inline-block px-4 py-2 bg-orange-500/10 border-2 border-orange-500/30 mb-4">
               <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.2em]">What We Offer</span>
             </div>
             <h2 className="font-['Anton'] text-3xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-4">
@@ -202,7 +202,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="glass-card group p-6 sm:p-8 hover:border-orange-500/40 transition-all duration-500"
+                className="brut-card group p-6 sm:p-8 hover:border-[#f97316] transition-all duration-500"
                 style={{ transform: `rotate(${serviceRotations[i]}deg)` }}
               >
                 <div className="text-orange-500 mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -218,15 +218,15 @@ export default function Home() {
 
       <SectionDivider />
 
-      <section className="relative py-20 sm:py-28 px-4">
+      <section className="relative py-24 sm:py-32 px-5">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 mb-4">
+            <div className="inline-block px-4 py-2 bg-orange-500/10 border-2 border-orange-500/30 mb-4">
               <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.2em]">How It Works</span>
             </div>
             <h2 className="font-['Anton'] text-3xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-4">
@@ -262,11 +262,11 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.15, duration: 0.5 }}
-                className="glass-card p-6 sm:p-8 relative"
+                className="brut-card p-6 sm:p-8 relative"
                 style={{ transform: `rotate(${i === 0 ? -0.5 : i === 1 ? 0 : 0.5}deg)` }}
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-14 h-14 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <div className="w-14 h-14 bg-[#f97316] border-2 border-[#c2410c] flex items-center justify-center flex-shrink-0 shadow-[3px_3px_0_#c2410c]">
                     <span className="font-['Anton'] text-black text-xl font-black">{item.num}</span>
                   </div>
                   <div className="w-8 h-0.5 bg-orange-500/30" />
@@ -281,15 +281,15 @@ export default function Home() {
 
       <SectionDivider />
 
-      <section className="relative py-20 sm:py-28 px-4">
+      <section className="relative py-24 sm:py-32 px-5">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg mb-4">
+            <div className="inline-block px-4 py-2 bg-orange-500/10 border-2 border-orange-500/30 rounded-lg mb-4">
               <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.2em]">Why ShillongRide</span>
             </div>
             <h2 className="font-['Anton'] text-3xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-4">
@@ -334,10 +334,10 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="glass-card p-6 sm:p-8"
+                className="brut-card p-6 sm:p-8"
                 style={{ transform: `rotate(${whyRotations[i]}deg)` }}
               >
-                <div className="w-10 h-10 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-lg bg-orange-500/10 border-2 border-orange-500/30 flex items-center justify-center mb-4">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
@@ -352,14 +352,14 @@ export default function Home() {
 
       <SectionDivider />
 
-      <section className="relative py-20 sm:py-28 px-4">
+      <section className="relative py-24 sm:py-32 px-5">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
           >
-            <div className="inline-block px-5 py-3 bg-[#ffd600] rounded-lg shadow-lg mb-6">
+            <div className="inline-block px-5 py-3 bg-[#ffd600] rounded-lg shadow-[3px_3px_0_#b38f00] border-2 border-[#cca300] mb-6">
               <span className="font-['Anton'] text-black text-base sm:text-lg uppercase tracking-[0.1em]">
                 The Road Is Waiting
               </span>
@@ -374,7 +374,7 @@ export default function Home() {
             </p>
             <Link
               to="/booking"
-              className="glass-btn-primary inline-block px-12 sm:px-16 py-4 sm:py-5 text-base sm:text-lg tracking-widest"
+              className="brut-btn-primary inline-block px-12 sm:px-16 py-4 sm:py-5 text-base sm:text-lg tracking-widest"
             >
               Start Booking →
             </Link>

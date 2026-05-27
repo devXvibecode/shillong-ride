@@ -27,12 +27,12 @@ export default function SpotSelector() {
         <div className="h-10" />
         <div className="flex items-center justify-between mb-2">
           <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em]">{selectedCircuit.shortName}</h2>
-          <div className="font-['Anton'] text-lg px-4 py-2 border border-orange-500/30 bg-orange-500/10 text-orange-500 rounded-lg">0/4</div>
+          <div className="font-['Anton'] text-lg px-4 py-2 border-2 border-orange-500/30 bg-orange-500/10 text-orange-500 rounded-lg">0/4</div>
         </div>
         <p className="text-white/55 mb-4">Loading destinations...</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8">
           {[1, 2, 3, 4, 5, 6].map(i => (
-            <div key={i} className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden animate-pulse">
+            <div key={i} className="rounded-xl border-2 border-[#2e2e44] bg-[#16161f] overflow-hidden animate-pulse">
               <div className="h-44 bg-white/5" />
               <div className="p-4">
                 <div className="h-5 bg-white/10 w-2/3 mb-2 rounded" />
@@ -57,29 +57,29 @@ export default function SpotSelector() {
             <button
               type="button"
               onClick={() => setStep(0)}
-              className="px-3 py-1 glass-btn text-[10px] uppercase tracking-wider"
+              className="px-3 py-1 brut-btn text-[10px] uppercase tracking-wider"
             >
               ← Change Route
             </button>
           </div>
         </div>
-        <div className={`font-['Anton'] text-lg px-4 py-2 border transition-all flex-shrink-0 rounded-lg ${
+        <div className={`font-['Anton'] text-lg px-4 py-2 border-2 transition-all flex-shrink-0 rounded-lg ${
           selectedSpots.length === 4
             ? 'text-green-400 border-green-400/30 bg-green-400/10'
             : selectedSpots.length > 0
             ? 'text-orange-500 border-orange-500/30 bg-orange-500/10'
-            : 'text-white/55 border-white/10 bg-white/5'
+            : 'text-white/55 border-[#2e2e44] bg-[#16161f]'
         }`}>
           {selectedSpots.length}/4
         </div>
       </div>
 
       {spots.length === 0 ? (
-        <div className="text-center py-16 border border-dashed border-white/10 rounded-2xl">
+        <div className="text-center py-16 border-2 border-dashed border-[#2e2e44] rounded-xl">
           <p className="text-white/55 text-lg font-['Anton'] uppercase tracking-wider">No places in this circuit.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
           {spots.map((place, i) => (
             <PlaceCard key={place.id} place={place} index={i} />
           ))}
@@ -90,7 +90,7 @@ export default function SpotSelector() {
         <div className="text-center px-2">
           <div className="relative w-[72px] h-[72px] mx-auto mb-5">
             <div className="absolute inset-0 rounded-full bg-green-500/20 animate-pulse" style={{ animationDuration: '2s' }} />
-            <div className="absolute inset-0 rounded-full bg-[#0a0a0f] flex items-center justify-center" style={{ margin: 2 }}>
+            <div className="absolute inset-0 rounded-full bg-[#0b0b12] flex items-center justify-center" style={{ margin: 2 }}>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
@@ -110,14 +110,14 @@ export default function SpotSelector() {
             <button
               type="button"
               onClick={() => { setShowProceedDialog(false); setStep(2); }}
-              className="w-full py-3.5 font-['Anton'] text-sm uppercase tracking-[0.12em] rounded-xl bg-gradient-to-r from-orange-600 to-orange-500 text-black font-bold shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.45)] hover:translate-y-[-1px] transition-all duration-200"
+              className="w-full py-3.5 font-['Anton'] text-sm uppercase tracking-[0.12em] rounded-xl brut-btn-primary"
             >
               Book Now →
             </button>
             <button
               type="button"
               onClick={() => setShowProceedDialog(false)}
-              className="w-full py-3 text-sm font-['Anton'] uppercase tracking-[0.12em] rounded-xl glass-btn border-white/10 text-white/60 hover:text-white hover:border-white/20 transition-all duration-200"
+              className="w-full py-3 text-sm font-['Anton'] uppercase tracking-[0.12em] rounded-xl brut-btn"
             >
               Continue Selecting
             </button>

@@ -33,12 +33,12 @@ export default function PlaceCard({ place, index }) {
       onKeyDown={handleKeyDown}
       onClick={handleClick}
       style={{ transform: `rotate(${cardRotations[index % cardRotations.length]}deg)` }}
-      className={`group transition-all duration-300 cursor-pointer rounded-2xl overflow-hidden border ${
+      className={`group transition-all duration-300 cursor-pointer rounded-xl overflow-hidden border-2 ${
         isSelected
-          ? 'bg-orange-500/10 border-orange-500/40'
+          ? 'bg-[#16161f] border-[#f97316]'
           : isMaxedOut
-          ? 'bg-white/5 border-white/5 opacity-30 cursor-not-allowed'
-          : 'bg-white/5 border-white/10 hover:border-orange-500/30 hover:bg-white/10'
+          ? 'bg-[#16161f] border-[#2e2e44]/30 opacity-30 cursor-not-allowed'
+          : 'bg-[#16161f] border-[#2e2e44] hover:border-[#f97316]'
       }`}
     >
       <div className="relative h-44 overflow-hidden">
@@ -57,7 +57,7 @@ export default function PlaceCard({ place, index }) {
           transition={{ duration: 0.5 }}
         />
 
-        <span className="absolute top-3 right-3 z-20 px-2.5 py-1 bg-black/60 backdrop-blur-sm border border-white/10 text-white/80 text-[11px] font-['Anton'] uppercase tracking-wider rounded-lg">
+        <span className="absolute top-3 right-3 z-20 px-2.5 py-1 bg-[#0b0b12]/80 border-2 border-[#2e2e44] text-white/80 text-[11px] font-['Anton'] uppercase tracking-wider rounded-lg">
           {place.category}
         </span>
 
@@ -66,7 +66,7 @@ export default function PlaceCard({ place, index }) {
             <motion.div
               initial={{ scale: 0, rotate: -45 }}
               animate={{ scale: 1, rotate: 0 }}
-              className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center"
+              className="w-7 h-7 bg-[#f97316] border-2 border-[#c2410c] flex items-center justify-center"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <polyline points="20 6 9 17 4 12" />
@@ -76,7 +76,7 @@ export default function PlaceCard({ place, index }) {
         )}
       </div>
 
-      <div className="p-4 border-t border-white/5">
+      <div className="p-4 border-t-2 border-[#2e2e44]">
         <h3 className="font-['Bebas_Neue'] text-white text-xl tracking-wider mb-1.5">{place.name}</h3>
         <p className="text-white/55 text-sm leading-[1.4] line-clamp-2">{place.description}</p>
       </div>

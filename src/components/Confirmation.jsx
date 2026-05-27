@@ -12,7 +12,7 @@ export default function Confirmation() {
 
   if (!booking) {
     return (
-      <div className="text-center py-20 border border-dashed border-white/10 rounded-2xl">
+      <div className="text-center py-20 border-2 border-dashed border-[#2e2e44] rounded-xl">
         <p className="text-white/55 text-lg font-['Anton'] uppercase tracking-wider">No booking found.</p>
         <button onClick={reset} className="text-orange-500 font-['Anton'] mt-4 inline-block hover:underline uppercase tracking-wider cursor-pointer">
           Book Another Tour
@@ -37,7 +37,7 @@ export default function Confirmation() {
         transition={{ type: 'spring', stiffness: 200, damping: 12 }}
         className="w-24 h-24 mx-auto mb-6"
       >
-        <div className="w-full h-full flex items-center justify-center border-4 border-green-700/50 rounded-xl bg-green-900/10" style={{ borderStyle: 'double' }}>
+        <div className="w-full h-full flex items-center justify-center border-4 border-green-700/50 rounded-xl bg-green-900/10">
           <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12" />
           </svg>
@@ -49,7 +49,6 @@ export default function Confirmation() {
         animate={{ scale: 1 }}
         transition={{ delay: 0.3, type: 'spring', stiffness: 150 }}
         className="inline-flex items-center px-6 py-3 mx-auto mb-6 border-4 border-green-700/50 rounded-xl bg-green-900/10"
-        style={{ borderStyle: 'double' }}
       >
         <span className="font-['Anton'] text-green-600 text-xl sm:text-2xl uppercase tracking-[0.15em]">APPROVED</span>
       </motion.div>
@@ -61,23 +60,23 @@ export default function Confirmation() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="glass-card p-5 sm:p-6 text-left mb-4"
+        className="brut-card p-6 sm:p-7 text-left mb-4"
       >
-        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-3 border-b border-white/5 pb-2">Booking Details</p>
+        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-3 border-b-2 border-[#2e2e44] pb-2">Booking Details</p>
         <div className="space-y-2">
-          <div className="flex justify-between items-center py-1.5 border-b border-white/5">
+          <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Booking ID</span>
             <span className="text-orange-500 font-['Anton'] text-sm tracking-wider font-mono">{booking.id}</span>
           </div>
-          <div className="flex justify-between items-center py-1.5 border-b border-white/5">
+          <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Circuit</span>
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.circuitName || booking.circuitId}</span>
           </div>
-          <div className="flex justify-between items-center py-1.5 border-b border-white/5">
+          <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Name</span>
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.name}</span>
           </div>
-          <div className="flex justify-between items-center py-1.5 border-b border-white/5">
+          <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Phone</span>
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.phone}</span>
           </div>
@@ -92,12 +91,12 @@ export default function Confirmation() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="glass-card p-5 sm:p-6 text-left mb-8"
+        className="brut-card p-6 sm:p-7 text-left mb-8"
       >
-        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b border-orange-500/20 pb-2">PAYMENT RECEIPT</p>
+        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">PAYMENT RECEIPT</p>
 
         <div className="space-y-3">
-          <div className="flex justify-between items-center pb-2 border-b border-orange-500/15">
+          <div className="flex justify-between items-center pb-2 border-b-2 border-orange-500/15">
             <div>
               <p className="text-white font-['Anton'] text-sm tracking-wider">
                   <span className="text-orange-500 mr-1">1.</span>Booking Fee
@@ -107,7 +106,7 @@ export default function Confirmation() {
             <span className="text-orange-500 font-['Anton']">{fmt(p.ownerFee)}</span>
           </div>
 
-          <div className="flex justify-between items-center pb-2 border-b border-white/5">
+          <div className="flex justify-between items-center pb-2 border-b-2 border-[#2e2e44]">
             <div>
               <p className="text-white font-['Anton'] text-sm tracking-wider">
                 <span className="text-white/40 mr-1">2.</span>Rider Cost
@@ -117,7 +116,7 @@ export default function Confirmation() {
             <span className="text-white font-['Anton']">{fmt(p.riderFee)}</span>
           </div>
 
-          <div className="flex justify-between items-center pb-2 border-b border-white/5">
+          <div className="flex justify-between items-center pb-2 border-b-2 border-[#2e2e44]">
             <div>
               <p className="text-white font-['Anton'] text-sm tracking-wider">
                 <span className="text-white/40 mr-1">3.</span>Fuel Cost
@@ -133,7 +132,7 @@ export default function Confirmation() {
           <span className="font-['Anton'] text-orange-500 text-lg tracking-wider">{fmt(p.total)}</span>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-dashed border-white/10 text-center">
+        <div className="mt-4 pt-3 border-t-2 border-dashed border-[#2e2e44] text-center">
           <p className="text-white/30 text-[10px] font-mono uppercase tracking-widest">THANK YOU — RIDE SAFE</p>
         </div>
       </motion.div>
@@ -146,13 +145,13 @@ export default function Confirmation() {
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <button
           onClick={() => { reset(); navigate('/'); }}
-          className="glass-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block"
+          className="brut-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block"
         >
           Book Another Tour
         </button>
         <button
           onClick={() => navigate('/my-bookings')}
-          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block glass-btn"
+          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block brut-btn"
         >
           View My Bookings
         </button>

@@ -33,7 +33,7 @@ export function ToastProvider({ children }) {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              className={`pointer-events-auto px-5 py-3 rounded-xl shadow-lg backdrop-blur-md border text-sm font-['Anton'] uppercase tracking-wider ${
+              className={`pointer-events-auto px-5 py-3 rounded-xl shadow-[3px_3px_0_#2e2e44] border-2 text-sm font-['Anton'] uppercase tracking-wider ${
                 t.type === 'success'
                   ? 'bg-green-500/20 border-green-500/40 text-green-400'
                   : t.type === 'error'

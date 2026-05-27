@@ -16,7 +16,7 @@ export default function Hero() {
 
       <div className="absolute inset-0 z-0">
         {!imgLoaded && !imgError && (
-          <div className="w-full h-full bg-[#0a0a0f]">
+          <div className="w-full h-full bg-[#0b0b12]">
             <div className="w-full h-full skeleton" />
           </div>
         )}
@@ -39,7 +39,7 @@ export default function Hero() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="mb-6 sm:mb-8"
         >
-          <div className="inline-flex items-center gap-3 px-4 py-2 glass-card">
+          <div className="inline-flex items-center gap-3 px-4 py-2 brut-card">
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500" />
@@ -80,7 +80,7 @@ export default function Hero() {
           transition={{ delay: 0.8, duration: 0.6 }}
           className="inline-block mb-8"
         >
-          <div className="px-4 py-2 bg-[#ffd600] rounded-lg shadow-lg">
+          <div className="px-4 py-2 bg-[#ffd600] rounded-lg shadow-[3px_3px_0_#b38f00] border-2 border-[#cca300]">
             <span className="font-['Anton'] text-black text-xs sm:text-sm uppercase tracking-[0.08em]">
               Curated Rides, Real Connections
             </span>
@@ -106,7 +106,7 @@ export default function Hero() {
         >
           <Link
             to="/booking"
-            className="glass-btn-primary px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg tracking-widest"
+            className="brut-btn-primary inline-block px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg tracking-widest"
           >
             Start Your Journey
           </Link>

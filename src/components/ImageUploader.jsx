@@ -66,7 +66,7 @@ export default function ImageUploader() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 p-6"
+      className="bg-[#16161f] border-2 border-[#2e2e44] rounded-xl p-6"
     >
       <h2 className="text-xl font-bold text-white mb-1">Upload Spot Images</h2>
       <p className="text-white/50 text-sm mb-6">

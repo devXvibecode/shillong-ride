@@ -112,7 +112,7 @@ export default function Admin() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.03 }}
-                    className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 overflow-hidden"
+                    className="brut-card overflow-hidden"
                   >
                     <button
                       onClick={() => setExpandedId(expandedId === booking.id ? null : booking.id)}

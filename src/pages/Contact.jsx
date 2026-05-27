@@ -49,32 +49,32 @@ export default function Contact() {
   const [openFaq, setOpenFaq] = useState(null);
 
   return (
-    <div className="min-h-screen pb-16 px-4">
+    <div className="min-h-screen pb-16 px-5">
       <div className="max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <div className="inline-block px-3 py-1 bg-orange-500/10 border border-orange-500/30 rounded-lg mb-3">
+          <div className="inline-block px-3 py-1 bg-orange-500/10 border-2 border-orange-500/30 rounded-lg mb-3">
             <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.15em]">HELP DESK</span>
           </div>
           <h1 className="font-['Anton'] text-4xl sm:text-6xl text-white uppercase tracking-[0.02em] mb-4">Contact & FAQ</h1>
           <p className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Everything you need to know before you ride.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-          <div className="glass-card p-4 sm:p-5 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+          <div className="brut-card p-5 sm:p-6 text-center">
             <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
             </div>
             <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Email</p>
             <a href="mailto:hello@shillongride.in" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-orange-500 transition-colors">hello@shillongride.in</a>
           </div>
-          <div className="glass-card p-4 sm:p-5 text-center">
+          <div className="brut-card p-5 sm:p-6 text-center">
             <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
             </div>
             <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Enquiry & Emergency</p>
             <a href="tel:+919591794044" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-orange-500 transition-colors">+91 9591794044</a>
           </div>
-          <div className="glass-card p-4 sm:p-5 text-center">
+          <div className="brut-card p-5 sm:p-6 text-center">
             <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
             </div>
@@ -99,12 +99,12 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="glass-card overflow-hidden"
+                className="brut-card overflow-hidden"
               >
                 <button
                   type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full p-4 sm:p-5 flex items-center justify-between text-left"
+                  className="w-full p-5 sm:p-6 flex items-center justify-between text-left"
                   aria-expanded={openFaq === i}
                   aria-controls={`faq-panel-${i}`}
                 >
@@ -125,7 +125,7 @@ export default function Contact() {
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
-                      <div id={`faq-panel-${i}`} className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-white/5 pt-4">
+                      <div id={`faq-panel-${i}`} className="px-5 sm:px-6 pb-5 sm:pb-6 border-t-2 border-[#2e2e44] pt-4">
                         <p className="text-white/55 text-sm sm:text-base leading-relaxed">{faq.a}</p>
                       </div>
                     </motion.div>
