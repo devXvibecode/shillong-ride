@@ -31,6 +31,7 @@ export default function Confirmation() {
       role="status"
       aria-live="polite"
     >
+      <div className="h-10" />
       <motion.div
         initial={{ scale: 0, rotate: -45 }}
         animate={{ scale: 1, rotate: -3 }}
