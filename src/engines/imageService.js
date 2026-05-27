@@ -64,14 +64,23 @@ function getManifestImages(placeId) {
   return imageManifest[placeId] || [];
 }
 
+const BASE = typeof import.meta !== 'undefined' ? import.meta.env.BASE_URL || '/' : '/';
+
+function resolveImageUrl(url) {
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) return url;
+  if (url.startsWith(BASE)) return url;
+  if (url.startsWith('/')) return BASE.replace(/\/$/, '') + url;
+  return url;
+}
+
 export function getEffectiveImage(placeId) {
   const overrides = loadFromStorage();
   if (overrides[placeId] && overrides[placeId].length > 0) {
-    return overrides[placeId][0];
+    return resolveImageUrl(overrides[placeId][0]);
   }
   const manifest = getManifestImages(placeId);
   if (manifest.length > 0) {
-    return manifest[0];
+    return resolveImageUrl(manifest[0]);
   }
   return defaultImages[placeId] || DEFAULT_IMG;
 }

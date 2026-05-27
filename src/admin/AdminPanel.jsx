@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import placesData from '../data/places.json';
 import { getPlaces } from '../engines/dataService';
-import { fetchAllBookings, updateSingleBooking } from '../engines/bookingSyncService';
+import { fetchAllBookings, updateSingleBooking, deleteBooking } from '../engines/bookingSyncService';
 import ImageUploader from '../components/ImageUploader';
 import {
   getEffectiveImage,
@@ -27,7 +27,7 @@ function saveBookings(bookings) {
   localStorage.setItem('sr_bookings', JSON.stringify(bookings));
 }
 
-function BookingsView({ bookings, places, exportCSV, onUpdateStatus }) {
+function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBooking }) {
   const [filter, setFilter] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
 
@@ -268,6 +268,16 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus }) {
                         Rider: <span className="text-white font-semibold">{booking.rider}</span>
                       </p>
                     )}
+
+                    <div className="pt-3 mt-3 border-t border-red-500/20">
+                      <button
+                        type="button"
+                        onClick={() => onDeleteBooking(booking.id)}
+                        className="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all"
+                      >
+                        Delete from server
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -535,6 +545,12 @@ export default function AdminPanel() {
     updateSingleBooking(bookingId, { status: newStatus, rider });
   };
 
+  const handleDeleteBooking = async (bookingId) => {
+    if (!window.confirm(`Delete booking ${bookingId} from server? This won't affect the customer's local copy.`)) return;
+    await deleteBooking(bookingId);
+    window.location.reload();
+  };
+
   const exportCSV = () => {
     const headers = ['ID', 'Name', 'Phone', 'Circuit', 'Vehicle', 'Pickup Location', 'Spots', 'Pickup Time', 'Status', 'Rider', 'Processing & Platform Fee', 'Rider Cost', 'Fuel Cost', 'Total', 'Route Distance', 'Notes', 'Created At'];
     const rows = bookings.map(b => [
@@ -608,7 +624,7 @@ export default function AdminPanel() {
         </div>
 
         {tab === 'bookings' && (
-          <BookingsView bookings={allBookings} places={places} exportCSV={exportCSV} onUpdateStatus={handleStatusUpdate} />
+          <BookingsView bookings={allBookings} places={places} exportCSV={exportCSV} onUpdateStatus={handleStatusUpdate} onDeleteBooking={handleDeleteBooking} />
         )}
         {tab === 'places' && (
           <PlacesView

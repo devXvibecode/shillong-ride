@@ -87,6 +87,30 @@ export async function updateSingleBooking(bookingId, updates) {
   }
 }
 
+export async function deleteBooking(bookingId) {
+  if (!TOKEN) return false;
+  try {
+    const { sha, bookings } = await getCurrentFile();
+    const updated = bookings.filter(b => b.id !== bookingId);
+    if (updated.length === bookings.length) return false;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(updated, null, 2))));
+    const res = await fetch(API_URL, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: `Delete booking ${bookingId}`, content, sha, branch: GITHUB_BRANCH }),
+    });
+    if (!res.ok) throw new Error(`GitHub API delete error: ${res.status}`);
+    cachedSha = null;
+    return true;
+  } catch (err) {
+    console.error('Failed to delete booking from GitHub:', err);
+    return false;
+  }
+}
+
 export async function fetchAllBookings() {
   try {
     if (TOKEN) {
