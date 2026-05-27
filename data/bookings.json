@@ -1,42 +1,5 @@
 [
   {
-    "id": "SR-20260527-ADRB",
-    "name": "Senggrim Marak",
-    "phone": "7629923003",
-    "pickupLocation": "Happy valley ",
-    "circuitId": "dawki_mawlynnong",
-    "spots": [
-      "mawlynnong_village"
-    ],
-    "route": [
-      "police_bazar",
-      "mawlynnong_village",
-      "police_bazar"
-    ],
-    "timeSlot": "",
-    "vehicleType": "bike",
-    "notes": "",
-    "priceBreakdown": {
-      "fuelCost": 1560,
-      "riderFee": 600,
-      "ownerFee": 1200,
-      "total": 3360,
-      "routeDistance": 156
-    },
-    "status": "pending",
-    "createdAt": "2026-05-27T12:20:16.646Z",
-    "circuitName": "The Dawki & Mawlynnong Circuit",
-    "spotNames": [
-      "Mawlynnong Village"
-    ],
-    "routeNames": [
-      "Shillong City",
-      "Mawlynnong Village",
-      "Shillong City"
-    ],
-    "emailSent": false
-  },
-  {
     "id": "SR-20260527-ASQS",
     "name": "Boya laro",
     "phone": "8415017201",
