@@ -126,9 +126,7 @@ export default function Home() {
             viewport={{ once: true, margin: '-80px' }}
             className="text-center mb-16"
           >
-            <div className="inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/30 mb-4">
-              <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.2em]">Explore By Route</span>
-            </div>
+
             <h2 className="font-['Anton'] text-3xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-4">
               Four Ways to Experience<br />
               <span className="text-orange-500">MEGHALAYA</span>
