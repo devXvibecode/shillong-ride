@@ -7,6 +7,7 @@ export default function CircuitSelector() {
 
   return (
     <div className="flex flex-col gap-6">
+      <div className="h-10" />
       {selectedSpots.length > 0 && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="brut-card-accent p-4 flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />

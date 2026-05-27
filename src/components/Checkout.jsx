@@ -61,7 +61,7 @@ export default function Checkout() {
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-      <div className="mb-10 mt-4">
+      <div className="mb-10 mt-8 sm:mt-10">
         <p className="text-white/55 font-['Anton'] text-xs uppercase tracking-[0.2em]">Step 3 of 4</p>
       </div>
 
