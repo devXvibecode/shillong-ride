@@ -152,28 +152,38 @@ export default function Confirmation() {
         <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">PAYMENT RECEIPT</p>
 
         <div className="space-y-3">
-          {Object.entries(p.serviceBreakdown).map(([key, svc]) => (
-            <div key={key} className="flex justify-between items-center pb-2 border-b-2 border-[#2e2e44]">
-              <div>
-                <p className="text-white font-['Anton'] text-sm tracking-wider">{svc.label}</p>
-                <p className="text-white/40 text-[11px] font-mono">{svc.desc}</p>
+          {/* Service Cost section */}
+          <div className="pb-1">
+            <div className="flex justify-between items-center py-1 mb-1">
+              <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em]">SERVICE COST</p>
+              <span className="font-['Anton'] text-orange-500 text-sm">{fmt(p.serviceTotal)}</span>
+            </div>
+            {Object.entries(p.serviceBreakdown).map(([key, svc], i) => (
+              <div key={key} className="flex justify-between items-center py-1 border-b-2 border-[#2e2e44]">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="font-['Anton'] text-white/50 text-xs italic">{['i', 'ii', 'iii', 'iv'][i]}.</span>
+                  <div>
+                    <p className="font-['Anton'] text-xs sm:text-sm tracking-wider text-white/80">{svc.label}</p>
+                    <p className="text-white/35 text-[9px] sm:text-[10px] font-mono">{svc.desc}</p>
+                  </div>
+                </div>
+                <span className="font-['Anton'] text-xs sm:text-base text-white">{fmt(svc.amount)}</span>
               </div>
-              <span className="text-white font-['Anton']">{fmt(svc.amount)}</span>
-            </div>
-          ))}
-          <div className="flex justify-between items-center pb-2 border-b-2 border-[#2e2e44]">
-            <div>
-              <p className="text-white font-['Anton'] text-sm tracking-wider">Rider Cost</p>
-              <p className="text-white/40 text-[11px] font-mono">Your personal guide</p>
-            </div>
-            <span className="text-white font-['Anton']">{fmt(p.riderFee)}</span>
+            ))}
           </div>
-          <div className="flex justify-between items-center pb-2">
+          <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <div>
-              <p className="text-white font-['Anton'] text-sm tracking-wider">Fuel Cost</p>
-              <p className="text-white/40 text-[11px] font-mono">{p.routeDistance} km travelled</p>
+              <p className="font-['Anton'] text-sm tracking-wider text-white/90">Rider Cost</p>
+              <p className="text-white/40 text-[11px] font-mono">Your personal guide — accompanies you throughout the trip</p>
             </div>
-            <span className="text-white font-['Anton']">{fmt(p.fuelCost)}</span>
+            <span className="font-['Anton'] text-base text-white">{fmt(p.riderFee)}</span>
+          </div>
+          <div className="flex justify-between items-center py-1.5">
+            <div>
+              <p className="font-['Anton'] text-sm tracking-wider text-white/90">Fuel Cost</p>
+              <p className="text-white/40 text-[11px] font-mono">Calculated at ₹10/km for {p.routeDistance} km round trip</p>
+            </div>
+            <span className="font-['Anton'] text-base text-white">{fmt(p.fuelCost)}</span>
           </div>
         </div>
 

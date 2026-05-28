@@ -290,32 +290,65 @@ export default function JourneyBuilder() {
           >
             <h3 className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">Price Breakdown</h3>
             <div className="space-y-2.5">
-              {[
-                ...Object.entries(price.serviceBreakdown).map(([key, svc]) => ({
-                  key: `svc-${key}`,
-                  label: svc.label,
-                  desc: svc.desc,
-                  value: svc.amount,
-                })),
-                { key: 'rider', label: 'Rider Cost', desc: 'Your personal guide', value: price.riderFee },
-                { key: 'fuel', label: 'Fuel Cost', desc: `${price.routeDistance} km travelled`, value: price.fuelCost },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.key}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 + i * 0.08, duration: 0.3 }}
-                  className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44] last:border-b-0"
-                >
-                  <div>
-                    <p className="font-['Anton'] text-sm tracking-wider text-white/80">{item.label}</p>
-                    <p className="text-white/40 text-[10px] font-mono">{item.desc}</p>
-                  </div>
-                  <span className="font-['Anton'] text-base text-white">
-                    <AnimatedPrice value={item.value} />
+              {/* Service Cost section */}
+              <div className="pb-1">
+                <div className="flex justify-between items-center py-1 mb-1">
+                  <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em]">SERVICE COST</p>
+                  <span className="font-['Anton'] text-orange-500 text-sm">
+                    <AnimatedPrice value={price.serviceTotal} />
                   </span>
-                </motion.div>
-              ))}
+                </div>
+                {Object.entries(price.serviceBreakdown).map(([key, svc], i) => (
+                  <motion.div
+                    key={`svc-${key}`}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 + i * 0.08, duration: 0.3 }}
+                    className="flex justify-between items-center py-1 border-b-2 border-[#2e2e44] last:border-b-0"
+                  >
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="font-['Anton'] text-white/50 text-xs italic">{['i', 'ii', 'iii', 'iv'][i]}.</span>
+                      <div>
+                        <p className="font-['Anton'] text-xs sm:text-sm tracking-wider text-white/80">{svc.label}</p>
+                        <p className="text-white/35 text-[9px] sm:text-[10px] font-mono">{svc.desc}</p>
+                      </div>
+                    </div>
+                    <span className="font-['Anton'] text-xs sm:text-base text-white">
+                      <AnimatedPrice value={svc.amount} />
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+              <motion.div
+                key="rider"
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.9, duration: 0.3 }}
+                className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]"
+              >
+                <div>
+                  <p className="font-['Anton'] text-sm tracking-wider text-white/90">Rider Cost</p>
+                  <p className="text-white/40 text-[10px] font-mono">Your personal guide — accompanies you throughout the trip</p>
+                </div>
+                <span className="font-['Anton'] text-base text-white">
+                  <AnimatedPrice value={price.riderFee} />
+                </span>
+              </motion.div>
+              <motion.div
+                key="fuel"
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1, duration: 0.3 }}
+                className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44] last:border-b-0"
+              >
+                <div>
+                  <p className="font-['Anton'] text-sm tracking-wider text-white/90">Fuel Cost</p>
+                  <p className="text-white/40 text-[10px] font-mono">Calculated at ₹10/km for {price.routeDistance} km round trip</p>
+                </div>
+                <span className="font-['Anton'] text-base text-white">
+                  <AnimatedPrice value={price.fuelCost} />
+                </span>
+              </motion.div>
             </div>
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
