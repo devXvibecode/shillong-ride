@@ -1,9 +1,54 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext';
 
 function fmt(n) {
   return '₹' + Number(n).toLocaleString('en-IN');
+}
+
+function AnimatedPrice({ value }) {
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    if (display === value) return;
+    const duration = 800;
+    const start = performance.now();
+    let frame;
+    const animate = (now) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      setDisplay(Math.round(progress * value));
+      if (progress < 1) frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [value]);
+  return <span>{fmt(display)}</span>;
+}
+
+function RevealId({ id }) {
+  const [revealed, setRevealed] = useState('');
+  useEffect(() => {
+    if (!id) return;
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setRevealed(id.slice(0, i));
+      if (i >= id.length) clearInterval(interval);
+    }, 50);
+    return () => clearInterval(interval);
+  }, [id]);
+
+  return (
+    <span className="text-orange-500 font-['Anton'] text-sm tracking-wider font-mono">
+      {revealed}
+      <motion.span
+        animate={{ opacity: [1, 0] }}
+        transition={{ duration: 0.5, repeat: Infinity }}
+        className="text-orange-500/50"
+      >|</motion.span>
+    </span>
+  );
 }
 
 export default function Confirmation() {
@@ -27,55 +72,61 @@ export default function Confirmation() {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="max-w-lg mx-auto text-center"
+      className="max-w-lg mx-auto text-center px-4 sm:px-0"
       role="status"
       aria-live="polite"
     >
       <div className="h-10" />
+
       <motion.div
-        initial={{ scale: 0, rotate: -45 }}
-        animate={{ scale: 1, rotate: -3 }}
-        transition={{ type: 'spring', stiffness: 200, damping: 12 }}
-        className="w-24 h-24 mx-auto mb-6"
+        initial={{ scale: 0, rotate: -180 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: 'spring', stiffness: 180, damping: 14, delay: 0.1 }}
+        className="w-28 h-28 mx-auto mb-6"
       >
-        <div className="w-full h-full flex items-center justify-center border-4 border-green-700/50 rounded-xl bg-green-900/10">
-          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div className="w-full h-full flex items-center justify-center border-4 border-green-600/60 rounded-xl bg-green-900/15">
+          <motion.svg
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          >
             <polyline points="20 6 9 17 4 12" />
-          </svg>
+          </motion.svg>
         </div>
       </motion.div>
 
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.3, type: 'spring', stiffness: 150 }}
-        className="inline-flex items-center px-5 py-2 mx-auto mb-5 border-2 border-green-500/30 rounded-lg bg-green-500/10"
+        transition={{ delay: 0.4, type: 'spring', stiffness: 150 }}
+        className="inline-flex items-center px-5 py-2 mx-auto mb-4 border-2 border-green-500/30 rounded-lg bg-green-500/10"
       >
-        <span className="font-['Anton'] text-green-400 text-sm uppercase tracking-[0.15em]">BOOKING CONFIRMED</span>
+        <span className="font-['Anton'] text-green-400 text-sm uppercase tracking-[0.15em]">ADVENTURE CONFIRMED</span>
       </motion.div>
 
-      <h2 className="font-['Anton'] text-3xl sm:text-4xl text-white uppercase tracking-[0.02em] mb-4">Booking Confirmed!</h2>
+      <h2 className="font-['Anton'] text-3xl sm:text-4xl text-white uppercase tracking-[0.02em] mb-3">Your Adventure Is Set!</h2>
 
       <motion.p
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.5 }}
         className="text-white/70 text-sm mb-6 max-w-sm mx-auto leading-relaxed"
       >
-        Thank you for booking with ShillongRide. Your spots are locked in and we will reach out shortly to coordinate your pickup. The road is ready — you just need to show up.
+        Pack your bags — your ShillongRide adventure awaits. Your spots are locked in and we will reach out shortly to coordinate your pickup.
       </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.6 }}
         className="brut-card p-6 sm:p-7 text-left mb-4"
       >
         <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-3 border-b-2 border-[#2e2e44] pb-2">Booking Details</p>
         <div className="space-y-2">
           <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Booking ID</span>
-            <span className="text-orange-500 font-['Anton'] text-sm tracking-wider font-mono">{booking.id}</span>
+            <RevealId id={booking.id} />
           </div>
           <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Circuit</span>
@@ -95,7 +146,7 @@ export default function Confirmation() {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
+        transition={{ delay: 0.7 }}
         className="brut-card p-6 sm:p-7 text-left mb-8"
       >
         <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">PAYMENT RECEIPT</p>
@@ -134,17 +185,24 @@ export default function Confirmation() {
 
         <div className="flex justify-between items-center pt-4 mt-3 border-t-2 border-orange-500/20">
           <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-          <span className="font-['Anton'] text-orange-500 text-lg tracking-wider">{fmt(p.total)}</span>
+          <span className="font-['Anton'] text-orange-500 text-2xl tracking-wider">
+            <AnimatedPrice value={p.total} />
+          </span>
         </div>
 
         <div className="mt-4 pt-3 border-t-2 border-dashed border-[#2e2e44] text-center">
-          <p className="text-white/30 text-[10px] font-mono uppercase tracking-widest">THANK YOU — RIDE SAFE</p>
+          <p className="text-white/30 text-[10px] font-mono uppercase tracking-widest">PACK YOUR BAGS — YOUR ADVENTURE AWAITS</p>
         </div>
       </motion.div>
 
-      <p className="text-white/50 text-xs mb-8 max-w-sm mx-auto leading-relaxed">
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="text-white/50 text-xs mb-8 max-w-sm mx-auto leading-relaxed"
+      >
         Payment is collected after the ride — cash or UPI. A confirmation has been sent to our team and your guide will be assigned shortly. We are a small Shillong startup, and every booking means the world to us.
-      </p>
+      </motion.p>
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <button

@@ -1,20 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useData } from '../context/DataContext';
 import { useBooking } from '../context/BookingContext';
+import { calculatePrice } from '../engines/pricingEngine';
+import { optimizeRoute } from '../engines/routeOptimizer';
 import PlaceCard from './PlaceCard';
-import Modal from './Modal';
+
+function fmt(n) {
+  return '₹' + Number(n).toLocaleString('en-IN');
+}
 
 export default function SpotSelector() {
   const { places } = useData();
   const { selectedCircuit, selectedSpots, setStep } = useBooking();
-  const [showProceedDialog, setShowProceedDialog] = useState(false);
 
   useEffect(() => {
     if (selectedSpots.length === 4) {
-      setShowProceedDialog(true);
     }
   }, [selectedSpots.length]);
+
+  const route = useMemo(() => optimizeRoute(selectedSpots), [selectedSpots]);
+  const price = useMemo(() => calculatePrice(route, selectedCircuit?.id), [route, selectedCircuit?.id]);
 
   if (!selectedCircuit) return null;
 
@@ -47,7 +53,7 @@ export default function SpotSelector() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 pb-24 sm:pb-6">
       <div className="h-10" />
       <div className="flex items-start sm:items-center justify-between flex-col sm:flex-row gap-2">
         <div>
@@ -86,48 +92,42 @@ export default function SpotSelector() {
         </div>
       )}
 
-      <Modal open={showProceedDialog} onClose={() => setShowProceedDialog(false)}>
-        <div className="text-center px-2">
-          <div className="relative w-[72px] h-[72px] mx-auto mb-5">
-            <div className="absolute inset-0 rounded-full bg-green-500/20 animate-pulse" style={{ animationDuration: '2s' }} />
-            <div className="absolute inset-0 rounded-full bg-[#0b0b12] flex items-center justify-center" style={{ margin: 2 }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
+      <AnimatePresence>
+        {selectedSpots.length > 0 && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            className="fixed bottom-0 left-0 right-0 z-40 sm:static sm:z-auto"
+          >
+            <div className="bg-[#1e1e2b] border-t-2 border-[#f97316] p-3 sm:border-2 sm:border-[#f97316] sm:rounded-xl sm:max-w-md sm:mx-auto">
+              <div className="flex items-center gap-3 max-w-4xl mx-auto">
+                <div className="flex-1 min-w-0">
+                  <p className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-wider">
+                    {selectedSpots.length} of 4 spots selected
+                  </p>
+                  {selectedSpots.length > 0 && (
+                    <p className="font-['Anton'] text-orange-500 text-sm tracking-wider">
+                      Total: {fmt(price.total)}
+                    </p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setStep(2)}
+                  className={`px-6 py-3 font-['Anton'] text-sm uppercase tracking-wider transition-all btn-bounce ${
+                    selectedSpots.length >= 4
+                      ? 'brut-btn-primary animate-pulse'
+                      : 'brut-btn-primary'
+                  }`}
+                >
+                  Build Your Adventure →
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div className="mb-6">
-            <h3 className="font-['Anton'] text-2xl text-white uppercase tracking-[0.08em]">All Set!</h3>
-          </div>
-
-          <p className="text-white/80 font-['Bebas_Neue'] text-lg tracking-wider mb-1">4 Spots Selected</p>
-          <p className="text-white/55 text-sm mb-7 max-w-xs mx-auto leading-relaxed text-center">
-            Your route is optimized and ready. Proceed to review your itinerary and confirm your booking.
-          </p>
-
-          <div className="flex flex-col gap-2.5">
-            <button
-              type="button"
-              onClick={() => { setShowProceedDialog(false); setStep(2); }}
-              className="w-full py-3.5 font-['Anton'] text-sm uppercase tracking-[0.12em] rounded-xl brut-btn-primary"
-            >
-              Book Now →
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowProceedDialog(false)}
-              className="w-full py-3 text-sm font-['Anton'] uppercase tracking-[0.12em] rounded-xl brut-btn"
-            >
-              Continue Selecting
-            </button>
-          </div>
-
-          <p className="text-white/25 text-[10px] font-mono mt-4 tracking-wider uppercase">
-            Tap a selected spot to deselect
-          </p>
-        </div>
-      </Modal>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

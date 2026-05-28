@@ -315,6 +315,79 @@ input:focus, textarea:focus, select:focus, button:focus-visible, [role="button"]
   }
 }
 
+/* ── Journey Builder Overlay ── */
+
+.journey-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+}
+
+@media (min-width: 640px) {
+  .journey-overlay {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ── Animated Route Arrows ── */
+
+@keyframes arrow-reveal {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.route-arrow {
+  animation: arrow-reveal 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+/* ── Spot Card in Journey ── */
+
+.journey-spotcard {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+}
+
+@media (max-width: 640px) {
+  .journey-spotcard {
+    flex: 0 0 75vw;
+  }
+}
+
+.journey-spots-scroll {
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Price Breakdown ── */
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.price-row:last-of-type {
+  border-bottom: none;
+}
+
+/* ── Footer total sticky ── */
+
+.journey-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg-elevated);
+  border-top: 2px solid var(--border-accent);
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
