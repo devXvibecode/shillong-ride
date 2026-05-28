@@ -51,6 +51,96 @@ function RevealId({ id }) {
   );
 }
 
+const roman = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x'];
+
+function PremiumReceipt({ p, booking }) {
+  return (
+    <>
+      <div className="space-y-2.5">
+        {(p.breakdown || []).map((item, i) => (
+          <div key={item.id} className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44] last:border-b-0">
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-['Anton'] text-white/50 text-xs italic">{roman[i]}.</span>
+              <div>
+                <p className="font-['Anton'] text-xs sm:text-sm tracking-wider text-white/80">{item.label}</p>
+                <p className="text-white/35 text-[9px] sm:text-[10px] font-mono">{item.desc}</p>
+              </div>
+            </div>
+            <span className="font-['Anton'] text-xs sm:text-sm text-white">{fmt(item.amount)}</span>
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-between items-center pt-4 mt-2 border-t-2 border-orange-500/20">
+        <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
+        <span className="font-['Anton'] text-white text-2xl tracking-wider">
+          <AnimatedPrice value={p.total} />
+        </span>
+      </div>
+    </>
+  );
+}
+
+function NormalReceipt({ p }) {
+  return (
+    <>
+      <div className="space-y-3">
+        <div className="pb-1">
+          <div className="flex justify-between items-center py-1 mb-1">
+            <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em]">SERVICE COST</p>
+            <span className="font-['Anton'] text-orange-500 text-sm">{fmt(p.serviceTotal)}</span>
+          </div>
+          {Object.entries(p.serviceBreakdown || {}).map(([key, svc], i) => (
+            <div key={key} className="flex justify-between items-center py-1 border-b-2 border-[#2e2e44]">
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-['Anton'] text-white/50 text-xs italic">{['i', 'ii'][i]}.</span>
+                <div>
+                  <p className="font-['Anton'] text-xs sm:text-sm tracking-wider text-white/80">{svc.label}</p>
+                  <p className="text-white/35 text-[9px] sm:text-[10px] font-mono">{svc.desc}</p>
+                </div>
+              </div>
+              <span className="font-['Anton'] text-xs sm:text-base text-white">{fmt(svc.amount)}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
+          <div>
+            <p className="font-['Anton'] text-sm tracking-wider text-white/90">Rider Cost</p>
+            <p className="text-white/40 text-[10px] font-mono">Your personal guide</p>
+          </div>
+          <span className="font-['Anton'] text-base text-orange-500">{fmt(p.riderFee)}</span>
+        </div>
+        <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
+          <div>
+            <p className="font-['Anton'] text-sm tracking-wider text-white/90">Fuel Cost</p>
+            <p className="text-white/40 text-[10px] font-mono">{p.routeDistance} km at ₹10/km</p>
+          </div>
+          <span className="font-['Anton'] text-base text-orange-500">{fmt(p.fuelCost)}</span>
+        </div>
+      </div>
+      {p.groupTotal ? (
+        <div className="mt-3 bg-[#16161f] p-3 rounded-lg border border-[#2e2e44]">
+          <p className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Group Total ({p.groupSize} people)</p>
+          <div className="flex justify-between items-center">
+            <span className="text-white/70 text-xs">Per person</span>
+            <span className="font-['Anton'] text-orange-400 text-sm">{fmt(p.perPerson)}</span>
+          </div>
+          <div className="flex justify-between items-center mt-1">
+            <span className="text-white/70 text-xs">Total</span>
+            <span className="font-['Anton'] text-white text-base">{fmt(p.groupTotal)}</span>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-between items-center pt-3 mt-3 border-t-2 border-orange-500/20">
+          <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
+          <span className="font-['Anton'] text-white text-2xl tracking-wider">
+            <AnimatedPrice value={p.total} />
+          </span>
+        </div>
+      )}
+    </>
+  );
+}
+
 export default function Confirmation() {
   const navigate = useNavigate();
   const { booking, reset } = useBooking();
@@ -66,6 +156,7 @@ export default function Confirmation() {
     );
   }
 
+  const isPremium = booking.bookingType === 'premium';
   const p = booking.priceBreakdown;
 
   return (
@@ -102,10 +193,14 @@ export default function Confirmation() {
         transition={{ delay: 0.4, type: 'spring', stiffness: 150 }}
         className="inline-flex items-center px-5 py-2 mx-auto mb-4 border-2 border-green-500/30 rounded-lg bg-green-500/10"
       >
-        <span className="font-['Anton'] text-green-400 text-sm uppercase tracking-[0.15em]">ADVENTURE CONFIRMED</span>
+        <span className="font-['Anton'] text-green-400 text-sm uppercase tracking-[0.15em]">
+          {isPremium ? 'PREMIUM PACKAGE CONFIRMED' : 'ADVENTURE CONFIRMED'}
+        </span>
       </motion.div>
 
-      <h2 className="font-['Anton'] text-3xl sm:text-4xl text-white uppercase tracking-[0.02em] mb-3">Your Adventure Is Set!</h2>
+      <h2 className="font-['Anton'] text-3xl sm:text-4xl text-white uppercase tracking-[0.02em] mb-3">
+        {isPremium ? 'Your Premium Experience Is Set!' : 'Your Adventure Is Set!'}
+      </h2>
 
       <motion.p
         initial={{ opacity: 0, y: 10 }}
@@ -113,7 +208,9 @@ export default function Confirmation() {
         transition={{ delay: 0.5 }}
         className="text-white/70 text-sm mb-6 max-w-sm mx-auto leading-relaxed"
       >
-        Pack your bags — your ShillongRide adventure awaits. Your spots are locked in and we will reach out shortly to coordinate your pickup.
+        {isPremium
+          ? 'Pack your bags — your premium Meghalaya experience awaits. Your homestay, guide, and itinerary are all locked in.'
+          : 'Pack your bags — your ShillongRide adventure awaits. Your spots are locked in and we will reach out shortly to coordinate your pickup.'}
       </motion.p>
 
       <motion.div
@@ -129,8 +226,12 @@ export default function Confirmation() {
             <RevealId id={booking.id} />
           </div>
           <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
+            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Package</span>
+            <span className="text-white font-['Anton'] text-sm tracking-wider">{isPremium ? 'Premium Tour Package' : 'Normal Tour'}</span>
+          </div>
+          <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Circuit</span>
-            <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.circuitName || booking.circuitId}</span>
+            <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.circuitId}</span>
           </div>
           <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Name</span>
@@ -141,6 +242,18 @@ export default function Confirmation() {
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.phone}</span>
           </div>
         </div>
+        {isPremium && booking.vehicleType && (
+          <div className="flex justify-between items-center py-1.5 border-t-2 border-[#2e2e44] mt-2 pt-2">
+            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Vehicle</span>
+            <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.vehicleType === 'bike' ? '2-Wheeler' : '4-Wheeler'}</span>
+          </div>
+        )}
+        {isPremium && booking.homestay && (
+          <div className="flex justify-between items-center py-1.5 border-t-2 border-[#2e2e44]">
+            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Stay</span>
+            <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.homestay.name}</span>
+          </div>
+        )}
       </motion.div>
 
       <motion.div
@@ -149,53 +262,15 @@ export default function Confirmation() {
         transition={{ delay: 0.7 }}
         className="brut-card p-6 sm:p-7 text-left mb-8"
       >
-        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">PAYMENT RECEIPT</p>
-
-        <div className="space-y-3">
-          {/* Service Cost section */}
-          <div className="pb-1">
-            <div className="flex justify-between items-center py-1 mb-1">
-              <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em]">SERVICE COST</p>
-              <span className="font-['Anton'] text-orange-500 text-sm">{fmt(p.serviceTotal)}</span>
-            </div>
-            {Object.entries(p.serviceBreakdown).map(([key, svc], i) => (
-              <div key={key} className="flex justify-between items-center py-1 border-b-2 border-[#2e2e44]">
-                <div className="flex items-baseline gap-1.5">
-                  <span className="font-['Anton'] text-white/50 text-xs italic">{['i', 'ii', 'iii', 'iv'][i]}.</span>
-                  <div>
-                    <p className="font-['Anton'] text-xs sm:text-sm tracking-wider text-white/80">{svc.label}</p>
-                    <p className="text-white/35 text-[9px] sm:text-[10px] font-mono">{svc.desc}</p>
-                  </div>
-                </div>
-                <span className="font-['Anton'] text-xs sm:text-base text-white">{fmt(svc.amount)}</span>
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
-            <div>
-              <p className="font-['Anton'] text-sm tracking-wider text-white/90">Rider Cost</p>
-              <p className="text-white/40 text-[11px] font-mono">Your personal guide — accompanies you throughout the trip</p>
-            </div>
-            <span className="font-['Anton'] text-base text-orange-500">{fmt(p.riderFee)}</span>
-          </div>
-          <div className="flex justify-between items-center py-1.5">
-            <div>
-              <p className="font-['Anton'] text-sm tracking-wider text-white/90">Fuel Cost</p>
-              <p className="text-white/40 text-[11px] font-mono">Calculated at ₹10/km for {p.routeDistance} km round trip</p>
-            </div>
-            <span className="font-['Anton'] text-base text-orange-500">{fmt(p.fuelCost)}</span>
-          </div>
-        </div>
-
-        <div className="flex justify-between items-center pt-4 mt-3 border-t-2 border-orange-500/20">
-          <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-          <span className="font-['Anton'] text-white text-2xl tracking-wider">
-            <AnimatedPrice value={p.total} />
-          </span>
-        </div>
+        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">
+          {isPremium ? 'PREMIUM PACKAGE RECEIPT' : 'PAYMENT RECEIPT'}
+        </p>
+        {isPremium ? <PremiumReceipt p={p} booking={booking} /> : <NormalReceipt p={p} />}
 
         <div className="mt-4 pt-3 border-t-2 border-dashed border-[#2e2e44] text-center">
-          <p className="text-white/30 text-[10px] font-mono uppercase tracking-widest">PACK YOUR BAGS — YOUR ADVENTURE AWAITS</p>
+          <p className="text-white/30 text-[10px] font-mono uppercase tracking-widest">
+            {isPremium ? 'YOUR PREMIUM MEGHALAYA EXPERIENCE AWAITS' : 'PACK YOUR BAGS — YOUR ADVENTURE AWAITS'}
+          </p>
         </div>
       </motion.div>
 
@@ -211,13 +286,13 @@ export default function Confirmation() {
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <button
           onClick={() => { reset(); navigate('/'); }}
-          className="brut-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block btn-bounce"
+          className="brut-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block btn-bounce cursor-pointer"
         >
           Book Another Tour
         </button>
         <button
           onClick={() => navigate('/my-bookings')}
-          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block brut-btn"
+          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block brut-btn cursor-pointer"
         >
           View My Bookings
         </button>

@@ -5,10 +5,10 @@ import PlaceImage from './PlaceImage';
 
 const cardRotations = [-0.5, 0.3, -0.8, 0.6, -0.3, 0.5, -0.7, 0.4, -0.6, 0.8, -0.4, 0.7];
 
-export default function PlaceCard({ place, index }) {
+export default function PlaceCard({ place, index, maxSpots = 4 }) {
   const { selectedSpots, addSpot } = useBooking();
   const isSelected = selectedSpots.includes(place.id);
-  const isMaxedOut = selectedSpots.length >= 4 && !isSelected;
+  const isMaxedOut = selectedSpots.length >= maxSpots && !isSelected;
   const [loaded, setLoaded] = useState(false);
 
   const handleClick = () => { if (!isMaxedOut) addSpot(place.id); };

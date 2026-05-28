@@ -1,0 +1,23 @@
+[
+  {
+    "id": "morning",
+    "label": "Morning",
+    "timeRange": "8 AM - 12 PM",
+    "description": "Early start, cooler weather, best for long routes",
+    "icon": "sunrise"
+  },
+  {
+    "id": "afternoon",
+    "label": "Afternoon",
+    "timeRange": "12 PM - 4 PM",
+    "description": "Warm hours, good for shorter local circuits",
+    "icon": "sun"
+  },
+  {
+    "id": "evening",
+    "label": "Evening",
+    "timeRange": "4 PM - 8 PM",
+    "description": "Golden hour rides, sunset views, city exploration",
+    "icon": "sunset"
+  }
+]

@@ -1,17 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useData } from '../context/DataContext';
 import { useBooking } from '../context/BookingContext';
 import PlaceCard from './PlaceCard';
 
-export default function SpotSelector() {
+export default function SpotSelector({ maxSpots = 4 }) {
   const { places } = useData();
-  const { selectedCircuit, selectedSpots, setStep } = useBooking();
-
-  useEffect(() => {
-    if (selectedSpots.length === 4) {
-    }
-  }, [selectedSpots.length]);
+  const { selectedCircuit, selectedSpots, setStep, isPremium } = useBooking();
 
   if (!selectedCircuit) return null;
 
@@ -21,13 +16,9 @@ export default function SpotSelector() {
   if (places.length === 0) {
     return (
       <div>
-        <div className="h-10" />
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em]">{selectedCircuit.shortName}</h2>
-          <div className="font-['Anton'] text-lg px-4 py-2 border-2 border-orange-500/30 bg-orange-500/10 text-orange-500 rounded-lg">0/4</div>
-        </div>
+        <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em] mb-2">{selectedCircuit.shortName}</h2>
         <p className="text-white/55 mb-4">Loading destinations...</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map(i => (
             <div key={i} className="rounded-xl border-2 border-[#2e2e44] bg-[#16161f] overflow-hidden animate-pulse">
               <div className="h-44 bg-white/5" />
@@ -44,30 +35,32 @@ export default function SpotSelector() {
   }
 
   return (
-    <div className="flex flex-col gap-6 pb-24 sm:pb-6">
-      <div className="h-10" />
-      <div className="flex items-start sm:items-center justify-between flex-col sm:flex-row gap-2">
+    <div className="flex flex-col gap-1">
+      <div className="flex items-start sm:items-center justify-between flex-col sm:flex-row gap-2 mb-1">
         <div>
-          <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em]">{selectedCircuit.shortName}</h2>
+          <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-[0.2em]">Step 3</p>
+          <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em] mt-1">
+            Choose Your Destinations
+          </h2>
           <div className="flex items-center gap-3 mt-1">
-            <p className="text-white/55 text-sm">{selectedCircuit.tagline}</p>
+            <p className="text-white/55 text-sm">{selectedCircuit.shortName}</p>
             <button
               type="button"
-              onClick={() => setStep(0)}
-              className="px-3 py-1 brut-btn text-[10px] uppercase tracking-wider"
+              onClick={() => setStep(2)}
+              className="px-3 py-1 brut-btn text-[10px] uppercase tracking-wider cursor-pointer"
             >
               ← Change Route
             </button>
           </div>
         </div>
         <div className={`font-['Anton'] text-lg px-4 py-2 border-2 transition-all flex-shrink-0 rounded-lg ${
-          selectedSpots.length === 4
+          selectedSpots.length >= maxSpots
             ? 'text-green-400 border-green-400/30 bg-green-400/10'
             : selectedSpots.length > 0
             ? 'text-orange-500 border-orange-500/30 bg-orange-500/10'
             : 'text-white/55 border-[#2e2e44] bg-[#16161f]'
         }`}>
-          {selectedSpots.length}/4
+          {selectedSpots.length}/{maxSpots}
         </div>
       </div>
 
@@ -76,9 +69,9 @@ export default function SpotSelector() {
           <p className="text-white/55 text-lg font-['Anton'] uppercase tracking-wider">No places in this circuit.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pb-8">
           {spots.map((place, i) => (
-            <PlaceCard key={place.id} place={place} index={i} />
+            <PlaceCard key={place.id} place={place} index={i} maxSpots={maxSpots} />
           ))}
         </div>
       )}
@@ -95,19 +88,15 @@ export default function SpotSelector() {
               <div className="flex items-center gap-3 max-w-4xl mx-auto">
                 <div className="flex-1 min-w-0">
                   <p className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-wider">
-                    {selectedSpots.length} of 4 spots selected
+                    {selectedSpots.length} of {maxSpots} spots selected
                   </p>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setStep(2)}
-                  className={`px-6 py-3 font-['Anton'] text-sm uppercase tracking-wider transition-all btn-bounce ${
-                    selectedSpots.length >= 4
-                      ? 'brut-btn-primary animate-pulse'
-                      : 'brut-btn-primary'
-                  }`}
+                  onClick={() => setStep(4)}
+                  className="px-6 py-3 font-['Anton'] text-sm uppercase tracking-wider transition-all btn-bounce brut-btn-primary cursor-pointer"
                 >
-                  Build Your Adventure →
+                  {isPremium ? 'Next: Choose Stay →' : 'Continue →'}
                 </button>
               </div>
             </div>

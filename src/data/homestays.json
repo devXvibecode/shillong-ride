@@ -1,0 +1,167 @@
+[
+  {
+    "id": "cherrapunjee_holiday",
+    "name": "Cherrapunjee Holiday Resort",
+    "circuitId": "sohra",
+    "vibe": "Mountain View",
+    "description": "Perched on the edge of a cliff with panoramic views of the Bangladesh plains. Basic but charming rooms with the best sunrise in Sohra.",
+    "amenities": ["Mountain view", "Restaurant", "Parking", "Hot water"],
+    "priceRange": { "min": 1800, "max": 3500 },
+    "rating": 4.0,
+    "imageRef": "cherrapunjee_holiday"
+  },
+  {
+    "id": "goshen_homestay",
+    "name": "Goshen Homestay",
+    "circuitId": "sohra",
+    "vibe": "Nature & Peace",
+    "description": "A peaceful homestay surrounded by pine trees and vegetable gardens. Run by a local Khasi family who serve authentic home-cooked meals.",
+    "amenities": ["Home-cooked meals", "Garden", "Family-run", "Quiet location"],
+    "priceRange": { "min": 1200, "max": 2000 },
+    "rating": 4.5,
+    "imageRef": "goshen_homestay"
+  },
+  {
+    "id": "iba_homestay",
+    "name": "Iba Homestay Sohra",
+    "circuitId": "sohra",
+    "vibe": "Traditional",
+    "description": "A traditional Khasi home with bamboo interiors and local architecture. Experience authentic village life minutes from the main waterfalls.",
+    "amenities": ["Traditional Khasi interior", "Local guide available", "Breakfast included", "Bonfire"],
+    "priceRange": { "min": 1500, "max": 2500 },
+    "rating": 4.3,
+    "imageRef": "iba_homestay"
+  },
+  {
+    "id": "green_hills_sohra",
+    "name": "Green Hills Resort",
+    "circuitId": "sohra",
+    "vibe": "Budget Friendly",
+    "description": "Clean, affordable rooms with essential amenities. Great base camp for exploring the Sohra circuit without breaking the bank.",
+    "amenities": ["Budget rooms", "Restaurant", "Parking", "Hot water"],
+    "priceRange": { "min": 800, "max": 1500 },
+    "rating": 3.8,
+    "imageRef": "green_hills_sohra"
+  },
+  {
+    "id": "umngot_river_cottage",
+    "name": "Umngot River Cottage",
+    "circuitId": "dawki_mawlynnong",
+    "vibe": "Nature & Peace",
+    "description": "Cottages right on the banks of the Umngot River. Fall asleep to the sound of crystal-clear water flowing. Unmatched serenity.",
+    "amenities": ["River view", "Camping", "Bonfire", "Parking", "Basic meals"],
+    "priceRange": { "min": 2000, "max": 4000 },
+    "rating": 4.6,
+    "imageRef": "umngot_river_cottage"
+  },
+  {
+    "id": "by_the_river_homestay",
+    "name": "By The River Homestay",
+    "circuitId": "dawki_mawlynnong",
+    "vibe": "Peaceful Riverside",
+    "description": "A serene property with direct access to the Umngot for swimming and kayaking. Simple bamboo cottages with modern touches.",
+    "amenities": ["River access", "Kayaking", "Camping area", "BBQ", "Parking"],
+    "priceRange": { "min": 2500, "max": 4500 },
+    "rating": 4.4,
+    "imageRef": "by_the_river"
+  },
+  {
+    "id": "gawooh_adventure",
+    "name": "Gawooh Adventure Camp",
+    "circuitId": "dawki_mawlynnong",
+    "vibe": "Budget Friendly",
+    "description": "Adventure camping at Shnongpdeng with tent accommodations and water activities. Best for backpackers who want the Dawki experience on a budget.",
+    "amenities": ["Tent camping", "Bonfire", "Water activities", "Basic meals", "Shared washrooms"],
+    "priceRange": { "min": 800, "max": 1500 },
+    "rating": 4.2,
+    "imageRef": "gawooh_adventure"
+  },
+  {
+    "id": "iai_kyrsoi",
+    "name": "IAI Kyrsoi Homestay",
+    "circuitId": "dawki_mawlynnong",
+    "vibe": "Traditional",
+    "description": "A warm Khasi family homestay near Riwai village. Stay with locals, eat traditional food, and walk to the living root bridge.",
+    "amenities": ["Family-run", "Traditional meals", "Walking distance to Riwai", "Quiet"],
+    "priceRange": { "min": 1000, "max": 1800 },
+    "rating": 4.3,
+    "imageRef": "iai_kyrsoi"
+  },
+  {
+    "id": "krangshuri_home",
+    "name": "Krangshuri Home Stay",
+    "circuitId": "jaintia_hills",
+    "vibe": "Mountain View",
+    "description": "Located near Krang Suri Falls with stunning views of the turquoise pool area. Simple, clean rooms run by a local Jaintia family.",
+    "amenities": ["Near Krang Suri", "Parking", "Basic meals", "Family-run", "Garden"],
+    "priceRange": { "min": 1500, "max": 2800 },
+    "rating": 4.1,
+    "imageRef": "krangshuri_home"
+  },
+  {
+    "id": "lks_homestay_jowai",
+    "name": "LKS Homestay",
+    "circuitId": "jaintia_hills",
+    "vibe": "Budget Friendly",
+    "description": "A budget-friendly homestay in Jowai town. Clean rooms, reliable WiFi, and a great base for exploring the Jaintia Hills circuit.",
+    "amenities": ["Town location", "WiFi", "Hot water", "Restaurant nearby"],
+    "priceRange": { "min": 800, "max": 1500 },
+    "rating": 3.9,
+    "imageRef": "lks_homestay"
+  },
+  {
+    "id": "mandy_homestay",
+    "name": "Mandy Homestay",
+    "circuitId": "jaintia_hills",
+    "vibe": "Cozy Modern",
+    "description": "A modern homestay with contemporary amenities in a quiet Jowai neighborhood. Comfortable beds, clean bathrooms, and warm hospitality.",
+    "amenities": ["Modern rooms", "WiFi", "TV", "Hot water", "Parking"],
+    "priceRange": { "min": 1200, "max": 2200 },
+    "rating": 4.2,
+    "imageRef": "mandy_homestay"
+  },
+  {
+    "id": "heijos_homestay",
+    "name": "HeiJo's Homestay",
+    "circuitId": "jaintia_hills",
+    "vibe": "Nature & Peace",
+    "description": "A peaceful retreat surrounded by Jaintia Hills greenery. Known for excellent local food and guided trips to nearby waterfalls and monoliths.",
+    "amenities": ["Local food", "Guided trips", "Garden", "Bonfire", "Parking"],
+    "priceRange": { "min": 1500, "max": 2500 },
+    "rating": 4.4,
+    "imageRef": "heijos_homestay"
+  },
+  {
+    "id": "shillong_heritage",
+    "name": "Shillong Heritage Homestay",
+    "circuitId": "shillong_local",
+    "vibe": "Cozy Modern",
+    "description": "A beautifully maintained heritage property in central Shillong. Colonial architecture meets modern comfort. Walking distance to Police Bazar.",
+    "amenities": ["Central location", "Heritage building", "WiFi", "Breakfast", "Hot water"],
+    "priceRange": { "min": 2000, "max": 4000 },
+    "rating": 4.5,
+    "imageRef": "shillong_heritage"
+  },
+  {
+    "id": "pinewood_shillong",
+    "name": "Pinewood Homestay",
+    "circuitId": "shillong_local",
+    "vibe": "Budget Friendly",
+    "description": "Simple, clean rooms in a quiet Shillong neighborhood. Close to Ward's Lake and Don Bosco Museum. Great value for city exploration.",
+    "amenities": ["Clean rooms", "Near Ward's Lake", "WiFi", "Kitchen access"],
+    "priceRange": { "min": 800, "max": 1500 },
+    "rating": 3.7,
+    "imageRef": "pinewood_shillong"
+  },
+  {
+    "id": "mountain_view_shillong",
+    "name": "Mountain View Retreat",
+    "circuitId": "shillong_local",
+    "vibe": "Mountain View",
+    "description": "Perched on the slopes near Shillong Peak offering panoramic city and mountain views. Peaceful escape minutes from the city center.",
+    "amenities": ["Panoramic view", "Garden", "Parking", "Breakfast", "Bonfire"],
+    "priceRange": { "min": 2500, "max": 5000 },
+    "rating": 4.6,
+    "imageRef": "mountain_view_shillong"
+  }
+]

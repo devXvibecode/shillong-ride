@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useCallback } from 'react';
-import { createBooking } from '../engines/bookingService';
+import { createBooking, createNormalBooking, createPremiumBooking } from '../engines/bookingService';
 import { sendBookingEmail } from '../engines/emailService';
 import { pushBooking } from '../engines/bookingSyncService';
-import places from '../data/places.json';
 
 const BookingContext = createContext();
 
@@ -27,14 +26,23 @@ export function BookingProvider({ children }) {
   const [booking, setBooking] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [bookings, setBookings] = useState(loadBookings);
+  const [bookingType, setBookingType] = useState('');
+  const [groupType, setGroupType] = useState('');
+  const [selectedHomestay, setSelectedHomestay] = useState(null);
+  const [nodalPoint, setNodalPoint] = useState('');
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+  const isPremium = bookingType === 'premium';
+  const totalSteps = isPremium ? 9 : 8;
 
   const addSpot = useCallback((spotId) => {
     setSelectedSpots(prev => {
       if (prev.includes(spotId)) return prev.filter(id => id !== spotId);
-      if (prev.length >= 4) return prev;
+      const maxSpots = isPremium ? 4 : 3;
+      if (prev.length >= maxSpots) return prev;
       return [...prev, spotId];
     });
-  }, []);
+  }, [isPremium]);
 
   const removeSpot = useCallback((spotId) => {
     setSelectedSpots(prev => prev.filter(id => id !== spotId));
@@ -56,36 +64,30 @@ export function BookingProvider({ children }) {
     setVehicleType('bike');
     setBooking(null);
     setFormData(EMPTY_FORM);
+    setBookingType('');
+    setGroupType('');
+    setSelectedHomestay(null);
+    setNodalPoint('');
+    setAgreedToTerms(false);
   }, []);
 
-  const submitBooking = useCallback(async () => {
-    if (!selectedCircuit) {
-      setSubmitting(false);
-      throw new Error('No circuit selected');
+  const submitNormalBooking = useCallback(async () => {
+    if (!selectedCircuit || !groupType || !nodalPoint) {
+      throw new Error('Missing required booking fields');
     }
     setSubmitting(true);
     try {
-      const circuitName = selectedCircuit.name;
-      const spotNames = selectedSpots.map(id => places.find(p => p.id === id)?.name || id);
-      const routeNames = ['Shillong City', ...spotNames, 'Shillong City'];
-
-      const bookingData = createBooking({
+      const bookingData = createNormalBooking({
         name: formData.name,
         phone: formData.phone,
-        pickupLocation: formData.pickupLocation,
         circuitId: selectedCircuit.id,
         spotIds: selectedSpots,
+        groupType,
+        nodalPoint,
         timeSlot,
-        vehicleType,
-        notes: formData.notes,
       });
-      bookingData.circuitName = circuitName;
-      bookingData.spotNames = spotNames;
-      bookingData.routeNames = routeNames;
-
       const result = await sendBookingEmail(bookingData);
       bookingData.emailSent = result.success;
-
       setBookings(prev => {
         const updated = [bookingData, ...prev];
         localStorage.setItem('sr_bookings', JSON.stringify(updated));
@@ -97,17 +99,61 @@ export function BookingProvider({ children }) {
     } finally {
       setSubmitting(false);
     }
-  }, [selectedCircuit, selectedSpots, timeSlot, formData, vehicleType]);
+  }, [selectedCircuit, selectedSpots, groupType, nodalPoint, timeSlot, formData]);
+
+  const submitPremiumBooking = useCallback(async () => {
+    if (!selectedCircuit || !groupType || !selectedHomestay) {
+      throw new Error('Missing required premium booking fields');
+    }
+    setSubmitting(true);
+    try {
+      const bookingData = createPremiumBooking({
+        name: formData.name,
+        phone: formData.phone,
+        circuitId: selectedCircuit.id,
+        spotIds: selectedSpots,
+        groupType,
+        vehicleType,
+        homestay: selectedHomestay,
+        timeSlot,
+      });
+      const result = await sendBookingEmail(bookingData);
+      bookingData.emailSent = result.success;
+      setBookings(prev => {
+        const updated = [bookingData, ...prev];
+        localStorage.setItem('sr_bookings', JSON.stringify(updated));
+        return updated;
+      });
+      setBooking(bookingData);
+      pushBooking(bookingData).catch(() => {});
+      return bookingData;
+    } finally {
+      setSubmitting(false);
+    }
+  }, [selectedCircuit, selectedSpots, groupType, vehicleType, selectedHomestay, timeSlot, formData]);
+
+  const value = {
+    step, setStep,
+    selectedCircuit, setSelectedCircuit,
+    selectedSpots, addSpot, removeSpot, setSelectedSpots,
+    timeSlot, setTimeSlot,
+    vehicleType, setVehicleType,
+    formData, updateFormField, resetForm,
+    booking, submitting,
+    submitBooking: submitNormalBooking,
+    reset,
+    bookings,
+    bookingType, setBookingType,
+    groupType, setGroupType,
+    selectedHomestay, setSelectedHomestay,
+    nodalPoint, setNodalPoint,
+    agreedToTerms, setAgreedToTerms,
+    isPremium, totalSteps,
+    submitNormalBooking, submitPremiumBooking,
+  };
 
   return (
-    <BookingContext.Provider value={{
-      step, setStep, selectedCircuit, setSelectedCircuit,
-      selectedSpots, addSpot, removeSpot, setSelectedSpots,
-      timeSlot, setTimeSlot, vehicleType, setVehicleType,
-      formData, updateFormField, resetForm,
-      booking, submitting,
-      submitBooking, reset,
-    }}>
+    <BookingContext.Provider value={value}>
       {children}
     </BookingContext.Provider>
   );
