@@ -117,26 +117,12 @@ function NormalReceipt({ p }) {
           <span className="font-['Anton'] text-base text-orange-500">{fmt(p.fuelCost)}</span>
         </div>
       </div>
-      {p.groupTotal ? (
-        <div className="mt-3 bg-[#16161f] p-3 rounded-lg border border-[#2e2e44]">
-          <p className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Group Total ({p.groupSize} people)</p>
-          <div className="flex justify-between items-center">
-            <span className="text-white/70 text-xs">Per person</span>
-            <span className="font-['Anton'] text-orange-400 text-sm">{fmt(p.perPerson)}</span>
-          </div>
-          <div className="flex justify-between items-center mt-1">
-            <span className="text-white/70 text-xs">Total</span>
-            <span className="font-['Anton'] text-white text-base">{fmt(p.groupTotal)}</span>
-          </div>
-        </div>
-      ) : (
-        <div className="flex justify-between items-center pt-3 mt-3 border-t-2 border-orange-500/20">
-          <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-          <span className="font-['Anton'] text-white text-2xl tracking-wider">
-            <AnimatedPrice value={p.total} />
-          </span>
-        </div>
-      )}
+      <div className="flex justify-between items-center pt-3 mt-3 border-t-2 border-orange-500/20">
+        <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
+        <span className="font-['Anton'] text-white text-2xl tracking-wider">
+          <AnimatedPrice value={p.total} />
+        </span>
+      </div>
     </>
   );
 }

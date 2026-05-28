@@ -3,11 +3,16 @@ import { useBooking } from '../context/BookingContext';
 import QuestionFlow from './QuestionFlow';
 
 export default function BookingTypeSelector() {
-  const { setBookingType, setStep } = useBooking();
+  const { setBookingType, setGroupType, setStep } = useBooking();
 
   const select = (type) => {
     setBookingType(type);
-    setStep(1);
+    if (type === 'normal') {
+      setGroupType('solo');
+      setStep(3);
+    } else {
+      setStep(1);
+    }
   };
 
   return (

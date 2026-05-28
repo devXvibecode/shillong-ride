@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import groupTypes from '../data/groupTypes.json';
@@ -12,7 +13,16 @@ const icons = {
 
 export default function GroupTypeSelector() {
   const { groupType, setGroupType, setStep, isPremium } = useBooking();
-  const totalSteps = isPremium ? 9 : 7;
+  const totalSteps = isPremium ? 9 : 3;
+
+  useEffect(() => {
+    if (!isPremium) {
+      setGroupType('solo');
+      setStep(3);
+    }
+  }, []);
+
+  if (!isPremium) return null;
 
   const select = (id) => {
     setGroupType(id);

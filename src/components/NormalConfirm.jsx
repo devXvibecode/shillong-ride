@@ -164,25 +164,10 @@ export default function NormalConfirm() {
             <span className="font-['Anton'] text-base text-orange-500">{fmt(price.fuelCost)}</span>
           </div>
         </div>
-        {price.groupSize > 1 && (
-          <div className="mt-3 bg-[#16161f] p-3 rounded-lg border border-[#2e2e44]">
-            <p className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Group Pricing ({groupLabels[groupType]} — {price.groupSize} people)</p>
-            <div className="flex justify-between items-center">
-              <span className="text-white/70 text-xs">Per person</span>
-              <span className="font-['Anton'] text-orange-400 text-sm">{fmt(price.perPerson)}</span>
-            </div>
-            <div className="flex justify-between items-center mt-1">
-              <span className="text-white/70 text-xs">Group total</span>
-              <span className="font-['Anton'] text-white text-base">{fmt(price.groupTotal)}</span>
-            </div>
-          </div>
-        )}
-        {(!price.groupSize || price.groupSize <= 1) && (
-          <div className="flex justify-between items-center pt-3 mt-2 border-t-2 border-orange-500/20">
-            <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-            <span className="font-['Anton'] text-white text-2xl tracking-wider">{fmt(price.total)}</span>
-          </div>
-        )}
+        <div className="flex justify-between items-center pt-3 mt-2 border-t-2 border-orange-500/20">
+          <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
+          <span className="font-['Anton'] text-white text-2xl tracking-wider">{fmt(price.total)}</span>
+        </div>
       </motion.div>
 
       {errors.submit && (
