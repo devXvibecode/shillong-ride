@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import { useData } from '../context/DataContext';
-import { getEffectiveImage } from '../engines/imageService';
+import PlaceImage from './PlaceImage';
 import { optimizeRoute } from '../engines/routeOptimizer';
 import { calculatePrice } from '../engines/pricingEngine';
 
@@ -36,8 +36,6 @@ function AnimatedPrice({ value }) {
 
 function SpotCard({ place, index }) {
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [imgError, setImgError] = useState(false);
-  const defaultImg = 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop';
 
   return (
     <motion.div
@@ -48,16 +46,14 @@ function SpotCard({ place, index }) {
     >
       <div className="relative h-36 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
-        {!imgLoaded && !imgError && (
+        {!imgLoaded && (
           <div className="w-full h-full skeleton" />
         )}
-        <img
-          src={imgError ? defaultImg : getEffectiveImage(place.id)}
+        <PlaceImage
+          placeId={place.id}
           alt={place.name}
-          loading="lazy"
-          className={`w-full h-full object-cover ${imgLoaded || imgError ? 'opacity-100' : 'opacity-0'}`}
+          className={`w-full h-full object-cover ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setImgLoaded(true)}
-          onError={() => setImgError(true)}
         />
         <span className="absolute top-2 right-2 z-20 px-2 py-0.5 bg-[#0b0b12]/80 border-2 border-[#2e2e44] text-white/80 text-[10px] font-['Anton'] uppercase tracking-wider rounded-lg">
           {place.category}

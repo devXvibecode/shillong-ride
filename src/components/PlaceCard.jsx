@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
-import { getEffectiveImage } from '../engines/imageService';
+import PlaceImage from './PlaceImage';
 
-const DEFAULT_IMG = 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop';
 const cardRotations = [-0.5, 0.3, -0.8, 0.6, -0.3, 0.5, -0.7, 0.4, -0.6, 0.8, -0.4, 0.7];
 
 export default function PlaceCard({ place, index }) {
   const { selectedSpots, addSpot } = useBooking();
   const isSelected = selectedSpots.includes(place.id);
   const isMaxedOut = selectedSpots.length >= 4 && !isSelected;
-  const [imgError, setImgError] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const handleClick = () => { if (!isMaxedOut) addSpot(place.id); };
   const handleKeyDown = (e) => {
@@ -43,19 +41,21 @@ export default function PlaceCard({ place, index }) {
     >
       <div className="relative h-44 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
-        {!imgLoaded && !imgError && (
-          <div className="w-full h-full skeleton" />
-        )}
-        <motion.img
-          src={imgError ? DEFAULT_IMG : getEffectiveImage(place.id)}
-          alt={place.name}
-          loading="lazy"
-          className={`w-full h-full object-cover ${imgLoaded || imgError ? 'opacity-100' : 'opacity-0'}`}
-          onLoad={() => setImgLoaded(true)}
-          onError={() => setImgError(true)}
+        <motion.div
+          className="w-full h-full overflow-hidden"
           whileHover={!isMaxedOut ? { scale: 1.05 } : {}}
           transition={{ duration: 0.5 }}
-        />
+        >
+          {!loaded && (
+            <div className="w-full h-full skeleton" />
+          )}
+          <PlaceImage
+            placeId={place.id}
+            alt={place.name}
+            className={`w-full h-full object-cover ${loaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={() => setLoaded(true)}
+          />
+        </motion.div>
 
         <span className="absolute top-3 right-3 z-20 px-2.5 py-1 bg-[#0b0b12]/80 border-2 border-[#2e2e44] text-white/80 text-[11px] font-['Anton'] uppercase tracking-wider rounded-lg">
           {place.category}

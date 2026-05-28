@@ -73,15 +73,21 @@ function resolveImageUrl(url) {
 }
 
 export function getEffectiveImage(placeId) {
+  const all = getImageSourceList(placeId);
+  return all.length > 0 ? all[0] : DEFAULT_IMG;
+}
+
+export function getImageSourceList(placeId) {
   const overrides = loadFromStorage();
   if (overrides[placeId] && overrides[placeId].length > 0) {
-    return resolveImageUrl(overrides[placeId][0]);
+    return overrides[placeId].map(resolveImageUrl);
   }
   const manifest = getManifestImages(placeId);
   if (manifest.length > 0) {
-    return resolveImageUrl(manifest[0]);
+    return manifest.map(resolveImageUrl);
   }
-  return defaultImages[placeId] || DEFAULT_IMG;
+  const single = defaultImages[placeId];
+  return single ? [resolveImageUrl(single)] : [DEFAULT_IMG];
 }
 
 export function getAllImagesForPlace(placeId) {

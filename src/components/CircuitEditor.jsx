@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getAllImagesForPlace, getEffectiveImage, addImageToPlace, removeImageFromPlace, setPrimaryImage, resetPlaceImages } from '../engines/imageService';
+import { getAllImagesForPlace, getImageSourceList, addImageToPlace, removeImageFromPlace, setPrimaryImage, resetPlaceImages } from '../engines/imageService';
 import { saveCircuitData, fetchFileFromGitHub } from '../engines/adminSyncService';
 import Modal from './Modal';
 
@@ -24,7 +24,7 @@ function fmt(n) {
 
 function PlaceRow({ place, idx, onEdit, onRemove, onManageImages }) {
   const [showActions, setShowActions] = useState(false);
-  const imgUrl = getEffectiveImage(place.id);
+  const imgUrl = getImageSourceList(place.id)[0] || '';
   const imgCount = getAllImagesForPlace(place.id).length;
 
   return (
@@ -473,7 +473,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
                   onClick={() => handleAddExisting(p)}
                   className="w-full flex items-center gap-2 p-2 rounded-lg border border-[#2e2e44] hover:border-orange-500/30 hover:bg-orange-500/5 transition-all text-left group"
                 >
-                  <div className="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 bg-cover bg-center border border-[#2e2e44]" style={{ backgroundImage: `url(${getEffectiveImage(p.id)})` }} />
+                  <div className="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 bg-cover bg-center border border-[#2e2e44]" style={{ backgroundImage: `url(${getImageSourceList(p.id)[0] || ''})` }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-white/70 text-xs font-['Anton'] tracking-wider truncate group-hover:text-orange-400 transition-colors">{p.name}</p>
                     <p className="text-white/30 text-[9px] font-mono">{p.distanceWeight} km · {p.category}</p>

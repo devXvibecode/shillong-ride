@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getPlaces } from '../engines/dataService';
 import { fetchAllBookings, updateSingleBooking, deleteBooking } from '../engines/bookingSyncService';
-import { getEffectiveImage } from '../engines/imageService';
 import { fetchFileFromGitHub } from '../engines/adminSyncService';
 import ImageUploader from '../components/ImageUploader';
 import CircuitEditor from '../components/CircuitEditor';
