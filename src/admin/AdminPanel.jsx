@@ -1,41 +1,115 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import placesData from '../data/places.json';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getPlaces } from '../engines/dataService';
 import { fetchAllBookings, updateSingleBooking, deleteBooking } from '../engines/bookingSyncService';
+import { getEffectiveImage } from '../engines/imageService';
+import { fetchFileFromGitHub } from '../engines/adminSyncService';
 import ImageUploader from '../components/ImageUploader';
-import Modal from '../components/Modal';
+import CircuitEditor from '../components/CircuitEditor';
 import ConfirmDialog from '../components/ConfirmDialog';
-import {
-  getEffectiveImage,
-  getAllImagesForPlace,
-  getAllPlaceImages,
-  addImageToPlace,
-  removeImageFromPlace,
-  setPrimaryImage,
-  resetPlaceImages,
-} from '../engines/imageService';
+import circuitsData from '../data/circuits.json';
+import placesData from '../data/places.json';
 
-function loadBookings() {
-  try {
-    const saved = localStorage.getItem('sr_bookings');
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
+function fmt(n) {
+  return '₹' + Number(n).toLocaleString('en-IN');
 }
 
-function saveBookings(bookings) {
-  localStorage.setItem('sr_bookings', JSON.stringify(bookings));
+/* ── Toast ── */
+
+function Toast({ toast, onDone }) {
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => onDone(), 3500);
+    return () => clearTimeout(t);
+  }, [toast, onDone]);
+
+  if (!toast) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -20, scale: 0.95 }}
+      className={`fixed top-4 right-4 z-[100] max-w-sm px-5 py-3 rounded-xl border-2 shadow-xl flex items-center gap-3 ${
+        toast.type === 'success' ? 'bg-green-900/90 border-green-500/40 text-green-300' :
+        toast.type === 'error' ? 'bg-red-900/90 border-red-500/40 text-red-300' :
+        'bg-[#1e1e2b] border-white/20 text-white'
+      }`}
+    >
+      {toast.type === 'success' && (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+      )}
+      {toast.type === 'error' && (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
+      )}
+      <p className="text-sm font-medium">{toast.message}</p>
+    </motion.div>
+  );
 }
+
+/* ── Animated counter ── */
+
+function AnimatedCount({ value }) {
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    if (display === value) return;
+    const duration = 600;
+    const start = performance.now();
+    let frame;
+    const animate = (now) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      setDisplay(Math.round(progress * value));
+      if (progress < 1) frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [value]);
+  return <span>{display}</span>;
+}
+
+/* ── BookingsView with filters & sort ── */
+
+const SORT_OPTIONS = [
+  { value: 'newest', label: 'Newest First' },
+  { value: 'oldest', label: 'Oldest First' },
+];
+
+const DATE_FILTERS = [
+  { value: 'all', label: 'All Time' },
+  { value: '7days', label: 'Last 7 Days' },
+  { value: '30days', label: 'Last 30 Days' },
+  { value: 'today', label: 'Today' },
+];
 
 function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBooking }) {
   const [filter, setFilter] = useState('all');
+  const [dateFilter, setDateFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
   const [expandedId, setExpandedId] = useState(null);
 
-  const filtered = filter === 'all' ? bookings : bookings.filter(b => b.status === filter);
+  const filtered = useMemo(() => {
+    let result = filter === 'all' ? bookings : bookings.filter(b => b.status === filter);
+    const now = Date.now();
+    if (dateFilter === 'today') {
+      const today = new Date().toDateString();
+      result = result.filter(b => new Date(b.createdAt).toDateString() === today);
+    } else if (dateFilter === '7days') {
+      const cutoff = now - 7 * 86400000;
+      result = result.filter(b => new Date(b.createdAt).getTime() >= cutoff);
+    } else if (dateFilter === '30days') {
+      const cutoff = now - 30 * 86400000;
+      result = result.filter(b => new Date(b.createdAt).getTime() >= cutoff);
+    }
+    result.sort((a, b) =>
+      sortBy === 'newest'
+        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    );
+    return result;
+  }, [bookings, filter, dateFilter, sortBy]);
 
-  const stats = {
+  const stats = useMemo(() => ({
     total: bookings.length,
     pending: bookings.filter(b => b.status === 'pending').length,
     approved: bookings.filter(b => b.status === 'approved').length,
@@ -44,9 +118,20 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
     rejected: bookings.filter(b => b.status === 'rejected').length,
     cancel_requested: bookings.filter(b => b.status === 'cancel_requested').length,
     cancelled: bookings.filter(b => b.status === 'cancelled').length,
-  };
+  }), [bookings]);
 
-  const updateStatus = (bookingId, newStatus, rider) => {
+  const statList = useMemo(() => [
+    { label: 'Total', value: stats.total, color: 'text-white' },
+    { label: 'Pending', value: stats.pending, color: 'text-yellow-400' },
+    { label: 'Approved', value: stats.approved, color: 'text-blue-400' },
+    { label: 'Assigned', value: stats.assigned, color: 'text-purple-400' },
+    { label: 'Completed', value: stats.completed, color: 'text-green-400' },
+    { label: 'Cancellation', value: stats.cancel_requested, color: 'text-orange-400' },
+    { label: 'Cancelled', value: stats.cancelled, color: 'text-red-400' },
+    { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
+  ], [stats]);
+
+  const updateStatus = useCallback((bookingId, newStatus, rider) => {
     const stored = loadBookings();
     const updated = stored.map(b => {
       if (b.id === bookingId) return { ...b, status: newStatus, rider: rider || b.rider };
@@ -54,47 +139,71 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
     });
     saveBookings(updated);
     if (onUpdateStatus) onUpdateStatus(bookingId, newStatus, rider);
-  };
+  }, [onUpdateStatus]);
 
-  const getPlaceName = (id) => places.find(p => p.id === id)?.name || id;
+  const getPlaceName = useCallback((id) => places.find(p => p.id === id)?.name || id, [places]);
 
   return (
     <div>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <div className="grid grid-cols-2 sm:grid-cols-8 gap-3 mb-8">
-          {[
-            { label: 'Total', value: stats.total, color: 'text-white' },
-            { label: 'Pending', value: stats.pending, color: 'text-yellow-400' },
-            { label: 'Approved', value: stats.approved, color: 'text-blue-400' },
-            { label: 'Assigned', value: stats.assigned, color: 'text-purple-400' },
-            { label: 'Completed', value: stats.completed, color: 'text-green-400' },
-            { label: 'Cancellation', value: stats.cancel_requested, color: 'text-orange-400' },
-            { label: 'Cancelled', value: stats.cancelled, color: 'text-red-400' },
-            { label: 'Rejected', value: stats.rejected, color: 'text-red-400' },
-          ].map(s => (
-            <div key={s.label} className="brut-card p-4 text-center">
-              <p className={`text-2xl sm:text-3xl font-black ${s.color}`}>{s.value}</p>
-              <p className="text-white/55 text-xs sm:text-sm mt-1 capitalize">{s.label}</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3 mb-6">
+          {statList.map(s => (
+            <div key={s.label} className="brut-card p-3 sm:p-4 text-center">
+              <p className={`text-xl sm:text-3xl font-black ${s.color}`}>
+                <AnimatedCount value={s.value} />
+              </p>
+              <p className="text-white/55 text-[10px] sm:text-xs mt-0.5 capitalize">{s.label}</p>
             </div>
           ))}
         </div>
       </motion.div>
 
-      <div className="flex gap-2 mb-6 overflow-x-auto">
-        {['all', 'pending', 'approved', 'assigned', 'completed', 'cancel_requested', 'cancelled', 'rejected'].map(status => (
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex gap-2 overflow-x-auto flex-1 min-w-0">
+          {['all', 'pending', 'approved', 'assigned', 'completed', 'cancel_requested', 'cancelled', 'rejected'].map(status => (
+            <button
+              key={status}
+              type="button"
+              onClick={() => setFilter(status)}
+              className={`px-3 py-1.5 rounded-lg text-[11px] font-bold capitalize transition-all flex-shrink-0 ${
+                filter === status ? 'bg-amber-400 text-black' : 'brut-btn'
+              }`}
+            >
+              {status.replace('_', ' ')} {status !== 'all' && `(${stats[status] || 0})`}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2 mb-6">
+        {DATE_FILTERS.map(d => (
           <button
-            key={status}
+            key={d.value}
             type="button"
-            onClick={() => setFilter(status)}
-            className={`px-4 py-2 rounded-lg text-sm font-bold capitalize transition-all flex-shrink-0 ${
-              filter === status
-                ? 'bg-amber-400 text-black'
-                  : 'brut-btn'
+            onClick={() => setDateFilter(d.value)}
+            className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${
+              dateFilter === d.value ? 'bg-white/20 text-white' : 'bg-white/5 text-white/50 hover:text-white/70'
             }`}
           >
-            {status} {status !== 'all' && `(${stats[status] || 0})`}
+            {d.label}
           </button>
         ))}
+        <div className="w-px h-5 bg-white/10 mx-1" />
+        {SORT_OPTIONS.map(s => (
+          <button
+            key={s.value}
+            type="button"
+            onClick={() => setSortBy(s.value)}
+            className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${
+              sortBy === s.value ? 'bg-white/20 text-white' : 'bg-white/5 text-white/50 hover:text-white/70'
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
+        <span className="text-white/30 text-[10px] font-mono ml-auto">
+          {filtered.length} of {bookings.length}
+        </span>
       </div>
 
       {filtered.length === 0 ? (
@@ -123,12 +232,11 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                       booking.status === 'completed' ? 'bg-green-500/20 text-green-400' :
                       booking.status === 'assigned' ? 'bg-purple-500/20 text-purple-400' :
                       booking.status === 'approved' ? 'bg-blue-500/20 text-blue-400' :
-                      booking.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
-                      booking.status === 'rejected' ? 'bg-red-500/20 text-red-400' :
+                      booking.status === 'cancelled' || booking.status === 'rejected' ? 'bg-red-500/20 text-red-400' :
                       booking.status === 'cancel_requested' ? 'bg-orange-500/20 text-orange-400' :
                       'bg-yellow-500/20 text-yellow-400'
                     }`}>
-                      {booking.status}
+                      {booking.status.replace('_', ' ')}
                     </span>
                   </div>
                   <p className="text-white font-semibold text-sm">{booking.name}</p>
@@ -140,7 +248,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                       Rider: <span className="text-white font-semibold">{booking.rider}</span>
                     </p>
                   )}
-                  <p className="text-amber-400 font-bold">&#x20B9;{booking.priceBreakdown.total}</p>
+                  <p className="text-amber-400 font-bold">{fmt(booking.priceBreakdown.total)}</p>
                   <p className="text-white/40 text-[10px]">{new Date(booking.createdAt).toLocaleDateString()}</p>
                 </div>
               </button>
@@ -180,7 +288,9 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
 
                   <div className="mb-4">
                     <p className="text-white/55 text-[10px] mb-0.5">Full Route</p>
-                    <p className="text-white/70 text-xs">{booking.route.map(id => getPlaceName(id) || id).join(' \u2192 ')}</p>
+                    <p className="text-white/70 text-xs">
+                      {booking.route.map(id => getPlaceName(id) || id).join(' \u2192 ')}
+                    </p>
                   </div>
 
                   <div className="space-y-2 pb-3 border-b border-amber-400/20 mb-3">
@@ -190,32 +300,32 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                         <span className="text-white/55">Booking Fee</span>
                         <p className="text-white/40 text-[9px] font-mono">Platform, booking system &amp; support</p>
                       </div>
-                      <span className="text-amber-400 font-extrabold">&#x20B9;{booking.priceBreakdown.ownerFee || booking.priceBreakdown.processingCharge}</span>
+                      <span className="text-amber-400 font-extrabold">{fmt(booking.priceBreakdown.ownerFee || booking.priceBreakdown.processingCharge || 0)}</span>
                     </div>
                     <div className="flex justify-between text-xs">
                       <span className="text-white/55">Rider Cost</span>
-                      <span className="text-white font-bold">&#x20B9;{booking.priceBreakdown.riderFee || booking.priceBreakdown.spotCost}</span>
+                      <span className="text-white font-bold">{fmt(booking.priceBreakdown.riderFee || booking.priceBreakdown.spotCost || 0)}</span>
                     </div>
                     <div className="flex justify-between text-xs">
                       <span className="text-white/55">Fuel Cost</span>
-                      <span className="text-white font-bold">&#x20B9;{booking.priceBreakdown.fuelCost}</span>
+                      <span className="text-white font-bold">{fmt(booking.priceBreakdown.fuelCost || 0)}</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-white font-extrabold text-sm">Total</span>
-                    <span className="text-amber-400 font-extrabold">&#x20B9;{booking.priceBreakdown.total}</span>
+                    <span className="text-amber-400 font-extrabold">{fmt(booking.priceBreakdown.total || 0)}</span>
                   </div>
 
                   {booking.notes && (
-                    <div className="mb-4">
+                    <div className="mb-4 mt-3">
                       <p className="text-white/55 text-[10px] mb-0.5">Notes</p>
                       <p className="text-white/55 text-xs">{booking.notes}</p>
                     </div>
                   )}
 
                   {booking.emailSent === false && (
-                    <div className="mb-4 px-3 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                      <p className="text-yellow-400 text-[11px] font-medium">&#x26A0; Email not sent \u2014 EmailJS not configured</p>
+                    <div className="mb-4 mt-3 px-3 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                      <p className="text-yellow-400 text-[11px] font-medium">{'\u26A0'} Email not sent — EmailJS not configured</p>
                     </div>
                   )}
 
@@ -246,12 +356,10 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                           type="button"
                           onClick={() => updateStatus(booking.id, s)}
                           className={`px-3 py-1.5 rounded-lg text-[11px] font-bold capitalize transition-all ${
-                            booking.status === s
-                              ? 'bg-amber-400 text-black'
-                              : 'bg-white/10 text-white/70 hover:bg-white/20'
+                            booking.status === s ? 'bg-amber-400 text-black' : 'bg-white/10 text-white/70 hover:bg-white/20'
                           }`}
                         >
-                          {s}
+                          {s.replace('_', ' ')}
                         </button>
                       ))}
                     </div>
@@ -261,46 +369,35 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                         <div className="flex gap-2">
                           <input
                             type="text"
-placeholder="Rider name..."
-                             defaultValue={booking.rider || ''}
-                             className="brut-input flex-1 max-w-xs px-3 py-1.5 text-xs"
+                            placeholder="Rider name..."
+                            defaultValue={booking.rider || ''}
+                            className="brut-input flex-1 max-w-xs px-3 py-1.5 text-xs"
                             onKeyDown={(e) => {
                               if (e.key === 'Enter' && e.target.value.trim()) {
-                                updateStatus(booking.id, 'assigned', e.target.value.trim());
+                                const target = e.target;
+                                updateStatus(booking.id, 'assigned', target.value.trim());
                               }
                             }}
                           />
                         </div>
                       </div>
                     )}
-
                     {booking.status === 'cancel_requested' && (
                       <div className="mt-3 pt-3 border-t border-orange-500/20">
                         <p className="text-white/40 text-[10px] mb-2">Cancellation Request</p>
                         <div className="flex gap-2">
-                          <button
-                            type="button"
-                            onClick={() => updateStatus(booking.id, 'cancelled')}
-                            className="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all"
-                          >
+                          <button type="button" onClick={() => updateStatus(booking.id, 'cancelled')} className="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all">
                             Approve Cancellation
                           </button>
-                          <button
-                            type="button"
-                            onClick={() => updateStatus(booking.id, 'pending')}
-                            className="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-all"
-                          >
+                          <button type="button" onClick={() => updateStatus(booking.id, 'pending')} className="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-all">
                             Deny Cancellation
                           </button>
                         </div>
                       </div>
                     )}
                     {booking.status === 'assigned' && booking.rider && (
-                      <p className="text-white/50 text-[11px]">
-                        Rider: <span className="text-white font-semibold">{booking.rider}</span>
-                      </p>
+                      <p className="text-white/50 text-[11px] mt-2">Rider: <span className="text-white font-semibold">{booking.rider}</span></p>
                     )}
-
                     <div className="pt-3 mt-3 border-t border-red-500/20">
                       <button
                         type="button"
@@ -321,219 +418,90 @@ placeholder="Rider name..."
   );
 }
 
-function PlacesView({ places, categories, overridesVersion, refreshOverrides }) {
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('all');
-  const [managerPlace, setManagerPlace] = useState(null);
-  const [newImageUrl, setNewImageUrl] = useState('');
-  const placeImagesOverrides = getAllPlaceImages();
+/* ── Circuit View (replaces PlacesView) ── */
 
-  const filtered = places.filter(p => {
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    const matchCategory = category === 'all' || p.category === category;
-    return matchSearch && matchCategory;
-  });
+function CircuitsView({ places, onCircuitEdit, onToast }) {
+  const [currentPlaces, setCurrentPlaces] = useState(places);
+
+  useEffect(() => {
+    fetchFileFromGitHub('data/places.json')
+      .then(data => { if (data) setCurrentPlaces(data); })
+      .catch(() => {});
+  }, []);
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        <input
-          type="text"
-          placeholder="Search places..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          className="brut-input flex-1 px-4 py-2.5 text-sm"
-        />
-        <select
-          value={category}
-          onChange={e => setCategory(e.target.value)}
-          className="brut-input px-4 py-2.5 text-sm"
-        >
-          <option value="all">All Categories</option>
-          {categories.map(c => (
-            <option key={c} value={c} className="bg-[#0a0a0f]">{c}</option>
-          ))}
-        </select>
-      </div>
-
-      <p className="text-white/55 text-xs mb-4">{filtered.length} places</p>
-
-      {filtered.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-white/55 text-lg">No places match your search.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {filtered.map(place => {
-            const hasOverride = placeImagesOverrides[place.id] && placeImagesOverrides[place.id].length > 0;
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <p className="text-white/55 text-xs mb-6">{currentPlaces.length} places across {circuitsData.length} circuits</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {circuitsData.map((circuit, i) => {
+            const spotCount = circuit.spots.length;
+            const totalDistance = circuit.spots.reduce((sum, id) => {
+              const p = currentPlaces.find(pl => pl.id === id);
+              return sum + (p?.distanceWeight || 0);
+            }, 0);
             return (
-              <button
-                key={place.id}
+              <motion.button
+                key={circuit.id}
                 type="button"
-                onClick={() => { setManagerPlace(place); setNewImageUrl(''); }}
-                className="brut-card overflow-hidden text-left hover:border-amber-400/40 transition-all group"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                onClick={() => onCircuitEdit(circuit)}
+                className="brut-card p-5 text-left group hover:border-amber-400/40 transition-all"
               >
-                <div className="relative h-32 overflow-hidden">
-                  <div className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
-                    style={{ backgroundImage: `url(${getEffectiveImage(place.id)})` }}
-                  />
-                  {hasOverride && (
-                    <span className="absolute top-2 left-2 z-10 px-1.5 py-0.5 bg-amber-400/20 border border-amber-400/30 text-amber-400 text-[9px] font-bold rounded">
-                      EDITED
-                    </span>
-                  )}
-                  <span className="absolute top-2 right-2 z-10 px-1.5 py-0.5 bg-black/60 border border-white/10 text-white/55 text-[9px] font-['Anton'] uppercase tracking-wider rounded">
-                    {place.category}
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: circuit.color }} />
+                  <span className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-[0.15em]">{circuit.tagline}</span>
+                </div>
+                <h3 className="font-['Anton'] text-white text-xl tracking-wider mb-1 group-hover:text-orange-500 transition-colors">{circuit.shortName}</h3>
+                <p className="text-white/55 text-xs leading-relaxed mb-4 line-clamp-2">{circuit.description}</p>
+                <div className="flex items-center justify-between border-t-2 border-[#2e2e44] pt-3">
+                  <span className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">
+                    {spotCount} spots · {totalDistance} km
                   </span>
+                  <span className="text-orange-500 font-['Anton'] text-xs uppercase tracking-wider group-hover:underline">Edit Circuit →</span>
                 </div>
-                <div className="p-3">
-                  <p className="text-white font-semibold text-sm leading-tight">{place.name}</p>
-                  <p className="text-white/55 text-[10px] mt-0.5">{place.distanceWeight} km</p>
-                </div>
-              </button>
+              </motion.button>
             );
           })}
         </div>
-      )}
-
-      {managerPlace && (
-        <ImageManager
-          place={managerPlace}
-          onClose={() => setManagerPlace(null)}
-          refreshOverrides={refreshOverrides}
-        />
-      )}
+        <div className="brut-card p-4 mt-4 flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+          <p className="text-white/55 text-xs flex-1">
+            Editing saves directly to GitHub and auto-deploys. Changes appear on the live site within ~2 minutes.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              fetchFileFromGitHub('data/places.json')
+                .then(data => { if (data) setCurrentPlaces(data); if (onToast) onToast('Places refreshed from GitHub', 'success'); })
+                .catch(() => { if (onToast) onToast('Failed to fetch latest places', 'error'); });
+            }}
+            className="px-3 py-1.5 brut-btn text-[10px] uppercase tracking-wider"
+          >
+            Refresh
+          </button>
+        </div>
+      </motion.div>
     </div>
   );
 }
 
-function ImageManager({ place, onClose, refreshOverrides }) {
-  const [images, setImages] = useState(() => getAllImagesForPlace(place.id));
-  const [newUrl, setNewUrl] = useState('');
+/* ── Helpers ── */
 
-  const refresh = () => {
-    setImages(getAllImagesForPlace(place.id));
-    refreshOverrides();
-  };
-
-  const handleAdd = () => {
-    const url = newUrl.trim();
-    if (!url) return;
-    if (addImageToPlace(place.id, url)) {
-      refresh();
-      setNewUrl('');
-    }
-  };
-
-  const handleRemove = (index) => {
-    removeImageFromPlace(place.id, index);
-    refresh();
-  };
-
-  const handleSetPrimary = (index) => {
-    setPrimaryImage(place.id, index);
-    refresh();
-  };
-
-  const handleReset = () => {
-    resetPlaceImages(place.id);
-    refresh();
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleAdd();
-  };
-
-  return (
-    <Modal open={true} onClose={onClose}>
-      <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-white/10">
-        <div>
-          <h2 className="text-white font-bold text-lg">{place.name}</h2>
-          <p className="text-white/55 text-xs mt-0.5 capitalize">{place.category} &middot; {place.distanceWeight} km</p>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="w-8 h-8 rounded-lg brut-btn flex items-center justify-center"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-      </div>
-
-      <div className="p-5">
-        <div className="flex gap-2 mb-4">
-          <input
-            type="text"
-            placeholder="Paste image URL..."
-            value={newUrl}
-            onChange={e => setNewUrl(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="brut-input flex-1 px-3 py-2 text-sm"
-          />
-          <button
-            type="button"
-            onClick={handleAdd}
-            className="brut-btn-primary px-4 py-2 text-sm"
-          >
-            Add Image
-          </button>
-        </div>
-
-        {images.length > 0 && (
-          <div className="flex gap-2 mb-4">
-            <button
-              type="button"
-              onClick={handleReset}
-              className="px-3 py-1.5 bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-bold rounded-lg hover:bg-red-500/30 transition-all"
-            >
-              Reset to Defaults
-            </button>
-          </div>
-        )}
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {images.map((url, idx) => (
-            <div key={idx} className="group relative brut-card overflow-hidden">
-              <div className="aspect-[4/3] bg-cover bg-center" style={{ backgroundImage: `url(${url})` }} />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100">
-                <button
-                  type="button"
-                  onClick={() => handleSetPrimary(idx)}
-                  className="w-8 h-8 rounded-lg bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400 hover:bg-amber-400/40 transition-all"
-                  title="Set as primary"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleRemove(idx)}
-                  className="w-8 h-8 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 hover:bg-red-500/40 transition-all"
-                  title="Remove image"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
-                </button>
-              </div>
-              {idx === 0 && (
-                <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-amber-400/20 border border-amber-400/30 text-amber-400 text-[9px] font-bold rounded">
-                  PRIMARY
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {images.length === 0 && (
-          <div className="text-center py-12 border border-dashed border-white/10 rounded-xl">
-            <p className="text-white/40 text-sm">No images yet. Add an image URL above.</p>
-            <p className="text-white/40 text-xs mt-1">The default image will show until you add one.</p>
-          </div>
-        )}
-      </div>
-    </Modal>
-  );
+function loadBookings() {
+  try {
+    const saved = localStorage.getItem('sr_bookings');
+    return saved ? JSON.parse(saved) : [];
+  } catch { return []; }
 }
+
+function saveBookings(bookings) {
+  localStorage.setItem('sr_bookings', JSON.stringify(bookings));
+}
+
+/* ── AdminPanel ── */
 
 export default function AdminPanel() {
   const [tab, setTab] = useState('bookings');
@@ -542,47 +510,81 @@ export default function AdminPanel() {
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [sharedBookings, setSharedBookings] = useState([]);
   const [syncState, setSyncState] = useState('loading');
+  const [syncTimestamp, setSyncTimestamp] = useState(null);
   const [places, setPlaces] = useState(placesData);
-  const [overridesVersion, setOverridesVersion] = useState(0);
-  const refreshOverrides = () => setOverridesVersion(v => v + 1);
-  const refreshBookings = () => {
+  const [editingCircuit, setEditingCircuit] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const showToast = useCallback((message, type = 'success') => {
+    setToast({ message, type, id: Date.now() });
+  }, []);
+
+  const refreshBookings = useCallback(() => {
     setBookings(loadBookings());
     setRefreshKey(k => k + 1);
-  };
-  const categories = [...new Set(places.map(p => p.category))];
+  }, []);
+
+  const categories = useMemo(() => [...new Set(places.map(p => p.category))], [places]);
 
   useEffect(() => {
     getPlaces().then(setPlaces).catch(() => {});
   }, []);
 
   useEffect(() => {
-    const token = import.meta.env.VITE_GITHUB_TOKEN;
     fetchAllBookings().then(shared => {
       setSharedBookings(shared);
-      setSyncState(token ? 'synced' : 'token_missing');
+      setSyncState(import.meta.env.VITE_GITHUB_TOKEN ? 'synced' : 'token_missing');
+      setSyncTimestamp(new Date().toLocaleTimeString());
     }).catch(() => {
       setSyncState('error');
+      setSyncTimestamp(new Date().toLocaleTimeString());
     });
-  }, []);
+  }, [refreshKey]);
 
   const seen = new Set();
-  const allBookings = [...sharedBookings, ...bookings].filter(b => {
-    if (seen.has(b.id)) return false;
-    seen.add(b.id);
-    return true;
-  });
+  const allBookings = useMemo(() =>
+    [...sharedBookings, ...bookings].filter(b => {
+      if (seen.has(b.id)) return false;
+      seen.add(b.id);
+      return true;
+    }),
+    [sharedBookings, bookings]
+  );
 
-  const handleStatusUpdate = async (bookingId, newStatus, rider) => {
-    updateSingleBooking(bookingId, { status: newStatus, rider });
-    refreshBookings();
-  };
+  const handleStatusUpdate = useCallback(async (bookingId, newStatus, rider) => {
+    try {
+      await updateSingleBooking(bookingId, { status: newStatus, rider });
+      refreshBookings();
+      showToast(`Booking ${bookingId} updated to ${newStatus}`, 'success');
+    } catch {
+      showToast(`Failed to update ${bookingId}`, 'error');
+    }
+  }, [refreshBookings, showToast]);
 
-  const handleDeleteBooking = async (bookingId) => {
-    await deleteBooking(bookingId);
-    refreshBookings();
-  };
+  const handleDeleteBooking = useCallback(async (bookingId) => {
+    try {
+      await deleteBooking(bookingId);
+      refreshBookings();
+      showToast(`Booking ${bookingId} deleted`, 'success');
+    } catch {
+      showToast(`Failed to delete ${bookingId}`, 'error');
+    }
+  }, [refreshBookings, showToast]);
 
-  const exportCSV = () => {
+  const handleManualSync = useCallback(() => {
+    setSyncState('loading');
+    fetchAllBookings().then(shared => {
+      setSharedBookings(shared);
+      setSyncState('synced');
+      setSyncTimestamp(new Date().toLocaleTimeString());
+      showToast('Bookings synced', 'success');
+    }).catch(() => {
+      setSyncState('error');
+      showToast('Sync failed', 'error');
+    });
+  }, [showToast]);
+
+  const exportCSV = useCallback(() => {
     const headers = ['ID', 'Name', 'Phone', 'Circuit', 'Vehicle', 'Pickup Location', 'Spots', 'Pickup Time', 'Status', 'Rider', 'Booking Fee', 'Rider Cost', 'Fuel Cost', 'Total', 'Route Distance', 'Notes', 'Created At'];
     const rows = bookings.map(b => [
       b.id, b.name, b.phone, b.circuitName || b.circuitId || '', b.vehicleType || 'bike', b.pickupLocation || 'Shillong',
@@ -603,14 +605,19 @@ export default function AdminPanel() {
     a.download = `shillong-ride-bookings-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-  };
+    showToast('CSV exported', 'success');
+  }, [bookings, places, showToast]);
 
   return (
     <div className="min-h-screen bg-[#0b0b12]">
+      <AnimatePresence>
+        <Toast toast={toast} onDone={() => setToast(null)} />
+      </AnimatePresence>
+
       <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <h1 className="text-3xl sm:text-5xl font-black text-white">Admin Panel</h1>
               <span className={'px-2 py-0.5 text-[10px] font-bold uppercase rounded ' + (
                 syncState === 'loading' ? 'bg-yellow-500/20 text-yellow-400' :
@@ -623,9 +630,20 @@ export default function AdminPanel() {
                  'Sync error'}
               </span>
             </div>
-            <p className="text-white/55 text-sm sm:text-base mt-1">Manage bookings, places, and images</p>
+            <p className="text-white/55 text-sm sm:text-base mt-1">
+              Manage bookings, circuits, spots, and images
+              {syncTimestamp && <span className="text-white/30 ml-2 text-xs font-mono">Last synced: {syncTimestamp}</span>}
+            </p>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={handleManualSync}
+              className="px-3 py-2 brut-btn text-xs flex items-center gap-1.5"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
+              Sync
+            </button>
             <button
               type="button"
               onClick={exportCSV}
@@ -638,15 +656,13 @@ export default function AdminPanel() {
         </div>
 
         <div className="flex gap-2 mb-6">
-          {['bookings', 'places', 'images'].map(t => (
+          {['bookings', 'circuits', 'images'].map(t => (
             <button
               key={t}
               type="button"
               onClick={() => setTab(t)}
               className={`px-5 py-2 rounded-lg text-sm font-bold capitalize transition-all ${
-                tab === t
-                  ? 'bg-amber-400 text-black'
-              : 'brut-btn'
+                tab === t ? 'bg-amber-400 text-black' : 'brut-btn'
               }`}
             >
               {t}
@@ -655,16 +671,24 @@ export default function AdminPanel() {
         </div>
 
         {tab === 'bookings' && (
-          <BookingsView bookings={allBookings} places={places} exportCSV={exportCSV} onUpdateStatus={handleStatusUpdate} onDeleteBooking={(id) => setDeleteConfirmId(id)} />
-        )}
-        {tab === 'places' && (
-          <PlacesView
+          <BookingsView
+            key={refreshKey}
+            bookings={allBookings}
             places={places}
-            categories={categories}
-            overridesVersion={overridesVersion}
-            refreshOverrides={refreshOverrides}
+            exportCSV={exportCSV}
+            onUpdateStatus={handleStatusUpdate}
+            onDeleteBooking={(id) => setDeleteConfirmId(id)}
           />
         )}
+
+        {tab === 'circuits' && (
+          <CircuitsView
+            places={places}
+            onCircuitEdit={(circuit) => setEditingCircuit(circuit)}
+            onToast={(msg, type) => showToast(msg, type)}
+          />
+        )}
+
         {tab === 'images' && <ImageUploader />}
       </div>
 
@@ -681,6 +705,16 @@ export default function AdminPanel() {
         }}
         onCancel={() => setDeleteConfirmId(null)}
       />
+
+      {editingCircuit && (
+        <CircuitEditor
+          circuit={editingCircuit}
+          allPlaces={places}
+          onClose={() => setEditingCircuit(null)}
+          onSaved={() => showToast('Circuit saved and deployed!', 'success')}
+          onError={(msg) => showToast(msg, 'error')}
+        />
+      )}
     </div>
   );
 }
