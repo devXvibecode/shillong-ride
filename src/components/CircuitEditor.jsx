@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getAllImagesForPlace, getImageSourceList, addImageToPlace, removeImageFromPlace, setPrimaryImage, resetPlaceImages } from '../engines/imageService';
 import { saveCircuitData, fetchFileFromGitHub } from '../engines/adminSyncService';
+import circuitsData from '../data/circuits.json';
 import Modal from './Modal';
 
 const CATEGORIES = ['lake', 'waterfall', 'viewpoint', 'museum', 'forest', 'village', 'river', 'cave', 'religious', 'market', 'park', 'activity'];
@@ -281,7 +282,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
         }
       }
 
-      const finalCircuits = JSON.parse(JSON.stringify(await fetchFileFromGitHub('data/circuits.json') || [circuit]));
+      const finalCircuits = JSON.parse(JSON.stringify(await fetchFileFromGitHub('data/circuits.json') || circuitsData));
       const circuitIdx = finalCircuits.findIndex(c => c.id === circuit.id);
       if (circuitIdx >= 0) {
         finalCircuits[circuitIdx] = { ...finalCircuits[circuitIdx], spots: circuitSpots.map(p => p.id) };

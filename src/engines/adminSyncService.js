@@ -34,6 +34,15 @@ async function getLatestCommitSha() {
   return data.object.sha;
 }
 
+async function resolveTreeSha(commitSha) {
+  const res = await fetch(`${API}/git/commits/${commitSha}`, {
+    headers: { Authorization: `Bearer ${TOKEN}` },
+  });
+  if (!res.ok) throw new Error(`Failed to get commit: ${res.status}`);
+  const data = await res.json();
+  return data.tree.sha;
+}
+
 async function createBlob(content) {
   const res = await fetch(`${API}/git/blobs`, {
     method: 'POST',
@@ -88,9 +97,10 @@ export async function saveCircuitData(placesData, circuitsData, message) {
 
   try {
     const parentSha = await getLatestCommitSha();
+    const baseTreeSha = await resolveTreeSha(parentSha);
     const placesSha = await createBlob(JSON.stringify(placesData, null, 2));
     const circuitsSha = await createBlob(JSON.stringify(circuitsData, null, 2));
-    const treeSha = await createTree(parentSha, [
+    const treeSha = await createTree(baseTreeSha, [
       { path: 'data/places.json', sha: placesSha },
       { path: 'data/circuits.json', sha: circuitsSha },
     ]);
