@@ -290,8 +290,33 @@ export default function JourneyBuilder() {
           >
             <h3 className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">Price Breakdown</h3>
             <div className="space-y-2.5">
+              {/* Service Cost breakdown */}
+              <div className="mb-2">
+                <div className="flex justify-between items-center py-1.5 border-b-2 border-orange-500/20">
+                  <p className="font-['Anton'] text-sm tracking-wider text-orange-500">Service Cost</p>
+                  <span className="font-['Anton'] text-base text-orange-500">
+                    <AnimatedPrice value={price.serviceTotal} />
+                  </span>
+                </div>
+                {Object.entries(price.serviceBreakdown).map(([key, svc], i) => (
+                  <motion.div
+                    key={key}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 + i * 0.08, duration: 0.25 }}
+                    className="flex justify-between items-center py-1 pl-4 border-b-2 border-[#2e2e44] last:border-b-0"
+                  >
+                    <div>
+                      <p className="font-['Anton'] text-xs tracking-wider text-white/60">{svc.label}</p>
+                      <p className="text-white/35 text-[9px] font-mono">Covered for your ride</p>
+                    </div>
+                    <span className="font-['Anton'] text-sm text-white/70">
+                      <AnimatedPrice value={svc.amount} />
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
               {[
-                { label: 'Booking Fee', desc: 'Platform & support', value: price.ownerFee, accent: true },
                 { label: 'Rider Cost', desc: 'Your personal guide', value: price.riderFee, accent: false },
                 { label: 'Fuel Cost', desc: `${price.routeDistance} km travelled`, value: price.fuelCost, accent: false },
               ].map((item, i) => (
@@ -299,7 +324,7 @@ export default function JourneyBuilder() {
                   key={item.label}
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 + i * 0.1, duration: 0.3 }}
+                  transition={{ delay: 0.9 + i * 0.1, duration: 0.3 }}
                   className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44] last:border-b-0"
                 >
                   <div>

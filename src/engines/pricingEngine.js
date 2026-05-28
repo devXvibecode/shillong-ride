@@ -9,15 +9,22 @@ const RIDER_FEES = {
   dawki_mawlynnong: 600,
 };
 
-const PLATFORM_FEE = 1200;
+const SERVICE_TOTAL = 1200;
+
+const SERVICE_BREAKDOWN = {
+  medicalEmergency: { label: 'Medical Emergency', amount: 400 },
+  processingFee: { label: 'Processing Fee', amount: 400 },
+  vehicleBreakdown: { label: 'Vehicle Breakdown', amount: 400 },
+};
 
 export function calculatePrice(route, circuitId) {
   const routeDistance = getRouteDistance(route);
 
   const fuelCost = Math.round(routeDistance * FUEL_RATE);
   const riderFee = RIDER_FEES[circuitId] || 500;
-  const ownerFee = PLATFORM_FEE;
-  const total = fuelCost + riderFee + ownerFee;
+  const serviceCost = Object.values(SERVICE_BREAKDOWN).map(s => s.amount);
+  const serviceTotal = serviceCost.reduce((a, b) => a + b, 0);
+  const total = fuelCost + riderFee + serviceTotal;
 
-  return { fuelCost, riderFee, ownerFee, total, routeDistance };
+  return { fuelCost, riderFee, serviceTotal, serviceBreakdown: SERVICE_BREAKDOWN, total, routeDistance };
 }
