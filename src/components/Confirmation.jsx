@@ -152,38 +152,25 @@ export default function Confirmation() {
         <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">PAYMENT RECEIPT</p>
 
         <div className="space-y-3">
-          {/* Service Cost breakdown */}
-          <div className="pb-2 border-b-2 border-orange-500/15">
-            <div className="flex justify-between items-center">
-              <p className="text-orange-500 font-['Anton'] text-sm tracking-wider">Service Cost</p>
-              <span className="text-orange-500 font-['Anton']">{fmt(p.serviceTotal)}</span>
-            </div>
-            {Object.entries(p.serviceBreakdown).map(([key, svc]) => (
-              <div key={key} className="flex justify-between items-center py-1 pl-4">
-                <div>
-                  <p className="text-white/50 font-['Anton'] text-[11px] tracking-wider">{svc.label}</p>
-                  <p className="text-white/30 text-[9px] font-mono">Covered for your ride</p>
-                </div>
-                <span className="text-white/50 font-['Anton'] text-xs">{fmt(svc.amount)}</span>
+          {Object.entries(p.serviceBreakdown).map(([key, svc]) => (
+            <div key={key} className="flex justify-between items-center pb-2 border-b-2 border-[#2e2e44]">
+              <div>
+                <p className="text-white font-['Anton'] text-sm tracking-wider">{svc.label}</p>
+                <p className="text-white/40 text-[11px] font-mono">{svc.desc}</p>
               </div>
-            ))}
-          </div>
-
+              <span className="text-white font-['Anton']">{fmt(svc.amount)}</span>
+            </div>
+          ))}
           <div className="flex justify-between items-center pb-2 border-b-2 border-[#2e2e44]">
             <div>
-              <p className="text-white font-['Anton'] text-sm tracking-wider">
-                <span className="text-white/40 mr-1">Rider Cost</span>
-              </p>
+              <p className="text-white font-['Anton'] text-sm tracking-wider">Rider Cost</p>
               <p className="text-white/40 text-[11px] font-mono">Your personal guide</p>
             </div>
             <span className="text-white font-['Anton']">{fmt(p.riderFee)}</span>
           </div>
-
-          <div className="flex justify-between items-center pb-2 border-b-2 border-[#2e2e44]">
+          <div className="flex justify-between items-center pb-2">
             <div>
-              <p className="text-white font-['Anton'] text-sm tracking-wider">
-                <span className="text-white/40 mr-1">Fuel Cost</span>
-              </p>
+              <p className="text-white font-['Anton'] text-sm tracking-wider">Fuel Cost</p>
               <p className="text-white/40 text-[11px] font-mono">{p.routeDistance} km travelled</p>
             </div>
             <span className="text-white font-['Anton']">{fmt(p.fuelCost)}</span>

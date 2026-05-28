@@ -12,9 +12,9 @@ const RIDER_FEES = {
 const SERVICE_TOTAL = 1200;
 
 const SERVICE_BREAKDOWN = {
-  medicalEmergency: { label: 'Medical Emergency', amount: 400 },
-  processingFee: { label: 'Processing Fee', amount: 400 },
-  vehicleBreakdown: { label: 'Vehicle Breakdown', amount: 400 },
+  medicalEmergency: { label: 'Medical Emergency', desc: 'Emergency coverage during ride', amount: 400 },
+  processingFee: { label: 'Processing Fee', desc: 'Booking system & support', amount: 400 },
+  vehicleBreakdown: { label: 'Vehicle Breakdown', desc: 'On-road breakdown assistance', amount: 400 },
 };
 
 export function calculatePrice(route, circuitId) {
