@@ -176,20 +176,20 @@ export default function Confirmation() {
               <p className="font-['Anton'] text-sm tracking-wider text-white/90">Rider Cost</p>
               <p className="text-white/40 text-[11px] font-mono">Your personal guide — accompanies you throughout the trip</p>
             </div>
-            <span className="font-['Anton'] text-base text-white">{fmt(p.riderFee)}</span>
+            <span className="font-['Anton'] text-base text-orange-500">{fmt(p.riderFee)}</span>
           </div>
           <div className="flex justify-between items-center py-1.5">
             <div>
               <p className="font-['Anton'] text-sm tracking-wider text-white/90">Fuel Cost</p>
               <p className="text-white/40 text-[11px] font-mono">Calculated at ₹10/km for {p.routeDistance} km round trip</p>
             </div>
-            <span className="font-['Anton'] text-base text-white">{fmt(p.fuelCost)}</span>
+            <span className="font-['Anton'] text-base text-orange-500">{fmt(p.fuelCost)}</span>
           </div>
         </div>
 
         <div className="flex justify-between items-center pt-4 mt-3 border-t-2 border-orange-500/20">
           <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-          <span className="font-['Anton'] text-orange-500 text-2xl tracking-wider">
+          <span className="font-['Anton'] text-white text-2xl tracking-wider">
             <AnimatedPrice value={p.total} />
           </span>
         </div>

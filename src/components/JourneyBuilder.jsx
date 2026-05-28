@@ -330,7 +330,7 @@ export default function JourneyBuilder() {
                   <p className="font-['Anton'] text-sm tracking-wider text-white/90">Rider Cost</p>
                   <p className="text-white/40 text-[10px] font-mono">Your personal guide — accompanies you throughout the trip</p>
                 </div>
-                <span className="font-['Anton'] text-base text-white">
+                <span className="font-['Anton'] text-base text-orange-500">
                   <AnimatedPrice value={price.riderFee} />
                 </span>
               </motion.div>
@@ -345,7 +345,7 @@ export default function JourneyBuilder() {
                   <p className="font-['Anton'] text-sm tracking-wider text-white/90">Fuel Cost</p>
                   <p className="text-white/40 text-[10px] font-mono">Calculated at ₹10/km for {price.routeDistance} km round trip</p>
                 </div>
-                <span className="font-['Anton'] text-base text-white">
+                <span className="font-['Anton'] text-base text-orange-500">
                   <AnimatedPrice value={price.fuelCost} />
                 </span>
               </motion.div>
@@ -357,7 +357,7 @@ export default function JourneyBuilder() {
               className="flex justify-between items-center mt-4 pt-3 border-t-2 border-orange-500/20"
             >
               <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-              <span className="font-['Anton'] text-orange-500 text-2xl tracking-wider">
+              <span className="font-['Anton'] text-white text-2xl tracking-wider">
                 <AnimatedPrice value={price.total} />
               </span>
             </motion.div>
