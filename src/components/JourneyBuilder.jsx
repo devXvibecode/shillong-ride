@@ -288,7 +288,7 @@ export default function JourneyBuilder() {
             transition={{ duration: 0.4 }}
             className="brut-card p-4 sm:p-5 mb-5"
           >
-            <h3 className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">Price Breakdown</h3>
+            <h3 className="font-['Anton'] text-orange-500 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">Price Breakdown</h3>
             <div className="space-y-2.5">
               {/* Service Cost section */}
               <div className="pb-1">

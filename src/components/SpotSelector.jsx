@@ -1,14 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useData } from '../context/DataContext';
 import { useBooking } from '../context/BookingContext';
-import { calculatePrice } from '../engines/pricingEngine';
-import { optimizeRoute } from '../engines/routeOptimizer';
 import PlaceCard from './PlaceCard';
-
-function fmt(n) {
-  return '₹' + Number(n).toLocaleString('en-IN');
-}
 
 export default function SpotSelector() {
   const { places } = useData();
@@ -18,9 +12,6 @@ export default function SpotSelector() {
     if (selectedSpots.length === 4) {
     }
   }, [selectedSpots.length]);
-
-  const route = useMemo(() => optimizeRoute(selectedSpots), [selectedSpots]);
-  const price = useMemo(() => calculatePrice(route, selectedCircuit?.id), [route, selectedCircuit?.id]);
 
   if (!selectedCircuit) return null;
 
@@ -106,11 +97,6 @@ export default function SpotSelector() {
                   <p className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-wider">
                     {selectedSpots.length} of 4 spots selected
                   </p>
-                  {selectedSpots.length > 0 && (
-                    <p className="font-['Anton'] text-orange-500 text-sm tracking-wider">
-                      Total: {fmt(price.total)}
-                    </p>
-                  )}
                 </div>
                 <button
                   type="button"
