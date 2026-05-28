@@ -20,6 +20,8 @@ export default function Footer() {
               <p className="font-['Anton'] text-orange-500 text-xs uppercase tracking-[0.15em] mb-4">Quick Links</p>
               <nav aria-label="Quick links" className="flex flex-col gap-2">
                 <Link to="/" className="text-white/55 hover:text-orange-400 transition-colors text-sm">Home</Link>
+                <Link to="/booking" className="text-white/55 hover:text-orange-400 transition-colors text-sm">Start Booking</Link>
+                <Link to="/my-bookings" className="text-white/55 hover:text-orange-400 transition-colors text-sm">My Bookings</Link>
                 <Link to="/contact" className="text-white/55 hover:text-orange-400 transition-colors text-sm">Contact & FAQ</Link>
               </nav>
             </div>

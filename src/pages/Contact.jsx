@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const faqs = [
@@ -39,11 +39,6 @@ const faqs = [
     a: 'ShillongRide is designed for one passenger per experience — a private pillion tour on a scooty or bike with your personal guide. We don\'t currently support group bookings. Each traveler books individually and is assigned their own guide.',
   },
 ];
-
-function useAccordionHeight() {
-  const ref = useRef(null);
-  return ref;
-}
 
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState(null);

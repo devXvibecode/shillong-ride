@@ -1,9 +1,8 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import { createBooking } from '../engines/bookingService';
 import { sendBookingEmail } from '../engines/emailService';
-import { pushBooking, updateSingleBooking } from '../engines/bookingSyncService';
+import { pushBooking } from '../engines/bookingSyncService';
 import places from '../data/places.json';
-import circuits from '../data/circuits.json';
 
 const BookingContext = createContext();
 
@@ -93,26 +92,12 @@ export function BookingProvider({ children }) {
         return updated;
       });
       setBooking(bookingData);
-      pushBooking(bookingData);
+      pushBooking(bookingData).catch(() => {});
       return bookingData;
     } finally {
       setSubmitting(false);
     }
-  }, [selectedCircuit, selectedSpots, timeSlot, formData]);
-
-  const updateBookingStatus = useCallback((bookingId, newStatus, rider) => {
-    setBookings(prev => {
-      const updated = prev.map(b => {
-        if (b.id === bookingId) {
-          return { ...b, status: newStatus, rider: rider || b.rider };
-        }
-        return b;
-      });
-      localStorage.setItem('sr_bookings', JSON.stringify(updated));
-      return updated;
-    });
-    updateSingleBooking(bookingId, { status: newStatus, rider });
-  }, []);
+  }, [selectedCircuit, selectedSpots, timeSlot, formData, vehicleType]);
 
   return (
     <BookingContext.Provider value={{
@@ -121,7 +106,7 @@ export function BookingProvider({ children }) {
       timeSlot, setTimeSlot, vehicleType, setVehicleType,
       formData, updateFormField, resetForm,
       booking, submitting,
-      submitBooking, reset, bookings, updateBookingStatus,
+      submitBooking, reset,
     }}>
       {children}
     </BookingContext.Provider>

@@ -12,7 +12,6 @@ import Booking from './pages/Booking';
 import MyBookings from './pages/MyBookings';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
-import './App.css';
 
 function AppLayout({ children }) {
   return (

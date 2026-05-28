@@ -49,13 +49,21 @@ export default function Confirmation() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.3, type: 'spring', stiffness: 150 }}
-        className="inline-flex items-center px-6 py-3 mx-auto mb-6 border-4 border-green-700/50 rounded-xl bg-green-900/10"
+        className="inline-flex items-center px-5 py-2 mx-auto mb-5 border-2 border-green-500/30 rounded-lg bg-green-500/10"
       >
-        <span className="font-['Anton'] text-green-600 text-xl sm:text-2xl uppercase tracking-[0.15em]">APPROVED</span>
+        <span className="font-['Anton'] text-green-400 text-sm uppercase tracking-[0.15em]">BOOKING CONFIRMED</span>
       </motion.div>
 
-      <h2 className="font-['Anton'] text-3xl sm:text-4xl text-white uppercase tracking-[0.02em] mb-2">Booking Confirmed!</h2>
-      <p className="text-white/55 text-sm mb-8 font-['Anton'] uppercase tracking-wider">Your Shillong adventure is booked</p>
+      <h2 className="font-['Anton'] text-3xl sm:text-4xl text-white uppercase tracking-[0.02em] mb-4">Booking Confirmed!</h2>
+
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="text-white/70 text-sm mb-6 max-w-sm mx-auto leading-relaxed"
+      >
+        Thank you for booking with ShillongRide. Your spots have been secured and we will get in touch with you shortly to confirm your pickup timings.
+      </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -77,13 +85,9 @@ export default function Confirmation() {
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Name</span>
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.name}</span>
           </div>
-          <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
+          <div className="flex justify-between items-center py-1.5">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Phone</span>
             <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.phone}</span>
-          </div>
-          <div className="flex justify-between items-center py-1.5">
-            <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Status</span>
-            <span className="text-yellow-400 font-['Anton'] text-sm uppercase tracking-wider">{booking.status}</span>
           </div>
         </div>
       </motion.div>
@@ -138,9 +142,8 @@ export default function Confirmation() {
         </div>
       </motion.div>
 
-      <p className="text-white/55 text-sm mb-8 max-w-sm mx-auto leading-relaxed font-['Anton'] uppercase tracking-wider text-xs">
-        A confirmation has been sent to our team. Your guide will be assigned shortly.
-        Payment is collected after the ride.
+      <p className="text-white/50 text-xs mb-8 max-w-sm mx-auto leading-relaxed">
+        Payment is collected after the ride. A confirmation has been sent to our team and your guide will be assigned shortly.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
