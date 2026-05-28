@@ -32,7 +32,7 @@ const faqs = [
   },
   {
     q: 'Is solo travel safe?',
-    a: 'Absolutely. Our guides are trained locals who accompany you from pickup to drop-off. Vetted, reliable, and deeply familiar with the terrain. Solo travelers make up most of our bookings.',
+    a: 'Absolutely. Our guides are trained locals who accompany you from pickup to drop-off. Vetted, reliable, and deeply familiar with the terrain. Solo travelers make up most of our community — you\'re in good company.',
   },
   {
     q: 'Can I book for a group?',
@@ -51,7 +51,7 @@ export default function Contact() {
             <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.15em]">HELP DESK</span>
           </div>
           <h1 className="font-['Anton'] text-4xl sm:text-6xl text-white uppercase tracking-[0.02em] mb-4">Contact & FAQ</h1>
-          <p className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Everything you need to know before you ride.</p>
+          <p className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Real questions from real travelers. We keep it straightforward.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">

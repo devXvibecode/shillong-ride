@@ -234,7 +234,7 @@ export default function Checkout() {
                 type="submit"
                 disabled={submitting}
                 className={`flex-1 px-6 py-3.5 font-['Anton'] text-base uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
-                  submitting ? 'brut-btn-primary opacity-40 cursor-not-allowed' : 'brut-btn-primary'
+                  submitting ? 'brut-btn-primary opacity-40 cursor-not-allowed' : 'brut-btn-primary btn-bounce'
                 }`}
               >
                 {submitting ? (

@@ -62,7 +62,7 @@ export default function Confirmation() {
         transition={{ delay: 0.4 }}
         className="text-white/70 text-sm mb-6 max-w-sm mx-auto leading-relaxed"
       >
-        Thank you for booking with ShillongRide. Your spots have been secured and we will get in touch with you shortly to confirm your pickup timings.
+        Thank you for booking with ShillongRide. Your spots are locked in and we will reach out shortly to coordinate your pickup. The road is ready — you just need to show up.
       </motion.p>
 
       <motion.div
@@ -143,13 +143,13 @@ export default function Confirmation() {
       </motion.div>
 
       <p className="text-white/50 text-xs mb-8 max-w-sm mx-auto leading-relaxed">
-        Payment is collected after the ride. A confirmation has been sent to our team and your guide will be assigned shortly.
+        Payment is collected after the ride — cash or UPI. A confirmation has been sent to our team and your guide will be assigned shortly. We are a small Shillong startup, and every booking means the world to us.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <button
           onClick={() => { reset(); navigate('/'); }}
-          className="brut-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block"
+          className="brut-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block btn-bounce"
         >
           Book Another Tour
         </button>

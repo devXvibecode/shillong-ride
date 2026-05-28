@@ -45,7 +45,7 @@ export default function Hero() {
               <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500" />
             </span>
             <span className="font-['Anton'] text-orange-400 text-xs sm:text-sm uppercase tracking-[0.15em]">
-              Discover Meghalaya's Wild Beauty
+              Built For Travelers Who Want More
             </span>
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" style={{ animationDelay: '1s' }} />
@@ -61,7 +61,7 @@ export default function Hero() {
           className="mb-6 sm:mb-8"
         >
           <h1 className="font-['Anton'] text-6xl sm:text-7xl md:text-8xl text-white tracking-[0.06em] leading-none">
-            SHILLONG
+            EXPLORE SHILLONG
           </h1>
         </motion.div>
 
@@ -71,42 +71,29 @@ export default function Hero() {
           transition={{ delay: 0.6, duration: 0.6 }}
           className="font-['Bebas_Neue'] text-5xl sm:text-7xl md:text-8xl text-orange-500 tracking-[0.04em] leading-none mb-6"
         >
-          UNFOLDS
+          BEYOND THE ORDINARY
         </motion.h2>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="inline-block mb-8"
-        >
-          <div className="px-4 py-2 bg-[#ffd600] rounded-lg shadow-[3px_3px_0_#b38f00] border-2 border-[#cca300]">
-            <span className="font-['Anton'] text-black text-xs sm:text-sm uppercase tracking-[0.08em]">
-              Curated Rides, Real Connections
-            </span>
-          </div>
-        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.6 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
           className="text-white/70 text-sm sm:text-base md:text-lg max-w-2xl mx-auto font-medium leading-relaxed mb-10"
         >
-           Your personal guide takes you deep into Meghalaya's most breathtaking landscapes.
-          Every ride is a story — waterfalls, living roots, ancient forests, and skies that touch the earth.
-           Photo stops included. Just you, the road, and the unknown.
-          </motion.p>
+          We are a Shillong-based startup building a new way to explore Meghalaya.
+          Your personal guide takes you deep into breathtaking landscapes — waterfalls, living roots, ancient forests,
+          and skies that touch the earth. Photo stops included. You, the road, and the unknown.
+        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
+          transition={{ delay: 1, duration: 0.6 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <Link
             to="/booking"
-            className="brut-btn-primary inline-block px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg tracking-widest"
+            className="brut-btn-primary inline-block px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg tracking-widest btn-bounce"
           >
             Start Your Journey
           </Link>
@@ -117,17 +104,12 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none scroll-indicator"
         aria-hidden="true"
       >
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="#e65100" stroke="#111" strokeWidth="1">
-            <polygon points="12,19 3,5 21,5" />
-          </svg>
-        </motion.div>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#e65100" stroke="#111" strokeWidth="1">
+          <polygon points="12,19 3,5 21,5" />
+        </svg>
       </motion.div>
     </section>
   );

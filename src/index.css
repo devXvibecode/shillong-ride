@@ -239,6 +239,82 @@ input:focus, textarea:focus, select:focus, button:focus-visible, [role="button"]
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Marquee ── */
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Card Lift ── */
+
+.brut-card,
+.brut-card-accent,
+.brut-card-lg {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.brut-card-hover:hover {
+  transform: translateY(-4px) rotate(var(--rot, 0deg));
+  box-shadow: 6px 6px 0 var(--border), 0 8px 25px rgba(0,0,0,0.3);
+  border-color: var(--border-strong);
+}
+
+/* ── Button Bounce ── */
+
+@keyframes bounce-in {
+  0% { transform: scale(0.95); }
+  40% { transform: scale(1.04); }
+  70% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+
+.btn-bounce {
+  animation: bounce-in 0.4s ease;
+}
+
+/* ── Scroll Indicator ── */
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+.scroll-indicator {
+  animation: scroll-bounce 1.8s ease-in-out infinite;
+}
+
+/* ── Sticky Mobile CTA ── */
+
+.sticky-booking-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+  background: var(--bg-elevated);
+  border-top: 2px solid var(--border-accent);
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .sticky-booking-cta {
+    display: block;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
