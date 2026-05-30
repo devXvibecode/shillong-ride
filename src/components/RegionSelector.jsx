@@ -12,7 +12,6 @@ const circuitIcons = {
 
 export default function RegionSelector() {
   const { selectedCircuit, setSelectedCircuit, setStep, isPremium } = useBooking();
-  const totalSteps = isPremium ? 9 : 7;
 
   const select = (circuit) => {
     setSelectedCircuit(circuit);
@@ -23,10 +22,8 @@ export default function RegionSelector() {
     <QuestionFlow
       question="Where do you want to explore?"
       subtext="Each region has its own rhythm and beauty"
-      step={2}
-      totalSteps={totalSteps}
       showBack
-      onBack={() => setStep(1)}
+      onBack={() => setStep(isPremium ? 1 : 0)}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {circuits.map((circuit, i) => (

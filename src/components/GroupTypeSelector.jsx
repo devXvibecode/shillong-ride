@@ -13,12 +13,10 @@ const icons = {
 
 export default function GroupTypeSelector() {
   const { groupType, setGroupType, setStep, isPremium } = useBooking();
-  const totalSteps = isPremium ? 9 : 3;
-
   useEffect(() => {
     if (!isPremium) {
       setGroupType('solo');
-      setStep(3);
+      setStep(2);
     }
   }, []);
 
@@ -33,8 +31,6 @@ export default function GroupTypeSelector() {
     <QuestionFlow
       question="Who are you traveling with?"
       subtext="This helps us personalize your experience"
-      step={1}
-      totalSteps={totalSteps}
       showBack
       onBack={() => setStep(0)}
     >

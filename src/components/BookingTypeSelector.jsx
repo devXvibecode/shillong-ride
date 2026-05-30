@@ -9,7 +9,7 @@ export default function BookingTypeSelector() {
     setBookingType(type);
     if (type === 'normal') {
       setGroupType('solo');
-      setStep(3);
+      setStep(2);
     } else {
       setStep(1);
     }
@@ -19,8 +19,6 @@ export default function BookingTypeSelector() {
     <QuestionFlow
       question="Choose Your Experience"
       subtext="Two ways to explore Meghalaya — pick your style"
-      step={0}
-      totalSteps={0}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <motion.button

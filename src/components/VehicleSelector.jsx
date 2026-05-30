@@ -14,8 +14,6 @@ export default function VehicleSelector() {
     <QuestionFlow
       question="Choose your ride"
       subtext="Both options come with a personal buddy/guide"
-      step={5}
-      totalSteps={9}
       showBack
       onBack={() => setStep(4)}
     >

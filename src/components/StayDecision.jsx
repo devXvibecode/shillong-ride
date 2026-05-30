@@ -4,7 +4,6 @@ import QuestionFlow from './QuestionFlow';
 
 export default function StayDecision() {
   const { setStep, isPremium } = useBooking();
-  const totalSteps = isPremium ? 9 : 8;
 
   const handleNo = () => setStep(5);
   const handleYes = () => setStep(5);
@@ -13,8 +12,6 @@ export default function StayDecision() {
     <QuestionFlow
       question="Are you planning to stay overnight?"
       subtext="This decides whether we arrange a homestay for you"
-      step={4}
-      totalSteps={totalSteps}
       showBack
       onBack={() => setStep(3)}
     >

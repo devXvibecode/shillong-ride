@@ -21,8 +21,6 @@ export default function TimeSlotPicker() {
     <QuestionFlow
       question="Pick your preferred time"
       subtext="When would you like to start your journey?"
-      step={6}
-      totalSteps={8}
       showBack
       onBack={() => setStep(5)}
     >

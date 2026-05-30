@@ -120,7 +120,7 @@ function NormalReceipt({ p }) {
       <div className="flex justify-between items-center pt-3 mt-3 border-t-2 border-orange-500/20">
         <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
         <span className="font-['Anton'] text-white text-2xl tracking-wider">
-          <AnimatedPrice value={p.total} />
+          <AnimatedPrice value={p.groupTotal || p.total} />
         </span>
       </div>
     </>

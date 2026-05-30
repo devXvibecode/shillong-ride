@@ -33,7 +33,6 @@ export function BookingProvider({ children }) {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const isPremium = bookingType === 'premium';
-  const totalSteps = isPremium ? 9 : 8;
 
   const addSpot = useCallback((spotId) => {
     setSelectedSpots(prev => {
@@ -148,7 +147,7 @@ export function BookingProvider({ children }) {
     selectedHomestay, setSelectedHomestay,
     nodalPoint, setNodalPoint,
     agreedToTerms, setAgreedToTerms,
-    isPremium, totalSteps,
+    isPremium,
     submitNormalBooking, submitPremiumBooking,
   };
 

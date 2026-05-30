@@ -247,7 +247,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                       Rider: <span className="text-white font-semibold">{booking.rider}</span>
                     </p>
                   )}
-                  <p className="text-amber-400 font-bold">{fmt(booking.priceBreakdown.total)}</p>
+                  <p className="text-amber-400 font-bold">{fmt(booking.priceBreakdown.groupTotal || booking.priceBreakdown.total)}</p>
                   <p className="text-white/40 text-[10px]">{new Date(booking.createdAt).toLocaleDateString()}</p>
                 </div>
               </button>

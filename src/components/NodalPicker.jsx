@@ -22,8 +22,6 @@ export default function NodalPicker() {
     <QuestionFlow
       question="Choose your pickup point"
       subtext="We'll start and end your journey from here"
-      step={5}
-      totalSteps={8}
       showBack
       onBack={() => setStep(4)}
     >

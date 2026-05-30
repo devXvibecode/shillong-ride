@@ -23,7 +23,7 @@ export default function NormalConfirm() {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  const route = useMemo(() => optimizeRoute(selectedSpots), [selectedSpots]);
+  const route = useMemo(() => optimizeRoute(selectedSpots, nodalPoint), [selectedSpots, nodalPoint]);
   const price = useMemo(() => calculateNormalPrice(route, selectedCircuit?.id, groupType), [route, selectedCircuit?.id, groupType]);
   const spotIds = route.filter(id => id !== 'police_bazar');
   const spotPlaces = spotIds.map(id => places.find(p => p.id === id)).filter(Boolean);
@@ -166,7 +166,7 @@ export default function NormalConfirm() {
         </div>
         <div className="flex justify-between items-center pt-3 mt-2 border-t-2 border-orange-500/20">
           <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
-          <span className="font-['Anton'] text-white text-2xl tracking-wider">{fmt(price.total)}</span>
+          <span className="font-['Anton'] text-white text-2xl tracking-wider">{fmt(price.groupTotal || price.total)}</span>
         </div>
       </motion.div>
 

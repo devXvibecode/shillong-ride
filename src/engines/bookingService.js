@@ -25,7 +25,7 @@ export function createBooking({ name, phone, pickupLocation, circuitId, spotIds,
 }
 
 export function createNormalBooking({ name, phone, circuitId, spotIds, groupType, nodalPoint, timeSlot }) {
-  const route = optimizeRoute(spotIds);
+  const route = optimizeRoute(spotIds, nodalPoint || 'police_bazar');
   const priceBreakdown = calculateNormalPrice(route, circuitId, groupType);
   const spotNames = spotIds.map(id => places.find(p => p.id === id)?.name || id);
   return {

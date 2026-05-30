@@ -41,8 +41,6 @@ export default function TimelinePreview() {
     <QuestionFlow
       question="Your day, at a glance"
       subtext="A preview of how your premium experience unfolds"
-      step={7}
-      totalSteps={9}
       showBack
       onBack={() => setStep(6)}
     >

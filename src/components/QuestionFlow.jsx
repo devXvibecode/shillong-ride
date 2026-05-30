@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export default function QuestionFlow({ question, subtext, children, onBack, showBack, skipLabel, onSkip, step, totalSteps, decorative }) {
+export default function QuestionFlow({ question, subtext, children, onBack, showBack, skipLabel, onSkip, decorative }) {
   const slideVariants = {
     initial: { opacity: 0, x: 60 },
     animate: { opacity: 1, x: 0, transition: { duration: 0.35, ease: 'easeOut' } },
@@ -57,18 +57,6 @@ export default function QuestionFlow({ question, subtext, children, onBack, show
         </div>
       </div>
 
-      {totalSteps > 0 && (
-        <div className="flex justify-center gap-2 mt-8 mb-4">
-          {Array.from({ length: totalSteps }).map((_, i) => (
-            <div
-              key={i}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                i <= step ? 'bg-orange-500' : 'bg-[#2e2e44]'
-              } ${i === step ? 'scale-150' : ''}`}
-            />
-          ))}
-        </div>
-      )}
     </motion.div>
   );
 }

@@ -90,7 +90,7 @@ export default function MyBookings() {
                       </div>
                       <div>
                         <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">Total</p>
-                        <p className="text-orange-500 font-['Anton'] text-base tracking-wider">{fmt(b.priceBreakdown?.total || 0)}</p>
+                        <p className="text-orange-500 font-['Anton'] text-base tracking-wider">{fmt((b.priceBreakdown?.groupTotal || b.priceBreakdown?.total) || 0)}</p>
                       </div>
                     </div>
                   </motion.div>

@@ -26,8 +26,6 @@ export default function HomestaySelector() {
     <QuestionFlow
       question="What kind of stay matches your vibe?"
       subtext="All stays are curated for comfort and local character"
-      step={6}
-      totalSteps={9}
       showBack
       onBack={() => setStep(5)}
     >
