@@ -1,20 +1,12 @@
 import { createContext, useContext, useState, useCallback } from 'react';
-import { createBooking, createNormalBooking, createPremiumBooking } from '../engines/bookingService';
+import { createNormalBooking, createPremiumBooking } from '../engines/bookingService';
 import { sendBookingEmail } from '../engines/emailService';
 import { pushBooking } from '../engines/bookingSyncService';
+import { loadBookings, saveBookings } from '../engines/storageService';
 
 const BookingContext = createContext();
 
 const EMPTY_FORM = { name: '', phone: '', notes: '', pickupLocation: '' };
-
-function loadBookings() {
-  try {
-    const saved = localStorage.getItem('sr_bookings');
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
-}
 
 export function BookingProvider({ children }) {
   const [step, setStep] = useState(0);
@@ -85,11 +77,12 @@ export function BookingProvider({ children }) {
         nodalPoint,
         timeSlot,
       });
+      bookingData.circuitName = selectedCircuit.name || selectedCircuit.shortName || selectedCircuit.id;
       const result = await sendBookingEmail(bookingData);
       bookingData.emailSent = result.success;
       setBookings(prev => {
         const updated = [bookingData, ...prev];
-        localStorage.setItem('sr_bookings', JSON.stringify(updated));
+        saveBookings(updated);
         return updated;
       });
       setBooking(bookingData);
@@ -116,11 +109,12 @@ export function BookingProvider({ children }) {
         homestay: selectedHomestay,
         timeSlot,
       });
+      bookingData.circuitName = selectedCircuit.name || selectedCircuit.shortName || selectedCircuit.id;
       const result = await sendBookingEmail(bookingData);
       bookingData.emailSent = result.success;
       setBookings(prev => {
         const updated = [bookingData, ...prev];
-        localStorage.setItem('sr_bookings', JSON.stringify(updated));
+        saveBookings(updated);
         return updated;
       });
       setBooking(bookingData);

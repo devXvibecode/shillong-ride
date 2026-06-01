@@ -12,5 +12,6 @@ export default defineConfig({
         admin: 'admin.html',
       },
     },
+    outDir: 'dist',
   },
 })

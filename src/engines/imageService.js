@@ -93,14 +93,14 @@ export function getImageSourceList(placeId) {
 export function getAllImagesForPlace(placeId) {
   const overrides = loadFromStorage();
   if (overrides[placeId] && overrides[placeId].length > 0) {
-    return overrides[placeId];
+    return overrides[placeId].map(resolveImageUrl);
   }
   const manifest = getManifestImages(placeId);
   if (manifest.length > 0) {
-    return manifest;
+    return manifest.map(resolveImageUrl);
   }
   const single = defaultImages[placeId];
-  return single ? [single] : [];
+  return single ? [resolveImageUrl(single)] : [DEFAULT_IMG];
 }
 
 export function addImageToPlace(placeId, url) {

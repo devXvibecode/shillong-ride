@@ -130,6 +130,7 @@ function NormalReceipt({ p }) {
 export default function Confirmation() {
   const navigate = useNavigate();
   const { booking, reset } = useBooking();
+  const circuitDisplay = booking?.circuitName || booking?.circuitId || '';
 
   if (!booking) {
     return (
@@ -217,7 +218,7 @@ export default function Confirmation() {
           </div>
           <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Circuit</span>
-            <span className="text-white font-['Anton'] text-sm tracking-wider">{booking.circuitId}</span>
+            <span className="text-white font-['Anton'] text-sm tracking-wider">{circuitDisplay}</span>
           </div>
           <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
             <span className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Name</span>
