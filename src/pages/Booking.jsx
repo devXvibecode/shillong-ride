@@ -43,7 +43,7 @@ export default function Booking() {
   const progress = ((step + 1) / (currentMaxStep + 1)) * 100;
 
   return (
-    <div className="min-h-screen bg-white pt-4 pb-20 px-4">
+    <div className="min-h-screen bg-white pb-20 px-4 pt-10">
       <div className="max-w-6xl mx-auto">
         {/* Progress Bar */}
         <div className="mb-12">
