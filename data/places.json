@@ -144,15 +144,6 @@
     "category": "cave"
   },
   {
-    "id": "air_force_museum",
-    "name": "Air Force Museum",
-    "description": "Indian Air Force museum displaying vintage aircraft, weapons, and aviation memorabilia.",
-    "price": 100,
-    "distanceWeight": 8,
-    "imageCount": 3,
-    "category": "museum"
-  },
-  {
     "id": "rhino_museum",
     "name": "Rhino Museum",
     "description": "A museum dedicated to the one-horned rhinoceros and wildlife conservation efforts.",
@@ -169,15 +160,6 @@
     "distanceWeight": 5,
     "imageCount": 3,
     "category": "activity"
-  },
-  {
-    "id": "cathedral_church",
-    "name": "Cathedral of Mary Help of Christians",
-    "description": "A beautiful Catholic cathedral with stunning stained glass and Gothic architecture.",
-    "price": 50,
-    "distanceWeight": 3,
-    "imageCount": 3,
-    "category": "religious"
   },
   {
     "id": "spread_eagle_falls",
@@ -214,15 +196,6 @@
     "distanceWeight": 2,
     "imageCount": 3,
     "category": "market"
-  },
-  {
-    "id": "cherrapunji_viewpoint",
-    "name": "Cherrapunji Viewpoint",
-    "description": "Scenic overlooks in Cherrapunji offering dramatic views of misty valleys and waterfalls.",
-    "price": 150,
-    "distanceWeight": 55,
-    "imageCount": 4,
-    "category": "viewpoint"
   },
   {
     "id": "mawsmai_village",

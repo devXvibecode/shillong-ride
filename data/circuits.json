@@ -13,6 +13,7 @@
       "wei_sawdong_falls",
       "dainthlen_falls",
       "seven_sisters_falls",
+      "wah_kaba_falls",
       "janailar_falls",
       "kynrem_falls",
       "mawsmai_caves",
@@ -21,6 +22,62 @@
       "garden_of_caves",
       "double_decker_root_bridge",
       "rainbow_falls"
+    ]
+  },
+  {
+    "id": "dawki_mawlynnong",
+    "name": "The Dawki & Mawlynnong Circuit",
+    "shortName": "Dawki Spot",
+    "tagline": "Crystal Rivers & Cleanest Village",
+    "description": "The eastern fork toward the Bangladesh border — rivers so clear you can see every pebble, and villages that define hospitality.",
+    "travelReality": "A world apart from Sohra. The Umngot River runs crystal-clear at Dawki, and Mawlynnong village has earned global recognition for its cleanliness and community-led tourism.",
+    "color": "#1565c0",
+    "spots": [
+      "mawlynnong_village",
+      "riwai_root_bridge",
+      "balancing_rock",
+      "sky_walk",
+      "dawki_river",
+      "dawki_viewpoint",
+      "tamabil_border",
+      "shnongpdeng"
+    ]
+  },
+  {
+    "id": "jaintia_hills",
+    "name": "The Jaintia Hills (Jowai) Circuit",
+    "shortName": "Jaintia Spot",
+    "tagline": "Turquoise Pools & Ancient Monoliths",
+    "description": "East into the Jaintia Hills — a land of blue pools, monoliths older than memory, and roads less traveled.",
+    "travelReality": "Jaw-dropping turquoise water holes and massive standing stones that have marked this landscape for centuries. Less crowded, more raw. Do not attempt to combine this with other routes in one day — the distance demands respect.",
+    "color": "#00838f",
+    "spots": [
+      "krang_suri_falls",
+      "phe_phe_falls",
+      "tyrrshi_falls",
+      "thadlaskein_lake",
+      "krem_chympe",
+      "nartiang_monoliths"
+    ]
+  },
+  {
+    "id": "shillong_local",
+    "name": "The Shillong Central & Local Circuit",
+    "shortName": "Shillong Spot",
+    "tagline": "City Gems & Scenic Escapes",
+    "description": "The pulse of Shillong — lakes, forests, lookouts, and local life within arm's reach.",
+    "travelReality": "Ideal for an arrival day, a relaxed rest between mountain routes, or a final farewell ride before you leave. Shillong reveals its quieter side here.",
+    "color": "#2e7d32",
+    "spots": [
+      "laitlum_canyon",
+      "mawphlang_sacred_forest",
+      "umiam_lake",
+      "elephant_falls",
+      "shillong_peak",
+      "wards_lake",
+      "lady_hydari_park",
+      "don_bosco_museum",
+      "shillong_hati"
     ]
   }
 ]
