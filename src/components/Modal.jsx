@@ -51,7 +51,7 @@ export default function Modal({ open, onClose, title, subtitle, children }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/65"
+            className="absolute inset-0 bg-black/75"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -61,26 +61,26 @@ export default function Modal({ open, onClose, title, subtitle, children }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.93, y: 10 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg neo-card-dark p-6 max-h-[85vh] overflow-y-auto"
+            className="relative w-full max-w-lg bg-white border-4 border-black shadow-[12px_12px_0px_#000] p-6 max-h-[85vh] overflow-y-auto"
             onClick={e => e.stopPropagation()}
             onKeyDown={handleKeyDown}
           >
             <div className="flex items-start justify-between mb-5">
               <div className="flex-1 min-w-0">
                 {title && (
-                  <h2 className="text-white font-bold text-lg leading-tight">{title}</h2>
+                  <h2 className="text-black font-black text-lg leading-tight uppercase tracking-wider">{title}</h2>
                 )}
                 {subtitle && (
-                  <p className="text-white/55 text-xs mt-0.5">{subtitle}</p>
+                  <p className="text-black/55 text-xs mt-0.5 font-bold">{subtitle}</p>
                 )}
               </div>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close dialog"
-                className="ml-4 w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all flex-shrink-0"
+                className="ml-4 w-8 h-8 flex items-center justify-center text-black/40 hover:text-black hover:bg-yellow-400 border-2 border-black transition-all flex-shrink-0"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>

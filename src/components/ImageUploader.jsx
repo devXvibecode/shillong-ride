@@ -66,20 +66,20 @@ export default function ImageUploader() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#16161f] border-2 border-[#2e2e44] rounded-xl p-6"
+      className="bg-white border-4 border-black shadow-[6px_6px_0px_#000] p-6"
     >
-      <h2 className="text-xl font-bold text-white mb-1">Upload Spot Images</h2>
-      <p className="text-white/50 text-sm mb-6">
+      <h2 className="text-xl font-black text-black mb-1 uppercase tracking-wider">Upload Spot Images</h2>
+      <p className="text-black/50 text-sm font-bold mb-6">
         Upload a photo from your device. It will be committed to GitHub and deployed automatically.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="text-white/60 text-xs font-bold uppercase tracking-wider mb-1.5 block">Circuit</label>
+          <label className="text-black/60 text-xs font-black uppercase tracking-wider mb-1.5 block">Circuit</label>
           <select
             value={circuitId}
             onChange={(e) => { setCircuitId(e.target.value); setSpotId(''); }}
-            className="w-full px-3 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-amber-400 appearance-none"
+            className="w-full px-3 py-2.5 border-4 border-black shadow-[3px_3px_0px_#000] text-black text-sm font-bold focus:outline-none appearance-none"
           >
             <option value="">Select circuit...</option>
             {circuits.map(c => (
@@ -89,12 +89,12 @@ export default function ImageUploader() {
         </div>
 
         <div>
-          <label className="text-white/60 text-xs font-bold uppercase tracking-wider mb-1.5 block">Spot</label>
+          <label className="text-black/60 text-xs font-black uppercase tracking-wider mb-1.5 block">Spot</label>
           <select
             value={spotId}
             onChange={(e) => setSpotId(e.target.value)}
             disabled={!circuitId}
-            className="w-full px-3 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-amber-400 appearance-none disabled:opacity-40"
+            className="w-full px-3 py-2.5 border-4 border-black shadow-[3px_3px_0px_#000] text-black text-sm font-bold focus:outline-none appearance-none disabled:opacity-40"
           >
             <option value="">Select spot...</option>
             {availableSpots.map(s => (
@@ -105,40 +105,40 @@ export default function ImageUploader() {
       </div>
 
       <div className="mb-4">
-        <label className="text-white/60 text-xs font-bold uppercase tracking-wider mb-1.5 block">Image</label>
+        <label className="text-black/60 text-xs font-black uppercase tracking-wider mb-1.5 block">Image</label>
         <input
           id="image-upload-input"
           type="file"
           accept="image/*"
           onChange={handleFileSelect}
-          className="w-full text-sm text-white/70 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-2 file:border-amber-400/30 file:bg-amber-400/10 file:text-amber-400 file:text-xs file:font-bold file:uppercase file:tracking-wider file:cursor-pointer hover:file:bg-amber-400/20"
+          className="w-full text-sm text-black/70 file:mr-4 file:py-2 file:px-4 file:border-4 file:border-black file:bg-yellow-400 file:text-black file:text-xs file:font-black file:uppercase file:tracking-wider file:cursor-pointer hover:file:bg-yellow-300 file:shadow-[3px_3px_0px_#000] file:transition-all"
         />
       </div>
 
       {preview && (
         <div className="mb-4">
-          <img src={preview} alt="Preview" className="max-h-48 rounded-lg border border-white/10" />
+          <img src={preview} alt="Preview" className="max-h-48 border-4 border-black" />
         </div>
       )}
 
       <button
         onClick={handleUpload}
         disabled={uploading || !circuitId || !spotId || !file}
-        className={`w-full py-3 rounded-lg text-sm font-bold uppercase tracking-wider transition-all ${
+        className={`w-full py-3 border-4 border-black shadow-[4px_4px_0px_#000] text-sm font-black uppercase tracking-wider transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
           uploading
-            ? 'bg-amber-400/50 text-black/50 cursor-not-allowed'
-            : 'bg-amber-400 text-black hover:bg-amber-500'
+            ? 'bg-yellow-300 text-black/50 cursor-not-allowed'
+            : 'bg-yellow-400 text-black hover:bg-yellow-300'
         } disabled:opacity-40`}
       >
         {uploading ? 'Uploading...' : 'Upload Image'}
       </button>
 
       {status && (
-        <div className={`mt-4 px-4 py-3 rounded-lg text-sm border ${
-          status.type === 'success' ? 'bg-green-500/20 border-green-500/30 text-green-400' :
-          status.type === 'error' ? 'bg-red-500/20 border-red-500/30 text-red-400' :
-          status.type === 'warn' ? 'bg-yellow-500/20 border-yellow-500/30 text-yellow-400' :
-          'bg-blue-500/20 border-blue-500/30 text-blue-400'
+        <div className={`mt-4 px-4 py-3 border-4 border-black font-bold text-sm ${
+          status.type === 'success' ? 'bg-green-500 text-white' :
+          status.type === 'error' ? 'bg-red-500 text-white' :
+          status.type === 'warn' ? 'bg-yellow-400 text-black' :
+          'bg-white text-black'
         }`}>
           {status.text}
         </div>
