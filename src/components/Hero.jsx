@@ -6,29 +6,30 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-8 pb-16 lg:pt-12 lg:pb-20 px-4 bg-white">
+    <section className="relative pt-0 pb-16 lg:pb-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, type: 'spring' }}
+            className="pt-8 lg:pt-12"
           >
             <div className="inline-block bg-black text-white px-6 py-2 font-black text-sm uppercase mb-8 rotate-[-2deg] shadow-[4px_4px_0px_#f97316]">
               Shillong's #1 Adventure Startup
             </div>
-            <h1 className="text-5xl sm:text-7xl lg:text-9xl font-anton leading-[0.95] mb-10">
+            <h1 className="text-4xl sm:text-7xl lg:text-9xl font-anton leading-[1.1] sm:leading-[0.95] mb-6 sm:mb-10">
               EXPLORE <br />
               <span className="text-orange-500 text-stroke">MEGHALAYA</span>
             </h1>
-            <p className="text-2xl font-bold text-slate-700 mb-12 max-w-lg leading-tight">
+            <p className="text-lg sm:text-2xl font-bold text-slate-700 mb-8 sm:mb-12 max-w-lg leading-tight">
               Curated ride experiences, immersive local stays, and the raw beauty of the clouds. 
               Built for the modern explorer.
             </p>
-            <div className="flex flex-wrap gap-8">
+            <div className="flex flex-wrap gap-4 sm:gap-8">
               <button 
                 onClick={scrollToCatalog}
-                className="neo-btn-primary text-2xl px-10 py-5 rotate-[-1deg]"
+                className="neo-btn-primary text-xl sm:text-2xl px-8 py-4 sm:px-10 sm:py-5 rotate-[-1deg]"
               >
                 VIEW CATALOG ↓
               </button>
@@ -65,7 +66,7 @@ export default function Hero() {
       </div>
       
       {/* Marquee Section */}
-      <div className="mt-40 neo-marquee bg-black border-y-8 border-black">
+      <div className="mt-20 sm:mt-40 neo-marquee bg-black border-y-8 border-black">
         <div className="neo-marquee-content py-4">
           {[...Array(10)].map((_, i) => (
             <span key={i} className="mx-12 text-white">

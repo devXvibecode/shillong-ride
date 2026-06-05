@@ -44,7 +44,7 @@ export default function Contact() {
   const [openFaq, setOpenFaq] = useState(null);
 
   return (
-    <div className="min-h-screen bg-[#0f0f1a] pb-16 px-5">
+    <div className="min-h-screen bg-[#0f0f1a] pb-16 px-5 pt-10">
       <div className="max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
           <div className="inline-block px-3 py-1 bg-orange-500/10 border-2 border-orange-500/30 rounded-lg mb-3">
