@@ -60,7 +60,7 @@ export default function Hero() {
               <p className="font-anton text-5xl mb-1">AUTHENTIC</p>
               <p className="font-black text-xs uppercase tracking-[0.2em]">Meghalaya Vibe Only</p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
       
