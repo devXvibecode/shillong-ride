@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext';
+import WhatsAppDialog from './WhatsAppDialog';
 
 function fmt(n) {
   return '₹' + Number(n).toLocaleString('en-IN');
@@ -129,8 +130,36 @@ function NormalReceipt({ p }) {
 
 export default function Confirmation() {
   const navigate = useNavigate();
-  const { booking, reset } = useBooking();
+  const { booking, reset, updateBookingPreference } = useBooking();
+  const [showWhatsApp, setShowWhatsApp] = useState(false);
   const circuitDisplay = booking?.circuitName || booking?.circuitId || '';
+
+  useEffect(() => {
+    if (booking && !booking.whatsappPreference) {
+      const timer = setTimeout(() => {
+        setShowWhatsApp(true);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [booking]);
+
+  const handleWhatsAppConsent = async () => {
+    try {
+      if (updateBookingPreference) {
+        await updateBookingPreference('whatsappPreference', true);
+      }
+    } catch {
+      // silent
+    }
+    setShowWhatsApp(false);
+  };
+
+  const handleWhatsAppDismiss = () => {
+    if (updateBookingPreference) {
+      updateBookingPreference('whatsappPreference', false).catch(() => {});
+    }
+    setShowWhatsApp(false);
+  };
 
   if (!booking) {
     return (
@@ -284,6 +313,14 @@ export default function Confirmation() {
           View My Bookings
         </button>
       </div>
+
+      <WhatsAppDialog
+        booking={booking}
+        open={showWhatsApp}
+        onClose={() => setShowWhatsApp(false)}
+        onConsent={handleWhatsAppConsent}
+        onDismiss={handleWhatsAppDismiss}
+      />
     </motion.div>
   );
 }
