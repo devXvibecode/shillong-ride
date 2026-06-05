@@ -13,6 +13,8 @@ import TimelinePreview from '../components/TimelinePreview';
 import NormalConfirm from '../components/NormalConfirm';
 import PremiumConfirm from '../components/PremiumConfirm';
 import Confirmation from '../components/Confirmation';
+import ProgressIndicator from '../components/ProgressIndicator';
+import PricePreview from '../components/PricePreview';
 
 export default function Booking() {
   const { step, booking, isPremium } = useBooking();
@@ -21,6 +23,8 @@ export default function Booking() {
 
   return (
     <div className="min-h-screen px-5 pb-20">
+      <ProgressIndicator />
+      <PricePreview />
       <div className="max-w-4xl mx-auto">
         <AnimatePresence mode="wait">
           {step === 0 && <BookingTypeSelector key="btype" />}
