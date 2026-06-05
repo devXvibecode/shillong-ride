@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -16,16 +16,11 @@ function fmt(n) {
 }
 
 export default function MyBookings() {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setBookings(loadBookings());
-    setLoading(false);
-  }, []);
+  const [bookings] = useState(loadBookings);
+  const [loading] = useState(false);
 
   return (
-    <div className="min-h-screen px-5 pb-16">
+    <div className="min-h-screen bg-[#0f0f1a] px-5 pb-16">
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h1 className="font-['Anton'] text-4xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-2">My Bookings</h1>

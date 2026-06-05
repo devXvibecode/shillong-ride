@@ -11,7 +11,7 @@ export default function Home() {
       <Hero />
       
       {/* Catalog Section */}
-      <section className="py-16 lg:py-24 px-4" id="explore">
+      <section className="py-16 lg:py-24 px-4 scroll-mt-24" id="explore">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
