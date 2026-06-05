@@ -11,11 +11,11 @@ export default function Home() {
       <Hero />
       
       {/* Catalog Section */}
-      <section className="py-24 px-4" id="explore">
+      <section className="py-16 lg:py-24 px-4" id="explore">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-5xl sm:text-7xl font-anton leading-none mb-6">
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-anton leading-none mb-6">
                 EXPLORE THE <span className="text-orange-500">CATALOG</span>
               </h2>
               <p className="text-xl font-bold text-slate-600">
@@ -29,13 +29,13 @@ export default function Home() {
           </div>
 
           {loading ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12">
               {[1, 2, 3, 4, 5, 6].map(i => (
                 <div key={i} className="neo-card h-96 animate-pulse bg-slate-100" />
               ))}
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12">
               {places?.map((place, i) => (
                 <motion.div
                   key={place.id}

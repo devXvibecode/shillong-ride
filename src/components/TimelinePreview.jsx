@@ -3,7 +3,7 @@ import { useBooking } from '../context/BookingContext';
 import { useData } from '../context/DataContext';
 
 export default function TimelinePreview() {
-  const { selectedSpots, setStep, vehicleType, selectedHomestay } = useBooking();
+  const { selectedSpots, setStep, selectedHomestay } = useBooking();
   const { places } = useData();
 
   const spots = selectedSpots.map(id => places.find(p => p.id === id)).filter(Boolean);
@@ -21,7 +21,7 @@ export default function TimelinePreview() {
 
   return (
     <div className="py-12">
-      <h2 className="text-4xl sm:text-6xl font-anton mb-12 text-center">Your <span className="text-orange-500">Premium Itinerary</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Your <span className="text-orange-500">Premium Itinerary</span></h2>
       
       <div className="max-w-3xl mx-auto space-y-4">
         {timeline.map((item, i) => (

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import { useData } from '../context/DataContext';
 import { calculateNormalPrice } from '../engines/pricingEngine';
@@ -30,9 +29,9 @@ export default function NormalConfirm() {
 
   return (
     <div className="py-12">
-      <h2 className="text-4xl sm:text-6xl font-anton mb-12 text-center">Review & <span className="text-orange-500">Confirm</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Review & <span className="text-orange-500">Confirm</span></h2>
       
-      <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+      <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 max-w-6xl mx-auto">
         {/* Left: Journey Summary */}
         <div className="space-y-8">
           <div className="neo-card bg-white">
