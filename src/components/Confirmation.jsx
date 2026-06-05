@@ -191,12 +191,12 @@ export default function Confirmation() {
         transition={{ type: 'spring', stiffness: 180, damping: 14, delay: 0.1 }}
         className="w-28 h-28 mx-auto mb-6"
       >
-        <div className="w-full h-full flex items-center justify-center border-4 border-green-600/60 rounded-xl bg-green-900/15 shadow-[4px_4px_0px_#166534]">
+        <div className="w-full h-full flex items-center justify-center border-4 border-green-600 bg-green-100 shadow-[6px_6px_0px_#16a34a]">
           <motion.svg
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+            width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
           >
             <polyline points="20 6 9 17 4 12" />
           </motion.svg>
@@ -207,9 +207,9 @@ export default function Confirmation() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.4, type: 'spring', stiffness: 150 }}
-        className="inline-flex items-center px-5 py-2 mx-auto mb-4 border-2 border-green-500/30 rounded-lg bg-green-500/10"
+        className="inline-flex items-center px-5 py-2 mx-auto mb-4 border-4 border-black bg-yellow-400 shadow-[4px_4px_0px_#000]"
       >
-        <span className="font-['Anton'] text-green-400 text-sm uppercase tracking-[0.15em]">
+        <span className="font-['Anton'] text-black text-sm uppercase tracking-[0.15em]">
           {isPremium ? 'PREMIUM PACKAGE CONFIRMED' : 'ADVENTURE CONFIRMED'}
         </span>
       </motion.div>
