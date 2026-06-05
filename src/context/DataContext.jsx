@@ -12,16 +12,30 @@ export function DataProvider({ children }) {
 
   useEffect(() => {
     let cancelled = false;
-    Promise.all([getPlaces(), getHubs(), getDistanceMatrix(), getCircuits()])
-      .then(([p, h, d, c]) => {
+    
+    async function initData() {
+      try {
+        const [p, h, d, c] = await Promise.all([
+          getPlaces(), 
+          getHubs(), 
+          getDistanceMatrix(), 
+          getCircuits()
+        ]);
+        
         if (cancelled) return;
-        setPlaces(p);
-        setHubs(h);
+        
+        setPlaces(p || []);
+        setHubs(h || []);
         setDistanceMatrix(d);
-        setCircuits(c);
-        setLoading(false);
-      })
-      .catch(() => { if (!cancelled) setLoading(false); });
+        setCircuits(c || []);
+      } catch (err) {
+        console.error('Data initialization failed:', err);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    initData();
     return () => { cancelled = true; };
   }, []);
 

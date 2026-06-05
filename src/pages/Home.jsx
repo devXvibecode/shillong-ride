@@ -1,66 +1,83 @@
-import Hero from '../components/Hero';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-
-const FEATURES = [
-  { title: 'Local Buddies', desc: 'Ride with someone who knows the hidden gems.', icon: '🏍️' },
-  { title: 'Curated Spots', desc: 'Handpicked destinations for the best views.', icon: '📍' },
-  { title: 'Safe & Secure', desc: 'Medical emergency cover and 24/7 support.', icon: '🛡️' },
-  { title: 'Authentic Stays', desc: 'Premium homestays for a local feel.', icon: '🏠' },
-];
+import { useData } from '../context/DataContext';
+import Hero from '../components/Hero';
 
 export default function Home() {
+  const { places, loading } = useData();
+
   return (
     <div className="bg-white">
       <Hero />
       
-      {/* Features Section */}
-      <section className="py-24 px-4">
+      {/* Catalog Section */}
+      <section className="py-24 px-4" id="explore">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl sm:text-7xl font-anton mb-16 text-center">
-            WHY <span className="text-orange-500">SHILLONG RIDE?</span>
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {FEATURES.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="neo-card-accent group"
-              >
-                <div className="text-5xl mb-6 group-hover:scale-125 transition-transform inline-block">{f.icon}</div>
-                <h3 className="text-2xl font-anton mb-4">{f.title}</h3>
-                <p className="font-bold text-slate-600">{f.desc}</p>
-              </motion.div>
-            ))}
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <div className="max-w-2xl">
+              <h2 className="text-5xl sm:text-7xl font-anton leading-none mb-6">
+                EXPLORE THE <span className="text-orange-500">CATALOG</span>
+              </h2>
+              <p className="text-xl font-bold text-slate-600">
+                From hidden waterfalls to living root bridges, discover the spots that make Meghalaya magical. 
+                Select your favorites and build your journey.
+              </p>
+            </div>
+            <Link to="/booking" className="neo-btn-primary text-2xl whitespace-nowrap rotate-3">
+              START BOOKING →
+            </Link>
           </div>
-        </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-black text-white overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-          <h2 className="text-6xl sm:text-9xl font-anton mb-12 tracking-tighter">
-            READY TO <span className="text-orange-500">RIDE?</span>
-          </h2>
-          <p className="text-xl sm:text-2xl font-bold mb-12 max-w-2xl mx-auto opacity-80">
-            Join hundreds of explorers who discovered the real Meghalaya with us. 
-            No hidden costs. Pure adventure.
-          </p>
-          <Link to="/booking" className="neo-btn bg-orange-500 text-black text-2xl px-12 py-6 hover:bg-white transition-colors">
-            BOOK YOUR RIDE NOW
-          </Link>
-        </div>
-        
-        {/* Background elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-          <div className="font-anton text-[20vw] leading-none select-none whitespace-nowrap">
-            ADVENTURE ADVENTURE ADVENTURE
-          </div>
-          <div className="font-anton text-[20vw] leading-none select-none whitespace-nowrap text-right">
-            EXPLORE EXPLORE EXPLORE
+          {loading ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+              {[1, 2, 3, 4, 5, 6].map(i => (
+                <div key={i} className="neo-card h-96 animate-pulse bg-slate-100" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+              {places?.map((place, i) => (
+                <motion.div
+                  key={place.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: (i % 3) * 0.1 }}
+                  viewport={{ once: true }}
+                  className="neo-card p-0 overflow-hidden group"
+                >
+                  <div className="relative h-64 overflow-hidden border-b-4 border-black">
+                    <img 
+                      src={`https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=600&id=${place.id}`} 
+                      alt={place.name}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute top-4 right-4 bg-black text-white px-3 py-1 font-anton text-xs uppercase tracking-widest rotate-3">
+                      {place.category || 'Must Visit'}
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-3xl font-anton leading-none">{place.name}</h3>
+                      <span className="neo-badge-accent whitespace-nowrap">Popular</span>
+                    </div>
+                    <p className="font-bold text-slate-600 mb-6 line-clamp-2">
+                      {place.description || 'Experience the raw beauty and serene atmosphere of this iconic Meghalaya destination.'}
+                    </p>
+                    <div className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-slate-400">
+                      <span>📍 {place.region || 'Meghalaya'}</span>
+                      <span>•</span>
+                      <span>{place.vibe || 'Nature'}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-20 text-center">
+            <Link to="/booking" className="neo-btn-primary text-3xl px-12 py-6">
+              BUILD YOUR ITINERARY NOW
+            </Link>
           </div>
         </div>
       </section>

@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
-import BookingTypeSelector from '../components/BookingTypeSelector';
 import GroupTypeSelector from '../components/GroupTypeSelector';
 import RegionSelector from '../components/RegionSelector';
 import SpotSelector from '../components/SpotSelector';
@@ -15,7 +14,7 @@ import PremiumConfirm from '../components/PremiumConfirm';
 import Confirmation from '../components/Confirmation';
 
 const STEPS = [
-  'Vibe', 'Group', 'Region', 'Spots', 'Stay', 'Transport', 'Timing', 'Review', 'Confirm'
+  'Group', 'Region', 'Spots', 'Stay', 'Transport', 'Timing', 'Review', 'Confirm'
 ];
 
 export default function Booking() {
@@ -23,7 +22,24 @@ export default function Booking() {
 
   if (booking) return <Confirmation />;
 
-  const currentMaxStep = isPremium ? 8 : 7;
+  // Dynamic step logic based on package type
+  // Step 0: Group Selection
+  // Step 1: Region Selection
+  // Step 2: Spot Selection
+  // Step 3: Stay Decision
+  
+  // Normal Flow:
+  // Step 4: Nodal Pickup
+  // Step 5: Time Slot
+  // Step 6: Review (NormalConfirm)
+  
+  // Premium Flow:
+  // Step 4: Vehicle Selection
+  // Step 5: Homestay Selection
+  // Step 6: Timeline Preview
+  // Step 7: Review (PremiumConfirm)
+
+  const currentMaxStep = isPremium ? 7 : 6;
   const progress = ((step + 1) / (currentMaxStep + 1)) * 100;
 
   return (
@@ -71,16 +87,26 @@ export default function Booking() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            {step === 0 && <BookingTypeSelector key="btype" />}
-            {step === 1 && <GroupTypeSelector key="group" />}
-            {step === 2 && <RegionSelector key="region" />}
-            {step === 3 && <SpotSelector key="spots" maxSpots={isPremium ? 4 : 3} />}
-            {step === 4 && <StayDecision key="stay" />}
+            {step === 0 && <GroupTypeSelector key="group" />}
+            {step === 1 && <RegionSelector key="region" />}
+            {step === 2 && <SpotSelector key="spots" maxSpots={isPremium ? 4 : 3} />}
+            {step === 3 && <StayDecision key="stay" />}
 
-            {step === 5 && (isPremium ? <VehicleSelector key="vehicle" /> : <NodalPicker key="nodal" />)}
-            {step === 6 && (isPremium ? <HomestaySelector key="homestay" /> : <TimeSlotPicker key="timeslot" />)}
-            {step === 7 && (isPremium ? <TimelinePreview key="timeline" /> : <NormalConfirm key="nconfirm" />)}
-            {step === 8 && isPremium && <PremiumConfirm key="pconfirm" />}
+            {/* Branching Logic */}
+            {!isPremium ? (
+              <>
+                {step === 4 && <NodalPicker key="nodal" />}
+                {step === 5 && <TimeSlotPicker key="timeslot" />}
+                {step === 6 && <NormalConfirm key="nconfirm" />}
+              </>
+            ) : (
+              <>
+                {step === 4 && <VehicleSelector key="vehicle" />}
+                {step === 5 && <HomestaySelector key="homestay" />}
+                {step === 6 && <TimelinePreview key="timeline" />}
+                {step === 7 && <PremiumConfirm key="pconfirm" />}
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
