@@ -76,6 +76,125 @@ body {
 }
 
 /* Brut-based aliases for dark-themed pages */
+/* ── Modern Neo-Brutalist (Dark Theme) ── */
+
+.neo-card-dark {
+  background: #1a1a2e;
+  border: 4px solid #000000;
+  box-shadow: 6px 6px 0px #000000;
+  padding: 1.5rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neo-card-dark:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 10px 10px 0px #000000;
+}
+
+.neo-btn-dark {
+  background: transparent;
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  color: #ffffff;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.neo-btn-dark:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.neo-btn-dark:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #000000;
+}
+
+.neo-btn-primary-dark {
+  background: #f97316;
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  color: #000000;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.neo-btn-primary-dark:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.neo-btn-primary-dark:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #000000;
+}
+
+.neo-btn-danger-dark {
+  background: #dc2626;
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  color: #ffffff;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.neo-btn-danger-dark:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.neo-btn-danger-dark:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #000000;
+}
+
+.neo-input-dark {
+  background: #1a1a2e;
+  border: 4px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-weight: 700;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.neo-input-dark:focus {
+  outline: none;
+  border-color: #f97316;
+  box-shadow: 5px 5px 0px #f97316;
+  transform: translate(-2px, -2px);
+}
+
+.neo-input-dark::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Legacy brut-* aliases (kept for backward compat) */
 .brut-card {
   background: #1a1a2e;
   border: 2px solid #2e2e44;

@@ -21,6 +21,7 @@ export function createBooking({ name, phone, pickupLocation, circuitId, spotIds,
     route, timeSlot, vehicleType: vehicleType || 'bike',
     notes: notes || '', priceBreakdown,
     status: 'pending', createdAt: new Date().toISOString(),
+    whatsappPreference: false,
   };
 }
 
@@ -37,6 +38,7 @@ export function createNormalBooking({ name, phone, circuitId, spotIds, groupType
     priceBreakdown,
     status: 'pending',
     createdAt: new Date().toISOString(),
+    whatsappPreference: false,
   };
 }
 
@@ -58,6 +60,7 @@ export function createPremiumBooking({ name, phone, circuitId, spotIds, groupTyp
     priceBreakdown,
     status: 'pending',
     createdAt: new Date().toISOString(),
+    whatsappPreference: false,
   };
 }
 

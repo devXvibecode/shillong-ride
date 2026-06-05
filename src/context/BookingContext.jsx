@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import { createNormalBooking, createPremiumBooking } from '../engines/bookingService';
 import { sendBookingEmail } from '../engines/emailService';
-import { pushBooking } from '../engines/bookingSyncService';
+import { pushBooking, updateSingleBooking } from '../engines/bookingSyncService';
 import { loadBookings, saveBookings } from '../engines/storageService';
 
 const BookingContext = createContext();
@@ -125,6 +125,24 @@ export function BookingProvider({ children }) {
     }
   }, [selectedCircuit, selectedSpots, groupType, vehicleType, selectedHomestay, timeSlot, formData]);
 
+  const updateBookingPreference = useCallback(async (field, value) => {
+    if (!booking) return;
+    const updated = { ...booking, [field]: value };
+    setBooking(updated);
+    // Update local storage
+    setBookings(prev => {
+      const updatedList = prev.map(b => b.id === updated.id ? updated : b);
+      saveBookings(updatedList);
+      return updatedList;
+    });
+    // Sync to GitHub
+    try {
+      await updateSingleBooking(updated.id, { [field]: value });
+    } catch {
+      // Silent fail for sync
+    }
+  }, [booking]);
+
   const value = {
     step, setStep,
     selectedCircuit, setSelectedCircuit,
@@ -143,6 +161,7 @@ export function BookingProvider({ children }) {
     agreedToTerms, setAgreedToTerms,
     isPremium,
     submitNormalBooking, submitPremiumBooking,
+    updateBookingPreference,
   };
 
   return (
