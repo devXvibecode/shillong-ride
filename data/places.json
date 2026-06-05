@@ -189,15 +189,6 @@
     "category": "waterfall"
   },
   {
-    "id": "shillong_hati",
-    "name": "Police Bazar & Shillong Haat",
-    "description": "The vibrant heart of Shillong — markets, food stalls, and traditional Khasi handicrafts.",
-    "price": 60,
-    "distanceWeight": 2,
-    "imageCount": 3,
-    "category": "market"
-  },
-  {
     "id": "mawsmai_village",
     "name": "Mawsmai Village",
     "description": "A traditional Khasi village near Cherrapunji known for living root bridges and caves.",
