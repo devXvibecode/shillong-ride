@@ -1,105 +1,74 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useData } from '../context/DataContext';
 import { useBooking } from '../context/BookingContext';
-import PlaceCard from './PlaceCard';
+import { useData } from '../context/DataContext';
 
-export default function SpotSelector({ maxSpots = 4 }) {
+export default function SpotSelector({ maxSpots }) {
+  const { selectedCircuit, selectedSpots, addSpot, setStep } = useBooking();
   const { places } = useData();
-  const { selectedCircuit, selectedSpots, setStep, isPremium } = useBooking();
 
-  if (!selectedCircuit) return null;
-
-  const circuitSpotIds = selectedCircuit?.spots || [];
-  const spots = places.filter(p => circuitSpotIds.includes(p.id));
-
-  if (places.length === 0) {
-    return (
-      <div>
-        <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em] mb-2">{selectedCircuit.shortName}</h2>
-        <p className="text-white/55 mb-4">Loading destinations...</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[1, 2, 3, 4, 5, 6].map(i => (
-            <div key={i} className="rounded-xl border-2 border-[#2e2e44] bg-[#16161f] overflow-hidden animate-pulse">
-              <div className="h-44 bg-white/5" />
-              <div className="p-4">
-                <div className="h-5 bg-white/10 w-2/3 mb-2 rounded" />
-                <div className="h-3 bg-white/10 w-full mb-1 rounded" />
-                <div className="h-3 bg-white/10 w-1/2 rounded" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  const circuitSpots = places?.filter(p => p.circuitId === selectedCircuit?.id) || [];
 
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-start sm:items-center justify-between flex-col sm:flex-row gap-2 mb-1">
-        <div>
-          <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-[0.2em]">Step 3</p>
-          <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em] mt-1">
-            Choose Your Destinations
-          </h2>
-          <div className="flex items-center gap-3 mt-1">
-            <p className="text-white/55 text-sm">{selectedCircuit.shortName}</p>
-            <button
-              type="button"
-              onClick={() => setStep(2)}
-              className="px-3 py-1 brut-btn text-[10px] uppercase tracking-wider cursor-pointer"
-            >
-              ← Change Route
-            </button>
-          </div>
-        </div>
-        <div className={`font-['Anton'] text-lg px-4 py-2 border-2 transition-all flex-shrink-0 rounded-lg ${
-          selectedSpots.length >= maxSpots
-            ? 'text-green-400 border-green-400/30 bg-green-400/10'
-            : selectedSpots.length > 0
-            ? 'text-orange-500 border-orange-500/30 bg-orange-500/10'
-            : 'text-white/55 border-[#2e2e44] bg-[#16161f]'
-        }`}>
-          {selectedSpots.length}/{maxSpots}
+    <div className="py-12">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-6">
+        <h2 className="text-4xl sm:text-6xl font-anton">Select <span className="text-orange-500">Spots</span></h2>
+        <div className="neo-card py-2 px-6 bg-black text-white font-anton text-xl rotate-3">
+          {selectedSpots.length} / {maxSpots} SELECTED
         </div>
       </div>
 
-      {spots.length === 0 ? (
-        <div className="text-center py-16 border-2 border-dashed border-[#2e2e44] rounded-xl">
-          <p className="text-white/55 text-lg font-['Anton'] uppercase tracking-wider">No places in this circuit.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pb-8">
-          {spots.map((place, i) => (
-            <PlaceCard key={place.id} place={place} index={i} maxSpots={maxSpots} />
-          ))}
-        </div>
-      )}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {circuitSpots.map((place) => {
+          const isSelected = selectedSpots.includes(place.id);
+          const isDisabled = !isSelected && selectedSpots.length >= maxSpots;
+
+          return (
+            <motion.button
+              key={place.id}
+              whileHover={!isDisabled ? { y: -8 } : {}}
+              onClick={() => !isDisabled && addSpot(place.id)}
+              className={`neo-card p-0 overflow-hidden text-left group ${
+                isSelected ? 'border-orange-500 shadow-[4px_4px_0px_#f97316]' : isDisabled ? 'opacity-40 grayscale cursor-not-allowed' : ''
+              }`}
+            >
+              <div className="relative h-48 overflow-hidden border-b-4 border-black">
+                <img 
+                  src={`https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=400&id=${place.id}`} 
+                  alt={place.name}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                />
+                {isSelected && (
+                  <div className="absolute inset-0 bg-orange-500/20 flex items-center justify-center">
+                    <div className="bg-white border-4 border-black p-2 rotate-12">
+                      <span className="text-2xl font-black">SELECTED</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="p-4">
+                <h3 className="text-xl font-anton mb-1">{place.name}</h3>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">{place.category || 'Sightseeing'}</p>
+              </div>
+            </motion.button>
+          );
+        })}
+      </div>
 
       <AnimatePresence>
         {selectedSpots.length > 0 && (
           <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-0 left-0 right-0 z-40 sm:static sm:z-auto"
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-lg px-4"
           >
-            <div className="bg-[#1e1e2b] border-t-2 border-[#f97316] p-3 sm:border-2 sm:border-[#f97316] sm:rounded-xl sm:max-w-md sm:mx-auto">
-              <div className="flex items-center gap-3 max-w-4xl mx-auto">
-                <div className="flex-1 min-w-0">
-                  <p className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-wider">
-                    {selectedSpots.length} of {maxSpots} spots selected
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setStep(4)}
-                  className="px-6 py-3 font-['Anton'] text-sm uppercase tracking-wider transition-all btn-bounce brut-btn-primary cursor-pointer"
-                >
-                  {isPremium ? 'Next: Choose Stay →' : 'Continue →'}
-                </button>
-              </div>
-            </div>
+            <button
+              onClick={() => setStep(4)}
+              className="neo-btn-primary w-full text-2xl flex justify-between items-center"
+            >
+              <span>Continue Journey</span>
+              <span>→</span>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

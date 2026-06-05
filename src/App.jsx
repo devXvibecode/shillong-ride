@@ -15,9 +15,9 @@ import NotFound from './pages/NotFound';
 
 function AppLayout({ children }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
-      <main className="flex-1 pt-[88px] sm:pt-[96px] pb-safe">
+      <main className="flex-1">
         {children}
       </main>
       <Footer />
@@ -30,9 +30,9 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <motion.div
         key={window.location.hash || '/'}
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -12 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
       >
         <Routes>
