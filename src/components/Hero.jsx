@@ -6,9 +6,9 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-40 pb-20 px-4 overflow-hidden bg-white">
+    <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 px-4 overflow-hidden bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -17,7 +17,7 @@ export default function Hero() {
             <div className="inline-block bg-black text-white px-6 py-2 font-black text-sm uppercase mb-8 rotate-[-2deg] shadow-[4px_4px_0px_#f97316]">
               Shillong's #1 Adventure Startup
             </div>
-            <h1 className="text-7xl sm:text-9xl font-anton leading-[0.85] mb-10">
+            <h1 className="text-6xl sm:text-8xl lg:text-9xl font-anton leading-[0.9] mb-10">
               EXPLORE <br />
               <span className="text-orange-500 text-stroke">MEGHALAYA</span>
             </h1>

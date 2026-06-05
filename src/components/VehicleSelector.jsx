@@ -28,7 +28,7 @@ export default function VehicleSelector() {
 
   return (
     <div className="py-12">
-      <h2 className="text-4xl sm:text-6xl font-anton mb-12 text-center">Select Your <span className="text-orange-500 text-stroke">Premium Ride</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Select Your <span className="text-orange-500 text-stroke">Premium Ride</span></h2>
       <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
         {VEHICLES.map((v, i) => (
           <motion.button
@@ -39,9 +39,9 @@ export default function VehicleSelector() {
             whileHover={{ scale: 1.02, rotate: i % 2 === 0 ? -1 : 1 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleSelect(v.id)}
-            className="neo-card-accent group text-left bg-white p-8"
+            className="neo-card-accent group text-left bg-white p-6 lg:p-8"
           >
-            <div className="bg-black text-white w-20 h-20 flex items-center justify-center text-5xl mb-8 group-hover:bg-orange-500 transition-colors">
+            <div className="bg-black text-white w-16 h-16 flex items-center justify-center text-4xl mb-6 group-hover:bg-orange-500 transition-colors">
               {v.icon}
             </div>
             <h3 className="text-3xl font-anton mb-4">{v.label}</h3>

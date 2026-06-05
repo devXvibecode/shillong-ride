@@ -43,19 +43,19 @@ export default function Booking() {
   const progress = ((step + 1) / (currentMaxStep + 1)) * 100;
 
   return (
-    <div className="min-h-screen bg-white pt-24 pb-20 px-4">
+    <div className="min-h-screen bg-white pt-20 pb-20 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Progress Bar */}
         <div className="mb-12">
           <div className="flex justify-between items-end mb-4">
-            <h1 className="font-anton text-4xl sm:text-6xl tracking-tighter">
+            <h1 className="font-anton text-3xl sm:text-5xl lg:text-6xl tracking-tighter">
               BOOKING <span className="text-stroke">WIZARD</span>
             </h1>
             <div className="font-black text-sm uppercase tracking-widest bg-black text-white px-4 py-1 rotate-[-2deg]">
               {step + 1} / {currentMaxStep + 1}
             </div>
           </div>
-          <div className="h-6 bg-white border-4 border-black overflow-hidden relative">
+          <div className="h-4 lg:h-6 bg-white border-4 border-black overflow-hidden relative">
             <motion.div 
               className="h-full bg-orange-500 border-r-4 border-black"
               initial={{ width: 0 }}

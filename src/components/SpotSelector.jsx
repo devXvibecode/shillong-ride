@@ -14,7 +14,7 @@ export default function SpotSelector({ maxSpots }) {
     <div className="py-12 pb-40">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-6">
         <div>
-          <h2 className="text-4xl sm:text-6xl font-anton">Select <span className="text-orange-500">Destinations</span></h2>
+          <h2 className="text-3xl sm:text-5xl font-anton">Select <span className="text-orange-500">Destinations</span></h2>
           <p className="font-black text-slate-400 uppercase tracking-widest mt-2">
             {selectedCircuit?.shortName} • PICK UP TO {maxSpots} SPOTS
           </p>
@@ -24,7 +24,7 @@ export default function SpotSelector({ maxSpots }) {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {spots.map((place) => {
           const isSelected = selectedSpots.includes(place.id);
           const isDisabled = !isSelected && selectedSpots.length >= maxSpots;
@@ -84,9 +84,9 @@ export default function SpotSelector({ maxSpots }) {
             initial={{ y: 200 }}
             animate={{ y: 0 }}
             exit={{ y: 200 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-8 border-black p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-8 border-black p-4 sm:p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]"
           >
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-8">
               <div className="flex-1 overflow-x-auto scrollbar-hide w-full">
                 <div className="flex gap-4 items-center">
                   <span className="font-anton text-2xl rotate-[-90deg] whitespace-nowrap">YOUR JOURNEY</span>
@@ -110,7 +110,7 @@ export default function SpotSelector({ maxSpots }) {
               </div>
               <button
                 onClick={() => setStep(3)}
-                className="neo-btn-primary text-3xl px-12 py-4 whitespace-nowrap w-full md:w-auto shadow-[8px_8px_0px_#000000]"
+                className="neo-btn-primary text-xl sm:text-3xl px-8 sm:px-12 py-3 sm:py-4 whitespace-nowrap w-full md:w-auto shadow-[8px_8px_0px_#000000]"
               >
                 CONTINUE →
               </button>

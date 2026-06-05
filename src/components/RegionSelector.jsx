@@ -13,7 +13,7 @@ export default function RegionSelector() {
 
   return (
     <div className="py-12">
-      <h2 className="text-4xl sm:text-6xl font-anton mb-12 text-center">Where do you want to <span className="text-orange-500">Explore?</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Where do you want to <span className="text-orange-500">Explore?</span></h2>
       <div className="grid sm:grid-cols-2 gap-8">
         {circuits?.map((c, i) => (
           <motion.button
@@ -34,7 +34,7 @@ export default function RegionSelector() {
                 {c.shortName}
               </div>
             </div>
-            <div className="p-8">
+            <div className="p-6 lg:p-8">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-4xl font-anton leading-none">{c.name}</h3>
                 <span className="neo-badge">Scenic</span>
