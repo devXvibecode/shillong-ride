@@ -23,7 +23,7 @@ function AnimatedPrice({ value }) {
     };
     frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
-  }, [value]);
+  }, [value, display]);
   return <span>{fmt(display)}</span>;
 }
 
@@ -54,7 +54,7 @@ function RevealId({ id }) {
 
 const roman = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x'];
 
-function PremiumReceipt({ p, booking }) {
+function PremiumReceipt({ p }) {
   return (
     <>
       <div className="space-y-2.5">
@@ -191,7 +191,7 @@ export default function Confirmation() {
         transition={{ type: 'spring', stiffness: 180, damping: 14, delay: 0.1 }}
         className="w-28 h-28 mx-auto mb-6"
       >
-        <div className="w-full h-full flex items-center justify-center border-4 border-green-600/60 rounded-xl bg-green-900/15">
+        <div className="w-full h-full flex items-center justify-center border-4 border-green-600/60 rounded-xl bg-green-900/15 shadow-[4px_4px_0px_#166534]">
           <motion.svg
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -233,7 +233,7 @@ export default function Confirmation() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="brut-card p-6 sm:p-7 text-left mb-4"
+        className="neo-card-dark p-6 sm:p-7 text-left mb-4"
       >
         <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-3 border-b-2 border-[#2e2e44] pb-2">Booking Details</p>
         <div className="space-y-2">
@@ -276,7 +276,7 @@ export default function Confirmation() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7 }}
-        className="brut-card p-6 sm:p-7 text-left mb-8"
+        className="neo-card-dark p-6 sm:p-7 text-left mb-8"
       >
         <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">
           {isPremium ? 'PREMIUM PACKAGE RECEIPT' : 'PAYMENT RECEIPT'}
@@ -302,13 +302,13 @@ export default function Confirmation() {
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <button
           onClick={() => { reset(); navigate('/'); }}
-          className="brut-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block btn-bounce cursor-pointer"
+          className="neo-btn-primary px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block cursor-pointer"
         >
           Book Another Tour
         </button>
         <button
           onClick={() => navigate('/my-bookings')}
-          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block brut-btn cursor-pointer"
+          className="px-10 sm:px-12 py-4 sm:py-5 text-base tracking-widest inline-block neo-btn cursor-pointer"
         >
           View My Bookings
         </button>

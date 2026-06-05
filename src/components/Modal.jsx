@@ -61,7 +61,7 @@ export default function Modal({ open, onClose, title, subtitle, children }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.93, y: 10 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg brut-card-lg p-6 max-h-[85vh] overflow-y-auto"
+            className="relative w-full max-w-lg neo-card-dark p-6 max-h-[85vh] overflow-y-auto"
             onClick={e => e.stopPropagation()}
             onKeyDown={handleKeyDown}
           >

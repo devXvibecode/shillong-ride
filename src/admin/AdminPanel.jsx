@@ -3,14 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getPlaces } from '../engines/dataService';
 import { fetchAllBookings, updateSingleBooking, deleteBooking } from '../engines/bookingSyncService';
 import { fetchFileFromGitHub, saveCircuitData } from '../engines/adminSyncService';
-import { getAllImagesForPlace, getImageSourceList } from '../engines/imageService';
+import { getImageSourceList } from '../engines/imageService';
 import ImageUploader from '../components/ImageUploader';
 import CircuitEditor from '../components/CircuitEditor';
 import ConfirmDialog from '../components/ConfirmDialog';
-import { handleSendWhatsApp } from '../components/WhatsAppDialog';
+import { WhatsAppTemplateSelector } from '../components/WhatsAppDialog';
 import circuitsData from '../data/circuits.json';
 import placesData from '../data/places.json';
-import { loadBookings, saveBookings, loadActivityLog, addActivity, loadRiders, saveRiders, loadStats, saveStats } from '../engines/storageService';
+import { loadBookings, saveBookings, loadActivityLog, addActivity, loadRiders, saveRiders } from '../engines/storageService';
 
 function fmt(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
 function fmtShort(n) { return '₹' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 0 }); }
@@ -69,7 +69,7 @@ function AnimatedCount({ value }) {
     };
     frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
-  }, [value]);
+  }, [value, display]);
   return <span>{display}</span>;
 }
 
@@ -106,7 +106,7 @@ function DashboardView({ bookings }) {
           { label: 'Completed Trips', value: stats.completed, color: 'text-blue-400' },
           { label: 'Active/Pending', value: stats.pending + stats.active, color: 'text-yellow-400' },
         ].map(s => (
-          <div key={s.label} className="brut-card p-4 text-center">
+          <div key={s.label} className="neo-card-dark p-4 text-center">
             <p className={`text-xl sm:text-2xl font-black ${s.color}`}>{s.value}</p>
             <p className="text-white/40 text-[10px] mt-1 uppercase tracking-wider">{s.label}</p>
           </div>
@@ -114,7 +114,7 @@ function DashboardView({ bookings }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        <div className="brut-card p-5">
+        <div className="neo-card-dark p-5">
           <p className="text-white/40 text-[10px] uppercase tracking-wider mb-3 font-['Anton']">Revenue Breakdown</p>
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
@@ -135,7 +135,7 @@ function DashboardView({ bookings }) {
             </div>
           </div>
         </div>
-        <div className="brut-card p-5">
+        <div className="neo-card-dark p-5">
           <p className="text-white/40 text-[10px] uppercase tracking-wider mb-3 font-['Anton']">Booking Status</p>
           <div className="space-y-2">
             {[
@@ -159,7 +159,7 @@ function DashboardView({ bookings }) {
       </div>
 
       {monthlyData.length > 0 && (
-        <div className="brut-card p-5">
+        <div className="neo-card-dark p-5">
           <p className="text-white/40 text-[10px] uppercase tracking-wider mb-3 font-['Anton']">Monthly Revenue (Last 6)</p>
           <div className="flex items-end gap-3 h-32">
             {monthlyData.map(([month, amount]) => {
@@ -182,11 +182,9 @@ function DashboardView({ bookings }) {
 
 /* ── Riders Tab ── */
 function RidersView({ onToast }) {
-  const [riders, setRiders] = useState([]);
+  const [riders, setRiders] = useState(() => loadRiders());
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
-
-  useEffect(() => { setRiders(loadRiders()); }, []);
 
   const addRider = () => {
     if (!newName.trim()) return;
@@ -216,14 +214,14 @@ function RidersView({ onToast }) {
 
   return (
     <div>
-      <div className="brut-card p-5 mb-6">
+      <div className="neo-card-dark p-5 mb-6">
         <p className="text-white/40 text-[10px] uppercase tracking-wider mb-3 font-['Anton']">Add Rider</p>
         <div className="flex gap-2">
-          <input type="text" value={newName} onChange={e => setNewName(e.target.value)} placeholder="Rider name" className="brut-input flex-1 px-3 py-2 text-sm"
+          <input type="text" value={newName} onChange={e => setNewName(e.target.value)} placeholder="Rider name" className="neo-input-dark flex-1 px-3 py-2 text-sm"
             onKeyDown={e => { if (e.key === 'Enter') addRider(); }} />
-          <input type="text" value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="Phone (opt)" className="brut-input w-36 px-3 py-2 text-sm"
+          <input type="text" value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="Phone (opt)" className="neo-input-dark w-36 px-3 py-2 text-sm"
             onKeyDown={e => { if (e.key === 'Enter') addRider(); }} />
-          <button type="button" onClick={addRider} className="brut-btn-primary px-4 py-2 text-xs">Add</button>
+          <button type="button" onClick={addRider} className="neo-btn-primary-dark px-4 py-2 text-xs">Add</button>
         </div>
       </div>
 
@@ -231,7 +229,7 @@ function RidersView({ onToast }) {
         {riders.length === 0 ? (
           <div className="text-center py-12 text-white/30 text-sm">No riders yet.</div>
         ) : riders.map(r => (
-          <div key={r.id} className="brut-card p-4 flex items-center justify-between">
+          <div key={r.id} className="neo-card-dark p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className={`w-2.5 h-2.5 rounded-full ${r.active ? 'bg-green-500' : 'bg-red-500'}`} />
               <div>
@@ -254,21 +252,20 @@ function RidersView({ onToast }) {
 
 /* ── Activity Log Tab ── */
 function ActivityLogView() {
-  const [log, setLog] = useState([]);
-  useEffect(() => { setLog(loadActivityLog()); }, []);
+  const [log, setLog] = useState(() => loadActivityLog());
 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
         <p className="text-white/40 text-xs">{log.length} entries</p>
-        <button type="button" onClick={() => { setLog([]); try { localStorage.removeItem('sr_activity_log'); } catch {} }}
-          className="px-3 py-1 text-[10px] brut-btn font-bold">Clear Log</button>
+        <button type="button" onClick={() => { setLog([]); try { localStorage.removeItem('sr_activity_log'); } catch { /* ignore */ } }}
+          className="px-3 py-1 text-[10px] neo-btn-dark font-bold">Clear Log</button>
       </div>
       <div className="space-y-1">
         {log.length === 0 ? (
           <div className="text-center py-12 text-white/30 text-sm">No activity recorded yet.</div>
         ) : log.map(entry => (
-          <div key={entry.id} className="brut-card p-3 flex items-center justify-between text-xs">
+          <div key={entry.id} className="neo-card-dark p-3 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
               <div className={`w-1.5 h-1.5 rounded-full ${
                 entry.action.includes('Added') || entry.action.includes('Activated') ? 'bg-green-500' :
@@ -289,8 +286,10 @@ function ActivityLogView() {
 /* ── BookingsView with filters & sort ── */
 const SORT_OPTIONS = [{ value: 'newest', label: 'Newest First' }, { value: 'oldest', label: 'Oldest First' }];
 const DATE_FILTERS = [{ value: 'all', label: 'All Time' }, { value: '7days', label: '7 Days' }, { value: '30days', label: '30 Days' }, { value: 'today', label: 'Today' }];
+const PAGE_LOAD_TIME = Date.now();
+const PAGE_TODAY_STR = new Date(PAGE_LOAD_TIME).toDateString();
 
-function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBooking }) {
+function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWhatsAppOpen }) {
   const [filter, setFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
@@ -299,10 +298,10 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
 
   const filtered = useMemo(() => {
     let result = filter === 'all' ? bookings : bookings.filter(b => b.status === filter);
-    const now = Date.now();
-    if (dateFilter === 'today') { const today = new Date().toDateString(); result = result.filter(b => new Date(b.createdAt).toDateString() === today); }
-    else if (dateFilter === '7days') { const cutoff = now - 7 * 86400000; result = result.filter(b => new Date(b.createdAt).getTime() >= cutoff); }
-    else if (dateFilter === '30days') { const cutoff = now - 30 * 86400000; result = result.filter(b => new Date(b.createdAt).getTime() >= cutoff); }
+    const cutoffTime = PAGE_LOAD_TIME;
+    if (dateFilter === 'today') { result = result.filter(b => new Date(b.createdAt).toDateString() === PAGE_TODAY_STR); }
+    else if (dateFilter === '7days') { const cutoff = cutoffTime - 7 * 86400000; result = result.filter(b => new Date(b.createdAt).getTime() >= cutoff); }
+    else if (dateFilter === '30days') { const cutoff = cutoffTime - 30 * 86400000; result = result.filter(b => new Date(b.createdAt).getTime() >= cutoff); }
     if (search.trim()) { const q = search.toLowerCase(); result = result.filter(b => b.name?.toLowerCase().includes(q) || b.id?.toLowerCase().includes(q) || b.phone?.includes(q)); }
     result.sort((a, b) => sortBy === 'newest' ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
     return result;
@@ -335,7 +334,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
           { label: 'Completed', value: stats.completed, color: 'text-green-400' },
           { label: 'Cancelled', value: stats.cancelled, color: 'text-red-400' },
         ].map(s => (
-          <div key={s.label} className="brut-card p-3 text-center">
+          <div key={s.label} className="neo-card-dark p-3 text-center">
             <p className={`text-lg sm:text-xl font-black ${s.color}`}><AnimatedCount value={s.value} /></p>
             <p className="text-white/40 text-[10px] uppercase tracking-wider">{s.label}</p>
           </div>
@@ -347,7 +346,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
           {['all', 'pending', 'approved', 'assigned', 'completed', 'cancelled'].map(status => (
             <button key={status} type="button" onClick={() => setFilter(status)}
               className={`px-3 py-1.5 rounded-lg text-[10px] font-bold capitalize transition-all flex-shrink-0 ${
-                filter === status ? 'bg-amber-400 text-black' : 'brut-btn'
+                filter === status ? 'bg-amber-400 text-black' : 'border-2 border-white/20 text-white/70 hover:border-white/40'
               }`}>
               {status.replace('_', ' ')} {status !== 'all' && `(${stats[status] || 0})`}
             </button>
@@ -356,7 +355,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
       </div>
 
       <div className="flex flex-wrap items-center gap-2 mb-4">
-        <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name/ID/phone..." className="brut-input flex-1 min-w-[160px] max-w-xs px-3 py-1.5 text-xs" />
+        <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name/ID/phone..." className="neo-input-dark flex-1 min-w-[160px] max-w-xs px-3 py-1.5 text-xs" />
         {DATE_FILTERS.map(d => (
           <button key={d.value} type="button" onClick={() => setDateFilter(d.value)}
             className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${dateFilter === d.value ? 'bg-white/20 text-white' : 'bg-white/5 text-white/50 hover:text-white/70'}`}>
@@ -378,7 +377,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
       ) : (
         <div className="space-y-2">
           {filtered.map((booking, i) => (
-            <motion.div key={booking.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }} className="brut-card overflow-hidden">
+            <motion.div key={booking.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }} className="neo-card-dark overflow-hidden">
               <button type="button" onClick={() => setExpandedId(expandedId === booking.id ? null : booking.id)}
                 className="w-full p-4 flex flex-col sm:flex-row sm:items-center gap-2 text-left">
                 <div className="flex-1 min-w-0">
@@ -453,7 +452,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                       ))}
                     </div>
                     <div className="flex flex-wrap gap-1.5 mb-3 border-t border-white/5 pt-3">
-                      <button type="button" onClick={() => handleSendWhatsApp(booking)}
+                      <button type="button" onClick={() => onWhatsAppOpen?.(booking)}
                         className="px-3 py-1.5 rounded-lg text-[10px] font-bold bg-green-500/20 text-green-400 hover:bg-green-500/30 flex items-center gap-1.5">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
                         Send WhatsApp
@@ -462,7 +461,7 @@ function BookingsView({ bookings, places, exportCSV, onUpdateStatus, onDeleteBoo
                     {booking.status === 'approved' && (
                       <div className="mb-3">
                         <p className="text-white/40 text-[10px] mb-1">Assign Rider</p>
-                        <input type="text" placeholder="Rider name..." defaultValue={booking.rider || ''} className="brut-input max-w-xs px-3 py-1.5 text-xs"
+                        <input type="text" placeholder="Rider name..." defaultValue={booking.rider || ''} className="neo-input-dark max-w-xs px-3 py-1.5 text-xs"
                           onKeyDown={(e) => { if (e.key === 'Enter' && e.target.value.trim()) updateStatus(booking.id, 'assigned', e.target.value.trim()); }} />
                       </div>
                     )}
@@ -493,7 +492,7 @@ function CircuitsView({ places, onCircuitEdit, onToast }) {
           const spotCount = circuit.spots.length;
           return (
             <motion.button key={circuit.id} type="button" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-              onClick={() => onCircuitEdit(circuit)} className="brut-card p-5 text-left group hover:border-amber-400/40 transition-all">
+              onClick={() => onCircuitEdit(circuit)} className="neo-card-dark p-5 text-left group hover:border-amber-400/40 transition-all">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: circuit.color }} />
                 <span className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-[0.15em]">{circuit.tagline}</span>
@@ -508,11 +507,11 @@ function CircuitsView({ places, onCircuitEdit, onToast }) {
           );
         })}
       </div>
-      <div className="brut-card p-4 mt-4 flex items-center gap-3">
+      <div className="neo-card-dark p-4 mt-4 flex items-center gap-3">
         <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
         <p className="text-white/40 text-xs flex-1">Edits save to GitHub and auto-deploy (~2 min).</p>
         <button type="button" onClick={() => { fetchFileFromGitHub('data/places.json').then(d => { if (d) setCurrentPlaces(d); onToast?.('Places refreshed', 'success'); }).catch(() => onToast?.('Refresh failed', 'error')); }}
-          className="px-3 py-1.5 brut-btn text-[10px]">Refresh</button>
+          className="px-3 py-1.5 neo-btn-dark text-[10px]">Refresh</button>
       </div>
     </div>
   );
@@ -848,6 +847,7 @@ export default function AdminPanel() {
   const [editingCircuit, setEditingCircuit] = useState(null);
   const [toast, setToast] = useState(null);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [whatsAppBooking, setWhatsAppBooking] = useState(null);
 
   const showToast = useCallback((message, type = 'success') => setToast({ message, type, id: Date.now() }), []);
 
@@ -867,8 +867,14 @@ export default function AdminPanel() {
     }).catch(() => { setSyncState('error'); setSyncTimestamp(new Date().toLocaleTimeString()); });
   }, [refreshKey]);
 
-  const seen = new Set();
-  const allBookings = useMemo(() => [...sharedBookings, ...localBookings].filter(b => { if (seen.has(b.id)) return false; seen.add(b.id); return true; }), [sharedBookings, localBookings]);
+  const allBookings = useMemo(() => {
+    const seenSet = new Set();
+    return [...sharedBookings, ...localBookings].filter(b => {
+      if (seenSet.has(b.id)) return false;
+      seenSet.add(b.id);
+      return true;
+    });
+  }, [sharedBookings, localBookings]);
 
   const handleStatusUpdate = useCallback(async (bookingId, newStatus, rider) => {
     try { await updateSingleBooking(bookingId, { status: newStatus, rider }); refreshBookings(); showToast(`Updated to ${newStatus}`, 'success'); }
@@ -961,7 +967,8 @@ export default function AdminPanel() {
         {tab === 'dashboard' && <DashboardView bookings={allBookings} />}
         {tab === 'bookings' && (
           <BookingsView key={refreshKey} bookings={allBookings} places={places} exportCSV={exportCSV}
-            onUpdateStatus={handleStatusUpdate} onDeleteBooking={(id) => setDeleteConfirmId(id)} />
+            onUpdateStatus={handleStatusUpdate} onDeleteBooking={(id) => setDeleteConfirmId(id)}
+            onWhatsAppOpen={(b) => setWhatsAppBooking(b)} />
         )}
         {tab === 'catalog' && <CatalogView places={places} onToast={showToast} />}
         {tab === 'riders' && <RidersView onToast={showToast} />}
@@ -976,6 +983,12 @@ export default function AdminPanel() {
 
       {editingCircuit && <CircuitEditor circuit={editingCircuit} allPlaces={places} onClose={() => setEditingCircuit(null)}
         onSaved={() => showToast('Circuit saved!', 'success')} onError={(msg) => showToast(msg, 'error')} />}
+
+      <WhatsAppTemplateSelector
+        open={!!whatsAppBooking}
+        onClose={() => setWhatsAppBooking(null)}
+        booking={whatsAppBooking}
+      />
     </div>
   );
 }
