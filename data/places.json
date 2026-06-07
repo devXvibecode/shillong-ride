@@ -1,14 +1,5 @@
 [
   {
-    "id": "umiam_lake",
-    "name": "Umiam Lake",
-    "description": "Serene man-made lake surrounded by lush hills, perfect for boating and picnics.",
-    "price": 150,
-    "distanceWeight": 20,
-    "imageCount": 4,
-    "category": "lake"
-  },
-  {
     "id": "elephant_falls",
     "name": "Elephant Falls",
     "description": "A stunning three-tiered waterfall nestled in the forest, a must-visit near Shillong.",
@@ -29,25 +20,16 @@
   {
     "id": "shillong_peak",
     "name": "Shillong Peak",
-    "description": "Highest point in Shillong offering a 360° view of the city and surrounding mountains.",
+    "description": "Highest point in Shillong offering a 360Â° view of the city and surrounding mountains.",
     "price": 120,
     "distanceWeight": 10,
     "imageCount": 4,
     "category": "viewpoint"
   },
   {
-    "id": "wards_lake",
-    "name": "Ward’s Lake",
-    "description": "A charming artificial lake with a wooden bridge, gardens, and boating facilities.",
-    "price": 80,
-    "distanceWeight": 3,
-    "imageCount": 3,
-    "category": "lake"
-  },
-  {
     "id": "don_bosco_museum",
     "name": "Don Bosco Museum",
-    "description": "A rich cultural museum showcasing the heritage of North-East India’s indigenous tribes.",
+    "description": "A rich cultural museum showcasing the heritage of North-East Indiaâs indigenous tribes.",
     "price": 150,
     "distanceWeight": 4,
     "imageCount": 3,
@@ -101,7 +83,7 @@
   {
     "id": "mawlynnong_village",
     "name": "Mawlynnong Village",
-    "description": "Asia’s cleanest village, known for its bamboo walkways and living root bridges.",
+    "description": "Asiaâs cleanest village, known for its bamboo walkways and living root bridges.",
     "price": 250,
     "distanceWeight": 80,
     "imageCount": 5,
@@ -119,7 +101,7 @@
   {
     "id": "nohkalikai_falls",
     "name": "Nohkalikai Falls",
-    "description": "India’s tallest plunge waterfall, cascading from 340 meters into a turquoise pool.",
+    "description": "Indiaâs tallest plunge waterfall, cascading from 340 meters into a turquoise pool.",
     "price": 200,
     "distanceWeight": 55,
     "imageCount": 4,
@@ -144,31 +126,13 @@
     "category": "cave"
   },
   {
-    "id": "rhino_museum",
-    "name": "Rhino Museum",
-    "description": "A museum dedicated to the one-horned rhinoceros and wildlife conservation efforts.",
-    "price": 80,
-    "distanceWeight": 5,
-    "imageCount": 3,
-    "category": "museum"
-  },
-  {
     "id": "golf_course",
     "name": "Shillong Golf Course",
-    "description": "One of Asia’s largest natural golf courses, set amidst rolling hills and pine trees.",
+    "description": "One of Asiaâs largest natural golf courses, set amidst rolling hills and pine trees.",
     "price": 120,
     "distanceWeight": 5,
     "imageCount": 3,
     "category": "activity"
-  },
-  {
-    "id": "spread_eagle_falls",
-    "name": "Spread Eagle Falls",
-    "description": "A wide cascade shaped like an eagle in flight, surrounded by dense forest.",
-    "price": 100,
-    "distanceWeight": 6,
-    "imageCount": 3,
-    "category": "waterfall"
   },
   {
     "id": "lyngksiar_falls",
@@ -182,7 +146,7 @@
   {
     "id": "bishop_falls",
     "name": "Bishop Falls",
-    "description": "A majestic waterfall cascading down rocky cliffs, one of Shillong’s scenic spots.",
+    "description": "A majestic waterfall cascading down rocky cliffs, one of Shillongâs scenic spots.",
     "price": 100,
     "distanceWeight": 9,
     "imageCount": 3,
@@ -243,15 +207,6 @@
     "category": "lake"
   },
   {
-    "id": "umsiuh_river",
-    "name": "Umsiuh River",
-    "description": "A pristine river with natural swimming holes and picnic spots.",
-    "price": 100,
-    "distanceWeight": 35,
-    "imageCount": 3,
-    "category": "river"
-  },
-  {
     "id": "thangkharang_park",
     "name": "Thangkharang Park",
     "description": "A beautiful park offering spectacular views of the Bangladesh plains and Kynrem Falls.",
@@ -270,29 +225,11 @@
     "category": "park"
   },
   {
-    "id": "wei_sawdong_falls",
-    "name": "Wei Sawdong Falls",
-    "description": "A stunning three-tiered waterfall near Cherrapunji with crystal-clear plunge pools.",
-    "price": 150,
-    "distanceWeight": 46,
-    "imageCount": 3,
-    "category": "waterfall"
-  },
-  {
     "id": "dainthlen_falls",
     "name": "Dainthlen Falls",
     "description": "A scenic waterfall surrounded by lush greenery, associated with local Khasi folklore.",
     "price": 100,
     "distanceWeight": 44,
-    "imageCount": 3,
-    "category": "waterfall"
-  },
-  {
-    "id": "wah_kaba_falls",
-    "name": "Wah Kaba Falls",
-    "description": "A lesser-known but picturesque waterfall with multiple cascades near Sohra.",
-    "price": 100,
-    "distanceWeight": 52,
     "imageCount": 3,
     "category": "waterfall"
   },
@@ -378,15 +315,6 @@
     "category": "activity"
   },
   {
-    "id": "tamabil_border",
-    "name": "Tamabil Border",
-    "description": "The official India-Bangladesh border crossing point near Dawki, a unique cultural landmark.",
-    "price": 50,
-    "distanceWeight": 88,
-    "imageCount": 2,
-    "category": "viewpoint"
-  },
-  {
     "id": "krang_suri_falls",
     "name": "Krang Suri Falls",
     "description": "The most famous turquoise-blue waterfall in Jaintia Hills, a stunning natural pool.",
@@ -412,15 +340,6 @@
     "distanceWeight": 75,
     "imageCount": 3,
     "category": "waterfall"
-  },
-  {
-    "id": "thadlaskein_lake",
-    "name": "Thadlaskein Lake",
-    "description": "A historic lake along the highway in Jaintia Hills, shaped like a footprint by legend.",
-    "price": 80,
-    "distanceWeight": 65,
-    "imageCount": 3,
-    "category": "lake"
   },
   {
     "id": "krem_chympe",
