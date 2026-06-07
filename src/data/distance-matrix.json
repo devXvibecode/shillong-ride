@@ -28,19 +28,9 @@
     "lyngksiar_falls": 18,
     "bishop_falls": 9,
     "shillong_hati": 2,
-    "cherrapunji_viewpoint": 60,
-    "mawsmai_village": 55,
-    "dawki_viewpoint": 81,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 20,
     "ramble_lake": 15,
-    "umsiuh_river": 35,
-    "thangkharang_park": 63,
     "eco_park": 59,
-    "wei_sawdong_falls": 57,
-    "dainthlen_falls": 55,
-    "wah_kaba_falls": 47,
     "janailar_falls": 40,
     "kynrem_falls": 66,
     "arwah_cave": 52,
@@ -48,9 +38,7 @@
     "double_decker_root_bridge": 65,
     "rainbow_falls": 67,
     "riwai_root_bridge": 76,
-    "balancing_rock": 78,
     "sky_walk": 78,
-    "tamabil_border": 85,
     "krang_suri_falls": 91,
     "phe_phe_falls": 81,
     "tyrrshi_falls": 61,
@@ -90,19 +78,9 @@
     "lyngksiar_falls": 20,
     "bishop_falls": 11,
     "shillong_hati": 4,
-    "cherrapunji_viewpoint": 63,
-    "mawsmai_village": 58,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 52,
-    "krem_phyllut": 49,
     "lakshmi_llorin_peak": 22,
     "ramble_lake": 17,
-    "umsiuh_river": 37,
-    "thangkharang_park": 66,
     "eco_park": 62,
-    "wei_sawdong_falls": 60,
-    "dainthlen_falls": 58,
-    "wah_kaba_falls": 50,
     "janailar_falls": 43,
     "kynrem_falls": 69,
     "arwah_cave": 55,
@@ -110,9 +88,7 @@
     "double_decker_root_bridge": 68,
     "rainbow_falls": 70,
     "riwai_root_bridge": 74,
-    "balancing_rock": 76,
     "sky_walk": 76,
-    "tamabil_border": 83,
     "krang_suri_falls": 87,
     "phe_phe_falls": 77,
     "tyrrshi_falls": 57,
@@ -152,19 +128,9 @@
     "lyngksiar_falls": 17,
     "bishop_falls": 8,
     "shillong_hati": 1,
-    "cherrapunji_viewpoint": 61,
-    "mawsmai_village": 56,
-    "dawki_viewpoint": 81,
-    "krem_labiit": 50,
-    "krem_phyllut": 48,
     "lakshmi_llorin_peak": 19,
     "ramble_lake": 14,
-    "umsiuh_river": 34,
-    "thangkharang_park": 64,
     "eco_park": 60,
-    "wei_sawdong_falls": 58,
-    "dainthlen_falls": 56,
-    "wah_kaba_falls": 48,
     "janailar_falls": 41,
     "kynrem_falls": 67,
     "arwah_cave": 53,
@@ -172,9 +138,7 @@
     "double_decker_root_bridge": 66,
     "rainbow_falls": 68,
     "riwai_root_bridge": 76,
-    "balancing_rock": 78,
     "sky_walk": 78,
-    "tamabil_border": 85,
     "krang_suri_falls": 90,
     "phe_phe_falls": 80,
     "tyrrshi_falls": 60,
@@ -214,19 +178,9 @@
     "lyngksiar_falls": 22,
     "bishop_falls": 13,
     "shillong_hati": 6,
-    "cherrapunji_viewpoint": 65,
-    "mawsmai_village": 60,
-    "dawki_viewpoint": 86,
-    "krem_labiit": 54,
-    "krem_phyllut": 51,
     "lakshmi_llorin_peak": 24,
     "ramble_lake": 19,
-    "umsiuh_river": 39,
-    "thangkharang_park": 68,
     "eco_park": 64,
-    "wei_sawdong_falls": 62,
-    "dainthlen_falls": 60,
-    "wah_kaba_falls": 52,
     "janailar_falls": 45,
     "kynrem_falls": 71,
     "arwah_cave": 57,
@@ -234,9 +188,7 @@
     "double_decker_root_bridge": 70,
     "rainbow_falls": 72,
     "riwai_root_bridge": 81,
-    "balancing_rock": 83,
     "sky_walk": 83,
-    "tamabil_border": 90,
     "krang_suri_falls": 95,
     "phe_phe_falls": 85,
     "tyrrshi_falls": 65,
@@ -271,15 +223,8 @@
     "lyngksiar_falls": 28,
     "bishop_falls": 23,
     "shillong_hati": 20,
-    "cherrapunji_viewpoint": 65,
-    "mawsmai_village": 60,
-    "dawki_viewpoint": 92,
-    "krem_labiit": 58,
-    "krem_phyllut": 55,
     "lakshmi_llorin_peak": 30,
-    "ramble_lake": 25,
-    "umsiuh_river": 45,
-    "thangkharang_park": 70
+    "ramble_lake": 25
   },
   "elephant_falls": {
     "laitlum_canyon": 20,
@@ -304,15 +249,8 @@
     "lyngksiar_falls": 15,
     "bishop_falls": 3,
     "shillong_hati": 12,
-    "cherrapunji_viewpoint": 53,
-    "mawsmai_village": 48,
-    "dawki_viewpoint": 80,
-    "krem_labiit": 46,
-    "krem_phyllut": 43,
     "lakshmi_llorin_peak": 18,
-    "ramble_lake": 13,
-    "umsiuh_river": 33,
-    "thangkharang_park": 58
+    "ramble_lake": 13
   },
   "laitlum_canyon": {
     "shillong_peak": 22,
@@ -336,15 +274,8 @@
     "lyngksiar_falls": 15,
     "bishop_falls": 22,
     "shillong_hati": 25,
-    "cherrapunji_viewpoint": 47,
-    "mawsmai_village": 42,
-    "dawki_viewpoint": 74,
-    "krem_labiit": 42,
-    "krem_phyllut": 39,
     "lakshmi_llorin_peak": 8,
-    "ramble_lake": 12,
-    "umsiuh_river": 18,
-    "thangkharang_park": 52
+    "ramble_lake": 12
   },
   "shillong_peak": {
     "wards_lake": 9,
@@ -367,15 +298,8 @@
     "lyngksiar_falls": 16,
     "bishop_falls": 5,
     "shillong_hati": 9,
-    "cherrapunji_viewpoint": 55,
-    "mawsmai_village": 50,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 20,
-    "ramble_lake": 15,
-    "umsiuh_river": 35,
-    "thangkharang_park": 60
+    "ramble_lake": 15
   },
   "wards_lake": {
     "don_bosco_museum": 2,
@@ -397,15 +321,8 @@
     "lyngksiar_falls": 18,
     "bishop_falls": 9,
     "shillong_hati": 2,
-    "cherrapunji_viewpoint": 54,
-    "mawsmai_village": 49,
-    "dawki_viewpoint": 81,
-    "krem_labiit": 47,
-    "krem_phyllut": 44,
     "lakshmi_llorin_peak": 19,
-    "ramble_lake": 14,
-    "umsiuh_river": 34,
-    "thangkharang_park": 59
+    "ramble_lake": 14
   },
   "don_bosco_museum": {
     "sweet_falls": 15,
@@ -426,15 +343,8 @@
     "lyngksiar_falls": 19,
     "bishop_falls": 10,
     "shillong_hati": 3,
-    "cherrapunji_viewpoint": 55,
-    "mawsmai_village": 50,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 20,
-    "ramble_lake": 15,
-    "umsiuh_river": 35,
-    "thangkharang_park": 60
+    "ramble_lake": 15
   },
   "sweet_falls": {
     "beadon_falls": 4,
@@ -454,15 +364,8 @@
     "lyngksiar_falls": 15,
     "bishop_falls": 3,
     "shillong_hati": 13,
-    "cherrapunji_viewpoint": 55,
-    "mawsmai_village": 50,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 18,
-    "ramble_lake": 13,
-    "umsiuh_river": 33,
-    "thangkharang_park": 58
+    "ramble_lake": 13
   },
   "beadon_falls": {
     "crinoline_falls": 3,
@@ -481,15 +384,8 @@
     "lyngksiar_falls": 16,
     "bishop_falls": 2,
     "shillong_hati": 8,
-    "cherrapunji_viewpoint": 53,
-    "mawsmai_village": 48,
-    "dawki_viewpoint": 80,
-    "krem_labiit": 46,
-    "krem_phyllut": 43,
     "lakshmi_llorin_peak": 18,
-    "ramble_lake": 13,
-    "umsiuh_river": 33,
-    "thangkharang_park": 58
+    "ramble_lake": 13
   },
   "crinoline_falls": {
     "mawphlang_sacred_forest": 27,
@@ -507,15 +403,8 @@
     "lyngksiar_falls": 17,
     "bishop_falls": 3,
     "shillong_hati": 7,
-    "cherrapunji_viewpoint": 54,
-    "mawsmai_village": 49,
-    "dawki_viewpoint": 81,
-    "krem_labiit": 47,
-    "krem_phyllut": 44,
     "lakshmi_llorin_peak": 19,
-    "ramble_lake": 14,
-    "umsiuh_river": 34,
-    "thangkharang_park": 59
+    "ramble_lake": 14
   },
   "mawphlang_sacred_forest": {
     "sohpetbneng_peak": 12,
@@ -532,15 +421,8 @@
     "lyngksiar_falls": 20,
     "bishop_falls": 26,
     "shillong_hati": 29,
-    "cherrapunji_viewpoint": 40,
-    "mawsmai_village": 35,
-    "dawki_viewpoint": 68,
-    "krem_labiit": 38,
-    "krem_phyllut": 35,
     "lakshmi_llorin_peak": 12,
-    "ramble_lake": 10,
-    "umsiuh_river": 15,
-    "thangkharang_park": 45
+    "ramble_lake": 10
   },
   "sohpetbneng_peak": {
     "mawlynnong_village": 70,
@@ -556,15 +438,8 @@
     "lyngksiar_falls": 12,
     "bishop_falls": 20,
     "shillong_hati": 23,
-    "cherrapunji_viewpoint": 45,
-    "mawsmai_village": 40,
-    "dawki_viewpoint": 72,
-    "krem_labiit": 40,
-    "krem_phyllut": 37,
     "lakshmi_llorin_peak": 5,
-    "ramble_lake": 8,
-    "umsiuh_river": 16,
-    "thangkharang_park": 50
+    "ramble_lake": 8
   },
   "mawlynnong_village": {
     "dawki_river": 8,
@@ -579,15 +454,8 @@
     "lyngksiar_falls": 72,
     "bishop_falls": 79,
     "shillong_hati": 80,
-    "cherrapunji_viewpoint": 30,
-    "mawsmai_village": 25,
-    "dawki_viewpoint": 5,
-    "krem_labiit": 35,
-    "krem_phyllut": 38,
     "lakshmi_llorin_peak": 72,
-    "ramble_lake": 68,
-    "umsiuh_river": 55,
-    "thangkharang_park": 22
+    "ramble_lake": 68
   },
   "dawki_river": {
     "nohkalikai_falls": 35,
@@ -601,15 +469,8 @@
     "lyngksiar_falls": 77,
     "bishop_falls": 84,
     "shillong_hati": 85,
-    "cherrapunji_viewpoint": 35,
-    "mawsmai_village": 30,
-    "dawki_viewpoint": 3,
-    "krem_labiit": 40,
-    "krem_phyllut": 43,
     "lakshmi_llorin_peak": 77,
-    "ramble_lake": 73,
-    "umsiuh_river": 60,
-    "thangkharang_park": 27
+    "ramble_lake": 73
   },
   "nohkalikai_falls": {
     "seven_sisters_falls": 3,
@@ -622,15 +483,8 @@
     "lyngksiar_falls": 47,
     "bishop_falls": 54,
     "shillong_hati": 55,
-    "cherrapunji_viewpoint": 2,
-    "mawsmai_village": 5,
-    "dawki_viewpoint": 32,
-    "krem_labiit": 8,
-    "krem_phyllut": 10,
     "lakshmi_llorin_peak": 47,
-    "ramble_lake": 42,
-    "umsiuh_river": 30,
-    "thangkharang_park": 5
+    "ramble_lake": 42
   },
   "seven_sisters_falls": {
     "mawsmai_caves": 4,
@@ -642,15 +496,8 @@
     "lyngksiar_falls": 50,
     "bishop_falls": 57,
     "shillong_hati": 58,
-    "cherrapunji_viewpoint": 3,
-    "mawsmai_village": 5,
-    "dawki_viewpoint": 30,
-    "krem_labiit": 10,
-    "krem_phyllut": 12,
     "lakshmi_llorin_peak": 50,
-    "ramble_lake": 45,
-    "umsiuh_river": 33,
-    "thangkharang_park": 3
+    "ramble_lake": 45
   },
   "mawsmai_caves": {
     "air_force_museum": 55,
@@ -661,15 +508,8 @@
     "lyngksiar_falls": 47,
     "bishop_falls": 54,
     "shillong_hati": 55,
-    "cherrapunji_viewpoint": 2,
-    "mawsmai_village": 3,
-    "dawki_viewpoint": 34,
-    "krem_labiit": 8,
-    "krem_phyllut": 10,
     "lakshmi_llorin_peak": 47,
-    "ramble_lake": 42,
-    "umsiuh_river": 30,
-    "thangkharang_park": 5
+    "ramble_lake": 42
   },
   "air_force_museum": {
     "rhino_museum": 5,
@@ -679,15 +519,8 @@
     "lyngksiar_falls": 16,
     "bishop_falls": 2,
     "shillong_hati": 8,
-    "cherrapunji_viewpoint": 55,
-    "mawsmai_village": 50,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 20,
-    "ramble_lake": 15,
-    "umsiuh_river": 35,
-    "thangkharang_park": 60
+    "ramble_lake": 15
   },
   "rhino_museum": {
     "golf_course": 1,
@@ -696,15 +529,8 @@
     "lyngksiar_falls": 18,
     "bishop_falls": 9,
     "shillong_hati": 4,
-    "cherrapunji_viewpoint": 55,
-    "mawsmai_village": 50,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 19,
-    "ramble_lake": 14,
-    "umsiuh_river": 34,
-    "thangkharang_park": 59
+    "ramble_lake": 14
   },
   "golf_course": {
     "cathedral_church": 4,
@@ -712,224 +538,87 @@
     "lyngksiar_falls": 19,
     "bishop_falls": 10,
     "shillong_hati": 5,
-    "cherrapunji_viewpoint": 56,
-    "mawsmai_village": 51,
-    "dawki_viewpoint": 83,
-    "krem_labiit": 49,
-    "krem_phyllut": 46,
     "lakshmi_llorin_peak": 20,
-    "ramble_lake": 15,
-    "umsiuh_river": 35,
-    "thangkharang_park": 61
+    "ramble_lake": 15
   },
   "cathedral_church": {
     "spread_eagle_falls": 6,
     "lyngksiar_falls": 18,
     "bishop_falls": 9,
     "shillong_hati": 2,
-    "cherrapunji_viewpoint": 55,
-    "mawsmai_village": 50,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 19,
-    "ramble_lake": 14,
-    "umsiuh_river": 34,
-    "thangkharang_park": 60
+    "ramble_lake": 14
   },
   "spread_eagle_falls": {
     "lyngksiar_falls": 16,
     "bishop_falls": 2,
     "shillong_hati": 6,
-    "cherrapunji_viewpoint": 55,
-    "mawsmai_village": 50,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 18,
-    "ramble_lake": 13,
-    "umsiuh_river": 33,
-    "thangkharang_park": 60
+    "ramble_lake": 13
   },
   "lyngksiar_falls": {
     "bishop_falls": 15,
     "shillong_hati": 18,
-    "cherrapunji_viewpoint": 47,
-    "mawsmai_village": 42,
-    "dawki_viewpoint": 74,
-    "krem_labiit": 42,
-    "krem_phyllut": 39,
     "lakshmi_llorin_peak": 8,
-    "ramble_lake": 10,
-    "umsiuh_river": 18,
-    "thangkharang_park": 52
+    "ramble_lake": 10
   },
   "bishop_falls": {
     "shillong_hati": 9,
-    "cherrapunji_viewpoint": 54,
-    "mawsmai_village": 49,
-    "dawki_viewpoint": 81,
-    "krem_labiit": 47,
-    "krem_phyllut": 44,
     "lakshmi_llorin_peak": 20,
-    "ramble_lake": 15,
-    "umsiuh_river": 35,
-    "thangkharang_park": 59
+    "ramble_lake": 15
   },
   "shillong_hati": {
-    "cherrapunji_viewpoint": 55,
-    "mawsmai_village": 50,
-    "dawki_viewpoint": 82,
-    "krem_labiit": 48,
-    "krem_phyllut": 45,
     "lakshmi_llorin_peak": 19,
-    "ramble_lake": 14,
-    "umsiuh_river": 34,
-    "thangkharang_park": 60
-  },
-  "cherrapunji_viewpoint": {
-    "mawsmai_village": 3,
-    "dawki_viewpoint": 32,
-    "krem_labiit": 8,
-    "krem_phyllut": 10,
-    "lakshmi_llorin_peak": 47,
-    "ramble_lake": 42,
-    "umsiuh_river": 30,
-    "thangkharang_park": 5
-  },
-  "mawsmai_village": {
-    "dawki_viewpoint": 27,
-    "krem_labiit": 5,
-    "krem_phyllut": 8,
-    "lakshmi_llorin_peak": 40,
-    "ramble_lake": 35,
-    "umsiuh_river": 22,
-    "thangkharang_park": 8
-  },
-  "dawki_viewpoint": {
-    "krem_labiit": 37,
-    "krem_phyllut": 40,
-    "lakshmi_llorin_peak": 74,
-    "ramble_lake": 70,
-    "umsiuh_river": 57,
-    "thangkharang_park": 24
-  },
-  "krem_labiit": {
-    "krem_phyllut": 5,
-    "lakshmi_llorin_peak": 40,
-    "ramble_lake": 38,
-    "umsiuh_river": 25,
-    "thangkharang_park": 10
-  },
-  "krem_phyllut": {
-    "lakshmi_llorin_peak": 37,
-    "ramble_lake": 35,
-    "umsiuh_river": 22,
-    "thangkharang_park": 12
+    "ramble_lake": 14
   },
   "lakshmi_llorin_peak": {
-    "ramble_lake": 5,
-    "umsiuh_river": 12,
-    "thangkharang_park": 50
+    "ramble_lake": 5
   },
-  "ramble_lake": {
-    "umsiuh_river": 8,
-    "thangkharang_park": 48
-  },
-  "umsiuh_river": {
-    "thangkharang_park": 35
-  },
+  "ramble_lake": {},
   "eco_park": {
     "police_bazar": 56,
-    "thangkharang_park": 3,
     "kynrem_falls": 2,
-    "nohkalikai_falls": 4,
-    "cherrapunji_viewpoint": 4
-  },
-  "wei_sawdong_falls": {
-    "police_bazar": 46,
-    "mawsmai_caves": 12,
-    "nohkalikai_falls": 14,
-    "arwah_cave": 10
-  },
-  "dainthlen_falls": {
-    "police_bazar": 44,
-    "wei_sawdong_falls": 4,
-    "mawsmai_village": 10,
-    "krem_labiit": 12
-  },
-  "wah_kaba_falls": {
-    "police_bazar": 52,
-    "mawsmai_caves": 8,
-    "nohkalikai_falls": 6,
-    "seven_sisters_falls": 8
+    "nohkalikai_falls": 4
   },
   "janailar_falls": {
     "police_bazar": 57,
-    "thangkharang_park": 5,
-    "kynrem_falls": 4,
-    "cherrapunji_viewpoint": 6
+    "kynrem_falls": 4
   },
   "kynrem_falls": {
     "police_bazar": 59,
-    "thangkharang_park": 1,
     "eco_park": 2,
-    "nohkalikai_falls": 6,
-    "cherrapunji_viewpoint": 5
+    "nohkalikai_falls": 6
   },
   "arwah_cave": {
     "police_bazar": 50,
     "mawsmai_caves": 3,
     "mawmluh_cave": 4,
-    "mawsmai_village": 6,
-    "krem_labiit": 6,
     "nohkalikai_falls": 7
   },
   "mawmluh_cave": {
     "police_bazar": 53,
     "mawsmai_caves": 3,
-    "arwah_cave": 4,
-    "mawsmai_village": 6,
-    "cherrapunji_viewpoint": 3
+    "arwah_cave": 4
   },
   "double_decker_root_bridge": {
     "police_bazar": 62,
     "rainbow_falls": 3,
-    "nohkalikai_falls": 10,
-    "mawsmai_village": 14
+    "nohkalikai_falls": 10
   },
   "rainbow_falls": {
     "police_bazar": 64,
     "double_decker_root_bridge": 3,
-    "nohkalikai_falls": 12,
-    "mawsmai_village": 16
+    "nohkalikai_falls": 12
   },
   "riwai_root_bridge": {
     "police_bazar": 78,
     "mawlynnong_village": 1,
-    "balancing_rock": 1,
-    "sky_walk": 1,
-    "dawki_viewpoint": 5
-  },
-  "balancing_rock": {
-    "police_bazar": 79,
-    "mawlynnong_village": 1,
-    "riwai_root_bridge": 1,
-    "sky_walk": 1,
-    "dawki_viewpoint": 5
+    "sky_walk": 1
   },
   "sky_walk": {
     "police_bazar": 79,
     "mawlynnong_village": 1,
-    "riwai_root_bridge": 1,
-    "balancing_rock": 1,
-    "dawki_viewpoint": 5
-  },
-  "tamabil_border": {
-    "police_bazar": 88,
-    "dawki_river": 4,
-    "dawki_viewpoint": 6,
-    "mawlynnong_village": 11
+    "riwai_root_bridge": 1
   },
   "krang_suri_falls": {
     "police_bazar": 68,
@@ -985,10 +674,7 @@
     "bara_bazar": 45,
     "laitumkhrah": 48,
     "mawlai": 50,
-    "janailar_falls": 8,
-    "wah_kaba_falls": 6,
-    "krem_labiit": 6,
-    "krem_phyllut": 4
+    "janailar_falls": 8
   },
   "shnongpdeng": {
     "police_bazar": 90,
@@ -996,8 +682,6 @@
     "laitumkhrah": 88,
     "mawlai": 95,
     "dawki_river": 8,
-    "dawki_viewpoint": 10,
-    "tamabil_border": 6,
     "mawlynnong_village": 14
   }
 }

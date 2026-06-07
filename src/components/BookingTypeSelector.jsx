@@ -16,7 +16,7 @@ export default function BookingTypeSelector() {
 
   return (
     <div className="py-12">
-      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Choose Your <span className="text-yellow-500">Vibe</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Choose Your <span className="bg-yellow-500 text-black px-4 py-1 inline-block rotate-1 shadow-neo">Vibe</span></h2>
       <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <motion.button
           whileHover={{ scale: 1.02, rotate: -1 }}
