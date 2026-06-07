@@ -33,10 +33,10 @@ export default function PlaceCard({ place, index, maxSpots = 4 }) {
       style={{ transform: `rotate(${cardRotations[index % cardRotations.length]}deg)` }}
       className={`group transition-all duration-300 cursor-pointer rounded-xl overflow-hidden border-2 ${
         isSelected
-          ? 'bg-[#16161f] border-[#f97316]'
+          ? 'bg-[#16161f] border-[#eab308]'
           : isMaxedOut
           ? 'bg-[#16161f] border-[#2e2e44]/30 opacity-30 cursor-not-allowed'
-          : 'bg-[#16161f] border-[#2e2e44] hover:border-[#f97316]'
+          : 'bg-[#16161f] border-[#2e2e44] hover:border-[#eab308]'
       }`}
     >
       <div className="relative h-44 overflow-hidden">
@@ -66,7 +66,7 @@ export default function PlaceCard({ place, index, maxSpots = 4 }) {
             <motion.div
               initial={{ scale: 0, rotate: -45 }}
               animate={{ scale: 1, rotate: 0 }}
-              className="w-7 h-7 bg-[#f97316] border-2 border-[#c2410c] flex items-center justify-center"
+              className="w-7 h-7 bg-[#eab308] border-2 border-[#c2410c] flex items-center justify-center"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <polyline points="20 6 9 17 4 12" />

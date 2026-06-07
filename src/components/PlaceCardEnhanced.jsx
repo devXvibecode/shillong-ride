@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useBooking } from '../context/BookingContext';
 import PlaceImage from './PlaceImage';
 
 export default function PlaceCardEnhanced({ place, maxSpots, isSelected, onSelect }) {
@@ -26,7 +25,7 @@ export default function PlaceCardEnhanced({ place, maxSpots, isSelected, onSelec
         >
           <p className="text-white text-sm font-medium">{place.description || 'Explore this spot'}</p>
           {place.distance && (
-            <p className="text-orange-300 text-xs mt-1">📍 {place.distance} km away</p>
+            <p className="text-yellow-300 text-xs mt-1">📍 {place.distance} km away</p>
           )}
         </motion.div>
 
@@ -49,7 +48,7 @@ export default function PlaceCardEnhanced({ place, maxSpots, isSelected, onSelec
 
         {/* Category Badge */}
         {place.category && (
-          <div className="absolute top-3 left-3 bg-orange-500/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-white">
+          <div className="absolute top-3 left-3 bg-yellow-500/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-black">
             {place.category}
           </div>
         )}

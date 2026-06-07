@@ -47,8 +47,8 @@ export default function Contact() {
     <div className="min-h-screen bg-[#0f0f1a] pb-16 px-5 pt-10">
       <div className="max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <div className="inline-block px-3 py-1 bg-orange-500/10 border-2 border-orange-500/30 rounded-lg mb-3">
-            <span className="font-['Anton'] text-orange-400 text-xs uppercase tracking-[0.15em]">HELP DESK</span>
+          <div className="inline-block px-3 py-1 bg-yellow-500/10 border-2 border-yellow-500/30 rounded-lg mb-3">
+            <span className="font-['Anton'] text-yellow-500 text-xs uppercase tracking-[0.15em]">HELP DESK</span>
           </div>
           <h1 className="font-['Anton'] text-4xl sm:text-6xl text-white uppercase tracking-[0.02em] mb-4">Contact & FAQ</h1>
           <p className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Real questions from real travelers. We keep it straightforward.</p>
@@ -56,21 +56,21 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
           <div className="brut-card p-5 sm:p-6 text-center">
-            <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
+            <div className="text-yellow-500 mb-3 flex justify-center" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
             </div>
             <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Email</p>
-            <a href="mailto:hello@shillongride.in" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-orange-500 transition-colors">hello@shillongride.in</a>
+            <a href="mailto:hello@shillongride.in" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-yellow-500 transition-colors">hello@shillongride.in</a>
           </div>
           <div className="brut-card p-5 sm:p-6 text-center">
-            <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
+            <div className="text-yellow-500 mb-3 flex justify-center" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
             </div>
             <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Enquiry & Emergency</p>
-            <a href="tel:+919591794044" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-orange-500 transition-colors">+91 9591794044</a>
+            <a href="tel:+919591794044" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-yellow-500 transition-colors">+91 9591794044</a>
           </div>
           <div className="brut-card p-5 sm:p-6 text-center">
-            <div className="text-orange-500 mb-3 flex justify-center" aria-hidden="true">
+            <div className="text-yellow-500 mb-3 flex justify-center" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
             </div>
             <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Location</p>
@@ -84,7 +84,7 @@ export default function Contact() {
           transition={{ delay: 0.1 }}
         >
           <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em] mb-6">
-            Frequently Asked <span className="text-orange-500">Questions</span>
+            Frequently Asked <span className="text-yellow-500">Questions</span>
           </h2>
 
           <div className="space-y-2">
@@ -104,7 +104,7 @@ export default function Contact() {
                   aria-controls={`faq-panel-${i}`}
                 >
                   <span className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider pr-4">{faq.q}</span>
-                  <span className={`text-orange-500 transition-transform duration-300 flex-shrink-0 ${openFaq === i ? 'rotate-45' : ''}`} aria-hidden="true">
+                  <span className={`text-yellow-500 transition-transform duration-300 flex-shrink-0 ${openFaq === i ? 'rotate-45' : ''}`} aria-hidden="true">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
                     </svg>

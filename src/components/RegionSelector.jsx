@@ -14,7 +14,7 @@ export default function RegionSelector() {
 
   return (
     <div className="py-12">
-      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Where do you want to <span className="text-orange-500">Explore?</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Where do you want to <span className="text-yellow-500">Explore?</span></h2>
       <div className="grid sm:grid-cols-2 gap-8">
         {circuits?.map((c, i) => (
           <motion.button
@@ -29,7 +29,7 @@ export default function RegionSelector() {
               <PlaceImage 
                 placeId={c.id}
                 alt={c.name}
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
+                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
               />
               <div className="absolute top-4 left-4 bg-white border-4 border-black px-4 py-1 font-anton text-xl rotate-[-2deg]">
                 {c.shortName}
@@ -47,7 +47,7 @@ export default function RegionSelector() {
                 <div className="flex gap-2">
                   <span className="neo-badge-accent">{c.spots?.length || 0} SPOTS</span>
                 </div>
-                <span className="font-black uppercase text-sm group-hover:text-orange-500 transition-colors">
+                <span className="font-black uppercase text-sm group-hover:text-yellow-500 transition-colors">
                   CHOOSE PATH →
                 </span>
               </div>

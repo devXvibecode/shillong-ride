@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run scan-images && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "scan-images": "node scripts/scan-images.cjs"

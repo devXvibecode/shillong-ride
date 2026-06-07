@@ -114,7 +114,7 @@ export default function ImageUploader() {
           type="file"
           accept="image/*"
           onChange={handleFileSelect}
-          className="w-full text-sm text-black/70 file:mr-4 file:py-2 file:px-4 file:border-4 file:border-black file:bg-yellow-400 file:text-black file:text-xs file:font-black file:uppercase file:tracking-wider file:cursor-pointer hover:file:bg-yellow-300 file:shadow-[3px_3px_0px_#000] file:transition-all"
+          className="w-full text-sm text-black/70 file:mr-4 file:py-2 file:px-4 file:border-4 file:border-black file:bg-yellow-500 file:text-black file:text-xs file:font-black file:uppercase file:tracking-wider file:cursor-pointer hover:file:bg-yellow-300 file:shadow-[3px_3px_0px_#000] file:transition-all"
         />
       </div>
 
@@ -130,7 +130,7 @@ export default function ImageUploader() {
         className={`w-full py-3 border-4 border-black shadow-[4px_4px_0px_#000] text-sm font-black uppercase tracking-wider transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
           uploading
             ? 'bg-yellow-300 text-black/50 cursor-not-allowed'
-            : 'bg-yellow-400 text-black hover:bg-yellow-300'
+            : 'bg-yellow-500 text-black hover:bg-yellow-300'
         } disabled:opacity-40`}
       >
         {uploading ? 'Uploading...' : 'Upload Image'}
@@ -140,7 +140,7 @@ export default function ImageUploader() {
         <div className={`mt-4 px-4 py-3 border-4 border-black font-bold text-sm ${
           status.type === 'success' ? 'bg-green-500 text-white' :
           status.type === 'error' ? 'bg-red-500 text-white' :
-          status.type === 'warn' ? 'bg-yellow-400 text-black' :
+          status.type === 'warn' ? 'bg-yellow-500 text-black' :
           'bg-white text-black'
         }`}>
           {status.text}

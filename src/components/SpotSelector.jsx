@@ -15,7 +15,7 @@ export default function SpotSelector({ maxSpots }) {
     <div className="py-12 pb-40">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-6">
         <div>
-          <h2 className="text-3xl sm:text-5xl font-anton">Select <span className="text-orange-500">Destinations</span></h2>
+          <h2 className="text-3xl sm:text-5xl font-anton">Select <span className="text-yellow-500">Destinations</span></h2>
           <p className="font-black text-slate-400 uppercase tracking-widest mt-2">
             {selectedCircuit?.shortName} • PICK UP TO {maxSpots} SPOTS
           </p>
@@ -36,18 +36,18 @@ export default function SpotSelector({ maxSpots }) {
               whileHover={!isDisabled ? { y: -8 } : {}}
               onClick={() => !isDisabled && addSpot(place.id)}
               className={`neo-card p-0 overflow-hidden text-left group transition-all ${
-                isSelected ? 'border-orange-500 shadow-[8px_8px_0px_#000000] ring-4 ring-orange-500' : 
-                isDisabled ? 'opacity-40 grayscale cursor-not-allowed' : 'bg-white'
+                isSelected ? 'border-yellow-500 shadow-[8px_8px_0px_#000000] ring-4 ring-yellow-500' : 
+                isDisabled ? 'opacity-40 cursor-not-allowed' : 'bg-white'
               }`}
             >
               <div className="relative h-56 overflow-hidden border-b-4 border-black">
                 <PlaceImage 
                   placeId={place.id}
                   alt={place.name}
-                  className={`w-full h-full object-cover transition-all duration-700 ${isSelected ? 'grayscale-0' : 'grayscale group-hover:grayscale-0 group-hover:scale-110'}`}
+                  className={`w-full h-full object-cover transition-all duration-700 ${isSelected ? '' : 'group-hover:scale-110'}`}
                 />
                 {isSelected && (
-                  <div className="absolute inset-0 bg-orange-500/20 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-yellow-500/20 flex items-center justify-center">
                     <div className="bg-white border-4 border-black px-6 py-2 rotate-12 shadow-xl">
                       <span className="text-3xl font-black text-black">SELECTED</span>
                     </div>

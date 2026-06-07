@@ -21,7 +21,7 @@ export default function TimelinePreview() {
 
   return (
     <div className="py-12">
-      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Your <span className="text-orange-500">Premium Itinerary</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Your <span className="text-yellow-500">Premium Itinerary</span></h2>
       
       <div className="max-w-3xl mx-auto space-y-4">
         {timeline.map((item, i) => (
@@ -32,7 +32,7 @@ export default function TimelinePreview() {
             transition={{ delay: i * 0.1 }}
             className="neo-card flex items-center gap-8 bg-white group hover:bg-slate-50"
           >
-            <div className="font-anton text-2xl text-orange-500 shrink-0 border-r-4 border-black pr-6 py-2">
+            <div className="font-anton text-2xl text-yellow-500 shrink-0 border-r-4 border-black pr-6 py-2">
               {item.time}
             </div>
             <div>

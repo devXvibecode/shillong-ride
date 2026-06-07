@@ -13,7 +13,7 @@ export default function NodalPicker() {
 
   return (
     <div className="py-12">
-      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Where should we <span className="text-orange-500 text-stroke">Pick You Up?</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Where should we <span className="text-yellow-500 text-stroke">Pick You Up?</span></h2>
       <p className="text-center font-bold text-slate-500 mb-12 uppercase tracking-widest max-w-2xl mx-auto">
         Standard packages use nodal points to keep pricing predictable and operations efficient.
       </p>
@@ -30,7 +30,7 @@ export default function NodalPicker() {
             onClick={() => handleSelect(hub.id)}
             className="neo-card flex items-center gap-6 group bg-white p-6 lg:p-8"
           >
-            <div className="w-20 h-20 bg-black text-white flex items-center justify-center text-4xl group-hover:bg-orange-500 transition-colors shrink-0">
+            <div className="w-20 h-20 bg-black text-white flex items-center justify-center text-4xl group-hover:bg-yellow-500 transition-colors shrink-0">
               📍
             </div>
             <div className="text-left">

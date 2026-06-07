@@ -1,13 +1,8 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ToastContext from '../context/ToastContext';
 
-const ToastContext = createContext(null);
-
-export function useToast() {
-  const ctx = useContext(ToastContext);
-  if (!ctx) throw new Error('useToast must be used within ToastProvider');
-  return ctx;
-}
+export { useToast } from '../context/ToastContext';
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
@@ -38,7 +33,7 @@ export function ToastProvider({ children }) {
                   ? 'bg-green-500 text-white'
                   : t.type === 'error'
                   ? 'bg-red-500 text-white'
-                  : 'bg-yellow-400 text-black'
+                  : 'bg-yellow-500 text-black'
               }`}
               onClick={() => removeToast(t.id)}
               role="status"

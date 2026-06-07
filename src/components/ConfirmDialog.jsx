@@ -34,7 +34,7 @@ export default function ConfirmDialog({
           className={`flex-1 px-4 py-3 text-xs font-black uppercase tracking-wider border-4 border-black shadow-[4px_4px_0px_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all ${
             destructive
               ? 'bg-red-500 text-white'
-              : 'bg-yellow-400 text-black'
+              : 'bg-yellow-500 text-black'
           }`}
         >
           {label}

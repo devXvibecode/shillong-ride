@@ -45,7 +45,7 @@ export function WhatsAppTemplateSelector({ open, onClose, booking }) {
             <button
               type="button"
               onClick={onClose}
-              className="w-7 h-7 flex items-center justify-center text-black/40 hover:text-black hover:bg-yellow-400 border-2 border-black transition-all"
+              className="w-7 h-7 flex items-center justify-center text-black/40 hover:text-black hover:bg-yellow-500 border-2 border-black transition-all"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -63,7 +63,7 @@ export function WhatsAppTemplateSelector({ open, onClose, booking }) {
                 onClick={() => setSelected(id)}
                 className={`w-full text-left p-3 border-4 border-black transition-all ${
                   selected === id
-                    ? 'bg-yellow-400 text-black shadow-[4px_4px_0px_#000]'
+                    ? 'bg-yellow-500 text-black shadow-[4px_4px_0px_#000]'
                     : 'bg-white text-black/70 hover:shadow-[4px_4px_0px_#000]'
                 }`}
               >

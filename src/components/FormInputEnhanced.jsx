@@ -29,7 +29,7 @@ export default function FormInputEnhanced({
     <div className="relative mb-4">
       <motion.label
         className={`block text-sm font-semibold mb-2 transition-colors ${
-          isFocused ? 'text-orange-400' : 'text-slate-300'
+          isFocused ? 'text-yellow-500' : 'text-slate-300'
         }`}
       >
         {label}
@@ -52,7 +52,7 @@ export default function FormInputEnhanced({
               : isValid
                 ? 'border-green-500 focus:border-green-400'
                 : isFocused
-                  ? 'border-orange-500 focus:border-orange-400'
+                  ? 'border-yellow-500 focus:border-yellow-500'
                   : 'border-slate-700 focus:border-slate-600'
           }`}
           whileFocus={{ scale: 1.01 }}
