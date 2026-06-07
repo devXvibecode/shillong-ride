@@ -9,15 +9,6 @@
     "category": "forest"
   },
   {
-    "id": "mawlynnong_village",
-    "name": "Mawlynnong Village",
-    "description": "AsiaÃÂ¢ÃÂÃÂs cleanest village, known for its bamboo walkways and living root bridges.",
-    "price": 250,
-    "distanceWeight": 80,
-    "imageCount": 5,
-    "category": "village"
-  },
-  {
     "id": "dawki_river",
     "name": "Dawki River",
     "description": "Crystal-clear river on the India-Bangladesh border, famous for boating on transparent waters.",
@@ -27,15 +18,6 @@
     "category": "river"
   },
   {
-    "id": "mawsmai_village",
-    "name": "Mawsmai Village",
-    "description": "A traditional Khasi village near Cherrapunji known for living root bridges and caves.",
-    "price": 120,
-    "distanceWeight": 50,
-    "imageCount": 3,
-    "category": "village"
-  },
-  {
     "id": "janailar_falls",
     "name": "Janailar Falls",
     "description": "A remote waterfall cascading down steep cliffs, offering a peaceful natural setting.",
@@ -43,24 +25,6 @@
     "distanceWeight": 57,
     "imageCount": 3,
     "category": "waterfall"
-  },
-  {
-    "id": "kynrem_falls",
-    "name": "Kynrem Falls",
-    "description": "A majestic three-tiered waterfall inside Thangkharang Park, one of the tallest in Meghalaya.",
-    "price": 120,
-    "distanceWeight": 59,
-    "imageCount": 3,
-    "category": "waterfall"
-  },
-  {
-    "id": "arwah_cave",
-    "name": "Arwah Cave",
-    "description": "A fossil-rich limestone cave with impressive stalactite formations and underground streams.",
-    "price": 120,
-    "distanceWeight": 50,
-    "imageCount": 3,
-    "category": "cave"
   },
   {
     "id": "mawmluh_cave",
