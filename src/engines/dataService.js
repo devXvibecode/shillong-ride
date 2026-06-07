@@ -7,10 +7,15 @@ const GITHUB_BASE = import.meta.env.VITE_GITHUB_DATA_URL || 'https://raw.githubu
 
 const cached = {};
 
+export function clearCache() {
+  Object.keys(cached).forEach(key => delete cached[key]);
+}
+
 async function fetchJson(name) {
   if (cached[name]) return cached[name];
   try {
-    const res = await fetch(`${GITHUB_BASE}/${name}.json`);
+    const cacheBuster = `?t=${Date.now()}`;
+    const res = await fetch(`${GITHUB_BASE}/${name}.json${cacheBuster}`);
     if (!res.ok) throw new Error('fetch failed');
     const data = await res.json();
     cached[name] = data;
