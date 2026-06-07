@@ -14,7 +14,7 @@ export default function RegionSelector() {
 
   return (
     <div className="py-12">
-      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Where do you want to <span className="text-yellow-500">Explore?</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Where do you want to <span className="bg-yellow-500 text-black px-4 py-1 inline-block -rotate-1 shadow-neo">Explore?</span></h2>
       <div className="grid sm:grid-cols-2 gap-8">
         {circuits?.map((c, i) => (
           <motion.button

@@ -17,7 +17,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
               <h2 className="text-4xl sm:text-6xl lg:text-7xl font-anton leading-none mb-6">
-                EXPLORE THE <span className="text-yellow-500">CATALOG</span>
+                EXPLORE THE <span className="bg-yellow-500 text-black px-4 py-1 inline-block rotate-1 shadow-neo">CATALOG</span>
               </h2>
               <p className="text-xl font-bold text-slate-600">
                 From hidden waterfalls to living root bridges, discover the spots that make Meghalaya magical. 
