@@ -53,7 +53,7 @@ export default function Hero() {
           >
             <div className="neo-card-accent p-0 overflow-hidden rotate-3 shadow-[12px_12px_0px_#000000]">
               <PlaceImage
-                placeId="nohkalikai_falls"
+                placeId="hero"
                 alt="Shillong Ride"
                 className="w-full h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
               />

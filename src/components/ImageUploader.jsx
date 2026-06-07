@@ -14,7 +14,10 @@ export default function ImageUploader() {
 
   const circuit = circuits.find(c => c.id === circuitId);
   const availableSpots = circuit
-    ? circuit.spots.map(id => places.find(p => p.id === id)).filter(Boolean)
+    ? [
+        { id: circuit.id, name: "[CIRCUIT HEADER IMAGE]" },
+        ...circuit.spots.map(id => places.find(p => p.id === id)).filter(Boolean)
+      ]
     : [];
 
   const handleFileSelect = (e) => {

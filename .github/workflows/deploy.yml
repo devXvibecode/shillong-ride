@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -32,6 +32,15 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Scan Images
+        run: node scripts/scan-images.cjs
+
+      - name: Commit manifest changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update image manifest [skip ci]"
+          file_pattern: 'src/data/images-manifest.json'
 
       - name: Build
         run: npm run build
