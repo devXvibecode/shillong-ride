@@ -17,6 +17,9 @@
   "janailar_falls": [
     "/images/places/sohra/janailar_falls.webp"
   ],
+  "krem_puri_cave": [
+    "/images/places/sohra/krem_puri_cave.jpg"
+  ],
   "kynrem_falls": [
     "/images/places/sohra/kynrem_falls.jpg"
   ],
@@ -53,8 +56,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "krem_puri_cave": [
-    "/images/places/sohra/krem_puri_cave.jpg"
   ]
 }
