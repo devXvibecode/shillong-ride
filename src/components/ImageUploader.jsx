@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import circuits from '../data/circuits.json';
-import places from '../data/places.json';
+import { getPlaces, getCircuits } from '../engines/dataService';
 import { uploadImage, updateManifest } from '../engines/imageSyncService';
 
 export default function ImageUploader() {
@@ -11,6 +10,17 @@ export default function ImageUploader() {
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [status, setStatus] = useState(null);
+  const [circuits, setCircuits] = useState([]);
+  const [places, setPlaces] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    Promise.all([getPlaces(), getCircuits()]).then(([p, c]) => {
+      setPlaces(p);
+      setCircuits(c);
+      setLoaded(true);
+    });
+  }, []);
 
   const circuit = circuits.find(c => c.id === circuitId);
   const availableSpots = circuit
@@ -64,6 +74,14 @@ export default function ImageUploader() {
     setPreview(null);
     document.getElementById('image-upload-input').value = '';
   };
+
+  if (!loaded) {
+    return (
+      <div className="bg-white border-4 border-black shadow-[6px_6px_0px_#000] p-6 flex items-center justify-center">
+        <p className="text-black/50 text-sm font-bold">Loading circuits & places...</p>
+      </div>
+    );
+  }
 
   return (
     <motion.div

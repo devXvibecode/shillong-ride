@@ -8,8 +8,6 @@ import ImageUploader from '../components/ImageUploader';
 import CircuitEditor from '../components/CircuitEditor';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { WhatsAppTemplateSelector } from '../components/WhatsAppDialog';
-import circuitsData from '../data/circuits.json';
-import placesData from '../data/places.json';
 import { loadBookings, saveBookings, loadActivityLog, addActivity, loadRiders, saveRiders } from '../engines/storageService';
 
 function fmt(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
@@ -462,13 +460,10 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
 }
 
 /* ── Circuits View ── */
-function CircuitsView({ places, circuits, onCircuitEdit, onToast }) {
-  const [currentPlaces, setCurrentPlaces] = useState(places);
-  useEffect(() => { fetchFileFromGitHub('data/places.json').then(data => { if (data) setCurrentPlaces(data); }).catch(() => {}); }, []);
-
+function CircuitsView({ places, circuits, onCircuitEdit, onToast, onRefresh }) {
   return (
     <div>
-      <p className="text-black/50 text-xs font-bold mb-4">{currentPlaces.length} places across {circuits.length} circuits</p>
+      <p className="text-black/50 text-xs font-bold mb-4">{places.length} places across {circuits.length} circuits</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {circuits.map((circuit, i) => {
           const spotCount = circuit.spots.length;
@@ -492,7 +487,7 @@ function CircuitsView({ places, circuits, onCircuitEdit, onToast }) {
       <div className="bg-white border-4 border-black shadow-[6px_6px_0px_#000] p-4 mt-4 flex items-center gap-3">
         <div className="w-2 h-2 bg-green-500 animate-pulse border border-black" />
         <p className="text-black/50 text-xs flex-1 font-bold">Edits save to GitHub and auto-deploy (~2 min).</p>
-        <button type="button" onClick={() => { fetchFileFromGitHub('data/places.json').then(d => { if (d) setCurrentPlaces(d); onToast?.('Places refreshed', 'success'); }).catch(() => onToast?.('Refresh failed', 'error')); }}
+        <button type="button" onClick={() => { if (onRefresh) onRefresh(); onToast?.('Data refreshed', 'success'); }}
           className="px-3 py-1.5 text-[10px] font-black uppercase tracking-wider bg-white border-4 border-black shadow-[4px_4px_0px_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">Refresh</button>
       </div>
     </div>
@@ -641,10 +636,6 @@ function CatalogView({ places, circuits, onToast, onRefresh }) {
   const [removeConfirm, setRemoveConfirm] = useState(null);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    fetchFileFromGitHub('data/places.json').then(data => { if (data) setCatalog(data); }).catch(() => {});
-  }, []);
-
   const filtered = useMemo(() => {
     let result = [...catalog];
     if (search.trim()) { const q = search.toLowerCase(); result = result.filter(p => p.name.toLowerCase().includes(q) || p.id.includes(q) || p.category.includes(q)); }
@@ -679,7 +670,10 @@ function CatalogView({ places, circuits, onToast, onRefresh }) {
   const handleSaveToGitHub = async () => {
     setSaving(true);
     try {
-      const result = await saveCircuitData(catalog, circuits, `Catalog update: ${catalog.length} spots`);
+      // Use the latest catalog data (local state) and circuits from props (authoritative from AdminPanel)
+      // Ensure we have latest circuits from GitHub first
+      const latestCircuits = await fetchFileFromGitHub('data/circuits.json') || circuits;
+      const result = await saveCircuitData(catalog, latestCircuits, `Catalog update: ${catalog.length} spots`);
       if (result.success) {
         onToast?.('Catalog saved to GitHub', 'success');
         if (onRefresh) onRefresh();
@@ -775,12 +769,13 @@ export default function AdminPanel() {
   const [sharedBookings, setSharedBookings] = useState([]);
   const [syncState, setSyncState] = useState('loading');
   const [syncTimestamp, setSyncTimestamp] = useState(null);
-  const [places, setPlaces] = useState(placesData);
-  const [circuits, setCircuits] = useState(circuitsData);
+  const [places, setPlaces] = useState([]);
+  const [circuits, setCircuits] = useState([]);
   const [editingCircuit, setEditingCircuit] = useState(null);
   const [toast, setToast] = useState(null);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [whatsAppBooking, setWhatsAppBooking] = useState(null);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const showToast = useCallback((message, type = 'success') => setToast({ message, type, id: Date.now() }), []);
 
@@ -791,21 +786,26 @@ export default function AdminPanel() {
   }, []);
 
   const refreshBookings = useCallback(() => { setLocalBookings(loadBookingsLocal()); setRefreshKey(k => k + 1); }, []);
-  
-  const refreshAllData = useCallback(async () => {
+
+  const refreshAllData = useCallback(async (showToastOnComplete = false) => {
     clearCache();
     try {
-      const [latestPlaces, latestCircuits] = await Promise.all([
+      const [latestPlaces, latestCircuits, shared] = await Promise.all([
         getPlaces(),
         getCircuits(),
+        fetchAllBookings(),
       ]);
       setPlaces(latestPlaces);
       setCircuits(latestCircuits);
+      setSharedBookings(shared);
+      if (showToastOnComplete) {
+        showToast('All data refreshed', 'success');
+      }
     } catch {
       // fallback to whatever we already have
     }
     setRefreshKey(k => k + 1);
-  }, []);
+  }, [showToast]);
 
   useEffect(() => {
     clearCache();
@@ -819,9 +819,11 @@ export default function AdminPanel() {
       setSharedBookings(shared);
       setSyncState(import.meta.env.VITE_GITHUB_TOKEN ? 'synced' : 'token_missing');
       setSyncTimestamp(new Date().toLocaleTimeString());
+      setInitialLoading(false);
     }).catch(() => {
       setSyncState('error');
       setSyncTimestamp(new Date().toLocaleTimeString());
+      setInitialLoading(false);
     });
   }, []);
 
@@ -835,22 +837,33 @@ export default function AdminPanel() {
   }, [sharedBookings, localBookings]);
 
   const handleStatusUpdate = useCallback(async (bookingId, newStatus, rider) => {
-    try { await updateSingleBooking(bookingId, { status: newStatus, rider }); refreshBookings(); showToast(`Updated to ${newStatus}`, 'success'); }
-    catch { showToast('Update failed', 'error'); }
+    try {
+      await updateSingleBooking(bookingId, { status: newStatus, rider });
+      // Re-fetch shared bookings to get latest state
+      const shared = await fetchAllBookings();
+      setSharedBookings(shared);
+      refreshBookings();
+      showToast(`Updated to ${newStatus}`, 'success');
+    } catch {
+      showToast('Update failed', 'error');
+    }
   }, [refreshBookings, showToast]);
 
   const handleDeleteBooking = useCallback(async (bookingId) => {
-    try { await deleteBooking(bookingId); refreshBookings(); showToast('Deleted', 'success'); }
-    catch { showToast('Delete failed', 'error'); }
+    try {
+      await deleteBooking(bookingId);
+      const shared = await fetchAllBookings();
+      setSharedBookings(shared);
+      refreshBookings();
+      showToast('Deleted', 'success');
+    } catch {
+      showToast('Delete failed', 'error');
+    }
   }, [refreshBookings, showToast]);
 
   const handleManualSync = useCallback(() => {
     setSyncState('loading');
-    Promise.all([
-      fetchAllBookings(),
-      refreshAllData(),
-    ]).then(([shared]) => {
-      setSharedBookings(shared);
+    refreshAllData(false).then(() => {
       setSyncState('synced');
       setSyncTimestamp(new Date().toLocaleTimeString());
       showToast('Synced', 'success');
@@ -873,6 +886,18 @@ export default function AdminPanel() {
     a.click(); URL.revokeObjectURL(url);
     showToast('CSV exported', 'success');
   }, [allBookings, places, showToast]);
+
+  if (initialLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-black border-t-yellow-500 rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-black font-black text-lg uppercase tracking-wider font-['Anton']">Loading Admin Panel</p>
+          <p className="text-black/50 text-xs mt-1 font-bold">Fetching data from GitHub...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -937,9 +962,9 @@ export default function AdminPanel() {
             onUpdateStatus={handleStatusUpdate} onDeleteBooking={(id) => setDeleteConfirmId(id)}
             onWhatsAppOpen={(b) => setWhatsAppBooking(b)} />
         )}
-        {tab === 'catalog' && <CatalogView key={refreshKey} places={places} circuits={circuits} onToast={showToast} onRefresh={refreshAllData} />}
+        {tab === 'catalog' && <CatalogView key={refreshKey} places={places} circuits={circuits} onToast={showToast} onRefresh={() => refreshAllData(true)} />}
         {tab === 'riders' && <RidersView onToast={showToast} />}
-        {tab === 'circuits' && <CircuitsView key={refreshKey} places={places} circuits={circuits} onCircuitEdit={(c) => setEditingCircuit(c)} onToast={showToast} />}
+        {tab === 'circuits' && <CircuitsView key={refreshKey} places={places} circuits={circuits} onCircuitEdit={(c) => setEditingCircuit(c)} onToast={showToast} onRefresh={() => refreshAllData(true)} />}
         {tab === 'images' && <ImageUploader />}
         {tab === 'activity' && <ActivityLogView />}
       </div>
@@ -949,7 +974,7 @@ export default function AdminPanel() {
         onCancel={() => setDeleteConfirmId(null)} />
 
       {editingCircuit && <CircuitEditor circuit={editingCircuit} allPlaces={places} onClose={() => setEditingCircuit(null)}
-        onSaved={() => { showToast('Circuit saved!', 'success'); refreshAllData(); }} onError={(msg) => showToast(msg, 'error')} />}
+        onSaved={() => { showToast('Circuit saved!', 'success'); refreshAllData(false); }} onError={(msg) => showToast(msg, 'error')} />}
 
       <WhatsAppTemplateSelector
         open={!!whatsAppBooking}
