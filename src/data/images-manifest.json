@@ -11,6 +11,9 @@
   "eco_park": [
     "/images/places/sohra/eco_park.jpg"
   ],
+  "garden_of_caves": [
+    "/images/places/sohra/garden_of_caves.jpg"
+  ],
   "janailar_falls": [
     "/images/places/sohra/janailar_falls.webp"
   ],
@@ -37,8 +40,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "garden_of_caves": [
-    "/images/places/sohra/garden_of_caves.jpg"
   ]
 }
