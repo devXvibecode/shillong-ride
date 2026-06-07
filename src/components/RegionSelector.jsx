@@ -27,7 +27,7 @@ export default function RegionSelector() {
           >
             <div className="relative h-64 overflow-hidden border-b-4 border-black">
               <PlaceImage 
-                placeId={c.spots?.[0] || 'nohkalikai_falls'}
+                placeId={c.id}
                 alt={c.name}
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
               />

@@ -29,6 +29,13 @@ function scanImages() {
     const circuitDir = path.join(PLACES_DIR, circuitName);
     const entries = fs.readdirSync(circuitDir).sort();
 
+    /**
+     * Convention:
+     * 1. Filename (without extension) is the ID.
+     * 2. If a file named 'sohra.jpg' is in 'public/images/places/sohra/', 
+     *    it will map to ID 'sohra' (useful for circuit-level header images).
+     * 3. Multiple images for the same ID will be added as an array.
+     */
     for (const entry of entries) {
       const ext = path.extname(entry).toLowerCase();
       if (!IMAGE_EXTS.includes(ext)) continue;

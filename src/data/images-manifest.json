@@ -1,76 +1,23 @@
 {
-  "wei_sawdong_falls": [
-    "/images/places/sohra/wei_sawdong_falls.jpg",
-    "/images/places/sohra/wei_sawdong_falls.webp"
-  ],
-  "double_decker_root_bridge": [
-    "/images/places/sohra/double_decker_root_bridge.webp"
-  ],
-  "nohkalikai_falls": [
-    "/images/places/sohra/nohkalikai_falls.jpg"
-  ],
-  "mawkdok_valley": [
-    "/images/places/sohra/mawkdok_valley.jpg"
-  ],
-  "seven_sisters_falls": [
-    "/images/places/sohra/seven_sisters_falls.jpg"
-  ],
-  "mawsmai_caves": [
-    "/images/places/sohra/mawsmai_caves.jpg"
+  "dainthlen_falls": [
+    "/images/places/sohra/dainthlen_falls.jpg"
   ],
   "eco_park": [
     "/images/places/sohra/eco_park.jpg"
   ],
-  "dainthlen_falls": [
-    "/images/places/sohra/dainthlen_falls.jpg"
+  "mawkdok_valley": [
+    "/images/places/sohra/mawkdok_valley.jpg"
   ],
-  "umiam_lake": [],
-  "elephant_falls": [],
-  "laitlum_canyon": [],
-  "shillong_peak": [],
-  "wards_lake": [],
-  "don_bosco_museum": [],
-  "sweet_falls": [],
-  "beadon_falls": [],
-  "crinoline_falls": [],
-  "mawphlang_sacred_forest": [],
-  "sohpetbneng_peak": [],
-  "mawlynnong_village": [],
-  "dawki_river": [],
-  "air_force_museum": [],
-  "rhino_museum": [],
-  "golf_course": [],
-  "cathedral_church": [],
-  "spread_eagle_falls": [],
-  "lyngksiar_falls": [],
-  "bishop_falls": [],
-  "shillong_hati": [],
-  "cherrapunji_viewpoint": [],
-  "mawsmai_village": [],
-  "dawki_viewpoint": [],
-  "krem_labiit": [],
-  "krem_phyllut": [],
-  "lakshmi_llorin_peak": [],
-  "ramble_lake": [],
-  "umsiuh_river": [],
-  "thangkharang_park": [],
-  "krang_suri_falls": [],
-  "lady_hydari_park": [],
-  "wah_kaba_falls": [],
-  "janailar_falls": [],
-  "kynrem_falls": [],
-  "arwah_cave": [],
-  "mawmluh_cave": [],
-  "rainbow_falls": [],
-  "riwai_root_bridge": [],
-  "balancing_rock": [],
-  "sky_walk": [],
-  "tamabil_border": [],
-  "phe_phe_falls": [],
-  "tyrrshi_falls": [],
-  "thadlaskein_lake": [],
-  "krem_chympe": [],
-  "nartiang_monoliths": [],
-  "garden_of_caves": [],
-  "shnongpdeng": []
+  "mawsmai_caves": [
+    "/images/places/sohra/mawsmai_caves.jpg"
+  ],
+  "nohkalikai_falls": [
+    "/images/places/sohra/nohkalikai_falls.jpg"
+  ],
+  "seven_sisters_falls": [
+    "/images/places/sohra/seven_sisters_falls.jpg"
+  ],
+  "wei_sawdong_falls": [
+    "/images/places/sohra/wei_sawdong_falls.jpg"
+  ]
 }
