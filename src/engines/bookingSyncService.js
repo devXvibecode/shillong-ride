@@ -7,8 +7,6 @@ const TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_PATH}`;
 const API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
 
-let cachedSha = null;
-
 async function getCurrentFile() {
   try {
     const res = await fetch(API_URL, {
@@ -19,7 +17,6 @@ async function getCurrentFile() {
       throw new Error(`GitHub API error: ${res.status}`);
     }
     const data = await res.json();
-    cachedSha = data.sha;
     const content = atob(data.content);
     return { sha: data.sha, bookings: JSON.parse(content) };
   } catch {
@@ -56,7 +53,6 @@ export async function pushBooking(bookingData) {
     });
 
     if (!res.ok) throw new Error(`GitHub API write error: ${res.status}`);
-    cachedSha = null;
     return true;
   } catch (err) {
     console.error('Failed to sync booking to GitHub:', err);
@@ -79,7 +75,6 @@ export async function updateSingleBooking(bookingId, updates) {
       body: JSON.stringify({ message: `Update booking ${bookingId}`, content, sha, branch: GITHUB_BRANCH }),
     });
     if (!res.ok) throw new Error(`GitHub API update error: ${res.status}`);
-    cachedSha = null;
     return true;
   } catch (err) {
     console.error('Failed to update booking on GitHub:', err);
@@ -103,7 +98,6 @@ export async function deleteBooking(bookingId) {
       body: JSON.stringify({ message: `Delete booking ${bookingId}`, content, sha, branch: GITHUB_BRANCH }),
     });
     if (!res.ok) throw new Error(`GitHub API delete error: ${res.status}`);
-    cachedSha = null;
     return true;
   } catch (err) {
     console.error('Failed to delete booking from GitHub:', err);
@@ -117,7 +111,7 @@ export async function fetchAllBookings() {
       const { bookings } = await getCurrentFile();
       return bookings;
     }
-    const res = await fetch(RAW_URL);
+    const res = await fetch(`${RAW_URL}?t=${Date.now()}`);
     if (!res.ok) {
       if (res.status === 404) return [];
       throw new Error(`Fetch error: ${res.status}`);

@@ -10,14 +10,20 @@ function b64(s) {
   return btoa(unescape(encodeURIComponent(s)));
 }
 
-function deb64(s) {
-  try { return JSON.parse(decodeURIComponent(escape(atob(s)))); }
-  catch { return JSON.parse(atob(s)); }
-}
-
 export async function fetchFileFromGitHub(filePath) {
   try {
-    const res = await fetch(`${RAW}/${filePath}`);
+    if (TOKEN) {
+      const cacheBuster = `?t=${Date.now()}`;
+      const res = await fetch(`${API}/contents/${filePath}${cacheBuster}`, {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      });
+      if (!res.ok) throw new Error(`GitHub API HTTP ${res.status}`);
+      const data = await res.json();
+      try { return JSON.parse(decodeURIComponent(escape(atob(data.content)))); }
+      catch { return JSON.parse(atob(data.content)); }
+    }
+    const cacheBuster = `?t=${Date.now()}`;
+    const res = await fetch(`${RAW}/${filePath}${cacheBuster}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch {

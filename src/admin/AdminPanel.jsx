@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getPlaces } from '../engines/dataService';
+import { getPlaces, getCircuits, clearCache } from '../engines/dataService';
 import { fetchAllBookings, updateSingleBooking, deleteBooking } from '../engines/bookingSyncService';
 import { fetchFileFromGitHub, saveCircuitData } from '../engines/adminSyncService';
 import { getImageSourceList } from '../engines/imageService';
@@ -462,15 +462,15 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
 }
 
 /* ── Circuits View ── */
-function CircuitsView({ places, onCircuitEdit, onToast }) {
+function CircuitsView({ places, circuits, onCircuitEdit, onToast }) {
   const [currentPlaces, setCurrentPlaces] = useState(places);
   useEffect(() => { fetchFileFromGitHub('data/places.json').then(data => { if (data) setCurrentPlaces(data); }).catch(() => {}); }, []);
 
   return (
     <div>
-      <p className="text-black/50 text-xs font-bold mb-4">{currentPlaces.length} places across {circuitsData.length} circuits</p>
+      <p className="text-black/50 text-xs font-bold mb-4">{currentPlaces.length} places across {circuits.length} circuits</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {circuitsData.map((circuit, i) => {
+        {circuits.map((circuit, i) => {
           const spotCount = circuit.spots.length;
           return (
             <motion.button key={circuit.id} type="button" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
@@ -631,7 +631,7 @@ function SpotEditForm({ place, onSave, onCancel }) {
   );
 }
 
-function CatalogView({ places, onToast }) {
+function CatalogView({ places, circuits, onToast, onRefresh }) {
   const [catalog, setCatalog] = useState(places);
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('name');
@@ -679,8 +679,11 @@ function CatalogView({ places, onToast }) {
   const handleSaveToGitHub = async () => {
     setSaving(true);
     try {
-      const result = await saveCircuitData(catalog, circuitsData, `Catalog update: ${catalog.length} spots`);
-      if (result.success) { onToast?.('Catalog saved to GitHub', 'success'); }
+      const result = await saveCircuitData(catalog, circuits, `Catalog update: ${catalog.length} spots`);
+      if (result.success) {
+        onToast?.('Catalog saved to GitHub', 'success');
+        if (onRefresh) onRefresh();
+      }
       else { onToast?.(result.error || 'Failed to save', 'error'); }
     } catch (err) { onToast?.(err.message, 'error'); }
     finally { setSaving(false); }
@@ -773,6 +776,7 @@ export default function AdminPanel() {
   const [syncState, setSyncState] = useState('loading');
   const [syncTimestamp, setSyncTimestamp] = useState(null);
   const [places, setPlaces] = useState(placesData);
+  const [circuits, setCircuits] = useState(circuitsData);
   const [editingCircuit, setEditingCircuit] = useState(null);
   const [toast, setToast] = useState(null);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -787,14 +791,39 @@ export default function AdminPanel() {
   }, []);
 
   const refreshBookings = useCallback(() => { setLocalBookings(loadBookingsLocal()); setRefreshKey(k => k + 1); }, []);
-  useEffect(() => { getPlaces().then(setPlaces).catch(() => {}); }, []);
+  
+  const refreshAllData = useCallback(async () => {
+    clearCache();
+    try {
+      const [latestPlaces, latestCircuits] = await Promise.all([
+        getPlaces(),
+        getCircuits(),
+      ]);
+      setPlaces(latestPlaces);
+      setCircuits(latestCircuits);
+    } catch {
+      // fallback to whatever we already have
+    }
+    setRefreshKey(k => k + 1);
+  }, []);
+
   useEffect(() => {
-    fetchAllBookings().then(shared => {
+    clearCache();
+    Promise.all([
+      getPlaces(),
+      getCircuits(),
+      fetchAllBookings(),
+    ]).then(([latestPlaces, latestCircuits, shared]) => {
+      setPlaces(latestPlaces);
+      setCircuits(latestCircuits);
       setSharedBookings(shared);
       setSyncState(import.meta.env.VITE_GITHUB_TOKEN ? 'synced' : 'token_missing');
       setSyncTimestamp(new Date().toLocaleTimeString());
-    }).catch(() => { setSyncState('error'); setSyncTimestamp(new Date().toLocaleTimeString()); });
-  }, [refreshKey]);
+    }).catch(() => {
+      setSyncState('error');
+      setSyncTimestamp(new Date().toLocaleTimeString());
+    });
+  }, []);
 
   const allBookings = useMemo(() => {
     const seenSet = new Set();
@@ -817,9 +846,16 @@ export default function AdminPanel() {
 
   const handleManualSync = useCallback(() => {
     setSyncState('loading');
-    fetchAllBookings().then(shared => { setSharedBookings(shared); setSyncState('synced'); setSyncTimestamp(new Date().toLocaleTimeString()); showToast('Synced', 'success'); })
-      .catch(() => { setSyncState('error'); showToast('Sync failed', 'error'); });
-  }, [showToast]);
+    Promise.all([
+      fetchAllBookings(),
+      refreshAllData(),
+    ]).then(([shared]) => {
+      setSharedBookings(shared);
+      setSyncState('synced');
+      setSyncTimestamp(new Date().toLocaleTimeString());
+      showToast('Synced', 'success');
+    }).catch(() => { setSyncState('error'); showToast('Sync failed', 'error'); });
+  }, [showToast, refreshAllData]);
 
   const exportCSV = useCallback(() => {
     const headers = ['ID','Name','Phone','Circuit','Group','Vehicle','Pickup','Spots','Distance','Time','Status','Rider','Revenue','Route Distance','Notes','Created At'];
@@ -901,9 +937,9 @@ export default function AdminPanel() {
             onUpdateStatus={handleStatusUpdate} onDeleteBooking={(id) => setDeleteConfirmId(id)}
             onWhatsAppOpen={(b) => setWhatsAppBooking(b)} />
         )}
-        {tab === 'catalog' && <CatalogView places={places} onToast={showToast} />}
+        {tab === 'catalog' && <CatalogView key={refreshKey} places={places} circuits={circuits} onToast={showToast} onRefresh={refreshAllData} />}
         {tab === 'riders' && <RidersView onToast={showToast} />}
-        {tab === 'circuits' && <CircuitsView places={places} onCircuitEdit={(c) => setEditingCircuit(c)} onToast={showToast} />}
+        {tab === 'circuits' && <CircuitsView key={refreshKey} places={places} circuits={circuits} onCircuitEdit={(c) => setEditingCircuit(c)} onToast={showToast} />}
         {tab === 'images' && <ImageUploader />}
         {tab === 'activity' && <ActivityLogView />}
       </div>
@@ -913,7 +949,7 @@ export default function AdminPanel() {
         onCancel={() => setDeleteConfirmId(null)} />
 
       {editingCircuit && <CircuitEditor circuit={editingCircuit} allPlaces={places} onClose={() => setEditingCircuit(null)}
-        onSaved={() => showToast('Circuit saved!', 'success')} onError={(msg) => showToast(msg, 'error')} />}
+        onSaved={() => { showToast('Circuit saved!', 'success'); refreshAllData(); }} onError={(msg) => showToast(msg, 'error')} />}
 
       <WhatsAppTemplateSelector
         open={!!whatsAppBooking}
