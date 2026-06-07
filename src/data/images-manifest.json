@@ -50,6 +50,9 @@
   "mawsmai_caves": [
     "/images/places/sohra/mawsmai_caves.jpg"
   ],
+  "nartiang_monoliths": [
+    "/images/places/jaintia_hills/nartiang_monoliths.jpg"
+  ],
   "nohkalikai_falls": [
     "/images/places/sohra/nohkalikai_falls.jpg"
   ],
@@ -83,8 +86,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "nartiang_monoliths": [
-    "/images/places/jaintia_hills/nartiang_monoliths.jpg"
   ]
 }
