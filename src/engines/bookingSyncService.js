@@ -7,9 +7,14 @@ const TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_PATH}`;
 const API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
 
+// Cache-busting param that changes every call to bypass CDN cache
+function cacheBust() {
+  return `_cb=${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+}
+
 async function getCurrentFile() {
   try {
-    const res = await fetch(API_URL, {
+    const res = await fetch(`${API_URL}?${cacheBust()}`, {
       headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {},
     });
     if (!res.ok) {
@@ -111,7 +116,7 @@ export async function fetchAllBookings() {
       const { bookings } = await getCurrentFile();
       return bookings;
     }
-    const res = await fetch(`${RAW_URL}?t=${Date.now()}`);
+    const res = await fetch(`${RAW_URL}?${cacheBust()}`);
     if (!res.ok) {
       if (res.status === 404) return [];
       throw new Error(`Fetch error: ${res.status}`);

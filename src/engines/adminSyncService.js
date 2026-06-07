@@ -10,11 +10,16 @@ function b64(s) {
   return btoa(unescape(encodeURIComponent(s)));
 }
 
+// Cache-busting param that changes every call to bypass CDN cache
+function cacheBust() {
+  return `_cb=${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+}
+
 export async function fetchFileFromGitHub(filePath) {
   try {
+    // When token is present, use GitHub API for immediate consistency
     if (TOKEN) {
-      const cacheBuster = `?t=${Date.now()}`;
-      const res = await fetch(`${API}/contents/${filePath}${cacheBuster}`, {
+      const res = await fetch(`${API}/contents/${filePath}?${cacheBust()}`, {
         headers: { Authorization: `Bearer ${TOKEN}` },
       });
       if (!res.ok) throw new Error(`GitHub API HTTP ${res.status}`);
@@ -22,8 +27,9 @@ export async function fetchFileFromGitHub(filePath) {
       try { return JSON.parse(decodeURIComponent(escape(atob(data.content)))); }
       catch { return JSON.parse(atob(data.content)); }
     }
-    const cacheBuster = `?t=${Date.now()}`;
-    const res = await fetch(`${RAW}/${filePath}${cacheBuster}`);
+
+    // Fallback to Raw CDN with aggressive cache-busting
+    const res = await fetch(`${RAW}/${filePath}?${cacheBust()}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch {

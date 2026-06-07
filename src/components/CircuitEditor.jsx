@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getAllImagesForPlace, getImageSourceList, addImageToPlace, removeImageFromPlace, setPrimaryImage, resetPlaceImages } from '../engines/imageService';
 import { saveCircuitData, fetchFileFromGitHub } from '../engines/adminSyncService';
-import circuitsData from '../data/circuits.json';
 import Modal from './Modal';
 
 const CATEGORIES = ['lake', 'waterfall', 'viewpoint', 'museum', 'forest', 'village', 'river', 'cave', 'religious', 'market', 'park', 'activity'];
@@ -257,10 +256,12 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
 
       const mergedPlaces = [];
       const seen = new Set();
+      // Merge: latest from GitHub first, then overlay with local allPlaces
       for (const p of [...currentPlaces, ...allPlaces]) {
         if (!seen.has(p.id)) { seen.add(p.id); mergedPlaces.push(p); }
       }
 
+      // Apply any edits made within the circuit editor to the merged places
       const finalPlaces = mergedPlaces.map(existing => {
         const edited = circuitSpots.find(s => s.id === existing.id);
         if (edited && (edited.name !== existing.name || edited.description !== existing.description ||
@@ -271,6 +272,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
         return existing;
       });
 
+      // Add any new spots created in the circuit editor that aren't in the places list
       const existingIds = new Set(finalPlaces.map(p => p.id));
       for (const spot of circuitSpots) {
         if (!existingIds.has(spot.id)) {
@@ -278,7 +280,24 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
         }
       }
 
-      const finalCircuits = JSON.parse(JSON.stringify(await fetchFileFromGitHub('data/circuits.json') || circuitsData));
+      // Fetch latest circuits from GitHub to avoid overwriting other changes
+      let latestCircuits;
+      try {
+        const fetched = await fetchFileFromGitHub('data/circuits.json');
+        latestCircuits = fetched;
+      } catch { /* use allPlaces circuits data - passed via props */ }
+
+      // We need circuits passed from parent; but if we have them from GitHub, use those
+      let finalCircuits;
+      if (latestCircuits) {
+        finalCircuits = JSON.parse(JSON.stringify(latestCircuits));
+      } else {
+        // Make a copy from the props (we don't have them as a prop directly)
+        // We'll re-fetch them if needed
+        const refetchCircuits = await fetchFileFromGitHub('data/circuits.json');
+        finalCircuits = refetchCircuits ? JSON.parse(JSON.stringify(refetchCircuits)) : [];
+      }
+
       const circuitIdx = finalCircuits.findIndex(c => c.id === circuit.id);
       if (circuitIdx >= 0) {
         finalCircuits[circuitIdx] = { ...finalCircuits[circuitIdx], spots: circuitSpots.map(p => p.id) };
