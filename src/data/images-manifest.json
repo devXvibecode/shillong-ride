@@ -5,6 +5,9 @@
   "dainthlen_falls": [
     "/images/places/sohra/dainthlen_falls.jpg"
   ],
+  "double_decker_root_bridge": [
+    "/images/places/sohra/double_decker_root_bridge.jpg"
+  ],
   "eco_park": [
     "/images/places/sohra/eco_park.jpg"
   ],
@@ -34,8 +37,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "double_decker_root_bridge": [
-    "/images/places/sohra/double_decker_root_bridge.jpg"
   ]
 }
