@@ -20,7 +20,7 @@
   {
     "id": "shillong_peak",
     "name": "Shillong Peak",
-    "description": "Highest point in Shillong offering a 360Â° view of the city and surrounding mountains.",
+    "description": "Highest point in Shillong offering a 360ÃÂ° view of the city and surrounding mountains.",
     "price": 120,
     "distanceWeight": 10,
     "imageCount": 4,
@@ -29,7 +29,7 @@
   {
     "id": "don_bosco_museum",
     "name": "Don Bosco Museum",
-    "description": "A rich cultural museum showcasing the heritage of North-East Indiaâs indigenous tribes.",
+    "description": "A rich cultural museum showcasing the heritage of North-East IndiaÃ¢ÂÂs indigenous tribes.",
     "price": 150,
     "distanceWeight": 4,
     "imageCount": 3,
@@ -83,7 +83,7 @@
   {
     "id": "mawlynnong_village",
     "name": "Mawlynnong Village",
-    "description": "Asiaâs cleanest village, known for its bamboo walkways and living root bridges.",
+    "description": "AsiaÃ¢ÂÂs cleanest village, known for its bamboo walkways and living root bridges.",
     "price": 250,
     "distanceWeight": 80,
     "imageCount": 5,
@@ -101,7 +101,7 @@
   {
     "id": "nohkalikai_falls",
     "name": "Nohkalikai Falls",
-    "description": "Indiaâs tallest plunge waterfall, cascading from 340 meters into a turquoise pool.",
+    "description": "IndiaÃ¢ÂÂs tallest plunge waterfall, cascading from 340 meters into a turquoise pool.",
     "price": 200,
     "distanceWeight": 55,
     "imageCount": 4,
@@ -128,7 +128,7 @@
   {
     "id": "golf_course",
     "name": "Shillong Golf Course",
-    "description": "One of Asiaâs largest natural golf courses, set amidst rolling hills and pine trees.",
+    "description": "One of AsiaÃ¢ÂÂs largest natural golf courses, set amidst rolling hills and pine trees.",
     "price": 120,
     "distanceWeight": 5,
     "imageCount": 3,
@@ -146,7 +146,7 @@
   {
     "id": "bishop_falls",
     "name": "Bishop Falls",
-    "description": "A majestic waterfall cascading down rocky cliffs, one of Shillongâs scenic spots.",
+    "description": "A majestic waterfall cascading down rocky cliffs, one of ShillongÃ¢ÂÂs scenic spots.",
     "price": 100,
     "distanceWeight": 9,
     "imageCount": 3,
@@ -295,15 +295,6 @@
     "distanceWeight": 78,
     "imageCount": 3,
     "category": "village"
-  },
-  {
-    "id": "balancing_rock",
-    "name": "Balancing Rock",
-    "description": "A massive naturally balanced rock formation, a geological marvel in Mawlynnong.",
-    "price": 50,
-    "distanceWeight": 79,
-    "imageCount": 2,
-    "category": "viewpoint"
   },
   {
     "id": "sky_walk",
