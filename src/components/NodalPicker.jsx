@@ -30,7 +30,7 @@ export default function NodalPicker() {
             onClick={() => handleSelect(hub.id)}
             className="neo-card flex items-center gap-6 group bg-white p-6 lg:p-8"
           >
-            <div className="w-20 h-20 bg-black text-white flex items-center justify-center text-4xl group-hover:bg-yellow-500 transition-colors shrink-0">
+            <div className="w-20 h-20 bg-black text-white flex items-center justify-center text-4xl group-hover:bg-yellow-500 group-hover:text-black transition-colors shrink-0">
               📍
             </div>
             <div className="text-left">

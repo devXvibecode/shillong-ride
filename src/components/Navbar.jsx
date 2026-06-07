@@ -36,7 +36,7 @@ export default function Navbar() {
             </Link>
             
             {!isBooking && (
-              <Link to="/booking" className="neo-btn bg-yellow-500 text-black px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-sm whitespace-nowrap">
+              <Link to="/booking" className="neo-btn-primary px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-sm whitespace-nowrap shadow-none border-2 sm:border-4">
                 Book Now
               </Link>
             )}
