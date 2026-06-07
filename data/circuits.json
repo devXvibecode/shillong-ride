@@ -67,15 +67,9 @@
     "travelReality": "Ideal for an arrival day, a relaxed rest between mountain routes, or a final farewell ride before you leave. Shillong reveals its quieter side here.",
     "color": "#2e7d32",
     "spots": [
-      "laitlum_canyon",
       "mawphlang_sacred_forest",
-      "umiam_lake",
       "elephant_falls",
-      "shillong_peak",
-      "wards_lake",
-      "lady_hydari_park",
-      "don_bosco_museum",
-      "shillong_hati"
+      "umiam_lake"
     ]
   }
 ]

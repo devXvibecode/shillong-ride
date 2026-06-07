@@ -133,5 +133,374 @@
     "distanceWeight": 50,
     "imageCount": 3,
     "category": "cave"
+  },
+  {
+    "id": "umiam_lake",
+    "name": "Umiam Lake",
+    "description": "Serene man-made lake surrounded by lush hills, perfect for boating and picnics.",
+    "price": 150,
+    "distanceWeight": 20,
+    "imageCount": 4,
+    "category": "lake"
+  },
+  {
+    "id": "elephant_falls",
+    "name": "Elephant Falls",
+    "description": "A stunning three-tiered waterfall nestled in the forest, a must-visit near Shillong.",
+    "price": 100,
+    "distanceWeight": 12,
+    "imageCount": 4,
+    "category": "waterfall"
+  },
+  {
+    "id": "laitlum_canyon",
+    "name": "Laitlum Canyon",
+    "description": "Breathtaking canyon with panoramic views of the East Khasi Hills and deep gorges.",
+    "price": 200,
+    "distanceWeight": 25,
+    "imageCount": 4,
+    "category": "viewpoint"
+  },
+  {
+    "id": "shillong_peak",
+    "name": "Shillong Peak",
+    "description": "Highest point in Shillong offering a 360Â° view of the city and surrounding mountains.",
+    "price": 120,
+    "distanceWeight": 10,
+    "imageCount": 4,
+    "category": "viewpoint"
+  },
+  {
+    "id": "wards_lake",
+    "name": "Wardâs Lake",
+    "description": "A charming artificial lake with a wooden bridge, gardens, and boating facilities.",
+    "price": 80,
+    "distanceWeight": 3,
+    "imageCount": 3,
+    "category": "lake"
+  },
+  {
+    "id": "don_bosco_museum",
+    "name": "Don Bosco Museum",
+    "description": "A rich cultural museum showcasing the heritage of North-East Indiaâs indigenous tribes.",
+    "price": 150,
+    "distanceWeight": 4,
+    "imageCount": 3,
+    "category": "museum"
+  },
+  {
+    "id": "sweet_falls",
+    "name": "Sweet Falls",
+    "description": "A beautiful waterfall with a tragic legend, cascading from a great height.",
+    "price": 100,
+    "distanceWeight": 14,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "beadon_falls",
+    "name": "Beadon Falls",
+    "description": "A scenic waterfall near Shillong, popular for its natural pool and surrounding greenery.",
+    "price": 100,
+    "distanceWeight": 8,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "crinoline_falls",
+    "name": "Crinoline Falls",
+    "description": "A picturesque waterfall cascading into a clear pool, ideal for photography.",
+    "price": 100,
+    "distanceWeight": 7,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "sohpetbneng_peak",
+    "name": "Sohpetbneng Peak",
+    "description": "A sacred peak in Khasi mythology offering stunning sunrise and sunset views.",
+    "price": 150,
+    "distanceWeight": 22,
+    "imageCount": 3,
+    "category": "viewpoint"
+  },
+  {
+    "id": "mawlynnong_village",
+    "name": "Mawlynnong Village",
+    "description": "Asiaâs cleanest village, known for its bamboo walkways and living root bridges.",
+    "price": 250,
+    "distanceWeight": 80,
+    "imageCount": 5,
+    "category": "village"
+  },
+  {
+    "id": "nohkalikai_falls",
+    "name": "Nohkalikai Falls",
+    "description": "Indiaâs tallest plunge waterfall, cascading from 340 meters into a turquoise pool.",
+    "price": 200,
+    "distanceWeight": 55,
+    "imageCount": 4,
+    "category": "waterfall"
+  },
+  {
+    "id": "seven_sisters_falls",
+    "name": "Seven Sisters Falls",
+    "description": "A magnificent seven-segmented waterfall visible from a scenic viewpoint.",
+    "price": 180,
+    "distanceWeight": 58,
+    "imageCount": 4,
+    "category": "waterfall"
+  },
+  {
+    "id": "mawsmai_caves",
+    "name": "Mawsmai Caves",
+    "description": "Limestone caves with impressive stalactite and stalagmite formations, lit for visitors.",
+    "price": 150,
+    "distanceWeight": 55,
+    "imageCount": 4,
+    "category": "cave"
+  },
+  {
+    "id": "rhino_museum",
+    "name": "Rhino Museum",
+    "description": "A museum dedicated to the one-horned rhinoceros and wildlife conservation efforts.",
+    "price": 80,
+    "distanceWeight": 5,
+    "imageCount": 3,
+    "category": "museum"
+  },
+  {
+    "id": "golf_course",
+    "name": "Shillong Golf Course",
+    "description": "One of Asiaâs largest natural golf courses, set amidst rolling hills and pine trees.",
+    "price": 120,
+    "distanceWeight": 5,
+    "imageCount": 3,
+    "category": "activity"
+  },
+  {
+    "id": "spread_eagle_falls",
+    "name": "Spread Eagle Falls",
+    "description": "A wide cascade shaped like an eagle in flight, surrounded by dense forest.",
+    "price": 100,
+    "distanceWeight": 6,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "lyngksiar_falls",
+    "name": "Lyngksiar Falls",
+    "description": "A lesser-known but beautiful waterfall with crystal clear waters perfect for a dip.",
+    "price": 100,
+    "distanceWeight": 18,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "bishop_falls",
+    "name": "Bishop Falls",
+    "description": "A majestic waterfall cascading down rocky cliffs, one of Shillongâs scenic spots.",
+    "price": 100,
+    "distanceWeight": 9,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "mawsmai_village",
+    "name": "Mawsmai Village",
+    "description": "A traditional Khasi village near Cherrapunji known for living root bridges and caves.",
+    "price": 120,
+    "distanceWeight": 50,
+    "imageCount": 3,
+    "category": "village"
+  },
+  {
+    "id": "dawki_viewpoint",
+    "name": "Dawki Viewpoint",
+    "description": "Panoramic viewpoint overlooking the Bangladesh plains and the Umngot River.",
+    "price": 130,
+    "distanceWeight": 82,
+    "imageCount": 3,
+    "category": "viewpoint"
+  },
+  {
+    "id": "krem_labiit",
+    "name": "Krem Labiit",
+    "description": "A lesser-explored limestone cave system with stunning natural rock formations.",
+    "price": 150,
+    "distanceWeight": 48,
+    "imageCount": 3,
+    "category": "cave"
+  },
+  {
+    "id": "krem_phyllut",
+    "name": "Krem Phyllut",
+    "description": "One of the longest caves in Meghalaya, featuring underground streams and chambers.",
+    "price": 180,
+    "distanceWeight": 45,
+    "imageCount": 3,
+    "category": "cave"
+  },
+  {
+    "id": "lakshmi_llorin_peak",
+    "name": "Lakshmi Llorin Peak",
+    "description": "A lesser-known trekking peak with panoramic views of the Khasi Hills.",
+    "price": 130,
+    "distanceWeight": 20,
+    "imageCount": 3,
+    "category": "viewpoint"
+  },
+  {
+    "id": "ramble_lake",
+    "name": "Rumble Lake",
+    "description": "A quiet serene lake away from crowds, ideal for relaxation and bird watching.",
+    "price": 80,
+    "distanceWeight": 15,
+    "imageCount": 3,
+    "category": "lake"
+  },
+  {
+    "id": "umsiuh_river",
+    "name": "Umsiuh River",
+    "description": "A pristine river with natural swimming holes and picnic spots.",
+    "price": 100,
+    "distanceWeight": 35,
+    "imageCount": 3,
+    "category": "river"
+  },
+  {
+    "id": "thangkharang_park",
+    "name": "Thangkharang Park",
+    "description": "A beautiful park offering spectacular views of the Bangladesh plains and Kynrem Falls.",
+    "price": 120,
+    "distanceWeight": 60,
+    "imageCount": 3,
+    "category": "park"
+  },
+  {
+    "id": "eco_park",
+    "name": "Eco Park",
+    "description": "A well-maintained park near Cherrapunji with panoramic valley views and walking trails.",
+    "price": 100,
+    "distanceWeight": 56,
+    "imageCount": 3,
+    "category": "park"
+  },
+  {
+    "id": "wei_sawdong_falls",
+    "name": "Wei Sawdong Falls",
+    "description": "A stunning three-tiered waterfall near Cherrapunji with crystal-clear plunge pools.",
+    "price": 150,
+    "distanceWeight": 46,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "dainthlen_falls",
+    "name": "Dainthlen Falls",
+    "description": "A scenic waterfall surrounded by lush greenery, associated with local Khasi folklore.",
+    "price": 100,
+    "distanceWeight": 44,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "wah_kaba_falls",
+    "name": "Wah Kaba Falls",
+    "description": "A lesser-known but picturesque waterfall with multiple cascades near Sohra.",
+    "price": 100,
+    "distanceWeight": 52,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "kynrem_falls",
+    "name": "Kynrem Falls",
+    "description": "A majestic three-tiered waterfall inside Thangkharang Park, one of the tallest in Meghalaya.",
+    "price": 120,
+    "distanceWeight": 59,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "arwah_cave",
+    "name": "Arwah Cave",
+    "description": "A fossil-rich limestone cave with impressive stalactite formations and underground streams.",
+    "price": 120,
+    "distanceWeight": 50,
+    "imageCount": 3,
+    "category": "cave"
+  },
+  {
+    "id": "balancing_rock",
+    "name": "Balancing Rock",
+    "description": "A massive naturally balanced rock formation, a geological marvel in Mawlynnong.",
+    "price": 50,
+    "distanceWeight": 79,
+    "imageCount": 2,
+    "category": "viewpoint"
+  },
+  {
+    "id": "tamabil_border",
+    "name": "Tamabil Border",
+    "description": "The official India-Bangladesh border crossing point near Dawki, a unique cultural landmark.",
+    "price": 50,
+    "distanceWeight": 88,
+    "imageCount": 2,
+    "category": "viewpoint"
+  },
+  {
+    "id": "tyrrshi_falls",
+    "name": "Tyrshi Falls",
+    "description": "A beautiful multi-tiered waterfall in the Jaintia region, popular for photography.",
+    "price": 100,
+    "distanceWeight": 75,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "thadlaskein_lake",
+    "name": "Thadlaskein Lake",
+    "description": "A historic lake along the highway in Jaintia Hills, shaped like a footprint by legend.",
+    "price": 80,
+    "distanceWeight": 65,
+    "imageCount": 3,
+    "category": "lake"
+  },
+  {
+    "id": "lady_hydari_park",
+    "name": "Lady Hydari Park",
+    "description": "A charming botanical garden with a mini zoo, deer park, and orchid house in central Shillong.",
+    "price": 50,
+    "distanceWeight": 3,
+    "imageCount": 3,
+    "category": "park"
+  },
+  {
+    "id": "prut_falls",
+    "name": "Prut Falls",
+    "description": "A serene waterfall near Cherrapunji, surrounded by lush greenery and offering a peaceful retreat.",
+    "price": 100,
+    "distanceWeight": 36,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "mawsawa_falls",
+    "name": "Mawsawa Falls",
+    "description": "A beautiful multi-tiered waterfall cascading through dense forest, perfect for nature lovers.",
+    "price": 100,
+    "distanceWeight": 40,
+    "imageCount": 3,
+    "category": "waterfall"
+  },
+  {
+    "id": "riskai_park",
+    "name": "Riskai Park",
+    "description": "A scenic park offering panoramic views of the surrounding valleys and a peaceful picnic spot.",
+    "price": 100,
+    "distanceWeight": 42,
+    "imageCount": 3,
+    "category": "park"
   }
 ]
