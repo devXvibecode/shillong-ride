@@ -6,13 +6,12 @@
     "tagline": "Waterfalls, Caves & Valley Views",
     "description": "The classic southern ridge — plunging waterfalls, deep limestone caves, and views that drop into Bangladesh.",
     "travelReality": "This is Meghalaya at its most dramatic. Waterfalls cascade off cliffs that fall into the plains below. The Double Decker Root Bridge is a full-day commitment on its own — plan accordingly.",
-    "color": "#e65100",
+    "color": "#eab308",
     "spots": [
-      "eco_park",
-      "nohkalikai_falls", "wei_sawdong_falls", "dainthlen_falls",
-      "seven_sisters_falls", "wah_kaba_falls", "janailar_falls", "kynrem_falls",
-      "mawsmai_caves", "arwah_cave", "mawmluh_cave", "garden_of_caves",
-      "double_decker_root_bridge", "rainbow_falls"
+      "kynrem_falls", "lyngksiar_falls", "prut_falls", "mawsawa_falls",
+      "riskai_park", "janailar_falls", "double_decker_root_bridge",
+      "arwah_cave", "mawsmai_caves", "garden_of_caves", "mawmluh_cave",
+      "krem_puri_cave"
     ]
   },
   {
