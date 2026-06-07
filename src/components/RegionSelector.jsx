@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import { useData } from '../context/DataContext';
+import PlaceImage from './PlaceImage';
 
 export default function RegionSelector() {
   const { setSelectedCircuit, setStep } = useBooking();
@@ -25,8 +26,8 @@ export default function RegionSelector() {
             className="neo-card-accent p-0 overflow-hidden group text-left bg-white"
           >
             <div className="relative h-64 overflow-hidden border-b-4 border-black">
-              <img 
-                src={`https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=600&id=${c.id}`} 
+              <PlaceImage 
+                placeId={c.spots?.[0] || 'nohkalikai_falls'}
                 alt={c.name}
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
               />
