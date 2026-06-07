@@ -29,6 +29,9 @@
   "mawmluh_cave": [
     "/images/places/sohra/mawmluh_cave.jpg"
   ],
+  "mawsawa_falls": [
+    "/images/places/sohra/mawsawa_falls.jpg"
+  ],
   "mawsmai_caves": [
     "/images/places/sohra/mawsmai_caves.jpg"
   ],
@@ -46,8 +49,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "mawsawa_falls": [
-    "/images/places/sohra/mawsawa_falls.jpg"
   ]
 }
