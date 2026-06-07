@@ -35,6 +35,9 @@
   "nohkalikai_falls": [
     "/images/places/sohra/nohkalikai_falls.jpg"
   ],
+  "prut_falls": [
+    "/images/places/sohra/prut_falls.jpg"
+  ],
   "rainbow_falls": [
     "/images/places/sohra/rainbow_falls.png"
   ],
@@ -43,8 +46,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "prut_falls": [
-    "/images/places/sohra/prut_falls.jpg"
   ]
 }
