@@ -50,7 +50,7 @@ export default function Home() {
                     <PlaceImage 
                       placeId={place.id}
                       alt={place.name}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                     />
                     <div className="absolute top-4 right-4 bg-black text-white px-3 py-1 font-anton text-xs uppercase tracking-widest rotate-3">
                       {place.category || 'Must Visit'}
@@ -88,9 +88,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-8">
           <div className="font-anton text-4xl">SHILLONG RIDE</div>
           <div className="flex gap-8 font-black uppercase text-sm tracking-widest">
-            <a href="#" className="hover:text-orange-500">Instagram</a>
-            <a href="#" className="hover:text-orange-500">Twitter</a>
-            <a href="#" className="hover:text-orange-500">Facebook</a>
+            <a href="#" className="hover:text-yellow-500">Instagram</a>
+            <a href="#" className="hover:text-yellow-500">Twitter</a>
+            <a href="#" className="hover:text-yellow-500">Facebook</a>
           </div>
           <div className="text-xs font-bold opacity-50 uppercase tracking-widest">
             © 2026 SHILLONG RIDE STARTUP

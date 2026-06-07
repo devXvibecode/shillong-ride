@@ -16,12 +16,12 @@ export default function Hero() {
             transition={{ duration: 0.8, type: 'spring' }}
             className="pt-8 lg:pt-12"
           >
-            <div className="inline-block bg-black text-white px-6 py-2 font-black text-sm uppercase mb-8 rotate-[-2deg] shadow-[4px_4px_0px_#f97316]">
+            <div className="inline-block bg-black text-white px-6 py-2 font-black text-sm uppercase mb-8 rotate-[-2deg] shadow-[4px_4px_0px_#eab308]">
               Shillong's #1 Adventure Startup
             </div>
             <h1 className="text-4xl sm:text-7xl lg:text-9xl font-anton leading-[1.1] sm:leading-[0.95] mb-6 sm:mb-10">
               EXPLORE <br />
-              <span className="text-orange-500 text-stroke">MEGHALAYA</span>
+              <span className="text-yellow-500 text-stroke">MEGHALAYA</span>
             </h1>
             <p className="text-lg sm:text-2xl font-bold text-slate-700 mb-8 sm:mb-12 max-w-lg leading-tight">
               Curated ride experiences, immersive local stays, and the raw beauty of the clouds. 
@@ -55,10 +55,10 @@ export default function Hero() {
               <PlaceImage
                 placeId="hero"
                 alt="Shillong Ride"
-                className="w-full h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="w-full h-[600px] object-cover transition-all duration-700"
               />
             </div>
-            <div className="absolute -bottom-10 -left-10 bg-orange-500 text-black p-8 neo-card rotate-[-5deg] shadow-[8px_8px_0px_#000000]">
+            <div className="absolute -bottom-10 -left-10 bg-yellow-500 text-black p-8 neo-card rotate-[-5deg] shadow-[8px_8px_0px_#000000]">
               <p className="font-anton text-5xl mb-1">AUTHENTIC</p>
               <p className="font-black text-xs uppercase tracking-[0.2em]">Meghalaya Vibe Only</p>
             </div>

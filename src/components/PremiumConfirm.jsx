@@ -26,7 +26,7 @@ export default function PremiumConfirm() {
 
   return (
     <div className="py-12">
-      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Final <span className="text-orange-500">Premium Review</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Final <span className="text-yellow-500">Premium Review</span></h2>
       
       <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 max-w-6xl mx-auto">
         {/* Left: Premium Summary */}
@@ -36,7 +36,7 @@ export default function PremiumConfirm() {
             <div className="space-y-4">
               <div className="flex justify-between font-bold">
                 <span className="text-slate-400 uppercase text-xs tracking-widest">Package</span>
-                <span className="text-orange-500 uppercase">PREMIUM EXPLORER</span>
+                <span className="text-yellow-500 uppercase">PREMIUM EXPLORER</span>
               </div>
               <div className="flex justify-between font-bold">
                 <span className="text-slate-400 uppercase text-xs tracking-widest">Vehicle</span>
@@ -65,7 +65,7 @@ export default function PremiumConfirm() {
             </div>
             <div className="border-t-4 border-black pt-4 flex justify-between items-end">
               <span className="font-anton text-2xl">Package Total</span>
-              <span className="font-anton text-5xl text-orange-500">₹{price.total}</span>
+              <span className="font-anton text-5xl text-yellow-500">₹{price.total}</span>
             </div>
             <p className="text-[10px] font-bold text-slate-400 mt-4 uppercase italic">
               * Includes all fuel, meals, stay, and personal guide fees.
@@ -109,9 +109,9 @@ export default function PremiumConfirm() {
             >
               {loading ? 'RESERVING...' : 'CONFIRM PREMIUM →'}
             </button>
-            <div className="bg-orange-50 p-4 border-2 border-orange-200 mt-6">
-              <p className="text-[9px] font-bold text-orange-800 uppercase leading-relaxed">
-                <span className="text-orange-600">EMERGENCY SUPPORT:</span> 24/7 coordination included. Limited to immediate assistance and does not include medical bills or insurance.
+            <div className="bg-yellow-50 p-4 border-2 border-yellow-200 mt-6">
+              <p className="text-[9px] font-bold text-yellow-800 uppercase leading-relaxed">
+                <span className="text-yellow-600">EMERGENCY SUPPORT:</span> 24/7 coordination included. Limited to immediate assistance and does not include medical bills or insurance.
               </p>
             </div>
           </div>

@@ -29,7 +29,7 @@ export default function NormalConfirm() {
 
   return (
     <div className="py-12">
-      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Review & <span className="text-orange-500">Confirm</span></h2>
+      <h2 className="text-3xl sm:text-5xl font-anton mb-12 text-center">Review & <span className="text-yellow-500">Confirm</span></h2>
       
       <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 max-w-6xl mx-auto">
         {/* Left: Journey Summary */}
@@ -74,7 +74,7 @@ export default function NormalConfirm() {
             </div>
             <div className="border-t-4 border-black pt-4 flex justify-between items-end">
               <span className="font-anton text-2xl">Total</span>
-              <span className="font-anton text-5xl text-orange-500">₹{price.groupTotal}</span>
+              <span className="font-anton text-5xl text-yellow-500">₹{price.groupTotal}</span>
             </div>
           </div>
         </div>

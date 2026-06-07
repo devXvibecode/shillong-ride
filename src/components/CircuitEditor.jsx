@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getAllImagesForPlace, getImageSourceList, addImageToPlace, removeImageFromPlace, setPrimaryImage, resetPlaceImages } from '../engines/imageService';
 import { saveCircuitData, fetchFileFromGitHub } from '../engines/adminSyncService';
@@ -58,7 +58,7 @@ function PlaceRow({ place, idx, onEdit, onRemove, onManageImages }) {
         <button
           type="button"
           onClick={() => setShowActions(!showActions)}
-          className="w-7 h-7 flex items-center justify-center text-black/40 hover:text-black hover:bg-yellow-400 border-2 border-black transition-all"
+          className="w-7 h-7 flex items-center justify-center text-black/40 hover:text-black hover:bg-yellow-500 border-2 border-black transition-all"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="12" cy="19" r="1" />
@@ -75,7 +75,7 @@ function PlaceRow({ place, idx, onEdit, onRemove, onManageImages }) {
               <button
                 type="button"
                 onClick={() => { setShowActions(false); onEdit(place); }}
-                className="w-full px-3 py-2 text-left text-xs text-black/80 hover:bg-yellow-400 hover:text-black flex items-center gap-2 font-bold border-b-2 border-black"
+                className="w-full px-3 py-2 text-left text-xs text-black/80 hover:bg-yellow-500 hover:text-black flex items-center gap-2 font-bold border-b-2 border-black"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
                 Edit Details
@@ -83,7 +83,7 @@ function PlaceRow({ place, idx, onEdit, onRemove, onManageImages }) {
               <button
                 type="button"
                 onClick={() => { setShowActions(false); onManageImages(place); }}
-                className="w-full px-3 py-2 text-left text-xs text-black/80 hover:bg-yellow-400 hover:text-black flex items-center gap-2 font-bold border-b-2 border-black"
+                className="w-full px-3 py-2 text-left text-xs text-black/80 hover:bg-yellow-500 hover:text-black flex items-center gap-2 font-bold border-b-2 border-black"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
                 Manage Images
@@ -111,7 +111,6 @@ function NewSpotForm({ onSave, onCancel, existingIds }) {
   const [category, setCategory] = useState('waterfall');
   const [distance, setDistance] = useState('');
   const [price, setPrice] = useState('');
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
   const handleSave = () => {
@@ -182,8 +181,8 @@ function NewSpotForm({ onSave, onCancel, existingIds }) {
         </div>
         {error && <p className="text-red-500 text-[10px] font-['Anton'] uppercase tracking-wider">{error}</p>}
         <div className="flex gap-2 pt-2">
-          <button type="button" onClick={handleSave} disabled={saving} className="bg-yellow-400 text-black border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider flex-1 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
-            {saving ? 'Adding...' : 'Add Spot'}
+          <button type="button" onClick={handleSave} className="bg-yellow-500 text-black border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider flex-1 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
+            Add Spot
           </button>
           <button type="button" onClick={onCancel} className="bg-white text-black border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
             Cancel
@@ -203,13 +202,10 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
   const [editForm, setEditForm] = useState({ name: '', description: '', distanceWeight: '', price: '', category: '' });
   const [managingImagesPlace, setManagingImagesPlace] = useState(null);
 
-  const circuitSpotIds = new Set(circuitSpots.map(p => p.id));
-  const allPlaceIds = new Set(allPlaces.map(p => p.id));
-
-  const availablePlaces = useMemo(() =>
-    allPlaces.filter(p => !circuitSpotIds.has(p.id) && (p.name.toLowerCase().includes(search.toLowerCase()) || p.category.includes(search))),
-    [allPlaces, circuitSpotIds, search]
-  );
+  const availablePlaces = useMemo(() => {
+    const circuitSpotIds = new Set(circuitSpots.map(p => p.id));
+    return allPlaces.filter(p => !circuitSpotIds.has(p.id) && (p.name.toLowerCase().includes(search.toLowerCase()) || p.category.includes(search)));
+  }, [allPlaces, circuitSpots, search]);
 
   const handleRemove = (place) => {
     setCircuitSpots(prev => prev.filter(p => p.id !== place.id));
@@ -257,7 +253,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
       try {
         const fetched = await fetchFileFromGitHub('data/places.json');
         if (fetched) currentPlaces = fetched;
-      } catch {}
+      } catch { /* ignore */ }
 
       const mergedPlaces = [];
       const seen = new Set();
@@ -354,7 +350,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
           </select>
         </div>
         <div className="flex gap-2 pt-2">
-          <button type="button" onClick={handleEditSave} className="bg-yellow-400 text-black border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider flex-1 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">Save Changes</button>
+          <button type="button" onClick={handleEditSave} className="bg-yellow-500 text-black border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider flex-1 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">Save Changes</button>
           <button type="button" onClick={() => setEditingPlace(null)} className="bg-white text-black border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">Cancel</button>
         </div>
       </div>
@@ -368,6 +364,8 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
     />
   );
 
+  const allPlaceIds = useMemo(() => allPlaces.map(p => p.id), [allPlaces]);
+
   return (
     <>
       <Modal open={true} onClose={onClose} title={`Edit Circuit: ${circuit.shortName}`} subtitle={`${circuitSpots.length} spots in this circuit`}>
@@ -375,7 +373,17 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
           {/* Left: Circuit spots */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-3">
-              <p className="font-['Anton'] text-black/50 text-[10px] uppercase tracking-[0.15em]">Spots in this circuit</p>
+              <div className="flex items-center gap-4">
+                <p className="font-['Anton'] text-black/50 text-[10px] uppercase tracking-[0.15em]">Spots in this circuit</p>
+                <button
+                  type="button"
+                  onClick={() => setManagingImagesPlace({ id: circuit.id, name: `${circuit.name} (Circuit Image)` })}
+                  className="px-3 py-1 bg-black text-white text-[9px] font-black uppercase tracking-wider border-2 border-black hover:bg-yellow-500 hover:text-black transition-all flex items-center gap-1"
+                >
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+                  Manage Circuit Images
+                </button>
+              </div>
               <span className="text-black/30 text-[9px] font-mono">Drag arrows to reorder</span>
             </div>
 
@@ -434,7 +442,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
               <button
                 type="button"
                 onClick={() => setShowNewForm(true)}
-                className="w-full mb-3 px-4 py-3 border-4 border-dashed border-black text-black font-['Anton'] text-xs uppercase tracking-wider hover:bg-yellow-400 hover:border-solid transition-all flex items-center justify-center gap-2"
+                className="w-full mb-3 px-4 py-3 border-4 border-dashed border-black text-black font-['Anton'] text-xs uppercase tracking-wider hover:bg-yellow-500 hover:border-solid transition-all flex items-center justify-center gap-2"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                 Add New Spot
@@ -472,7 +480,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
                   key={p.id}
                   type="button"
                   onClick={() => handleAddExisting(p)}
-                  className="w-full flex items-center gap-2 p-2 border-2 border-black hover:bg-yellow-400 hover:border-black transition-all text-left group"
+                  className="w-full flex items-center gap-2 p-2 border-2 border-black hover:bg-yellow-500 hover:border-black transition-all text-left group"
                 >
                   <div className="w-8 h-8 border-2 border-black flex-shrink-0 bg-cover bg-center" style={{ backgroundImage: `url(${getImageSourceList(p.id)[0] || ''})` }} />
                   <div className="flex-1 min-w-0">
@@ -501,7 +509,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
               type="button"
               onClick={handleSaveToGitHub}
               disabled={saving}
-              className={`bg-yellow-400 text-black border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2 text-xs font-black uppercase tracking-wider flex items-center gap-2 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all ${saving ? 'opacity-40 cursor-not-allowed' : ''}`}
+              className={`bg-yellow-500 text-black border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2 text-xs font-black uppercase tracking-wider flex items-center gap-2 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all ${saving ? 'opacity-40 cursor-not-allowed' : ''}`}
             >
               {saving ? (
                 <>
@@ -543,7 +551,7 @@ function ImageManagerEmbed({ place, onClose }) {
     <Modal open={true} onClose={onClose} title={`Images: ${place.name}`} subtitle="Add, remove, or set primary images">
       <div className="flex gap-2 mb-4">
         <input type="text" placeholder="Paste image URL..." value={newUrl} onChange={e => setNewUrl(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAdd()} className="flex-1 px-3 py-2 text-sm border-4 border-black shadow-[3px_3px_0px_#000] font-bold" />
-        <button type="button" onClick={handleAdd} className="bg-yellow-400 text-black border-4 border-black shadow-[4px_4px_0px_#000] px-4 py-2 text-sm font-black uppercase tracking-wider hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">Add</button>
+        <button type="button" onClick={handleAdd} className="bg-yellow-500 text-black border-4 border-black shadow-[4px_4px_0px_#000] px-4 py-2 text-sm font-black uppercase tracking-wider hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">Add</button>
       </div>
       {images.length > 0 && (
         <div className="flex gap-2 mb-4">
@@ -555,14 +563,14 @@ function ImageManagerEmbed({ place, onClose }) {
           <div key={idx} className="group relative border-4 border-black bg-white overflow-hidden">
             <div className="aspect-[4/3] bg-cover bg-center" style={{ backgroundImage: `url(${url})` }} />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100">
-              <button type="button" onClick={() => handleSetPrimary(idx)} className="w-8 h-8 bg-yellow-400 border-2 border-black flex items-center justify-center text-black hover:bg-yellow-300 transition-all" title="Set as primary">
+              <button type="button" onClick={() => handleSetPrimary(idx)} className="w-8 h-8 bg-yellow-500 border-2 border-black flex items-center justify-center text-black hover:bg-yellow-300 transition-all" title="Set as primary">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
               </button>
               <button type="button" onClick={() => handleRemove(idx)} className="w-8 h-8 bg-red-500 border-2 border-black flex items-center justify-center text-white hover:bg-red-600 transition-all" title="Remove">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
               </button>
             </div>
-            {idx === 0 && <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-yellow-400 border-2 border-black text-black text-[9px] font-bold">PRIMARY</span>}
+            {idx === 0 && <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-yellow-500 border-2 border-black text-black text-[9px] font-bold">PRIMARY</span>}
           </div>
         ))}
       </div>

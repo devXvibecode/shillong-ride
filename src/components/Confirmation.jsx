@@ -41,12 +41,12 @@ function RevealId({ id }) {
   }, [id]);
 
   return (
-    <span className="text-orange-500 font-['Anton'] text-sm tracking-wider font-mono">
+    <span className="text-yellow-500 font-['Anton'] text-sm tracking-wider font-mono">
       {revealed}
       <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.5, repeat: Infinity }}
-        className="text-orange-500/50"
+        className="text-yellow-500/50"
       >|</motion.span>
     </span>
   );
@@ -71,7 +71,7 @@ function PremiumReceipt({ p }) {
           </div>
         ))}
       </div>
-      <div className="flex justify-between items-center pt-4 mt-2 border-t-2 border-orange-500/20">
+      <div className="flex justify-between items-center pt-4 mt-2 border-t-2 border-yellow-500/20">
         <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
         <span className="font-['Anton'] text-white text-2xl tracking-wider">
           <AnimatedPrice value={p.total} />
@@ -88,7 +88,7 @@ function NormalReceipt({ p }) {
         <div className="pb-1">
           <div className="flex justify-between items-center py-1 mb-1">
             <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em]">SERVICE COST</p>
-            <span className="font-['Anton'] text-orange-500 text-sm">{fmt(p.serviceTotal)}</span>
+            <span className="font-['Anton'] text-yellow-500 text-sm">{fmt(p.serviceTotal)}</span>
           </div>
           {Object.entries(p.serviceBreakdown || {}).map(([key, svc], i) => (
             <div key={key} className="flex justify-between items-center py-1 border-b-2 border-[#2e2e44]">
@@ -108,17 +108,17 @@ function NormalReceipt({ p }) {
             <p className="font-['Anton'] text-sm tracking-wider text-white/90">Rider Cost</p>
             <p className="text-white/40 text-[10px] font-mono">Your personal guide</p>
           </div>
-          <span className="font-['Anton'] text-base text-orange-500">{fmt(p.riderFee)}</span>
+          <span className="font-['Anton'] text-base text-yellow-500">{fmt(p.riderFee)}</span>
         </div>
         <div className="flex justify-between items-center py-1.5 border-b-2 border-[#2e2e44]">
           <div>
             <p className="font-['Anton'] text-sm tracking-wider text-white/90">Fuel Cost</p>
             <p className="text-white/40 text-[10px] font-mono">{p.routeDistance} km at ₹10/km</p>
           </div>
-          <span className="font-['Anton'] text-base text-orange-500">{fmt(p.fuelCost)}</span>
+          <span className="font-['Anton'] text-base text-yellow-500">{fmt(p.fuelCost)}</span>
         </div>
       </div>
-      <div className="flex justify-between items-center pt-3 mt-3 border-t-2 border-orange-500/20">
+      <div className="flex justify-between items-center pt-3 mt-3 border-t-2 border-yellow-500/20">
         <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
         <span className="font-['Anton'] text-white text-2xl tracking-wider">
           <AnimatedPrice value={p.groupTotal || p.total} />
@@ -165,7 +165,7 @@ export default function Confirmation() {
     return (
       <div className="text-center py-20 border-2 border-dashed border-[#2e2e44] rounded-xl">
         <p className="text-white/55 text-lg font-['Anton'] uppercase tracking-wider">No booking found.</p>
-        <button onClick={reset} className="text-orange-500 font-['Anton'] mt-4 inline-block hover:underline uppercase tracking-wider cursor-pointer">
+        <button onClick={reset} className="text-yellow-500 font-['Anton'] mt-4 inline-block hover:underline uppercase tracking-wider cursor-pointer">
           Book Another Tour
         </button>
       </div>
@@ -207,7 +207,7 @@ export default function Confirmation() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.4, type: 'spring', stiffness: 150 }}
-        className="inline-flex items-center px-5 py-2 mx-auto mb-4 border-4 border-black bg-yellow-400 shadow-[4px_4px_0px_#000]"
+        className="inline-flex items-center px-5 py-2 mx-auto mb-4 border-4 border-black bg-yellow-500 shadow-[4px_4px_0px_#000]"
       >
         <span className="font-['Anton'] text-black text-sm uppercase tracking-[0.15em]">
           {isPremium ? 'PREMIUM PACKAGE CONFIRMED' : 'ADVENTURE CONFIRMED'}
@@ -278,7 +278,7 @@ export default function Confirmation() {
         transition={{ delay: 0.7 }}
         className="neo-card-dark p-6 sm:p-7 text-left mb-8"
       >
-        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">
+        <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-yellow-500/20 pb-2">
           {isPremium ? 'PREMIUM PACKAGE RECEIPT' : 'PAYMENT RECEIPT'}
         </p>
         {isPremium ? <PremiumReceipt p={p} booking={booking} /> : <NormalReceipt p={p} />}

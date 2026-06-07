@@ -63,7 +63,7 @@ export default function MyBookings() {
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">Booking ID</p>
-                        <p className="text-orange-500 font-['Anton'] text-sm tracking-wider font-mono">{b.id}</p>
+                        <p className="text-yellow-500 font-['Anton'] text-sm tracking-wider font-mono">{b.id}</p>
                       </div>
                       <span className={`px-3 py-1 rounded-lg text-[10px] font-['Anton'] uppercase tracking-wider border-2 ${
                         isCancelled
@@ -85,7 +85,7 @@ export default function MyBookings() {
                       </div>
                       <div>
                         <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">Total</p>
-                        <p className="text-orange-500 font-['Anton'] text-base tracking-wider">{fmt((b.priceBreakdown?.groupTotal || b.priceBreakdown?.total) || 0)}</p>
+                        <p className="text-yellow-500 font-['Anton'] text-base tracking-wider">{fmt((b.priceBreakdown?.groupTotal || b.priceBreakdown?.total) || 0)}</p>
                       </div>
                     </div>
                   </motion.div>

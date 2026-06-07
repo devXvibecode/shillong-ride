@@ -20,12 +20,12 @@ export default function ProgressIndicator() {
   const progress = ((step + 1) / (maxStep + 1)) * 100;
 
   return (
-    <div className="sticky top-[88px] sm:top-[96px] z-40 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-950/80 backdrop-blur-sm border-b border-orange-500/20 px-5 py-4">
+    <div className="sticky top-[88px] sm:top-[96px] z-40 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-950/80 backdrop-blur-sm border-b border-yellow-500/20 px-5 py-4">
       <div className="max-w-4xl mx-auto">
         {/* Progress Bar */}
         <div className="mb-4 h-1 bg-slate-800 rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-gradient-to-r from-orange-500 to-orange-400"
+            className="h-full bg-gradient-to-r from-yellow-500 to-yellow-500"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ type: 'spring', stiffness: 100, damping: 20 }}
@@ -34,7 +34,7 @@ export default function ProgressIndicator() {
 
         {/* Step Indicators */}
         <div className="flex items-center justify-between gap-1 overflow-x-auto pb-2">
-          {displaySteps.map((s, idx) => {
+          {displaySteps.map((s) => {
             const isActive = step === s.id;
             const isCompleted = step > s.id;
 
@@ -44,7 +44,7 @@ export default function ProgressIndicator() {
                 onClick={() => step > s.id && setStep(s.id)}
                 className={`flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all whitespace-nowrap text-xs sm:text-sm ${
                   isActive
-                    ? 'bg-orange-500/20 text-orange-300 border border-orange-500/50'
+                    ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/50'
                     : isCompleted
                       ? 'bg-green-500/10 text-green-400 border border-green-500/30 cursor-pointer hover:bg-green-500/20'
                       : 'bg-slate-800/50 text-slate-400 border border-slate-700/50'

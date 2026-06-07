@@ -10,8 +10,8 @@ export default function CircuitSelector() {
       <div className="h-10" />
       {selectedSpots.length > 0 && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="brut-card-accent p-4 flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-          <p className="text-orange-400 text-xs font-semibold">
+          <div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
+          <p className="text-yellow-500 text-xs font-semibold">
             You have {selectedSpots.length} spot{selectedSpots.length > 1 ? 's' : ''} selected — pick a route to continue booking.
           </p>
         </motion.div>
@@ -52,7 +52,7 @@ export default function CircuitSelector() {
                 </span>
               </div>
 
-              <h3 className="font-['Bebas_Neue'] text-white text-2xl sm:text-3xl tracking-wider mb-2 group-hover:text-orange-500 transition-colors">
+              <h3 className="font-['Bebas_Neue'] text-white text-2xl sm:text-3xl tracking-wider mb-2 group-hover:text-yellow-500 transition-colors">
                 {circuit.shortName}
               </h3>
 
@@ -74,7 +74,7 @@ export default function CircuitSelector() {
       </div>
 
       <div className="brut-card p-6 sm:p-7">
-        <h4 className="font-['Anton'] text-orange-500 text-xs uppercase tracking-[0.15em] mb-3">How it works</h4>
+        <h4 className="font-['Anton'] text-yellow-500 text-xs uppercase tracking-[0.15em] mb-3">How it works</h4>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { step: '1', title: 'Pick a Route', desc: 'Choose your circuit — each covers a distinct region of Meghalaya.' },
@@ -82,8 +82,8 @@ export default function CircuitSelector() {
             { step: '3', title: 'Confirm & Ride', desc: 'Fill in your details and confirm. Pay after the ride.' },
           ].map(item => (
             <div key={item.step} className="flex gap-3 items-start">
-              <div className="w-8 h-8 rounded-lg bg-orange-500/10 border-2 border-orange-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="font-['Anton'] text-orange-500 text-sm">{item.step}</span>
+              <div className="w-8 h-8 rounded-lg bg-yellow-500/10 border-2 border-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="font-['Anton'] text-yellow-500 text-sm">{item.step}</span>
               </div>
               <div>
                 <p className="text-white font-['Bebas_Neue'] tracking-wider text-base">{item.title}</p>

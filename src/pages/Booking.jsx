@@ -57,7 +57,7 @@ export default function Booking() {
           </div>
           <div className="h-4 lg:h-6 bg-white border-4 border-black overflow-hidden relative">
             <motion.div 
-              className="h-full bg-orange-500 border-r-4 border-black"
+              className="h-full bg-yellow-500 border-r-4 border-black"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ type: 'spring', stiffness: 50 }}
@@ -69,8 +69,8 @@ export default function Booking() {
                 key={s}
                 onClick={() => step > i && setStep(i)}
                 className={`text-[10px] font-black uppercase tracking-widest whitespace-nowrap px-2 ${
-                  step === i ? 'text-orange-500 underline decoration-2 underline-offset-4' : 
-                  step > i ? 'text-black cursor-pointer hover:text-orange-500' : 'text-slate-300'
+                  step === i ? 'text-yellow-500 underline decoration-2 underline-offset-4' : 
+                  step > i ? 'text-black cursor-pointer hover:text-yellow-500' : 'text-slate-300'
                 }`}
               >
                 {s}

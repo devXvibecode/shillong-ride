@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import { useData } from '../context/DataContext';
 import PlaceImage from './PlaceImage';
@@ -11,7 +11,7 @@ function fmt(n) {
 }
 
 function validatePhone(v) {
-  const cleaned = v.replace(/[\s\-\(\)]/g, '').replace(/^\+?91?/, '');
+  const cleaned = v.replace(/[\s\-()]/g, '').replace(/^\+?91?/, '');
   return /^[0-9]{10}$/.test(cleaned) ? cleaned : null;
 }
 
@@ -30,7 +30,7 @@ function AnimatedPrice({ value }) {
     };
     frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
-  }, [value]);
+  }, [value, display]);
   return <span>{fmt(display)}</span>;
 }
 
@@ -58,7 +58,7 @@ function SpotCard({ place, index }) {
         <span className="absolute top-2 right-2 z-20 px-2 py-0.5 bg-[#0b0b12]/80 border-2 border-[#2e2e44] text-white/80 text-[10px] font-['Anton'] uppercase tracking-wider rounded-lg">
           {place.category}
         </span>
-        <div className="absolute top-2 left-2 z-20 w-6 h-6 bg-[#f97316] border-2 border-[#c2410c] flex items-center justify-center">
+        <div className="absolute top-2 left-2 z-20 w-6 h-6 bg-[#eab308] border-2 border-[#c2410c] flex items-center justify-center">
           <span className="font-['Anton'] text-black text-[10px]">{index + 1}</span>
         </div>
       </div>
@@ -76,10 +76,21 @@ export default function JourneyBuilder() {
     vehicleType, setVehicleType, submitBooking, setStep, submitting,
   } = useBooking();
   const { places } = useData();
-  const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  const [submitError, setSubmitError] = useState(null);
   const [priceVisible, setPriceVisible] = useState(false);
   const contentRef = useRef(null);
+
+  const errors = useMemo(() => {
+    const errs = {};
+    if (touched.name && !formData.name.trim()) errs.name = 'Name is required';
+    if (touched.phone) {
+      if (!formData.phone.trim()) errs.phone = 'Phone is required';
+      else if (!validatePhone(formData.phone)) errs.phone = 'Enter a valid 10-digit number';
+    }
+    if (submitError) errs.submit = submitError;
+    return errs;
+  }, [formData.name, formData.phone, touched, submitError]);
 
   const route = useMemo(() => optimizeRoute(selectedSpots), [selectedSpots]);
   const price = useMemo(() => calculatePrice(route, selectedCircuit?.id), [route, selectedCircuit?.id]);
@@ -90,16 +101,6 @@ export default function JourneyBuilder() {
     const t = setTimeout(() => setPriceVisible(true), 600);
     return () => clearTimeout(t);
   }, []);
-
-  useEffect(() => {
-    const errs = {};
-    if (touched.name && !formData.name.trim()) errs.name = 'Name is required';
-    if (touched.phone) {
-      if (!formData.phone.trim()) errs.phone = 'Phone is required';
-      else if (!validatePhone(formData.phone)) errs.phone = 'Enter a valid 10-digit number';
-    }
-    setErrors(errs);
-  }, [formData.name, formData.phone, touched]);
 
   if (!selectedCircuit || selectedSpots.length === 0) return null;
 
@@ -112,10 +113,11 @@ export default function JourneyBuilder() {
       return;
     }
     try {
+      setSubmitError(null);
       await submitBooking();
       setStep(3);
     } catch {
-      setErrors(prev => ({ ...prev, submit: 'Something went wrong. Please try again.' }));
+      setSubmitError('Something went wrong. Please try again.');
     }
   };
 
@@ -159,7 +161,7 @@ export default function JourneyBuilder() {
             className="brut-card p-4 sm:p-5 mb-5"
           >
             <div className="flex items-center gap-2 mb-3">
-              <span className="px-2.5 py-1 bg-orange-500/10 border-2 border-orange-500/30 text-orange-400 text-[10px] font-['Anton'] uppercase tracking-wider rounded-lg">
+              <span className="px-2.5 py-1 bg-yellow-500/10 border-2 border-yellow-500/30 text-yellow-500 text-[10px] font-['Anton'] uppercase tracking-wider rounded-lg">
                 {selectedCircuit.shortName}
               </span>
               <span className="text-white/40 text-[10px] font-mono">{price.routeDistance} km round trip</span>
@@ -173,7 +175,7 @@ export default function JourneyBuilder() {
                     transition={{ delay: 0.2 + i * 0.12, duration: 0.3 }}
                     className={`px-2.5 py-1 text-[10px] font-['Anton'] uppercase tracking-wider rounded-lg border-2 ${
                       i === 0 || i === routeStops.length - 1
-                        ? 'bg-orange-500/15 border-orange-500/30 text-orange-400'
+                        ? 'bg-yellow-500/15 border-yellow-500/30 text-yellow-500'
                         : 'bg-white/10 border-white/15 text-white'
                     }`}
                   >
@@ -184,7 +186,7 @@ export default function JourneyBuilder() {
                       initial={{ opacity: 0, x: -4 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.25 + i * 0.12, duration: 0.2 }}
-                      width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-orange-500/60"
+                      width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-yellow-500/60"
                     >
                       <polyline points="9 18 15 12 9 6" />
                     </motion.svg>
@@ -259,7 +261,7 @@ export default function JourneyBuilder() {
                       onClick={() => setVehicleType(v)}
                       className={`p-2.5 rounded-xl border-2 text-center transition-all flex items-center justify-center gap-2 ${
                         vehicleType === v
-                          ? 'bg-orange-500/15 border-orange-500/40 text-orange-400'
+                          ? 'bg-yellow-500/15 border-yellow-500/40 text-yellow-500'
                           : 'bg-[#16161f] border-[#2e2e44] text-white/50 hover:border-white/25'
                       }`}
                     >
@@ -284,13 +286,13 @@ export default function JourneyBuilder() {
             transition={{ duration: 0.4 }}
             className="brut-card p-4 sm:p-5 mb-5"
           >
-            <h3 className="font-['Anton'] text-orange-500 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-orange-500/20 pb-2">Price Breakdown</h3>
+            <h3 className="font-['Anton'] text-yellow-500 text-[10px] uppercase tracking-[0.15em] mb-4 border-b-2 border-yellow-500/20 pb-2">Price Breakdown</h3>
             <div className="space-y-2.5">
               {/* Service Cost section */}
               <div className="pb-1">
                 <div className="flex justify-between items-center py-1 mb-1">
                   <p className="font-['Anton'] text-white/55 text-[10px] uppercase tracking-[0.15em]">SERVICE COST</p>
-                  <span className="font-['Anton'] text-orange-500 text-sm">
+                  <span className="font-['Anton'] text-yellow-500 text-sm">
                     <AnimatedPrice value={price.serviceTotal} />
                   </span>
                 </div>
@@ -326,7 +328,7 @@ export default function JourneyBuilder() {
                   <p className="font-['Anton'] text-sm tracking-wider text-white/90">Rider Cost</p>
                   <p className="text-white/40 text-[10px] font-mono">Your personal guide — accompanies you throughout the trip</p>
                 </div>
-                <span className="font-['Anton'] text-base text-orange-500">
+                <span className="font-['Anton'] text-base text-yellow-500">
                   <AnimatedPrice value={price.riderFee} />
                 </span>
               </motion.div>
@@ -341,7 +343,7 @@ export default function JourneyBuilder() {
                   <p className="font-['Anton'] text-sm tracking-wider text-white/90">Fuel Cost</p>
                   <p className="text-white/40 text-[10px] font-mono">Calculated at ₹10/km for {price.routeDistance} km round trip</p>
                 </div>
-                <span className="font-['Anton'] text-base text-orange-500">
+                <span className="font-['Anton'] text-base text-yellow-500">
                   <AnimatedPrice value={price.fuelCost} />
                 </span>
               </motion.div>
@@ -350,7 +352,7 @@ export default function JourneyBuilder() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1, duration: 0.4, type: 'spring' }}
-              className="flex justify-between items-center mt-4 pt-3 border-t-2 border-orange-500/20"
+              className="flex justify-between items-center mt-4 pt-3 border-t-2 border-yellow-500/20"
             >
               <span className="font-['Anton'] text-white text-base tracking-wider">TOTAL</span>
               <span className="font-['Anton'] text-white text-2xl tracking-wider">
@@ -365,7 +367,7 @@ export default function JourneyBuilder() {
         </div>
       </div>
 
-      <div className="flex-shrink-0 border-t-2 border-[#f97316] bg-[#1e1e2b] p-3 sm:p-4">
+      <div className="flex-shrink-0 border-t-2 border-[#eab308] bg-[#1e1e2b] p-3 sm:p-4">
         <div className="max-w-4xl mx-auto flex items-center gap-3">
           <button
             type="button"
@@ -376,7 +378,7 @@ export default function JourneyBuilder() {
           </button>
           <div className="flex-1 min-w-0">
             <p className="text-white/40 text-[10px] font-['Anton'] uppercase tracking-wider">Total Trip</p>
-            <p className="font-['Anton'] text-orange-500 text-lg tracking-wider">{fmt(price.total)}</p>
+            <p className="font-['Anton'] text-yellow-500 text-lg tracking-wider">{fmt(price.total)}</p>
           </div>
           <button
             type="button"

@@ -9,7 +9,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex justify-between h-14 sm:h-20 items-center">
           <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group">
-            <div className="bg-yellow-400 border-3 sm:border-4 border-black p-0.5 sm:p-1 group-hover:rotate-12 transition-transform">
+            <div className="bg-yellow-500 border-3 sm:border-4 border-black p-0.5 sm:p-1 group-hover:rotate-12 transition-transform">
               <span className="text-lg sm:text-2xl font-black text-black leading-none">SR</span>
             </div>
             <span className="font-anton text-xl sm:text-2xl tracking-tighter">SHILLONG RIDE</span>
@@ -36,7 +36,7 @@ export default function Navbar() {
             </Link>
             
             {!isBooking && (
-              <Link to="/booking" className="neo-btn bg-yellow-400 text-black px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-sm whitespace-nowrap">
+              <Link to="/booking" className="neo-btn bg-yellow-500 text-black px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-sm whitespace-nowrap">
                 Book Now
               </Link>
             )}

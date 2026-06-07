@@ -33,7 +33,7 @@ export default function PricePreview() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className="fixed bottom-24 right-5 z-30 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl shadow-2xl p-4 max-w-xs"
+        className="fixed bottom-24 right-5 z-30 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl shadow-2xl p-4 max-w-xs"
       >
         <div className="text-white">
           <p className="text-xs font-semibold opacity-90 mb-1">{label}</p>

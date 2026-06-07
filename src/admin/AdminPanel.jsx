@@ -40,7 +40,7 @@ function Toast({ toast, onDone }) {
       className={`fixed top-4 right-4 z-[100] max-w-sm px-5 py-3 border-4 border-black shadow-[6px_6px_0px_#000] flex items-center gap-3 ${
         toast.type === 'success' ? 'bg-green-500 text-white' :
         toast.type === 'error' ? 'bg-red-500 text-white' :
-        'bg-yellow-400 text-black'
+        'bg-yellow-500 text-black'
       }`}
     >
       {toast.type === 'success' && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>}
@@ -98,7 +98,7 @@ function DashboardView({ bookings }) {
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {[
-          { label: 'Total Bookings', value: stats.total, bg: 'bg-yellow-400', txt: 'text-black' },
+          { label: 'Total Bookings', value: stats.total, bg: 'bg-yellow-500', txt: 'text-black' },
           { label: 'Total Revenue', value: fmtShort(stats.totalRevenue), bg: 'bg-white', txt: 'text-black' },
           { label: 'Completed Trips', value: stats.completed, bg: 'bg-green-500', txt: 'text-white' },
           { label: 'Active/Pending', value: stats.pending + stats.active, bg: 'bg-red-500', txt: 'text-white' },
@@ -124,7 +124,7 @@ function DashboardView({ bookings }) {
           <p className="text-black/50 text-[10px] uppercase tracking-wider mb-3 font-['Anton']">Booking Status</p>
           <div className="space-y-2">
             {[
-              { label: 'Pending', value: stats.pending, bar: 'bg-yellow-400', pct: stats.total > 0 ? Math.round(stats.pending/stats.total*100) : 0 },
+              { label: 'Pending', value: stats.pending, bar: 'bg-yellow-500', pct: stats.total > 0 ? Math.round(stats.pending/stats.total*100) : 0 },
               { label: 'Active', value: stats.active, bar: 'bg-black', pct: stats.total > 0 ? Math.round(stats.active/stats.total*100) : 0 },
               { label: 'Completed', value: stats.completed, bar: 'bg-green-500', pct: stats.total > 0 ? Math.round(stats.completed/stats.total*100) : 0 },
               { label: 'Cancelled', value: stats.cancelled, bar: 'bg-red-500', pct: stats.total > 0 ? Math.round(stats.cancelled/stats.total*100) : 0 },
@@ -148,7 +148,7 @@ function DashboardView({ bookings }) {
               return (
                 <div key={month} className="flex-1 flex flex-col items-center gap-1">
                   <span className="text-[10px] text-black font-bold">{fmtShort(amount)}</span>
-                  <div className="w-full border-2 border-black" style={{ height: `${height}%`, minHeight: '8px', backgroundColor: '#facc15' }} />
+                  <div className="w-full border-2 border-black" style={{ height: `${height}%`, minHeight: '8px', backgroundColor: '#eab308' }} />
                   <span className="text-[9px] text-black/50 font-bold">{month}</span>
                 </div>
               );
@@ -200,7 +200,7 @@ function RidersView({ onToast }) {
             onKeyDown={e => { if (e.key === 'Enter') addRider(); }} />
           <input type="text" value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="Phone (opt)" className="border-4 border-black shadow-[3px_3px_0px_#000] px-3 py-2 text-sm font-bold w-full sm:w-36"
             onKeyDown={e => { if (e.key === 'Enter') addRider(); }} />
-          <button type="button" onClick={addRider} className="bg-yellow-400 border-4 border-black shadow-[4px_4px_0px_#000] px-4 py-2 text-xs font-black uppercase tracking-wider hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">Add</button>
+          <button type="button" onClick={addRider} className="bg-yellow-500 border-4 border-black shadow-[4px_4px_0px_#000] px-4 py-2 text-xs font-black uppercase tracking-wider hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">Add</button>
         </div>
       </div>
 
@@ -217,7 +217,7 @@ function RidersView({ onToast }) {
               </div>
             </div>
             <div className="flex gap-2">
-              <button type="button" onClick={() => toggleRider(r.id)} className={`px-3 py-1 text-[10px] font-black uppercase tracking-wider border-2 border-black ${r.active ? 'bg-yellow-400 text-black' : 'bg-green-500 text-white'}`}>
+              <button type="button" onClick={() => toggleRider(r.id)} className={`px-3 py-1 text-[10px] font-black uppercase tracking-wider border-2 border-black ${r.active ? 'bg-yellow-500 text-black' : 'bg-green-500 text-white'}`}>
                 {r.active ? 'Deactivate' : 'Activate'}
               </button>
               <button type="button" onClick={() => removeRider(r.id)} className="px-3 py-1 text-[10px] font-black uppercase tracking-wider border-2 border-black bg-red-500 text-white">Remove</button>
@@ -249,7 +249,7 @@ function ActivityLogView() {
               <div className={`w-2 h-2 border border-black ${
                 entry.action.includes('Added') || entry.action.includes('Activated') ? 'bg-green-500' :
                 entry.action.includes('Removed') || entry.action.includes('Deactivated') ? 'bg-red-500' :
-                entry.action.includes('Updated') || entry.action.includes('Approved') ? 'bg-black' : 'bg-yellow-400'
+                entry.action.includes('Updated') || entry.action.includes('Approved') ? 'bg-black' : 'bg-yellow-500'
               }`} />
               <span className="text-black font-bold">{entry.action}</span>
               {entry.details && <span className="text-black/50">{entry.details}</span>}
@@ -308,7 +308,7 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
       status === 'approved' ? 'bg-white text-black' :
       status === 'cancelled' || status === 'rejected' ? 'bg-red-500 text-white' :
       status === 'cancel_requested' ? 'bg-red-500 text-white' :
-      'bg-yellow-400 text-black';
+      'bg-yellow-500 text-black';
     return <span className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-wider border-2 border-black ${cls}`}>{status.replace('_', ' ')}</span>;
   };
 
@@ -316,8 +316,8 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-4">
         {[
-          { label: 'Total', value: stats.total, bg: 'bg-yellow-400', txt: 'text-black' },
-          { label: 'Pending', value: stats.pending, bg: 'bg-yellow-400', txt: 'text-black' },
+          { label: 'Total', value: stats.total, bg: 'bg-yellow-500', txt: 'text-black' },
+          { label: 'Pending', value: stats.pending, bg: 'bg-yellow-500', txt: 'text-black' },
           { label: 'Approved', value: stats.approved, bg: 'bg-white', txt: 'text-black' },
           { label: 'Assigned', value: stats.assigned, bg: 'bg-black', txt: 'text-white' },
           { label: 'Completed', value: stats.completed, bg: 'bg-green-500', txt: 'text-white' },
@@ -335,7 +335,7 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
           {['all', 'pending', 'approved', 'assigned', 'completed', 'cancelled'].map(status => (
             <button key={status} type="button" onClick={() => setFilter(status)}
               className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-wider border-2 border-black transition-all flex-shrink-0 ${
-                filter === status ? 'bg-yellow-400 text-black shadow-[3px_3px_0px_#000]' : 'bg-white text-black/60 hover:shadow-[3px_3px_0px_#000]'
+                filter === status ? 'bg-yellow-500 text-black shadow-[3px_3px_0px_#000]' : 'bg-white text-black/60 hover:shadow-[3px_3px_0px_#000]'
               }`}>
               {status.replace('_', ' ')} {status !== 'all' && `(${stats[status] || 0})`}
             </button>
@@ -399,7 +399,7 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
                     <div className="mb-4"><p className="text-black/50 text-[10px] font-black uppercase tracking-wider mb-0.5">Homestay</p><p className="text-black text-sm font-bold">{booking.homestay.name} — {booking.homestay.vibe}</p></div>
                   )}
 
-                  <div className="border-t-4 border-yellow-400 pt-3 mb-3">
+                  <div className="border-t-4 border-yellow-500 pt-3 mb-3">
                     <p className="text-black font-black text-[10px] uppercase tracking-wider mb-2">Price Breakdown</p>
                     {booking.priceBreakdown?.breakdown?.map(item => (
                       <div key={item.id} className="flex justify-between text-xs py-1"><span className="text-black/50">{item.label}</span><span className="text-black font-bold">{fmt(item.amount)}</span></div>
@@ -415,7 +415,7 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
                   </div>
 
                   {booking.notes && <div className="mb-4"><p className="text-black/50 text-[10px] font-black uppercase tracking-wider mb-0.5">Notes</p><p className="text-black/60 text-xs">{booking.notes}</p></div>}
-                  {booking.emailSent === false && <div className="mb-4 px-3 py-2 bg-yellow-400 border-2 border-black"><p className="text-black font-bold text-[11px] uppercase tracking-wider">⚠ Email not sent — EmailJS not configured</p></div>}
+                  {booking.emailSent === false && <div className="mb-4 px-3 py-2 bg-yellow-500 border-2 border-black"><p className="text-black font-bold text-[11px] uppercase tracking-wider">⚠ Email not sent — EmailJS not configured</p></div>}
 
                   <div className="pt-3 border-t-2 border-black">
                     <p className="text-black/50 text-[10px] font-black uppercase tracking-wider mb-2">Actions</p>
@@ -428,7 +428,7 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
                       )}
                       {['approved', 'assigned', 'completed', 'cancelled'].map(s => (
                         <button key={s} type="button" onClick={() => updateStatus(booking.id, s)}
-                          className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-wider border-2 border-black transition-all ${booking.status === s ? 'bg-yellow-400 text-black shadow-[3px_3px_0px_#000]' : 'bg-white text-black/70 hover:shadow-[3px_3px_0px_#000]'}`}>
+                          className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-wider border-2 border-black transition-all ${booking.status === s ? 'bg-yellow-500 text-black shadow-[3px_3px_0px_#000]' : 'bg-white text-black/70 hover:shadow-[3px_3px_0px_#000]'}`}>
                           {s}
                         </button>
                       ))}
@@ -513,7 +513,7 @@ const CATEGORY_COLORS = {
   museum: 'text-pink-600 border-black bg-pink-100',
   forest: 'text-lime-600 border-black bg-lime-100',
   religious: 'text-indigo-600 border-black bg-indigo-100',
-  market: 'text-orange-600 border-black bg-orange-100',
+  market: 'text-yellow-600 border-black bg-yellow-100',
   park: 'text-emerald-600 border-black bg-emerald-100',
   activity: 'text-rose-600 border-black bg-rose-100',
 };
@@ -547,7 +547,7 @@ function CatalogSpotRow({ place, idx, onEdit, onRemove }) {
       </div>
       <div className="flex gap-1.5 flex-shrink-0">
         <button type="button" onClick={() => onEdit(place)}
-          className="w-7 h-7 flex items-center justify-center bg-white border-2 border-black hover:bg-yellow-400 text-black/60 hover:text-black transition-all">
+          className="w-7 h-7 flex items-center justify-center bg-white border-2 border-black hover:bg-yellow-500 text-black/60 hover:text-black transition-all">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
         </button>
         <button type="button" onClick={() => onRemove(place)}
@@ -619,7 +619,7 @@ function SpotEditForm({ place, onSave, onCancel }) {
         </div>
         {error && <p className="text-red-600 text-[10px] font-['Anton'] uppercase tracking-wider">{error}</p>}
         <div className="flex gap-2 pt-2">
-          <button type="button" onClick={handleSave} className="bg-yellow-400 border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider flex-1 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
+          <button type="button" onClick={handleSave} className="bg-yellow-500 border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider flex-1 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
             {place ? 'Save Changes' : 'Add Spot'}
           </button>
           <button type="button" onClick={onCancel} className="bg-white border-4 border-black shadow-[4px_4px_0px_#000] px-5 py-2.5 text-xs font-black uppercase tracking-wider hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
@@ -692,7 +692,7 @@ function CatalogView({ places, onToast }) {
         <p className="text-black/50 text-xs font-bold">{catalog.length} spots total</p>
         <div className="flex gap-2">
           <button type="button" onClick={() => { setShowAddForm(true); setEditingSpot(null); }}
-            className="bg-yellow-400 border-4 border-black shadow-[4px_4px_0px_#000] px-4 py-2 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
+            className="bg-yellow-500 border-4 border-black shadow-[4px_4px_0px_#000] px-4 py-2 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
             Add Spot
           </button>
@@ -720,7 +720,7 @@ function CatalogView({ places, onToast }) {
           {[{ value: 'name', label: 'Name' }, { value: 'distance', label: 'Distance' }, { value: 'price', label: 'Price' }, { value: 'category', label: 'Category' }].map(s => (
             <button key={s.value} type="button" onClick={() => setSortBy(s.value)}
               className={`px-2.5 py-1 text-[9px] font-black uppercase tracking-wider border-2 border-black transition-all ${
-                sortBy === s.value ? 'bg-yellow-400 text-black shadow-[3px_3px_0px_#000]' : 'bg-white text-black/70'
+                sortBy === s.value ? 'bg-yellow-500 text-black shadow-[3px_3px_0px_#000]' : 'bg-white text-black/70'
               }`}>
               {s.label}
             </button>
@@ -843,7 +843,7 @@ export default function AdminPanel() {
       <AnimatePresence><Toast toast={toast} onDone={() => setToast(null)} /></AnimatePresence>
 
       {/* Sticky Header */}
-      <div className="sticky top-0 z-50 bg-yellow-400 border-b-4 border-black shadow-[0_6px_0px_#000]">
+      <div className="sticky top-0 z-50 bg-yellow-500 border-b-4 border-black shadow-[0_6px_0px_#000]">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="flex items-center gap-3 flex-wrap">
