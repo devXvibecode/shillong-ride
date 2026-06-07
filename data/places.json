@@ -502,5 +502,14 @@
     "distanceWeight": 42,
     "imageCount": 3,
     "category": "park"
+  },
+  {
+    "id": "nognjrong",
+    "name": "Nognjrong",
+    "description": "Scenic viewpoing",
+    "price": 150,
+    "distanceWeight": 25,
+    "imageCount": 0,
+    "category": "waterfall"
   }
 ]
