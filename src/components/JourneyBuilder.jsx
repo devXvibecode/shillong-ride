@@ -58,7 +58,7 @@ function SpotCard({ place, index }) {
         <span className="absolute top-2 right-2 z-20 px-2 py-0.5 bg-[#0b0b12]/80 border-2 border-[#2e2e44] text-white/80 text-[10px] font-['Anton'] uppercase tracking-wider rounded-lg">
           {place.category}
         </span>
-        <div className="absolute top-2 left-2 z-20 w-6 h-6 bg-[#eab308] border-2 border-[#c2410c] flex items-center justify-center">
+        <div className="absolute top-2 left-2 z-20 w-6 h-6 bg-[#eab308] border-2 border-[#a16207] flex items-center justify-center">
           <span className="font-['Anton'] text-black text-[10px]">{index + 1}</span>
         </div>
       </div>

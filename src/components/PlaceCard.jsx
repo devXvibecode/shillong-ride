@@ -66,7 +66,7 @@ export default function PlaceCard({ place, index, maxSpots = 4 }) {
             <motion.div
               initial={{ scale: 0, rotate: -45 }}
               animate={{ scale: 1, rotate: 0 }}
-              className="w-7 h-7 bg-[#eab308] border-2 border-[#c2410c] flex items-center justify-center"
+              className="w-7 h-7 bg-[#eab308] border-2 border-[#a16207] flex items-center justify-center"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <polyline points="20 6 9 17 4 12" />

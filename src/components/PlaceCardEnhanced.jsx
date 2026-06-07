@@ -15,7 +15,7 @@ export default function PlaceCardEnhanced({ place, maxSpots, isSelected, onSelec
       whileTap={!isDisabled ? { scale: 0.98 } : {}}
     >
       <div className="relative h-48 sm:h-56 bg-slate-800 overflow-hidden">
-        <PlaceImage place={place} />
+        <PlaceImage placeId={place.id} alt={place.name} className="w-full h-full object-cover" />
 
         {/* Overlay on hover */}
         <motion.div
