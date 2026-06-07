@@ -8,6 +8,9 @@
   "janailar_falls": [
     "/images/places/sohra/janailar_falls.webp"
   ],
+  "kynrem_falls": [
+    "/images/places/sohra/kynrem_falls.jpg"
+  ],
   "lyngksiar_falls": [
     "/images/places/sohra/lyngksiar_falls.jpg"
   ],
@@ -25,8 +28,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "kynrem_falls": [
-    "/images/places/sohra/kynrem_falls.jpg"
   ]
 }
