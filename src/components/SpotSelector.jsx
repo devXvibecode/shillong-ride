@@ -15,7 +15,7 @@ export default function SpotSelector({ maxSpots }) {
     <div className="py-12 pb-40">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-6">
         <div>
-          <h2 className="text-3xl sm:text-5xl font-anton">Select <span className="text-yellow-500">Destinations</span></h2>
+          <h2 className="text-3xl sm:text-5xl font-anton">Select <span className="bg-yellow-500 text-black px-4 py-1 inline-block rotate-1 shadow-neo">Destinations</span></h2>
           <p className="font-black text-slate-400 uppercase tracking-widest mt-2">
             {selectedCircuit?.shortName} • PICK UP TO {maxSpots} SPOTS
           </p>
