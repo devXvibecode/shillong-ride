@@ -29,6 +29,9 @@
   "mawkdok_valley": [
     "/images/places/sohra/mawkdok_valley.jpg"
   ],
+  "mawlynnong_village": [
+    "/images/places/dawki_mawlynnong/mawlynnong_village.jpg"
+  ],
   "mawmluh_cave": [
     "/images/places/sohra/mawmluh_cave.jpg"
   ],
@@ -59,8 +62,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "mawlynnong_village": [
-    "/images/places/dawki_mawlynnong/mawlynnong_village.jpg"
   ]
 }
