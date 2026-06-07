@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import { useData } from '../context/DataContext';
+import PlaceImage from './PlaceImage';
 
 export default function SpotSelector({ maxSpots }) {
   const { selectedCircuit, selectedSpots, addSpot, setStep } = useBooking();
@@ -40,8 +41,8 @@ export default function SpotSelector({ maxSpots }) {
               }`}
             >
               <div className="relative h-56 overflow-hidden border-b-4 border-black">
-                <img 
-                  src={`https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=500&id=${place.id}`} 
+                <PlaceImage 
+                  placeId={place.id}
                   alt={place.name}
                   className={`w-full h-full object-cover transition-all duration-700 ${isSelected ? 'grayscale-0' : 'grayscale group-hover:grayscale-0 group-hover:scale-110'}`}
                 />

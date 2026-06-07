@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import Hero from '../components/Hero';
+import PlaceImage from '../components/PlaceImage';
 
 export default function Home() {
   const { places, loading } = useData();
@@ -46,8 +47,8 @@ export default function Home() {
                   className="neo-card p-0 overflow-hidden group"
                 >
                   <div className="relative h-64 overflow-hidden border-b-4 border-black">
-                    <img 
-                      src={`https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=600&id=${place.id}`} 
+                    <PlaceImage 
+                      placeId={place.id}
                       alt={place.name}
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
                     />

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PlaceImage from './PlaceImage';
 
 export default function Hero() {
   const scrollToCatalog = () => {
@@ -51,8 +52,8 @@ export default function Hero() {
             className="relative"
           >
             <div className="neo-card-accent p-0 overflow-hidden rotate-3 shadow-[12px_12px_0px_#000000]">
-              <img 
-                src="https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=800" 
+              <PlaceImage
+                placeId="nohkalikai_falls"
                 alt="Shillong Ride"
                 className="w-full h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
               />
