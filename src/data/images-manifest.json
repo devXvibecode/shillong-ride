@@ -20,6 +20,9 @@
   "janailar_falls": [
     "/images/places/sohra/janailar_falls.webp"
   ],
+  "krang_suri_falls": [
+    "/images/places/jaintia_hills/krang_suri_falls.jpg"
+  ],
   "krem_puri_cave": [
     "/images/places/sohra/krem_puri_cave.jpg"
   ],
@@ -71,8 +74,5 @@
   ],
   "wei_sawdong_falls": [
     "/images/places/sohra/wei_sawdong_falls.jpg"
-  ],
-  "krang_suri_falls": [
-    "/images/places/jaintia_hills/krang_suri_falls.jpg"
   ]
 }
