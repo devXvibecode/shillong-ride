@@ -61,7 +61,7 @@ export default function Modal({ open, onClose, title, subtitle, children }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.93, y: 10 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg bg-white border-4 border-black shadow-[12px_12px_0px_#000] p-6 max-h-[85vh] overflow-y-auto"
+            className="relative w-full max-w-lg bg-white border-4 border-var-border shadow-neo-lg p-6 max-h-[85vh] overflow-y-auto"
             onClick={e => e.stopPropagation()}
             onKeyDown={handleKeyDown}
           >
@@ -78,7 +78,7 @@ export default function Modal({ open, onClose, title, subtitle, children }) {
                 type="button"
                 onClick={onClose}
                 aria-label="Close dialog"
-                className="ml-4 w-8 h-8 flex items-center justify-center text-black/40 hover:text-black hover:bg-yellow-500 border-2 border-black transition-all flex-shrink-0"
+                className="ml-4 w-8 h-8 flex items-center justify-center text-black/40 hover:text-black hover:bg-yellow-500 border-2 border-var-border transition-all flex-shrink-0"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />

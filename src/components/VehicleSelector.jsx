@@ -46,7 +46,7 @@ export default function VehicleSelector() {
             </div>
             <h3 className="text-3xl font-anton mb-4">{v.label}</h3>
             <p className="font-bold text-slate-600 mb-8">{v.desc}</p>
-            <div className="flex items-center justify-between border-t-4 border-black pt-6">
+            <div className="flex items-center justify-between border-t-4 border-var-border pt-6">
               <span className="neo-badge bg-black text-white">{v.vibe}</span>
               <span className="font-black uppercase text-sm group-hover:text-yellow-500 transition-colors">
                 SELECT →

@@ -207,7 +207,7 @@ export default function Confirmation() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.4, type: 'spring', stiffness: 150 }}
-        className="inline-flex items-center px-5 py-2 mx-auto mb-4 border-4 border-black bg-yellow-500 shadow-[4px_4px_0px_#000]"
+        className="inline-flex items-center px-5 py-2 mx-auto mb-4 border-4 border-var-border bg-yellow-500 shadow-neo"
       >
         <span className="font-['Anton'] text-black text-sm uppercase tracking-[0.15em]">
           {isPremium ? 'PREMIUM PACKAGE CONFIRMED' : 'ADVENTURE CONFIRMED'}

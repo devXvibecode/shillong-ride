@@ -77,7 +77,7 @@ export default function ImageUploader() {
 
   if (!loaded) {
     return (
-      <div className="bg-white border-4 border-black shadow-[6px_6px_0px_#000] p-6 flex items-center justify-center">
+      <div className="bg-white border-4 border-var-border shadow-neo-lg p-6 flex items-center justify-center">
         <p className="text-black/50 text-sm font-bold">Loading circuits & places...</p>
       </div>
     );
@@ -87,7 +87,7 @@ export default function ImageUploader() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white border-4 border-black shadow-[6px_6px_0px_#000] p-6"
+      className="bg-white border-4 border-var-border shadow-neo-lg p-6"
     >
       <h2 className="text-xl font-black text-black mb-1 uppercase tracking-wider">Upload Spot Images</h2>
       <p className="text-black/50 text-sm font-bold mb-6">
@@ -100,7 +100,7 @@ export default function ImageUploader() {
           <select
             value={circuitId}
             onChange={(e) => { setCircuitId(e.target.value); setSpotId(''); }}
-            className="w-full px-3 py-2.5 border-4 border-black shadow-[3px_3px_0px_#000] text-black text-sm font-bold focus:outline-none appearance-none"
+            className="w-full px-3 py-2.5 border-4 border-var-border shadow-neo text-black text-sm font-bold focus:outline-none appearance-none"
           >
             <option value="">Select circuit...</option>
             {circuits.map(c => (
@@ -115,7 +115,7 @@ export default function ImageUploader() {
             value={spotId}
             onChange={(e) => setSpotId(e.target.value)}
             disabled={!circuitId}
-            className="w-full px-3 py-2.5 border-4 border-black shadow-[3px_3px_0px_#000] text-black text-sm font-bold focus:outline-none appearance-none disabled:opacity-40"
+            className="w-full px-3 py-2.5 border-4 border-var-border shadow-neo text-black text-sm font-bold focus:outline-none appearance-none disabled:opacity-40"
           >
             <option value="">Select spot...</option>
             {availableSpots.map(s => (
@@ -132,20 +132,20 @@ export default function ImageUploader() {
           type="file"
           accept="image/*"
           onChange={handleFileSelect}
-          className="w-full text-sm text-black/70 file:mr-4 file:py-2 file:px-4 file:border-4 file:border-black file:bg-yellow-500 file:text-black file:text-xs file:font-black file:uppercase file:tracking-wider file:cursor-pointer hover:file:bg-yellow-300 file:shadow-[3px_3px_0px_#000] file:transition-all"
+          className="w-full text-sm text-black/70 file:mr-4 file:py-2 file:px-4 file:border-4 file:border-var-border file:bg-yellow-500 file:text-black file:text-xs file:font-black file:uppercase file:tracking-wider file:cursor-pointer hover:file:bg-yellow-300 file:shadow-neo file:transition-all"
         />
       </div>
 
       {preview && (
         <div className="mb-4">
-          <img src={preview} alt="Preview" className="max-h-48 border-4 border-black" />
+          <img src={preview} alt="Preview" className="max-h-48 border-4 border-var-border" />
         </div>
       )}
 
       <button
         onClick={handleUpload}
         disabled={uploading || !circuitId || !spotId || !file}
-        className={`w-full py-3 border-4 border-black shadow-[4px_4px_0px_#000] text-sm font-black uppercase tracking-wider transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
+        className={`w-full py-3 border-4 border-var-border shadow-neo text-sm font-black uppercase tracking-wider transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo-lg active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
           uploading
             ? 'bg-yellow-300 text-black/50 cursor-not-allowed'
             : 'bg-yellow-500 text-black hover:bg-yellow-300'
@@ -155,7 +155,7 @@ export default function ImageUploader() {
       </button>
 
       {status && (
-        <div className={`mt-4 px-4 py-3 border-4 border-black font-bold text-sm ${
+        <div className={`mt-4 px-4 py-3 border-4 border-var-border font-bold text-sm ${
           status.type === 'success' ? 'bg-green-500 text-white' :
           status.type === 'error' ? 'bg-red-500 text-white' :
           status.type === 'warn' ? 'bg-yellow-500 text-black' :

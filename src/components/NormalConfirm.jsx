@@ -35,7 +35,7 @@ export default function NormalConfirm() {
         {/* Left: Journey Summary */}
         <div className="space-y-8">
           <div className="neo-card bg-white">
-            <h3 className="text-2xl font-anton mb-6 border-b-4 border-black pb-2">Your Journey</h3>
+            <h3 className="text-2xl font-anton mb-6 border-b-4 border-var-border pb-2">Your Journey</h3>
             <div className="space-y-4">
               <div className="flex justify-between font-bold">
                 <span className="text-slate-400 uppercase text-xs tracking-widest">Region</span>
@@ -57,7 +57,7 @@ export default function NormalConfirm() {
           </div>
 
           <div className="neo-card-accent bg-white">
-            <h3 className="text-2xl font-anton mb-6 border-b-4 border-black pb-2">Pricing Details</h3>
+            <h3 className="text-2xl font-anton mb-6 border-b-4 border-var-border pb-2">Pricing Details</h3>
             <div className="space-y-4 mb-6">
               <div className="flex justify-between font-bold">
                 <span>Rider Fee</span>
@@ -72,7 +72,7 @@ export default function NormalConfirm() {
                 <span>₹{price.serviceTotal}</span>
               </div>
             </div>
-            <div className="border-t-4 border-black pt-4 flex justify-between items-end">
+            <div className="border-t-4 border-var-border pt-4 flex justify-between items-end">
               <span className="font-anton text-2xl">Total</span>
               <span className="font-anton text-5xl text-yellow-500">₹{price.groupTotal}</span>
             </div>
@@ -81,7 +81,7 @@ export default function NormalConfirm() {
 
         {/* Right: Contact Form */}
         <form onSubmit={handleSubmit} className="neo-card bg-white space-y-8">
-          <h3 className="text-2xl font-anton mb-6 border-b-4 border-black pb-2">Contact Details</h3>
+          <h3 className="text-2xl font-anton mb-6 border-b-4 border-var-border pb-2">Contact Details</h3>
           
           <div className="space-y-2">
             <label className="font-black uppercase text-xs tracking-widest">Your Name</label>

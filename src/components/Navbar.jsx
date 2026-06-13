@@ -5,11 +5,11 @@ export default function Navbar() {
   const isBooking = location.pathname === '/booking';
 
   return (
-    <nav className="sticky top-0 left-0 right-0 z-50 bg-white border-b-4 border-black">
+    <nav className="sticky top-0 left-0 right-0 z-50 bg-white border-b-4 border-var-border">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex justify-between h-14 sm:h-20 items-center">
           <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group">
-            <div className="bg-yellow-500 border-3 sm:border-4 border-black p-0.5 sm:p-1 group-hover:rotate-12 transition-transform">
+            <div className="bg-yellow-500 border-3 sm:border-4 border-var-border p-0.5 sm:p-1 group-hover:rotate-12 transition-transform">
               <span className="text-lg sm:text-2xl font-black text-black leading-none">SR</span>
             </div>
             <span className="font-anton text-xl sm:text-2xl tracking-tighter">SHILLONG RIDE</span>

@@ -8,7 +8,7 @@ export default function Home() {
   const { places, loading } = useData();
 
   return (
-    <div className="bg-white">
+    <div className="bg-background min-h-screen">
       <Hero />
       
       {/* Catalog Section */}
@@ -17,9 +17,9 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
               <h2 className="text-4xl sm:text-6xl lg:text-7xl font-anton leading-none mb-6">
-                EXPLORE THE <span className="bg-yellow-500 text-black px-4 py-1 inline-block rotate-1 shadow-neo">CATALOG</span>
+                EXPLORE THE <span className="bg-accent text-foreground px-4 py-1 inline-block rotate-1 shadow-neo">CATALOG</span>
               </h2>
-              <p className="text-xl font-bold text-slate-600">
+              <p className="text-xl font-bold text-muted">
                 From hidden waterfalls to living root bridges, discover the spots that make Meghalaya magical. 
                 Select your favorites and build your journey.
               </p>
@@ -32,7 +32,7 @@ export default function Home() {
           {loading ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12">
               {[1, 2, 3, 4, 5, 6].map(i => (
-                <div key={i} className="neo-card h-96 animate-pulse bg-slate-100" />
+                <div key={i} className="neo-card h-96 animate-pulse bg-muted" />
               ))}
             </div>
           ) : (
@@ -44,15 +44,15 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: (i % 3) * 0.1 }}
                   viewport={{ once: true }}
-                  className="neo-card p-0 overflow-hidden group"
+                  className={`neo-card p-0 overflow-hidden group ${i % 3 === 0 ? 'rotate-1' : i % 3 === 1 ? '-rotate-1' : 'rotate-2'}`}
                 >
-                  <div className="relative h-64 overflow-hidden border-b-4 border-black">
+                  <div className="relative h-64 overflow-hidden border-b-4 border-var-border">
                     <PlaceImage 
                       placeId={place.id}
                       alt={place.name}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                     />
-                    <div className="absolute top-4 right-4 bg-black text-white px-3 py-1 font-anton text-xs uppercase tracking-widest rotate-3">
+                    <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 font-anton text-xs uppercase tracking-widest rotate-3">
                       {place.category || 'Must Visit'}
                     </div>
                   </div>
@@ -61,10 +61,10 @@ export default function Home() {
                       <h3 className="text-3xl font-anton leading-none">{place.name}</h3>
                       <span className="neo-badge-accent whitespace-nowrap">Popular</span>
                     </div>
-                    <p className="font-bold text-slate-600 mb-6 line-clamp-2">
+                    <p className="font-bold text-muted mb-6 line-clamp-2">
                       {place.description || 'Experience the raw beauty and serene atmosphere of this iconic Meghalaya destination.'}
                     </p>
-                    <div className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-slate-400">
+                    <div className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-muted">
                       <span>📍 {place.region || 'Meghalaya'}</span>
                       <span>•</span>
                       <span>{place.vibe || 'Nature'}</span>
@@ -84,7 +84,7 @@ export default function Home() {
       </section>
 
       {/* Footer Branding */}
-      <div className="py-12 bg-white border-t-4 border-black">
+      <div className="py-12 bg-background border-t-4 border-var-border">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-8">
           <div className="font-anton text-4xl">SHILLONG RIDE</div>
           <div className="flex gap-8 font-black uppercase text-sm tracking-widest">

@@ -55,9 +55,9 @@ export default function Booking() {
               {step + 1} / {currentMaxStep + 1}
             </div>
           </div>
-          <div className="h-4 lg:h-6 bg-white border-4 border-black overflow-hidden relative">
+          <div className="h-4 lg:h-6 bg-white border-4 border-var-border overflow-hidden relative">
             <motion.div 
-              className="h-full bg-yellow-500 border-r-4 border-black"
+              className="h-full bg-yellow-500 border-r-4 border-var-border"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ type: 'spring', stiffness: 50 }}

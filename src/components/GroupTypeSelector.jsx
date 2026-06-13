@@ -33,7 +33,7 @@ export default function GroupTypeSelector() {
             onClick={() => handleSelect(g.id)}
             className="neo-card flex flex-col items-center text-center group bg-white"
           >
-            <div className="w-16 h-16 bg-slate-100 border-4 border-black flex items-center justify-center text-3xl mb-4 group-hover:bg-yellow-500 transition-colors">
+            <div className="w-16 h-16 bg-slate-100 border-4 border-var-border flex items-center justify-center text-3xl mb-4 group-hover:bg-yellow-500 transition-colors">
               {g.icon}
             </div>
             <h3 className="font-anton text-2xl mb-2">{g.label}</h3>

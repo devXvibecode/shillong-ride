@@ -40,7 +40,7 @@ export default function SpotSelector({ maxSpots }) {
                 isDisabled ? 'opacity-40 cursor-not-allowed' : 'bg-white'
               }`}
             >
-              <div className="relative h-56 overflow-hidden border-b-4 border-black">
+              <div className="relative h-56 overflow-hidden border-b-4 border-var-border">
                 <PlaceImage 
                   placeId={place.id}
                   alt={place.name}
@@ -48,7 +48,7 @@ export default function SpotSelector({ maxSpots }) {
                 />
                 {isSelected && (
                   <div className="absolute inset-0 bg-yellow-500/20 flex items-center justify-center">
-                    <div className="bg-white border-4 border-black px-6 py-2 rotate-12 shadow-xl">
+                    <div className="bg-white border-4 border-var-border px-6 py-2 rotate-12 shadow-xl">
                       <span className="text-3xl font-black text-black">SELECTED</span>
                     </div>
                   </div>
@@ -65,7 +65,7 @@ export default function SpotSelector({ maxSpots }) {
                   {place.description || 'Discover the breathtaking views and serene atmosphere of this spot.'}
                 </p>
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 bg-slate-100 border-2 border-black">
+                  <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 bg-slate-100 border-2 border-var-border">
                     {place.popularity || 'Popular'}
                   </span>
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
@@ -85,7 +85,7 @@ export default function SpotSelector({ maxSpots }) {
             initial={{ y: 200 }}
             animate={{ y: 0 }}
             exit={{ y: 200 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-8 border-black p-4 sm:p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-8 border-var-border p-4 sm:p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]"
           >
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-8">
               <div className="flex-1 overflow-x-auto scrollbar-hide w-full">

@@ -25,13 +25,13 @@ export default function RegionSelector() {
             onClick={() => handleSelect(c)}
             className="neo-card-accent p-0 overflow-hidden group text-left bg-white"
           >
-            <div className="relative h-64 overflow-hidden border-b-4 border-black">
+            <div className="relative h-64 overflow-hidden border-b-4 border-var-border">
               <PlaceImage 
                 placeId={c.id}
                 alt={c.name}
                 className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
               />
-              <div className="absolute top-4 left-4 bg-white border-4 border-black px-4 py-1 font-anton text-xl rotate-[-2deg]">
+              <div className="absolute top-4 left-4 bg-white border-4 border-var-border px-4 py-1 font-anton text-xl rotate-[-2deg]">
                 {c.shortName}
               </div>
             </div>
@@ -43,7 +43,7 @@ export default function RegionSelector() {
               <p className="font-bold text-slate-600 mb-8 text-lg">
                 {c.tagline || 'Experience the breathtaking landscapes and hidden gems of this region.'}
               </p>
-              <div className="flex items-center justify-between border-t-4 border-black pt-6">
+              <div className="flex items-center justify-between border-t-4 border-var-border pt-6">
                 <div className="flex gap-2">
                   <span className="neo-badge-accent">{c.spots?.length || 0} SPOTS</span>
                 </div>

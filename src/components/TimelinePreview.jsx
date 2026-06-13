@@ -32,7 +32,7 @@ export default function TimelinePreview() {
             transition={{ delay: i * 0.1 }}
             className="neo-card flex items-center gap-8 bg-white group hover:bg-slate-50"
           >
-            <div className="font-anton text-2xl text-yellow-500 shrink-0 border-r-4 border-black pr-6 py-2">
+            <div className="font-anton text-2xl text-yellow-500 shrink-0 border-r-4 border-var-border pr-6 py-2">
               {item.time}
             </div>
             <div>

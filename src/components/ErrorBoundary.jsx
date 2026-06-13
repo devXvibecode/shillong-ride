@@ -25,7 +25,7 @@ export default class ErrorBoundary extends Component {
               <button
                 type="button"
                 onClick={() => { this.setState({ hasError: false, error: null }); window.location.reload(); }}
-                className="px-6 py-3 bg-amber-400 text-black font-bold rounded-lg border-2 border-black shadow-[4px_4px_0_0_rgba(0,0,0,0.8)] hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.8)] transition-all"
+                className="px-6 py-3 bg-amber-400 text-black font-bold rounded-lg border-2 border-var-border shadow-[4px_4px_0_0_rgba(0,0,0,0.8)] hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.8)] transition-all"
               >
                 Reload Page
               </button>

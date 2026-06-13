@@ -32,7 +32,7 @@ export default function PremiumConfirm() {
         {/* Left: Premium Summary */}
         <div className="space-y-8">
           <div className="neo-card bg-white">
-            <h3 className="text-2xl font-anton mb-6 border-b-4 border-black pb-2">Experience Summary</h3>
+            <h3 className="text-2xl font-anton mb-6 border-b-4 border-var-border pb-2">Experience Summary</h3>
             <div className="space-y-4">
               <div className="flex justify-between font-bold">
                 <span className="text-slate-400 uppercase text-xs tracking-widest">Package</span>
@@ -54,7 +54,7 @@ export default function PremiumConfirm() {
           </div>
 
           <div className="neo-card-accent bg-white">
-            <h3 className="text-2xl font-anton mb-6 border-b-4 border-black pb-2">Premium Inclusions</h3>
+            <h3 className="text-2xl font-anton mb-6 border-b-4 border-var-border pb-2">Premium Inclusions</h3>
             <div className="space-y-3 mb-8">
               {price.breakdown.map((item, idx) => (
                 <div key={idx} className="flex justify-between items-center text-xs font-black uppercase tracking-widest">
@@ -63,7 +63,7 @@ export default function PremiumConfirm() {
                 </div>
               ))}
             </div>
-            <div className="border-t-4 border-black pt-4 flex justify-between items-end">
+            <div className="border-t-4 border-var-border pt-4 flex justify-between items-end">
               <span className="font-anton text-2xl">Package Total</span>
               <span className="font-anton text-5xl text-yellow-500">₹{price.total}</span>
             </div>
@@ -75,7 +75,7 @@ export default function PremiumConfirm() {
 
         {/* Right: Contact Form */}
         <form onSubmit={handleSubmit} className="neo-card bg-white space-y-8">
-          <h3 className="text-2xl font-anton mb-6 border-b-4 border-black pb-2">VIP Contact Info</h3>
+          <h3 className="text-2xl font-anton mb-6 border-b-4 border-var-border pb-2">VIP Contact Info</h3>
           
           <div className="space-y-2">
             <label className="font-black uppercase text-xs tracking-widest">Your Name</label>
