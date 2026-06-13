@@ -12,62 +12,63 @@ export default function Home() {
       <Hero />
       
       {/* Catalog Section */}
-      <section className="py-16 lg:py-24 px-4 scroll-mt-24" id="explore">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-            <div className="max-w-2xl">
-              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-anton leading-none mb-6">
-                EXPLORE THE <span className="bg-accent text-foreground px-4 py-1 inline-block rotate-1 shadow-neo">CATALOG</span>
-              </h2>
-              <p className="text-xl font-bold text-muted">
-                From hidden waterfalls to living root bridges, discover the spots that make Meghalaya magical. 
-                Select your favorites and build your journey.
-              </p>
-            </div>
-            <Link to="/booking" className="neo-btn-primary text-2xl whitespace-nowrap rotate-3">
-              START BOOKING →
-            </Link>
+      <section id="explore" className="section-lg">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="h2 font-serif text-text-primary">
+              EXPLORE THE <span className="text-primary">CATALOG</span>
+            </h2>
+            <p className="body-lg text-text-muted max-w-xl mx-auto">
+              From hidden waterfalls to living root bridges, discover the spots that make Meghalaya magical. 
+              Select your favorites and build your journey.
+            </p>
           </div>
 
           {loading ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3, 4, 5, 6].map(i => (
-                <div key={i} className="neo-card h-96 animate-pulse bg-muted" />
+                <div key={i} className="bg-surface rounded-lg shadow-md p-8 animate-pulse">
+                  <div className="h-48 bg-gray-200 rounded-lg"></div>
+                </div>
               ))}
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {places?.map((place, i) => (
                 <motion.div
                   key={place.id}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: (i % 3) * 0.1 }}
+                  transition={{ delay: i * 0.05 }}
                   viewport={{ once: true }}
-                  className={`neo-card p-0 overflow-hidden group ${i % 3 === 0 ? 'rotate-1' : i % 3 === 1 ? '-rotate-1' : 'rotate-2'}`}
+                  className="group"
                 >
-                  <div className="relative h-64 overflow-hidden border-b-4 border-var-border">
-                    <PlaceImage 
-                      placeId={place.id}
-                      alt={place.name}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 font-anton text-xs uppercase tracking-widest rotate-3">
-                      {place.category || 'Must Visit'}
+                  <div className="bg-surface rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div className="relative">
+                      <PlaceImage 
+                        placeId={place.id}
+                        alt={place.name}
+                        className="w-full h-48 object-cover"
+                      />
+                      {place.category && (
+                        <span className="absolute top-3 start-3 bg-primary-transparent text-primary text-xs font-medium px-3 py-1 rounded-md">
+                          {place.category}
+                        </span>
+                      )}
                     </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <h3 className="text-3xl font-anton leading-none">{place.name}</h3>
-                      <span className="neo-badge-accent whitespace-nowrap">Popular</span>
-                    </div>
-                    <p className="font-bold text-muted mb-6 line-clamp-2">
-                      {place.description || 'Experience the raw beauty and serene atmosphere of this iconic Meghalaya destination.'}
-                    </p>
-                    <div className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-muted">
-                      <span>📍 {place.region || 'Meghalaya'}</span>
-                      <span>•</span>
-                      <span>{place.vibe || 'Nature'}</span>
+                    <div className="p-6">
+                      <div className="flex justify-between items-start mb-4">
+                        <h3 className="h4 font-semibold text-text-primary">{place.name}</h3>
+                        <span className="badge badge-primary">Popular</span>
+                      </div>
+                      <p className="body-md text-text-muted line-clamp-3 mb-4">
+                        {place.description || 'Experience the raw beauty and serene atmosphere of this iconic Meghalaya destination.'}
+                      </p>
+                      <div className="flex items-center gap-4 text-sm text-text-muted">
+                        <span>📍 {place.region || 'Meghalaya'}</span>
+                        <span className="mx-2 h-0.5 bg-text-muted"></span>
+                        <span>{place.vibe || 'Nature'}</span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -75,28 +76,29 @@ export default function Home() {
             </div>
           )}
 
-          <div className="mt-20 text-center">
-            <Link to="/booking" className="neo-btn-primary text-3xl px-12 py-6">
+          <div className="text-center mt-12">
+            <Link to="/booking" className="btn btn-primary btn-lg">
               BUILD YOUR ITINERARY NOW
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer Branding */}
-      <div className="py-12 bg-background border-t-4 border-var-border">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-8">
-          <div className="font-anton text-4xl">SHILLONG RIDE</div>
-          <div className="flex gap-8 font-black uppercase text-sm tracking-widest">
-            <a href="#" className="hover:text-yellow-500">Instagram</a>
-            <a href="#" className="hover:text-yellow-500">Twitter</a>
-            <a href="#" className="hover:text-yellow-500">Facebook</a>
-          </div>
-          <div className="text-xs font-bold opacity-50 uppercase tracking-widest">
-            © 2026 SHILLONG RIDE STARTUP
-          </div>
+      {/* Call to Action Section */}
+      <section className="bg-primary">
+        <div className="container py-16 text-center">
+          <h2 className="h2 font-serif text-white">
+            Ready to Book Your Adventure?
+          </h2>
+          <p className="body-lg text-white/90 max-w-2xl mx-auto">
+            Let our local experts craft the perfect Meghalaya experience for you. 
+            From misty mountains to living root bridges, we handle every detail.
+          </p>
+          <Link to="/booking" className="btn btn-outline btn-lg mt-8">
+            START PLANNING →
+          </Link>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

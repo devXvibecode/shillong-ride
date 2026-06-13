@@ -7,40 +7,40 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-0 pb-16 lg:pb-20 px-4 bg-card">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+    <section className="relative pt-0 pb-20 px-4 bg-surface">
+      <div className="container">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, type: 'spring' }}
-            className="pt-8 lg:pt-12"
+            className="mb-8 lg:mb-12"
           >
-            <div className="inline-block bg-card text-foreground px-6 py-2 font-black text-sm uppercase mb-8 rotate-[-2deg] shadow-neo-accent">
+            <div className="inline-block bg-primary-transparent text-primary text-xs font-medium px-3 py-1 rounded-md mb-6">
               Shillong's #1 Adventure Startup
             </div>
-            <h1 className="text-4xl sm:text-7xl lg:text-9xl font-anton leading-[1.1] sm:leading-[0.95] mb-6 sm:mb-10">
+            <h1 className="h1 font-serif text-text-primary mb-6">
               EXPLORE <br />
-              <span className="text-accent text-stroke">MEGHALAYA</span>
+              <span className="text-primary">MEGHALAYA</span>
             </h1>
-            <p className="text-lg sm:text-2xl font-bold text-high mb-8 sm:mb-12 max-w-lg leading-tight">
+            <p className="body-lg text-text-secondary mb-8 max-w-lg">
               Curated ride experiences, immersive local stays, and the raw beauty of the clouds. 
               Built for the modern explorer.
             </p>
-            <div className="flex flex-wrap gap-4 sm:gap-8">
+            <div className="flex flex-wrap gap-4">
               <button 
                 onClick={scrollToCatalog}
-                className="neo-btn-primary text-xl sm:text-2xl px-8 py-4 sm:px-10 sm:py-5 rotate-[-1deg]"
+                className="btn btn-primary btn-lg"
               >
                 VIEW CATALOG ↓
               </button>
-              <div className="flex flex-col justify-center">
-                <span className="font-anton text-3xl leading-none">50+</span>
-                <span className="font-black text-[10px] uppercase tracking-widest text-muted">Destinations</span>
+              <div className="flex flex-col items-start gap-2">
+                <span className="h3 font-semibold text-text-primary">50+</span>
+                <span className="body-sm text-text-muted">Destinations</span>
               </div>
-              <div className="flex flex-col justify-center">
-                <span className="font-anton text-3xl leading-none">100%</span>
-                <span className="font-black text-[10px] uppercase tracking-widest text-muted">Local Guides</span>
+              <div className="flex flex-col items-start gap-2">
+                <span className="h3 font-semibold text-text-primary">100%</span>
+                <span className="body-sm text-text-muted">Local Guides</span>
               </div>
             </div>
           </motion.div>
@@ -51,26 +51,26 @@ export default function Hero() {
             transition={{ duration: 0.8, type: 'spring' }}
             className="relative"
           >
-            <div className="neo-card-accent p-0 overflow-hidden rotate-3 shadow-[12px_12px_0px_#000000]">
+            <div className="rounded-xl shadow-lg overflow-hidden">
               <PlaceImage
                 placeId="hero"
                 alt="Shillong Ride"
-                className="w-full h-[600px] object-cover transition-all duration-700"
+                className="w-full h-[600px] object-cover"
               />
             </div>
-            <div className="absolute -bottom-10 -left-10 bg-postit text-foreground p-8 neo-card rotate-[-5deg] shadow-neo">
-              <p className="font-anton text-5xl mb-1">AUTHENTIC</p>
-              <p className="font-black text-xs uppercase tracking-[0.2em]">Meghalaya Vibe Only</p>
+            <div className="absolute -bottom-8 start-8 bg-surface p-6 rounded-xl shadow-lg w-64">
+              <p className="h2 font-serif text-text-primary mb-2">AUTHENTIC</p>
+              <p className="body-sm text-text-secondary">Meghalaya Vibe Only</p>
             </div>
           </motion.div>
         </div>
       </div>
       
       {/* Marquee Section */}
-      <div className="mt-20 sm:mt-40 neo-marquee bg-card border-y-8 border-var-border">
+      <div className="mt-20 bg-primary">
         <div className="neo-marquee-content py-4">
           {[...Array(10)].map((_, i) => (
-            <span key={i} className="mx-12 text-foreground">
+            <span key={i} className="mx-12 text-white/90">
               SHILLONG • SOHRA • DAWKI • MAWLYNNONG • JAINTIA HILLS • 
             </span>
           ))}

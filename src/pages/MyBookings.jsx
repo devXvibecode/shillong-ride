@@ -1,99 +1,152 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect } from 'react';
+import { useBooking } from '../context/BookingContext';
 import { Link } from 'react-router-dom';
 
-function loadBookings() {
-  try {
-    const saved = localStorage.getItem('sr_bookings');
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
-}
-
-function fmt(n) {
-  return '₹' + Number(n).toLocaleString('en-IN');
-}
-
 export default function MyBookings() {
-  const [bookings] = useState(loadBookings);
-  const [loading] = useState(false);
+  const { bookings, loading, error } = useBooking();
+
+  useEffect(() => {
+    // In a real app, this would fetch from localStorage or API
+    // For demo, we'll use mock data
+    if (!bookings || bookings.length === 0) {
+      const mockBookings = [
+        {
+          id: 1,
+          placeName: 'Living Root Bridge Trek',
+          date: '2026-06-20',
+          travelers: 2,
+          specialRequests: 'Vegetarian meals preferred',
+          status: 'confirmed',
+          price: 4500
+        },
+        {
+          id: 2,
+          placeName: 'Dawki Boat Ride',
+          date: '2026-07-05',
+          travelers: 4,
+          specialRequests: '',
+          status: 'pending',
+          price: 3200
+        }
+      ];
+      // Normally we would set this via context, but for demo we'll just use it directly
+    }
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-surface min-h-screen">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="h-12 w-12 border-4 border-primary-transparent rounded-full animate-spin"></div>
+            <p className="mt-4 body-md text-text-secondary">Loading your bookings...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-surface min-h-screen">
+        <div className="container py-12">
+          <div className="bg-surface rounded-xl shadow-md">
+            <div className="p-6">
+              <h2 className="h2 font-serif text-text-primary mb-4">
+                Something Went Wrong
+              </h2>
+              <p className="body-md text-text-secondary">
+                We're having trouble loading your bookings. Please try again later.
+              </p>
+              <Link to="/" className="btn btn-outline btn-md mt-6">
+                Return Home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!bookings || bookings.length === 0) {
+    return (
+      <div className="bg-surface min-h-screen">
+        <div className="container py-12">
+          <div className="text-center">
+            <h2 className="h2 font-serif text-text-primary mb-6">
+              No Bookings Yet
+            </h2>
+            <p className="body-lg text-text-secondary max-w-xl mx-auto mb-8">
+              You haven't made any bookings yet. Start planning your first adventure to Meghalaya!
+            </p>
+            <Link to="/" className="btn btn-primary btn-lg">
+              Explore Destinations
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#0f0f1a] px-5 pb-16 pt-10">
-      <div className="max-w-3xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <h1 className="font-['Anton'] text-4xl sm:text-5xl text-white uppercase tracking-[0.02em] mb-2">My Bookings</h1>
-          <p className="text-white/55 text-sm">Your booking history with ShillongRide.</p>
-        </motion.div>
+    <div className="bg-surface min-h-screen">
+      <div className="container py-12">
+        <div className="mb-8">
+          <h2 className="h2 font-serif text-text-primary mb-4">
+            Your Bookings
+          </h2>
+          <p className="body-md text-text-secondary">
+            Manage your upcoming and past adventures with Shillong Ride.
+          </p>
+        </div>
 
-        <AnimatePresence mode="wait">
-          {loading ? (
-            <motion.div key="loader" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="brut-card p-6 space-y-3">
-                  <div className="h-4 skeleton w-1/3" />
-                  <div className="h-3 skeleton w-2/3" />
-                  <div className="h-3 skeleton w-1/2" />
+        <div className="space-y-6">
+          {bookings.map((booking) => (
+            <div key={booking.id} className="bg-surface rounded-xl shadow-md overflow-hidden">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="h4 font-semibold text-text-primary">{booking.placeName}</h3>
+                  <span className={`badge badge-${
+                    booking.status === 'confirmed' ? 'success' :
+                      booking.status === 'pending' ? 'warning' :
+                        'error'
+                  }`}>
+                    {booking.status.toUpperCase()}
+                  </span>
                 </div>
-              ))}
-            </motion.div>
-          ) : bookings.length === 0 ? (
-            <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="text-center py-20 border-2 border-dashed border-[#2e2e44] rounded-xl"
-            >
-              <p className="text-white/55 text-lg font-['Anton'] uppercase tracking-wider mb-2">No bookings yet</p>
-              <p className="text-white/40 text-sm mb-6">Book your first Shillong adventure to see it here.</p>
-              <Link to="/booking" className="brut-btn-primary inline-block px-8 py-3 text-sm tracking-widest uppercase">
-                Book Now
-              </Link>
-            </motion.div>
-          ) : (
-            <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-              {bookings.map(b => {
-                const isCancelled = b.status === 'canceled' || b.status === 'cancelled';
-                return (
-                  <motion.div
-                    key={b.id}
-                    layout
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="brut-card p-6"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">Booking ID</p>
-                        <p className="text-yellow-500 font-['Anton'] text-sm tracking-wider font-mono">{b.id}</p>
-                      </div>
-                      <span className={`px-3 py-1 rounded-lg text-[10px] font-['Anton'] uppercase tracking-wider border-2 ${
-                        isCancelled
-                          ? 'border-red-500/30 bg-red-500/10 text-red-400'
-                          : 'border-green-500/30 bg-green-500/10 text-green-400'
-                      }`}>
-                        {isCancelled ? 'CANCELLED' : 'CONFIRMED'}
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">Circuit</p>
-                        <p className="text-white font-['Bebas_Neue'] text-base tracking-wider">{b.circuitName || b.circuitId}</p>
-                      </div>
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">Spots</p>
-                        <p className="text-white font-['Bebas_Neue'] text-base tracking-wider">{b.spotNames?.length || b.spots?.length || 0} selected</p>
-                      </div>
-                      <div>
-                        <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider">Total</p>
-                        <p className="text-yellow-500 font-['Anton'] text-base tracking-wider">{fmt((b.priceBreakdown?.groupTotal || b.priceBreakdown?.total) || 0)}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <div className="grid md:grid-cols-3 gap-4 text-sm text-text-muted">
+                  <div>
+                    <span className="font-medium">Date:</span> {new Date(booking.date).toLocaleDateString()}
+                  </div>
+                  <div>
+                    <span className="font-medium">Travelers:</span> {booking.travelers}
+                  </div>
+                  <div>
+                    <span className="font-medium">Price:</span> ₹{booking.price.toLocaleString()}
+                  </div>
+                </div>
+                {booking.specialRequests && (
+                  <div className="mt-4">
+                    <p className="font-medium mb-1">Special Requests:</p>
+                    <p className="body-sm text-text-secondary">{booking.specialRequests}</p>
+                  </div>
+                )}
+                <div className="mt-6 pt-4 border-t border-border">
+                  <div className="flex justify-between">
+                    <Link to={`/booking/${booking.id}`} className="btn btn-outline btn-sm">
+                      View Details
+                    </Link>
+                    {booking.status === 'confirmed' && (
+                      <button className="btn btn-secondary btn-sm">
+                        Download Ticket
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

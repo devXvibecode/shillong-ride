@@ -1,24 +1,23 @@
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#0f0f1a] flex items-center justify-center px-4">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center max-w-md"
-      >
-        <div className="w-24 h-24 rounded-2xl brut-card flex items-center justify-center mx-auto mb-6">
-          <span className="text-5xl font-['Anton'] text-yellow-500">?</span>
-        </div>
-        <h1 className="font-['Anton'] text-5xl sm:text-6xl text-white uppercase tracking-[0.02em] mb-2">404</h1>
-        <p className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider mb-2">Page not found</p>
-        <p className="text-white/40 text-sm mb-8">The road you're looking for doesn't exist. Let's get you back on track.</p>
-        <Link to="/" className="brut-btn-primary inline-block px-10 py-4 text-sm tracking-widest">
-          Go Home
+    <div className="bg-surface min-h-screen flex items-center justify-center">
+      <div className="text-center py-12">
+        <h1 className="h1 font-serif text-text-primary mb-6">
+          404
+        </h1>
+        <h2 className="h2 font-semibold text-text-secondary mb-6">
+          Page Not Found
+        </h2>
+        <p className="body-lg text-text-muted max-w-xl mx-auto mb-8">
+          It seems the page you're looking for doesn't exist or has been moved.
+          Please check the URL or return to the homepage.
+        </p>
+        <Link to="/" className="btn btn-primary btn-lg">
+          Return Home
         </Link>
-      </motion.div>
+      </div>
     </div>
   );
 }

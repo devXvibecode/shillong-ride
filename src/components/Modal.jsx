@@ -1,94 +1,35 @@
-import { useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-export default function Modal({ open, onClose, title, subtitle, children }) {
-  const dialogRef = useRef(null);
-  const previousFocusRef = useRef(null);
-
-  const handleEscape = useCallback((e) => {
-    if (e.key === 'Escape') onClose();
-  }, [onClose]);
-
-  useEffect(() => {
-    if (open) {
-      previousFocusRef.current = document.activeElement;
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
-      requestAnimationFrame(() => {
-        if (dialogRef.current) {
-          const first = dialogRef.current.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-          if (first) first.focus();
-        }
-      });
-    }
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-      if (previousFocusRef.current && previousFocusRef.current.focus) {
-        previousFocusRef.current.focus();
-      }
-    };
-  }, [open, handleEscape]);
-
-  const handleKeyDown = useCallback((e) => {
-    if (e.key !== 'Tab' || !dialogRef.current) return;
-    const focusable = dialogRef.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    if (focusable.length === 0) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  }, []);
+export default function Modal({ children, open, onClose, title }) {
+  if (!open) return null;
 
   return (
-    <AnimatePresence>
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={title || 'Dialog'}>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/75"
-            onClick={onClose}
-            aria-hidden="true"
-          />
-          <motion.div
-            ref={dialogRef}
-            initial={{ opacity: 0, scale: 0.93, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.93, y: 10 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg bg-white border-4 border-var-border shadow-neo-lg p-6 max-h-[85vh] overflow-y-auto"
-            onClick={e => e.stopPropagation()}
-            onKeyDown={handleKeyDown}
-          >
-            <div className="flex items-start justify-between mb-5">
-              <div className="flex-1 min-w-0">
-                {title && (
-                  <h2 className="text-black font-black text-lg leading-tight uppercase tracking-wider">{title}</h2>
-                )}
-                {subtitle && (
-                  <p className="text-black/55 text-xs mt-0.5 font-bold">{subtitle}</p>
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label="Close dialog"
-                className="ml-4 w-8 h-8 flex items-center justify-center text-black/40 hover:text-black hover:bg-yellow-500 border-2 border-var-border transition-all flex-shrink-0"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-            {children}
-          </motion.div>
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="relative w-full max-w-xl mx-4 p-6 bg-surface rounded-xl shadow-xl"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="h3 font-semibold text-text-primary">{title || 'Details'}</h2>
+          <button onClick={onClose} className="text-text-secondary hover:text-text-primary hover:underline">
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-      )}
-    </AnimatePresence>
+        <div className="space-y-4">
+          {children}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }

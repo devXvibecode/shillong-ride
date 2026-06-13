@@ -1,135 +1,185 @@
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-const faqs = [
-  {
-    q: 'How do I book a tour?',
-    a: 'Pick a direction, choose up to 4 spots, review your itinerary and pricing, then share your details. No account needed, no payment upfront — just confirm and we\'ll take it from there.',
-  },
-  {
-    q: 'Who will I ride with?',
-    a: 'Every tour pairs you with a local guide who handles the riding, navigation, and photography. They know the terrain intimately — the best angles, the quietest times, the hidden lookouts. One person, fully dedicated to your experience.',
-  },
-  {
-    q: 'How is pricing structured?',
-    a: 'Three simple components: a flat ₹1,200 Booking Fee, a fixed Rider Cost based on your chosen route (₹400–₹600), and Fuel charged at ₹10 per km. The total distance is calculated from Shillong to your spots and back. No surge pricing, no bargaining.',
-  },
-  {
-    q: 'Can I customize my route?',
-    a: 'Absolutely. Pick any combination of up to 4 destinations within your chosen route. Our routing engine automatically maps the most efficient loop. You can change your selection freely before confirming.',
-  },
-  {
-    q: 'When does the tour happen?',
-    a: 'After confirmation, our team contacts you to coordinate the exact pickup time. This flexibility ensures your schedule fits naturally — no rigid time slots at booking.',
-  },
-  {
-    q: 'How do I pay?',
-    a: 'Payment is handled offline after your ride. We\'ll reach out to arrange it — cash and UPI are both accepted. No need to pull out your wallet mid-journey.',
-  },
-  {
-    q: 'What if I need to cancel?',
-    a: 'Reach us at least 24 hours before your scheduled pickup for a full refund. Late cancellations may incur a nominal charge. Contact us at hello@shillongride.in or +91 9591794044.',
-  },
-  {
-    q: 'Is solo travel safe?',
-    a: 'Absolutely. Our guides are trained locals who accompany you from pickup to drop-off. Vetted, reliable, and deeply familiar with the terrain. Solo travelers make up most of our community — you\'re in good company.',
-  },
-  {
-    q: 'Can I book for a group?',
-    a: 'ShillongRide is designed for one passenger per experience — a private pillion tour on a scooty or bike with your personal guide. We don\'t currently support group bookings. Each traveler books individually and is assigned their own guide.',
-  },
-];
+import { useBooking } from '../context/BookingContext';
 
 export default function Contact() {
-  const [openFaq, setOpenFaq] = useState(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // null, 'success', 'error'
+  const { setBookingData } = useBooking();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name || !email || !message) {
+      setSubmitStatus('error');
+      return;
+    }
+
+    setIsSubmitting(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitStatus('success');
+      // Clear form
+      setName('');
+      setEmail('');
+      setPhone('');
+      setMessage('');
+    }, 1500);
+  };
 
   return (
-    <div className="min-h-screen bg-[#0f0f1a] pb-16 px-5 pt-10">
-      <div className="max-w-4xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <div className="inline-block px-3 py-1 bg-yellow-500/10 border-2 border-yellow-500/30 rounded-lg mb-3">
-            <span className="font-['Anton'] text-yellow-500 text-xs uppercase tracking-[0.15em]">HELP DESK</span>
+    <div className="bg-surface min-h-screen">
+      <div className="container py-12">
+        <div className="mx-auto max-w-2xl">
+          <div className="text-center mb-12">
+            <h2 className="h2 font-serif text-text-primary">
+              Get In Touch
+            </h2>
+            <p className="body-lg text-text-secondary max-w-xl mx-auto">
+              Have questions about our tours, need help booking, or want to share feedback? 
+              We'd love to hear from you. Our team is here to help you plan the perfect 
+              Meghalaya adventure.
+            </p>
           </div>
-          <h1 className="font-['Anton'] text-4xl sm:text-6xl text-white uppercase tracking-[0.02em] mb-4">Contact & FAQ</h1>
-          <p className="text-white/55 text-sm font-['Anton'] uppercase tracking-wider">Real questions from real travelers. We keep it straightforward.</p>
-        </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-          <div className="brut-card p-5 sm:p-6 text-center">
-            <div className="text-yellow-500 mb-3 flex justify-center" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
-            </div>
-            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Email</p>
-            <a href="mailto:hello@shillongride.in" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-yellow-500 transition-colors">hello@shillongride.in</a>
-          </div>
-          <div className="brut-card p-5 sm:p-6 text-center">
-            <div className="text-yellow-500 mb-3 flex justify-center" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-            </div>
-            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Enquiry & Emergency</p>
-            <a href="tel:+919591794044" className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider hover:text-yellow-500 transition-colors">+91 9591794044</a>
-          </div>
-          <div className="brut-card p-5 sm:p-6 text-center">
-            <div className="text-yellow-500 mb-3 flex justify-center" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
-            </div>
-            <p className="text-white/55 text-[10px] font-['Anton'] uppercase tracking-wider mb-1">Location</p>
-            <p className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider">Shillong, Meghalaya</p>
+          <div className="bg-surface rounded-xl shadow-md overflow-hidden">
+            <div className="p-8">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-text-secondary mb-2">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Enter your full name"
+                      className="input w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-text-secondary mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      className="input w-full"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
+                    Phone Number (Optional)
+                  </label>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Enter your phone number"
+                    className="input w-full"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
+                    How Can We Help You?
+                  </label>
+                  <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Please share your questions, feedback, or booking inquiry..."
+                    className="textarea w-full"
+                    minHeight={150}
+                  />
+                </div>
+              </div>
+
+              {submitStatus === 'success' && (
+                <div className="alert alert-success">
+                  <svg className="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <h3 className="font-semibold text-success-dark mb-1">Thank you!</h3>
+                    <p className="body-sm">Your message has been sent successfully. We'll get back to you within 24 hours.</p>
+                  </div>
+                </div>
+              )}
+              {submitStatus === 'error' && (
+                <div className="alert alert-error">
+                  <svg className="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <div>
+                    <h3 className="font-semibold text-error-dark mb-1">Oops!</h3>
+                    <p className="body-sm">Please fill in all required fields before submitting.</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`btn btn-primary btn-md ${isSubmitting ? 'opacity-50' : ''}`}
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
+      </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <h2 className="font-['Anton'] text-2xl sm:text-3xl text-white uppercase tracking-[0.02em] mb-6">
-            Frequently Asked <span className="text-yellow-500">Questions</span>
-          </h2>
-
-          <div className="space-y-2">
-            {faqs.map((faq, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.03 }}
-                className="brut-card overflow-hidden"
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full p-5 sm:p-6 flex items-center justify-between text-left"
-                  aria-expanded={openFaq === i}
-                  aria-controls={`faq-panel-${i}`}
-                >
-                  <span className="text-white font-['Bebas_Neue'] text-base sm:text-lg tracking-wider pr-4">{faq.q}</span>
-                  <span className={`text-yellow-500 transition-transform duration-300 flex-shrink-0 ${openFaq === i ? 'rotate-45' : ''}`} aria-hidden="true">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-                    </svg>
-                  </span>
-                </button>
-                <AnimatePresence initial={false}>
-                  {openFaq === i && (
-                    <motion.div
-                      key="panel"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
-                      className="overflow-hidden"
-                    >
-                      <div id={`faq-panel-${i}`} className="px-5 sm:px-6 pb-5 sm:pb-6 border-t-2 border-[#2e2e44] pt-4">
-                        <p className="text-white/55 text-sm sm:text-base leading-relaxed">{faq.a}</p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
+      {/* Info Section */}
+      <div className="container py-12">
+        <div className="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="h3 font-semibold text-text-primary mb-4">Our Office</h3>
+            <p className="body-sm text-text-muted">
+              Shillong Ride Adventures<br/>
+              Police Bazaar, Shillong<br/>
+              Meghalaya 793001<br/>
+              India
+            </p>
+            <p className="body-sm text-text-muted mt-2">
+              📞 +91 12345 67890<br/>
+              ✉️ info@shillongride.com
+            </p>
           </div>
-        </motion.div>
+          <div>
+            <h3 className="h3 font-semibold text-text-primary mb-4">Follow Us</h3>
+            <p className="body-sm text-text-muted">
+              Stay updated with our latest adventures, travel tips, and special offers.
+            </p>
+            <div className="flex gap-4 mt-4">
+              <a href="#" className="hover:text-primary-transition">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path d="M22 12.05a9 9 0 01-2.83 6.22l-1.32-1.32a3 3 0 00-4.24-4.24l-1.3-1.3a9 9 0 01-6.22-2.83M8.04 2.04a9 9 0 00-2.83 6.22l1.32 1.32a3 3 0 014.24 4.24l1.3 1.3a9 9 0 006.22 2.83M12 15a3 3 0 110-6 3 3 0 010 6zM12 3a1 1 0 100-2 1 1 0 000 2z" />
+                </svg>
+              </a>
+              <a href="#" className="hover:text-primary-transition">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                </svg>
+              </a>
+              <a href="#" className="hover:text-primary-transition">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path d="M9.612 15.23a11 11 0 01-5.517-1.063 11.9 11 0 01-5.506-1.05" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

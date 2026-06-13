@@ -1,115 +1,192 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useData } from '../context/DataContext';
 import { useBooking } from '../context/BookingContext';
-import GroupTypeSelector from '../components/GroupTypeSelector';
-import RegionSelector from '../components/RegionSelector';
-import SpotSelector from '../components/SpotSelector';
-import StayDecision from '../components/StayDecision';
-import NodalPicker from '../components/NodalPicker';
-import VehicleSelector from '../components/VehicleSelector';
-import TimeSlotPicker from '../components/TimeSlotPicker';
-import HomestaySelector from '../components/HomestaySelector';
-import TimelinePreview from '../components/TimelinePreview';
-import NormalConfirm from '../components/NormalConfirm';
-import PremiumConfirm from '../components/PremiumConfirm';
-import Confirmation from '../components/Confirmation';
-
-const STEPS = [
-  'Group', 'Region', 'Spots', 'Stay', 'Transport', 'Timing', 'Review', 'Confirm'
-];
+import { useNavigate } from 'react-router-dom';
 
 export default function Booking() {
-  const { step, booking, isPremium, setStep } = useBooking();
+  const { places, loading } = useData();
+  const { booking, setBookingStep, setBookingData } = useBooking();
+  const navigate = useNavigate();
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [travelers, setTravelers] = useState(1);
+  const [date, setDate] = useState('');
+  const [specialRequests, setSpecialRequests] = useState('');
 
-  if (booking) return <Confirmation />;
+  const handlePlaceSelect = (place) => {
+    setSelectedPlace(place);
+    setBookingData('placeId', place.id);
+    setBookingData('placeName', place.name);
+  };
 
-  // Dynamic step logic based on package type
-  // Step 0: Group Selection
-  // Step 1: Region Selection
-  // Step 2: Spot Selection
-  // Step 3: Stay Decision
-  
-  // Normal Flow:
-  // Step 4: Nodal Pickup
-  // Step 5: Time Slot
-  // Step 6: Review (NormalConfirm)
-  
-  // Premium Flow:
-  // Step 4: Vehicle Selection
-  // Step 5: Homestay Selection
-  // Step 6: Timeline Preview
-  // Step 7: Review (PremiumConfirm)
+  const handleNextStep = () => {
+    if (!selectedPlace) {
+      alert('Please select a place to visit');
+      return;
+    }
+    if (!date) {
+      alert('Please select a date');
+      return;
+    }
+    setBookingData('travelers', travelers);
+    setBookingData('date', date);
+    setBookingData('specialRequests', specialRequests);
+    setBookingStep(2);
+  };
 
-  const currentMaxStep = isPremium ? 7 : 6;
-  const progress = ((step + 1) / (currentMaxStep + 1)) * 100;
+  const handleBack = () => {
+    setBookingStep(1);
+  };
+
+  const handleConfirmBooking = () => {
+    // In a real app, this would send data to a server
+    alert('Booking confirmed! Thank you for choosing Shillong Ride.');
+    navigate('/my-bookings');
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-surface min-h-screen">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="h-12 w-12 border-4 border-primary-transparent rounded-full animate-spin"></div>
+            <p className="mt-4 body-md text-text-secondary">Loading destinations...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-white pb-20 px-4 pt-10">
-      <div className="max-w-6xl mx-auto">
-        {/* Progress Bar */}
-        <div className="mb-12">
-          <div className="flex justify-between items-end mb-4">
-            <h1 className="font-anton text-3xl sm:text-5xl lg:text-6xl tracking-tighter">
-              BOOKING <span className="text-stroke">WIZARD</span>
+    <div className="bg-surface min-h-screen">
+      {/* Navigation */}
+      <div className="px-4">
+        <nav className="flex items-center justify-between mb-8">
+          <Link to="/" className="text-text-secondary hover:text-text-primary">
+            ← Back to Home
+          </Link>
+          <span className="text-text-muted">Step 1 of 2: Choose Your Adventure</span>
+        </nav>
+      </div>
+
+      <div className="container py-8">
+        <div className="bg-surface rounded-xl shadow-md overflow-hidden">
+          <div className="px-6 pt-8">
+            <h1 className="h1 font-serif text-text-primary mb-6">
+              Choose Your Destination
             </h1>
-            <div className="font-black text-sm uppercase tracking-widest bg-black text-white px-4 py-1 rotate-[-2deg]">
-              {step + 1} / {currentMaxStep + 1}
-            </div>
+            <p className="body-lg text-text-secondary mb-8">
+              Select where you'd like to explore in Meghalaya. Each destination offers unique experiences 
+              from living root bridges to crystal clear rivers.
+            </p>
           </div>
-          <div className="h-4 lg:h-6 bg-white border-4 border-var-border overflow-hidden relative">
-            <motion.div 
-              className="h-full bg-yellow-500 border-r-4 border-var-border"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ type: 'spring', stiffness: 50 }}
-            />
-          </div>
-          <div className="flex justify-between mt-2 overflow-x-auto pb-2 scrollbar-hide">
-            {STEPS.slice(0, currentMaxStep + 1).map((s, i) => (
-              <button
-                key={s}
-                onClick={() => step > i && setStep(i)}
-                className={`text-[10px] font-black uppercase tracking-widest whitespace-nowrap px-2 ${
-                  step === i ? 'text-yellow-500 underline decoration-2 underline-offset-4' : 
-                  step > i ? 'text-black cursor-pointer hover:text-yellow-500' : 'text-slate-300'
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            {places?.map((place) => (
+              <div
+                key={place.id}
+                onClick={() => handlePlaceSelect(place)}
+                className={`cursor-pointer bg-surface rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ${
+                  selectedPlace?.id === place.id 
+                    ? 'border-2 border-primary' 
+                    : 'border-border hover:border-primary/20'
                 }`}
               >
-                {s}
-              </button>
+                <div className="relative">
+                  <PlaceImage 
+                    placeId={place.id}
+                    alt={place.name}
+                    className="w-full h-48 object-cover"
+                  />
+                  {place.category && (
+                    <span className="absolute top-3 start-3 bg-primary-transparent text-primary text-xs font-medium px-3 py-1 rounded-md">
+                      {place.category}
+                    </span>
+                  )}
+                </div>
+                <div className="p-4">
+                  <h3 className="h4 font-semibold text-text-primary mb-2">{place.name}</h3>
+                  <p className="body-sm text-text-muted line-clamp-2 mb-3">
+                    {place.description || 'A beautiful destination in Meghalaya.'}
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-text-muted">
+                    <span>📍 {place.region || 'Meghalaya'}</span>
+                    <span className="mx-1 h-0.5 bg-text-muted"></span>
+                    <span>{place.vibe || 'Nature'}</span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {step === 0 && <GroupTypeSelector key="group" />}
-            {step === 1 && <RegionSelector key="region" />}
-            {step === 2 && <SpotSelector key="spots" maxSpots={isPremium ? 4 : 3} />}
-            {step === 3 && <StayDecision key="stay" />}
-
-            {/* Branching Logic */}
-            {!isPremium ? (
-              <>
-                {step === 4 && <NodalPicker key="nodal" />}
-                {step === 5 && <TimeSlotPicker key="timeslot" />}
-                {step === 6 && <NormalConfirm key="nconfirm" />}
-              </>
-            ) : (
-              <>
-                {step === 4 && <VehicleSelector key="vehicle" />}
-                {step === 5 && <HomestaySelector key="homestay" />}
-                {step === 6 && <TimelinePreview key="timeline" />}
-                {step === 7 && <PremiumConfirm key="pconfirm" />}
-              </>
-            )}
-          </motion.div>
-        </AnimatePresence>
       </div>
+
+      {/* Date and Travelers Selection */}
+      {selectedPlace && (
+        <div className="container py-8">
+          <div className="bg-surface rounded-xl shadow-md overflow-hidden">
+            <div className="px-6 pt-6">
+              <h2 className="h2 font-serif text-text-primary mb-4">
+                Plan Your Trip
+              </h2>
+              <p className="body-md text-text-secondary mb-6">
+                You've selected: <span className="font-semibold text-text-primary">{selectedPlace.name}</span>
+              </p>
+            </div>
+
+            <div className="px-6 pb-8">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
+                    Travel Date
+                  </label>
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
+                    className="input w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
+                    Number of Travelers
+                  </label>
+                  <input
+                    type="number"
+                    value={travelers}
+                    onChange={(e) => setTravelers(Math.max(1, parseInt(e.target.value) || 1))}
+                    min="1"
+                    className="input w-full"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <label className="block text-sm font-medium text-text-secondary mb-2">
+                  Special Requests or Questions
+                </label>
+                <textarea
+                  value={specialRequests}
+                  onChange={(e) => setSpecialRequests(e.target.value)}
+                  placeholder="Let us know about any dietary restrictions, accessibility needs, or special occasions..."
+                  className="textarea w-full"
+                  rows={4}
+                />
+              </div>
+
+              <div className="flex justify-between items-center mt-8">
+                <button onClick={handleBack} className="btn btn-outline btn-md">
+                  ← Back to Selection
+                </button>
+                <button onClick={handleNextStep} className="btn btn-primary btn-md">
+                  Continue →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
