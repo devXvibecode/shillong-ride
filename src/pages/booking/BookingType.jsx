@@ -39,13 +39,14 @@ export default function BookingType() {
             <button
               key={card.id}
               onClick={() => handleSelect(card.id)}
-              className="retro-radio"
+              className="glass-brutal"
               style={{
-                display: 'block', textAlign: 'left', width: '100%', padding: 16,
+                display: 'block', textAlign: 'left', width: '100%', padding: 0,
                 transform: `rotate(${idx === 0 ? '-0.5' : '0.8'}deg)`,
-                position: 'relative',
+                position: 'relative', cursor: 'pointer',
               }}
             >
+              <div className="glass-inner glass-heavy" style={{ padding: 16 }}>
               <span className="brutal-stamp" style={{
                 top: -10, right: -8,
                 background: card.id === 'premium' ? 'var(--color-hotpink)' : 'var(--color-navy)',
@@ -79,6 +80,7 @@ export default function BookingType() {
                   </div>
                 </div>
               </div>
+            </div>
             </button>
           );
         })}

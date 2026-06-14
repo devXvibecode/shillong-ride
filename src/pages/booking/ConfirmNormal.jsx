@@ -51,7 +51,8 @@ export default function ConfirmNormal() {
       <div className="retro-split">
         {/* Left: Journey Summary */}
         <div>
-          <div className="retro-card" style={{ marginBottom: 12 }}>
+          <div className="retro-card glass-brutal" style={{ marginBottom: 12 }}>
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
             <div style={{
               fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
               borderBottom: '2px solid var(--color-black)',
@@ -73,11 +74,13 @@ export default function ConfirmNormal() {
                 </div>
               ))}
             </div>
+            </div>
           </div>
 
-          {/* Selected spots */}
-          {selectedSpotObjects.length > 0 && (
-            <div className="retro-card" style={{ marginBottom: 12 }}>
+          {/* Selected spots */
+          selectedSpotObjects.length > 0 && (
+            <div className="retro-card glass-brutal" style={{ marginBottom: 12 }}>
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
               <div style={{
                 fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
                 borderBottom: '2px solid var(--color-black)',
@@ -109,9 +112,11 @@ export default function ConfirmNormal() {
                 ))}
               </div>
             </div>
+            </div>
           )}
 
-          <div className="retro-card">
+          <div className="retro-card glass-brutal" style={{ marginBottom: 12 }}>
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
             <div style={{
               fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
               borderBottom: '2px solid var(--color-black)',
@@ -142,12 +147,14 @@ export default function ConfirmNormal() {
                 ₹{price.groupTotal}
               </span>
             </div>
+            </div>
           </div>
         </div>
 
         {/* Right: Contact Form */}
         <div>
-          <div className="retro-card">
+          <div className="retro-card glass-brutal">
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
             <div style={{
               fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
               borderBottom: '2px solid var(--color-black)',
@@ -231,6 +238,7 @@ export default function ConfirmNormal() {
                 </div>
               </div>
             </form>
+            </div>
           </div>
         </div>
       </div>

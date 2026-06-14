@@ -58,46 +58,49 @@ export default function Spots() {
               key={place.id}
               onClick={() => !isDisabled && addSpot(place.id)}
               disabled={isDisabled}
-              className={`retro-checkbox ${isSelected ? 'checked' : ''}`}
+              className={`glass-brutal ${isSelected ? 'glass-selected' : ''}`}
               style={{
-                flexDirection: 'column', alignItems: 'stretch', padding: 0,
-                textAlign: 'left', opacity: isDisabled ? 0.35 : 1,
+                display: 'flex', flexDirection: 'column', alignItems: 'stretch',
+                textAlign: 'left', padding: 0,
+                opacity: isDisabled ? 0.35 : 1,
                 cursor: isDisabled ? 'not-allowed' : 'pointer',
                 transform: `rotate(${(idx % 3 - 1) * 0.8}deg)`,
-                border: isSelected ? '4px solid var(--color-orange)' : '3px solid var(--color-black)',
-                boxShadow: isSelected ? '5px 5px 0 0 rgba(0,0,0,0.85)' : '3px 3px 0 0 rgba(0,0,0,0.85)',
+                border: isSelected ? '4px solid var(--color-orange)' : '4px solid var(--color-black)',
+                boxShadow: isSelected ? '5px 5px 0 0 rgba(0,0,0,0.85)' : '4px 4px 0 0 rgba(0,0,0,0.85)',
+                overflow: 'hidden',
+                position: 'relative',
               }}
             >
-              {/* Image area */}
-              <div style={{
-                height: 120, background: 'var(--color-cream-alt)',
-                borderBottom: '3px solid var(--color-black)',
-                position: 'relative', overflow: 'hidden',
-              }}>
+              {/* Full-bleed background image */}
+              <div className="glass-bg">
                 <PlaceImage
                   placeId={place.id}
                   alt={place.name}
                   onLoad={() => setImgLoaded(prev => ({ ...prev, [place.id]: true }))}
-                  className="w-full h-full"
                 />
                 {!imgLoaded[place.id] && (
                   <div style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }} className="skeleton" />
                 )}
-                {isSelected && (
-                  <div style={{
-                    position: 'absolute', top: 6, right: 6,
-                    width: 28, height: 28, background: 'var(--color-orange)',
-                    border: '3px solid var(--color-black)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: '2px 2px 0 0 rgba(0,0,0,0.85)',
-                  }}>
-                    <IconCheck size={16} />
-                  </div>
-                )}
               </div>
 
-              {/* Info area */}
-              <div style={{ padding: 10 }}>
+              {/* Spacer to show image behind glass */}
+              <div style={{ height: 100 }} />
+
+              {/* Checkmark (sits on glass) */}
+              {isSelected && (
+                <div className="glass-inner" style={{
+                  position: 'absolute', top: 8, right: 8, zIndex: 2,
+                  width: 28, height: 28, background: 'var(--color-orange)',
+                  border: '3px solid var(--color-black)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '2px 2px 0 0 rgba(0,0,0,0.85)',
+                }}>
+                  <IconCheck size={16} />
+                </div>
+              )}
+
+              {/* Info area (on glass surface) */}
+              <div className="glass-inner glass-heavy" style={{ padding: 10, borderTop: '2px solid var(--color-black)' }}>
                 <div style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>
                   {place.name}
                 </div>

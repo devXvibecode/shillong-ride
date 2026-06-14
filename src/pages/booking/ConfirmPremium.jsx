@@ -51,7 +51,8 @@ export default function ConfirmPremium() {
       <div className="retro-split">
         {/* Left: Premium Summary */}
         <div>
-          <div className="retro-card" style={{ marginBottom: 12 }}>
+          <div className="retro-card glass-brutal" style={{ marginBottom: 12 }}>
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
             <div style={{
               fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
               borderBottom: '2px solid var(--color-black)',
@@ -74,11 +75,13 @@ export default function ConfirmPremium() {
                 </div>
               ))}
             </div>
+            </div>
           </div>
 
-          {/* Selected spots */}
-          {selectedSpotObjects.length > 0 && (
-            <div className="retro-card" style={{ marginBottom: 12 }}>
+          {/* Selected spots */
+          selectedSpotObjects.length > 0 && (
+            <div className="retro-card glass-brutal" style={{ marginBottom: 12 }}>
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
               <div style={{
                 fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
                 borderBottom: '2px solid var(--color-black)',
@@ -105,9 +108,11 @@ export default function ConfirmPremium() {
                 ))}
               </div>
             </div>
+            </div>
           )}
 
-          <div className="retro-card">
+          <div className="retro-card glass-brutal">
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
             <div style={{
               fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
               borderBottom: '2px solid var(--color-black)',
@@ -136,12 +141,14 @@ export default function ConfirmPremium() {
             <div style={{ fontSize: 8, color: 'var(--color-gray)', marginTop: 6, fontStyle: 'italic' }}>
               * Includes all fuel, meals, stay, and personal guide fees.
             </div>
+            </div>
           </div>
         </div>
 
         {/* Right: VIP Contact Form */}
         <div>
-          <div className="retro-card" style={{ borderColor: 'var(--color-orange)' }}>
+          <div className="retro-card glass-brutal" style={{ border: '4px solid var(--color-orange)' }}>
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
             <div style={{
               fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
               borderBottom: '2px solid var(--color-orange)',
@@ -220,13 +227,16 @@ export default function ConfirmPremium() {
                     </span>
                   )}
                 </button>
-                <div className="retro-card" style={{ marginTop: 8, padding: 8, background: 'var(--color-cream-alt)', textAlign: 'center' }}>
+                <div className="glass-brutal" style={{ marginTop: 8, padding: 8, textAlign: 'center' }}>
+                  <div className="glass-inner glass-heavy" style={{ padding: 8 }}>
                   <span style={{ fontSize: 8, color: 'var(--color-orange)', fontWeight: 700 }}>
                     EMERGENCY SUPPORT: 24/7 coordination included.
                   </span>
+                  </div>
                 </div>
               </div>
             </form>
+            </div>
           </div>
         </div>
       </div>

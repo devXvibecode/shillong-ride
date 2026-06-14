@@ -26,9 +26,10 @@ export default function Pickup() {
           <button
             key={hub.id}
             onClick={() => handleSelect(hub.id)}
-            className="retro-radio"
-            style={{ display: 'flex', width: '100%', textAlign: 'left', padding: 12 }}
+            className="glass-brutal"
+            style={{ display: 'flex', width: '100%', textAlign: 'left', padding: 12, gap: 10, cursor: 'pointer' }}
           >
+            <div className="glass-inner glass-heavy" style={{ display: 'flex', gap: 10, alignItems: 'flex-start', flex: 1 }}>
             <IconMap size={20} />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>
@@ -40,12 +41,13 @@ export default function Pickup() {
                 </div>
               )}
             </div>
+            </div>
           </button>
         ))}
       </div>
 
       {/* Info tip */}
-      <div className="retro-card" style={{ marginTop: 16, padding: 12, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+      <div className="retro-card glass-brutal" style={{ marginTop: 16, padding: 12, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
         <IconWarning size={20} style={{ flexShrink: 0, color: 'var(--color-orange)' }} />
         <div>
           <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', marginBottom: 2 }}>

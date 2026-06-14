@@ -32,11 +32,13 @@ export default function Homestay() {
       backLabel="Vehicle"
     >
       {filtered.length === 0 && (
-        <div className="retro-card" style={{ textAlign: 'center', padding: 24 }}>
-          <IconHome size={32} style={{ margin: '0 auto 8px', display: 'block', color: 'var(--color-orange)' }} />
-          <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 4 }}>No homestays available</div>
-          <div style={{ fontSize: 10, color: 'var(--color-gray)' }}>
-            No homestays found for {selectedCircuit?.name || 'this circuit'}. Please go back and select a different circuit.
+        <div className="retro-card glass-brutal" style={{ textAlign: 'center', padding: 24 }}>
+          <div className="glass-inner">
+            <IconHome size={32} style={{ margin: '0 auto 8px', display: 'block', color: 'var(--color-orange)' }} />
+            <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 4 }}>No homestays available</div>
+            <div style={{ fontSize: 10, color: 'var(--color-gray)' }}>
+              No homestays found for {selectedCircuit?.name || 'this circuit'}. Please go back and select a different circuit.
+            </div>
           </div>
         </div>
       )}
@@ -46,53 +48,50 @@ export default function Homestay() {
           <button
             key={h.id}
             onClick={() => handleSelect(h)}
-            className="retro-checkbox"
+            className="glass-brutal"
             style={{
-              flexDirection: 'column', alignItems: 'stretch', padding: 0,
-              textAlign: 'left',
+              display: 'flex', flexDirection: 'column', alignItems: 'stretch',
+              textAlign: 'left', padding: 0, cursor: 'pointer',
+              border: '4px solid var(--color-black)',
               transform: `rotate(${(idx % 2 === 0 ? -0.5 : 0.5)}deg)`,
-              border: '3px solid var(--color-black)',
-              boxShadow: '4px 4px 0 0 rgba(0,0,0,0.85)',
+              overflow: 'hidden',
+              position: 'relative',
             }}
           >
-            {/* Image */}
-            <div style={{
-              height: 130, background: 'var(--color-cream-alt)',
-              borderBottom: '3px solid var(--color-black)',
-              position: 'relative', overflow: 'hidden',
-            }}>
-              <PlaceImage
-                placeId={h.imageRef}
-                alt={h.name}
-                className="w-full h-full"
-              />
-              {/* Vibe badge */}
-              <div style={{
-                position: 'absolute', top: 6, left: 6,
-                background: 'var(--color-navy)', color: 'white',
-                padding: '2px 6px', fontSize: 7, fontWeight: 700,
-                border: '2px solid var(--color-black)',
-                textTransform: 'uppercase',
-              }}>
-                {h.vibe}
-              </div>
-              {/* Rating badge */}
-              <div style={{
-                position: 'absolute', bottom: 6, right: 6,
-                background: 'var(--color-cream-light)',
-                padding: '2px 6px', fontSize: 8, fontWeight: 700,
-                border: '2px solid var(--color-black)',
-                display: 'flex', alignItems: 'center', gap: 2,
-              }}>
-                {h.rating}
-                <IconStar size={9} style={{ color: 'var(--color-yellow)' }} />
-              </div>
+            {/* Full-bleed background image */}
+            <div className="glass-bg">
+              <PlaceImage placeId={h.imageRef} alt={h.name} />
             </div>
 
-            {/* Info */}
-            <div style={{ padding: 12 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase', marginBottom: 2 }}>
-                {h.name}
+            {/* Vibe badge (sits on glass, not behind it) */}
+            <div className="glass-inner" style={{
+              position: 'absolute', top: 8, left: 8, zIndex: 2,
+              background: 'var(--color-navy)', color: 'white',
+              padding: '2px 8px', fontSize: 7, fontWeight: 700,
+              border: '2px solid var(--color-black)',
+              textTransform: 'uppercase',
+            }}>
+              {h.vibe}
+            </div>
+
+            {/* Spacer to show image behind glass */}
+            <div style={{ height: 100 }} />
+
+            {/* Info (on glass surface) */}
+            <div className="glass-inner glass-heavy" style={{ padding: 12, borderTop: '2px solid var(--color-black)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase', flex: 1 }}>
+                  {h.name}
+                </div>
+                <div style={{
+                  background: 'var(--color-cream-light)',
+                  padding: '2px 6px', fontSize: 8, fontWeight: 700,
+                  border: '2px solid var(--color-black)',
+                  display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0,
+                }}>
+                  {h.rating}
+                  <IconStar size={9} style={{ color: 'var(--color-yellow)' }} />
+                </div>
               </div>
               <div style={{ display: 'flex', gap: 1, marginBottom: 6 }}>
                 {ratingStars(h.rating)}
@@ -126,18 +125,18 @@ export default function Homestay() {
                   </span>
                 )}
               </div>
-            </div>
 
-            {/* Footer */}
-            <div style={{
-              padding: '8px 12px', borderTop: '2px solid var(--color-black)',
-              display: 'flex', alignItems: 'center', gap: 4,
-              fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
-              color: 'var(--color-orange)',
-            }}>
-              <IconMap size={12} />
-              <span>Select this stay</span>
-              <span style={{ marginLeft: 'auto' }}>→</span>
+              {/* Footer */}
+              <div style={{
+                marginTop: 8, paddingTop: 8, borderTop: '2px solid var(--color-black)',
+                display: 'flex', alignItems: 'center', gap: 4,
+                fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
+                color: 'var(--color-orange)',
+              }}>
+                <IconMap size={12} />
+                <span>Select this stay</span>
+                <span style={{ marginLeft: 'auto' }}>→</span>
+              </div>
             </div>
           </button>
         ))}

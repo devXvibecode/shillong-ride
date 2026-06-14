@@ -31,7 +31,7 @@ export default function Circuit() {
           const isExpanded = expanded === c.id;
 
           return (
-            <div key={c.id} className="circuit-card" onClick={() => handleSelect(c)}>
+            <div key={c.id} className="circuit-card glass-brutal" onClick={() => handleSelect(c)}>
               {/* Image */}
               <div className="circuit-card-img">
                 {firstSpot ? (
@@ -59,7 +59,7 @@ export default function Circuit() {
               </div>
 
               {/* Body */}
-              <div className="circuit-card-body">
+              <div className="circuit-card-body glass-inner" style={{ background: 'var(--color-glass-heavy)' }}>
                 <h3>{c.name}</h3>
                 {c.tagline && (
                   <p style={{ fontWeight: 700, color: c.color || 'var(--color-orange)', fontSize: 10, marginBottom: 6 }}>
@@ -84,7 +84,8 @@ export default function Circuit() {
                   </button>
                   {isExpanded && (
                     <p style={{
-                      marginTop: 6, padding: 8, background: 'var(--color-cream-alt)',
+                      marginTop: 6, padding: 8, background: 'var(--color-glass)',
+                      backdropFilter: 'blur(12px)',
                       border: '2px solid var(--color-black)',
                       fontSize: 10, lineHeight: 1.4,
                     }}>
@@ -95,7 +96,7 @@ export default function Circuit() {
               </div>
 
               {/* Footer */}
-              <div className="circuit-card-footer">
+              <div className="circuit-card-footer glass-inner" style={{ background: 'var(--color-glass-heavy)' }}>
                 <IconMap size={14} style={{ color: c.color || 'var(--color-orange)' }} />
                 <span>Select this circuit</span>
                 <span style={{ marginLeft: 'auto', fontSize: 12 }}>→</span>
@@ -106,7 +107,7 @@ export default function Circuit() {
       </div>
 
       {(!circuits || circuits.length === 0) && (
-        <div className="retro-card" style={{ textAlign: 'center', padding: 24 }}>
+        <div className="retro-card glass-brutal" style={{ textAlign: 'center', padding: 24 }}>
           <div className="retro-spinner" style={{ margin: '0 auto 8px' }} />
           <span style={{ fontSize: 11 }}>Loading circuits...</span>
         </div>

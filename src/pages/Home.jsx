@@ -56,28 +56,33 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <div style={{ textAlign: 'center', padding: 40 }}>
+          <div className="glass-brutal" style={{ textAlign: 'center', padding: 0 }}>
+            <div className="glass-inner glass-heavy" style={{ padding: 40 }}>
             <div className="retro-spinner" style={{ margin: '0 auto 12px' }} />
             <span style={{ fontSize: 11 }}>Loading circuits...</span>
+            </div>
           </div>
         ) : (
           <div className="circuit-grid">
             {displayCircuits.map((circuit, idx) => (
-              <Link key={circuit.id} to="/booking" className="circuit-card">
-                <div className="circuit-card-img">
+              <Link key={circuit.id} to="/booking" className="circuit-card glass-brutal" style={{ display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+                <div className="glass-bg" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
                   <PlaceImage
                     placeId={circuit.spots?.[0]}
                     alt={circuit.name}
-                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
                   />
                 </div>
-                <div className="circuit-card-body">
-                  <h3>{circuit.name}</h3>
-                  <p>{circuit.tagline || `Explore the ${circuit.name} region`}</p>
-                </div>
-                <div className="circuit-card-footer">
-                  <IconMap size={12} />
-                  <span>{circuit.spots?.length || 0} destinations</span>
+                <div style={{ flex: 1 }} />
+                <div className="glass-inner glass-heavy" style={{ borderTop: '2px solid var(--color-black)', position: 'relative', zIndex: 1 }}>
+                  <div style={{ padding: 14 }}>
+                    <h3>{circuit.name}</h3>
+                    <p>{circuit.tagline || `Explore the ${circuit.name} region`}</p>
+                  </div>
+                  <div style={{ borderTop: '2px solid var(--color-black)', padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 6, fontSize: 10, fontWeight: 700 }}>
+                    <IconMap size={12} />
+                    <span>{circuit.spots?.length || 0} destinations</span>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -99,23 +104,29 @@ export default function Home() {
             <h2 className="section-title" style={{ color: 'white' }}>How It Works</h2>
           </div>
           <div className="steps-row">
-            <div className="step-card">
+            <div className="step-card glass-brutal">
+              <div className="glass-inner glass-heavy" style={{ padding: 24, textAlign: 'center' }}>
               <div className="step-number-block">01</div>
               <IconMap size={28} />
               <h3>Pick a Route</h3>
               <p>Choose your preferred circuit — Sohra, Dawki, or Jaintia Hills</p>
+              </div>
             </div>
-            <div className="step-card">
+            <div className="step-card glass-brutal">
+              <div className="glass-inner glass-heavy" style={{ padding: 24, textAlign: 'center' }}>
               <div className="step-number-block">02</div>
               <IconStar size={28} />
               <h3>Select Spots</h3>
               <p>Pick up to 4 destinations from your chosen circuit</p>
+              </div>
             </div>
-            <div className="step-card">
+            <div className="step-card glass-brutal">
+              <div className="glass-inner glass-heavy" style={{ padding: 24, textAlign: 'center' }}>
               <div className="step-number-block">03</div>
               <IconMountain size={28} />
               <h3>Ride & Pay</h3>
               <p>Meet your local rider, explore, and pay after the ride — cash or UPI</p>
+              </div>
             </div>
           </div>
         </div>

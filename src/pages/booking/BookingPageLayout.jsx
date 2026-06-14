@@ -47,9 +47,9 @@ export default function BookingPageLayout({ children, title, subtitle, onBack, b
             const isActive = i === currentIdx;
             return (
               <span key={step.route} style={{ display: 'contents' }}>
-                {i > 0 && <span className={`progress-line ${isDone ? 'done' : ''}`} />}
+                {i > 0 && <span className={`progress-line glass ${isDone ? 'done' : ''}`} />}
                 <span
-                  className={`progress-dot ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}`}
+                  className={`progress-dot glass ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}`}
                   onClick={() => { if (isDone) navigate(step.route); }}
                   style={{ cursor: isDone ? 'pointer' : 'default', position: 'relative' }}
                   title={step.label}

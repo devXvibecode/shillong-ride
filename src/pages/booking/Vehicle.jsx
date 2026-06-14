@@ -39,9 +39,10 @@ export default function Vehicle() {
           <button
             key={v.id}
             onClick={() => handleSelect(v.id)}
-            className="retro-radio"
-            style={{ display: 'block', width: '100%', textAlign: 'left', padding: 14 }}
+            className="glass-brutal"
+            style={{ display: 'block', width: '100%', textAlign: 'left', padding: 0, cursor: 'pointer' }}
           >
+            <div className="glass-inner glass-heavy" style={{ padding: 14 }}>
             <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
               <div style={{
                 width: 48, height: 48, flexShrink: 0,
@@ -66,6 +67,7 @@ export default function Vehicle() {
                   ))}
                 </div>
               </div>
+            </div>
             </div>
           </button>
         ))}
