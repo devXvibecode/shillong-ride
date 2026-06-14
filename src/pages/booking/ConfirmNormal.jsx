@@ -4,7 +4,8 @@ import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import { useData } from '../../context/DataContext';
 import { calculateNormalPrice } from '../../engines/pricingEngine';
 import BookingPageLayout from './BookingPageLayout';
-import { IconCheck, IconWarning } from '../../components/icons/PixelIcons';
+import PlaceImage from '../../components/PlaceImage';
+import { IconCheck, IconWarning, IconMap } from '../../components/icons/PixelIcons';
 
 export default function ConfirmNormal() {
   const navigate = useNavigate();
@@ -12,10 +13,11 @@ export default function ConfirmNormal() {
     selectedCircuit, selectedSpots, groupType, nodalPoint, timeSlot,
     formData, updateFormField, submitNormalBooking, submitting,
   } = useBooking();
-  const { hubs } = useData();
+  const { hubs, places } = useData();
   const [errors, setErrors] = useState({});
 
   const hub = hubs?.find(h => h.id === nodalPoint);
+  const selectedSpotObjects = places?.filter(p => selectedSpots.includes(p.id)) || [];
   const price = calculateNormalPrice(selectedSpots, selectedCircuit?.id, groupType);
 
   const validate = () => {
@@ -63,7 +65,7 @@ export default function ConfirmNormal() {
                 { label: 'Group', value: groupType },
                 { label: 'Pickup', value: hub?.name || nodalPoint },
                 { label: 'Time', value: timeSlot },
-                { label: 'Spots', value: `${selectedSpots.length} selected` },
+                { label: 'Spots', value: `${selectedSpotObjects.map(s => s.name).join(', ')}` },
               ].map(item => (
                 <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, borderBottom: '1px solid var(--color-black)', paddingBottom: 4 }}>
                   <span style={{ color: 'var(--color-gray)', fontWeight: 700, textTransform: 'uppercase', fontSize: 9 }}>{item.label}</span>
@@ -72,6 +74,42 @@ export default function ConfirmNormal() {
               ))}
             </div>
           </div>
+
+          {/* Selected spots */}
+          {selectedSpotObjects.length > 0 && (
+            <div className="retro-card" style={{ marginBottom: 12 }}>
+              <div style={{
+                fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
+                borderBottom: '2px solid var(--color-black)',
+                paddingBottom: 6, marginBottom: 10,
+              }}>
+                Selected Spots
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {selectedSpotObjects.map((spot, idx) => (
+                  <div key={spot.id} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                    <div style={{
+                      width: 40, height: 30, flexShrink: 0,
+                      border: '2px solid var(--color-black)',
+                      overflow: 'hidden', position: 'relative',
+                      background: 'var(--color-cream-alt)',
+                    }}>
+                      <PlaceImage placeId={spot.id} alt={spot.name} />
+                    </div>
+                    <span className="retro-badge retro-badge-navy" style={{ fontSize: 7, flexShrink: 0 }}>
+                      {idx + 1}
+                    </span>
+                    <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>
+                      {spot.name}
+                    </span>
+                    <span style={{ marginLeft: 'auto', fontSize: 9, color: 'var(--color-gray)' }}>
+                      ₹{spot.price || '-'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="retro-card">
             <div style={{

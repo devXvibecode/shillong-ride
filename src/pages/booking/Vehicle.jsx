@@ -31,8 +31,8 @@ export default function Vehicle() {
     <BookingPageLayout
       title="SELECT VEHICLE"
       subtitle="Choose your ride"
-      onBack={() => navigate(BOOKING_ROUTES.stay)}
-      backLabel="Stay"
+      onBack={() => navigate(BOOKING_ROUTES.spots)}
+      backLabel="Spots"
     >
       <div className="retro-radio-group">
         {VEHICLES.map((v) => (

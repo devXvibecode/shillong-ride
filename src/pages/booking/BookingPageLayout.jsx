@@ -1,32 +1,36 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BOOKING_ROUTES } from '../../context/BookingContext';
+import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 
-const STEP_ORDER = [
+const STANDARD_STEPS = [
   { route: BOOKING_ROUTES.type, label: 'Type' },
   { route: BOOKING_ROUTES.group, label: 'Group' },
   { route: BOOKING_ROUTES.circuit, label: 'Route' },
   { route: BOOKING_ROUTES.spots, label: 'Spots' },
-  { route: BOOKING_ROUTES.stay, label: 'Stay' },
-  { route: BOOKING_ROUTES.vehicle, label: 'Vehicle' },
-  { route: BOOKING_ROUTES.homestay, label: 'Home' },
   { route: BOOKING_ROUTES.pickup, label: 'Pickup' },
   { route: BOOKING_ROUTES.time, label: 'Time' },
   { route: BOOKING_ROUTES.confirmNormal, label: 'Review' },
-  { route: BOOKING_ROUTES.confirmPremium, label: 'Review' },
-  { route: BOOKING_ROUTES.confirmed, label: 'Done' },
 ];
 
-function getStepIndex(pathname) {
-  return STEP_ORDER.findIndex(s => pathname === s.route);
-}
+const PREMIUM_STEPS = [
+  { route: BOOKING_ROUTES.type, label: 'Type' },
+  { route: BOOKING_ROUTES.group, label: 'Group' },
+  { route: BOOKING_ROUTES.circuit, label: 'Route' },
+  { route: BOOKING_ROUTES.spots, label: 'Spots' },
+  { route: BOOKING_ROUTES.vehicle, label: 'Vehicle' },
+  { route: BOOKING_ROUTES.homestay, label: 'Home' },
+  { route: BOOKING_ROUTES.time, label: 'Time' },
+  { route: BOOKING_ROUTES.confirmPremium, label: 'Review' },
+];
 
 export default function BookingPageLayout({ children, title, subtitle, onBack, backLabel = 'Back' }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isPremium } = useBooking();
 
-  const currentIdx = getStepIndex(location.pathname);
-  const totalSteps = 7;
-  const stepNum = currentIdx >= 0 ? Math.min(currentIdx + 1, totalSteps) : 1;
+  const steps = isPremium ? PREMIUM_STEPS : STANDARD_STEPS;
+  const totalSteps = steps.length;
+  const currentIdx = steps.findIndex(s => location.pathname === s.route);
+  const stepNum = currentIdx >= 0 ? currentIdx + 1 : 1;
 
   const handleBack = () => {
     if (onBack) onBack();
@@ -38,14 +42,27 @@ export default function BookingPageLayout({ children, title, subtitle, onBack, b
       {/* Progress bar */}
       <div className="booking-progress">
         <div className="booking-progress-inner">
-          {Array.from({ length: totalSteps }).map((_, i) => {
-            const isDone = i < stepNum - 1;
-            const isActive = i === stepNum - 1;
+          {steps.map((step, i) => {
+            const isDone = i < currentIdx;
+            const isActive = i === currentIdx;
             return (
-              <span key={i} style={{ display: 'contents' }}>
+              <span key={step.route} style={{ display: 'contents' }}>
                 {i > 0 && <span className={`progress-line ${isDone ? 'done' : ''}`} />}
-                <span className={`progress-dot ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}`}>
+                <span
+                  className={`progress-dot ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}`}
+                  onClick={() => { if (isDone) navigate(step.route); }}
+                  style={{ cursor: isDone ? 'pointer' : 'default', position: 'relative' }}
+                  title={step.label}
+                >
                   {isDone ? '✓' : i + 1}
+                  <span style={{
+                    position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)',
+                    fontSize: 7, fontWeight: 700, textTransform: 'uppercase',
+                    color: isActive ? 'var(--color-hotpink)' : 'var(--color-gray)',
+                    marginTop: 4, whiteSpace: 'nowrap',
+                  }}>
+                    {step.label}
+                  </span>
                 </span>
               </span>
             );
@@ -69,7 +86,7 @@ export default function BookingPageLayout({ children, title, subtitle, onBack, b
             </span>
           </div>
           <span className="brutal-underline" style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>
-            {currentIdx >= 0 ? STEP_ORDER[currentIdx].label : ''}
+            {currentIdx >= 0 ? steps[currentIdx].label : ''}
           </span>
         </div>
 

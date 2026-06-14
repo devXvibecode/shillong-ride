@@ -2,6 +2,7 @@ import placesData from '../data/places.json';
 import hubsData from '../data/hubs.json';
 import distanceMatrixData from '../data/distance-matrix.json';
 import circuitsData from '../data/circuits.json';
+import homestaysData from '../data/homestays.json';
 
 const GITHUB_BASE = import.meta.env.VITE_GITHUB_DATA_URL || 'https://raw.githubusercontent.com/devXvibecode/shillong-ride/main/data';
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
@@ -67,6 +68,11 @@ export async function getCircuits() {
   catch { return circuitsData; }
 }
 
+export async function getHomestays() {
+  try { return await fetchJson('homestays'); }
+  catch { return homestaysData; }
+}
+
 export async function getAllData() {
-  return Promise.all([getPlaces(), getHubs(), getDistanceMatrix(), getCircuits()]);
+  return Promise.all([getPlaces(), getHubs(), getDistanceMatrix(), getCircuits(), getHomestays()]);
 }

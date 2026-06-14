@@ -15,7 +15,6 @@ export const BOOKING_ROUTES = {
   group: '/booking/group',
   circuit: '/booking/circuit',
   spots: '/booking/spots',
-  stay: '/booking/stay',
   vehicle: '/booking/vehicle',
   homestay: '/booking/homestay',
   pickup: '/booking/pickup',

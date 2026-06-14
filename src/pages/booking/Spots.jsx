@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import { useData } from '../../context/DataContext';
@@ -11,14 +11,19 @@ export default function Spots() {
   const { selectedCircuit, selectedSpots, addSpot, isPremium } = useBooking();
   const { places } = useData();
   const [imgLoaded, setImgLoaded] = useState({});
+  const prevLengthRef = useRef(selectedSpots.length);
 
   const maxSpots = isPremium ? 4 : 3;
   const circuitSpotIds = selectedCircuit?.spots || [];
   const spots = places?.filter(p => circuitSpotIds.includes(p.id)) || [];
 
-  const handleContinue = () => {
-    if (selectedSpots.length > 0) navigate(BOOKING_ROUTES.stay);
-  };
+  useEffect(() => {
+    const prev = prevLengthRef.current;
+    if (prev < selectedSpots.length && selectedSpots.length >= maxSpots) {
+      navigate(isPremium ? BOOKING_ROUTES.vehicle : BOOKING_ROUTES.pickup);
+    }
+    prevLengthRef.current = selectedSpots.length;
+  }, [selectedSpots.length, maxSpots, isPremium, navigate]);
 
   return (
     <BookingPageLayout
@@ -114,37 +119,6 @@ export default function Spots() {
           );
         })}
       </div>
-
-      {/* Floating bottom bar */}
-      {selectedSpots.length > 0 && (
-        <div style={{
-          position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
-          background: 'var(--color-cream-light)',
-          borderTop: '5px solid var(--color-black)',
-          padding: '12px 16px',
-          boxShadow: '0 -6px 0 0 rgba(0,0,0,0.85)',
-        }}>
-          <div style={{
-            maxWidth: 800, margin: '0 auto',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-          }}>
-            <div style={{ display: 'flex', gap: 6, overflow: 'auto', flex: 1 }}>
-              {selectedSpots.map((spotId, idx) => {
-                const spot = places.find(p => p.id === spotId);
-                return (
-                  <div key={spotId} className="retro-badge retro-badge-navy" style={{ fontSize: 7, whiteSpace: 'nowrap' }}>
-                    {idx + 1}. {spot?.name}
-                  </div>
-                );
-              })}
-            </div>
-            <button onClick={handleContinue} className="retro-btn retro-btn-brutal retro-btn-primary">
-              CONTINUE →
-            </button>
-          </div>
-        </div>
-      )}
-      {selectedSpots.length > 0 && <div style={{ height: 60 }} />}
     </BookingPageLayout>
   );
 }

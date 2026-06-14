@@ -14,7 +14,7 @@ const BookingType = lazy(() => import('./pages/booking/BookingType'));
 const GroupType = lazy(() => import('./pages/booking/GroupType'));
 const Circuit = lazy(() => import('./pages/booking/Circuit'));
 const Spots = lazy(() => import('./pages/booking/Spots'));
-const Stay = lazy(() => import('./pages/booking/Stay'));
+
 const Vehicle = lazy(() => import('./pages/booking/Vehicle'));
 const Homestay = lazy(() => import('./pages/booking/Homestay'));
 const Pickup = lazy(() => import('./pages/booking/Pickup'));
@@ -63,7 +63,6 @@ function AppRoutes() {
         <Route path="/booking/group" element={<GroupType />} />
         <Route path="/booking/circuit" element={<Circuit />} />
         <Route path="/booking/spots" element={<Spots />} />
-        <Route path="/booking/stay" element={<Stay />} />
         <Route path="/booking/vehicle" element={<Vehicle />} />
         <Route path="/booking/homestay" element={<Homestay />} />
         <Route path="/booking/pickup" element={<Pickup />} />

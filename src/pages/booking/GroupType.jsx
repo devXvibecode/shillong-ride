@@ -12,11 +12,10 @@ const GROUPS = [
 
 export default function GroupType() {
   const navigate = useNavigate();
-  const { setGroupType, setBookingType } = useBooking();
+  const { setGroupType } = useBooking();
 
   const handleSelect = (id) => {
     setGroupType(id);
-    setBookingType('normal');
     navigate(BOOKING_ROUTES.circuit);
   };
 

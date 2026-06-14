@@ -18,8 +18,8 @@ export default function Pickup() {
     <BookingPageLayout
       title="SELECT PICKUP POINT"
       subtitle="Where should we meet you?"
-      onBack={() => navigate(BOOKING_ROUTES.stay)}
-      backLabel="Stay"
+      onBack={() => navigate(BOOKING_ROUTES.spots)}
+      backLabel="Spots"
     >
       <div className="retro-radio-group">
         {hubs?.map((hub) => (

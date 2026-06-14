@@ -1,16 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
+import { useData } from '../../context/DataContext';
 import { calculatePremiumPrice } from '../../engines/pricingEngine';
 import BookingPageLayout from './BookingPageLayout';
-import { IconCheck, IconWarning } from '../../components/icons/PixelIcons';
+import PlaceImage from '../../components/PlaceImage';
+import { IconCheck, IconWarning, IconStar } from '../../components/icons/PixelIcons';
 
 export default function ConfirmPremium() {
   const navigate = useNavigate();
   const {
     selectedSpots, vehicleType, selectedHomestay, timeSlot,
+    selectedCircuit, groupType,
     formData, updateFormField, submitPremiumBooking, submitting,
   } = useBooking();
+  const { places } = useData();
+  const selectedSpotObjects = places?.filter(p => selectedSpots.includes(p.id)) || [];
   const [errors, setErrors] = useState({});
 
   const price = calculatePremiumPrice(vehicleType);
@@ -56,9 +61,10 @@ export default function ConfirmPremium() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[
-                { label: 'Package', value: 'PREMIUM EXPLORER' },
+                { label: 'Region', value: selectedCircuit?.name },
+                { label: 'Group', value: groupType },
                 { label: 'Vehicle', value: vehicleType === 'bike' ? '2-Wheeler' : '4-Wheeler' },
-                { label: 'Stay', value: selectedHomestay?.label },
+                { label: 'Stay', value: selectedHomestay?.name },
                 { label: 'Time', value: timeSlot },
                 { label: 'Destinations', value: `${selectedSpots.length} spots` },
               ].map(item => (
@@ -69,6 +75,37 @@ export default function ConfirmPremium() {
               ))}
             </div>
           </div>
+
+          {/* Selected spots */}
+          {selectedSpotObjects.length > 0 && (
+            <div className="retro-card" style={{ marginBottom: 12 }}>
+              <div style={{
+                fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
+                borderBottom: '2px solid var(--color-black)',
+                paddingBottom: 6, marginBottom: 10,
+              }}>
+                Your Destinations
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {selectedSpotObjects.map((spot, idx) => (
+                  <div key={spot.id} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                    <div style={{
+                      width: 40, height: 30, flexShrink: 0,
+                      border: '2px solid var(--color-black)',
+                      overflow: 'hidden', position: 'relative',
+                      background: 'var(--color-cream-alt)',
+                    }}>
+                      <PlaceImage placeId={spot.id} alt={spot.name} />
+                    </div>
+                    <IconStar size={12} style={{ color: 'var(--color-yellow)', flexShrink: 0 }} />
+                    <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>
+                      {spot.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="retro-card">
             <div style={{
