@@ -3,8 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import { useData } from '../../context/DataContext';
 import BookingPageLayout from './BookingPageLayout';
-import PlaceImage from '../../components/PlaceImage';
 import { IconMap, IconCheck } from '../../components/icons/PixelIcons';
+import imageManifest from '../../data/images-manifest.json';
+
+const BASE = import.meta.env.BASE_URL || '/';
+function spotImg(placeId) {
+  const paths = imageManifest[placeId];
+  if (paths && paths.length > 0) {
+    const p = paths[0];
+    if (p.startsWith('/')) return BASE.replace(/\/$/, '') + p;
+    return p;
+  }
+  return 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop';
+}
 
 export default function Spots() {
   const navigate = useNavigate();
@@ -73,10 +84,13 @@ export default function Spots() {
             >
               {/* Full-bleed background image */}
               <div className="glass-bg">
-                <PlaceImage
-                  placeId={place.id}
+                <img
+                  src={spotImg(place.id)}
                   alt={place.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
                   onLoad={() => setImgLoaded(prev => ({ ...prev, [place.id]: true }))}
+                  style={{ position: 'absolute', inset: 0 }}
                 />
                 {!imgLoaded[place.id] && (
                   <div style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }} className="skeleton" />
