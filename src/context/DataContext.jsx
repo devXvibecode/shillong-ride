@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { getPlaces, getHubs, getDistanceMatrix, getCircuits, getHomestays } from '../engines/dataService';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { getPlaces, getHubs, getDistanceMatrix, getCircuits, getHomestays, clearCache, getStoredDataVersion } from '../engines/dataService';
 
 const DataContext = createContext();
 
@@ -11,36 +11,55 @@ export function DataProvider({ children }) {
   const [distanceMatrix, setDistanceMatrix] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    let cancelled = false;
-    
-    async function initData() {
-      try {
-        const [p, h, d, c, hs] = await Promise.all([
-          getPlaces(), 
-          getHubs(), 
-          getDistanceMatrix(), 
-          getCircuits(),
-          getHomestays(),
-        ]);
-        
-        if (cancelled) return;
-        
-        setPlaces(p || []);
-        setHubs(h || []);
-        setDistanceMatrix(d);
-        setCircuits(c || []);
-        setHomestays(hs || []);
-      } catch (err) {
-        console.error('Data initialization failed:', err);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
+  const [dataVersion, setDataVersion] = useState(() => getStoredDataVersion())
 
-    initData();
-    return () => { cancelled = true; };
-  }, []);
+  const initData = useCallback(async () => {
+    const storedVersion = getStoredDataVersion()
+    if (storedVersion && storedVersion !== dataVersion) {
+      clearCache()
+      setDataVersion(storedVersion)
+    }
+    try {
+      const [p, h, d, c, hs] = await Promise.all([
+        getPlaces(),
+        getHubs(),
+        getDistanceMatrix(),
+        getCircuits(),
+        getHomestays(),
+      ])
+      setPlaces(p || [])
+      setHubs(h || [])
+      setDistanceMatrix(d)
+      setCircuits(c || [])
+      setHomestays(hs || [])
+    } catch (err) {
+      console.error('Data initialization failed:', err)
+    } finally {
+      setLoading(false)
+    }
+  }, [dataVersion])
+
+  useEffect(() => {
+    let cancelled = false
+    const run = async () => {
+      await initData()
+      if (cancelled) return
+    }
+    run()
+    return () => { cancelled = true }
+  }, [initData])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const v = getStoredDataVersion()
+      if (v && v !== dataVersion) {
+        setDataVersion(v)
+        clearCache()
+        initData()
+      }
+    }, 15000)
+    return () => clearInterval(interval)
+  }, [dataVersion, initData])
 
   return (
     <DataContext.Provider value={{ places, hubs, circuits, homestays, distanceMatrix, loading }}>

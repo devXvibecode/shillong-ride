@@ -17,6 +17,16 @@ export function clearCache() {
   cacheTimestamp = 0;
 }
 
+export function getStoredDataVersion() {
+  try { return localStorage.getItem('sr_data_version') || null }
+  catch { return null }
+}
+
+export function getRestaurants() {
+  try { return JSON.parse(localStorage.getItem('sr_restaurants')) || [] }
+  catch { return [] }
+}
+
 async function fetchJson(name) {
   // Allow re-fetch if cache is older than TTL or forced
   if (cached[name] && Date.now() - cacheTimestamp < CACHE_TTL) return cached[name];
