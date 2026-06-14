@@ -11,8 +11,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: ${{ github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -36,12 +36,6 @@ jobs:
       - name: Scan Images
         run: node scripts/scan-images.cjs
 
-      - name: Commit manifest changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update image manifest [skip ci]"
-          file_pattern: 'src/data/images-manifest.json'
-
       - name: Build
         run: npm run build
         env:
@@ -50,14 +44,14 @@ jobs:
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_GITHUB_TOKEN: ${{ secrets.VITE_GITHUB_TOKEN }}
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+          name: github-pages-${{ github.run_id }}
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_id }}
