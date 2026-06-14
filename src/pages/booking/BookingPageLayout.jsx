@@ -1,8 +1,5 @@
-import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BOOKING_ROUTES } from '../../context/BookingContext';
-import RetroWindow from '../../components/RetroWindow';
-import { IconMotorcycle } from '../../components/icons/PixelIcons';
 
 const STEP_ORDER = [
   { route: BOOKING_ROUTES.type, label: 'Type' },
@@ -11,7 +8,7 @@ const STEP_ORDER = [
   { route: BOOKING_ROUTES.spots, label: 'Spots' },
   { route: BOOKING_ROUTES.stay, label: 'Stay' },
   { route: BOOKING_ROUTES.vehicle, label: 'Vehicle' },
-  { route: BOOKING_ROUTES.homestay, label: 'Homestay' },
+  { route: BOOKING_ROUTES.homestay, label: 'Home' },
   { route: BOOKING_ROUTES.pickup, label: 'Pickup' },
   { route: BOOKING_ROUTES.time, label: 'Time' },
   { route: BOOKING_ROUTES.confirmNormal, label: 'Review' },
@@ -19,11 +16,15 @@ const STEP_ORDER = [
   { route: BOOKING_ROUTES.confirmed, label: 'Done' },
 ];
 
+function getStepIndex(pathname) {
+  return STEP_ORDER.findIndex(s => pathname === s.route);
+}
+
 export default function BookingPageLayout({ children, title, subtitle, onBack, backLabel = 'Back' }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const currentIdx = STEP_ORDER.findIndex(s => location.pathname === s.route);
+  const currentIdx = getStepIndex(location.pathname);
   const totalSteps = 7;
   const stepNum = currentIdx >= 0 ? Math.min(currentIdx + 1, totalSteps) : 1;
 
@@ -34,34 +35,32 @@ export default function BookingPageLayout({ children, title, subtitle, onBack, b
 
   return (
     <div className="booking-page">
-      <RetroWindow
-        title={`Step ${stepNum} of ${totalSteps}`}
-        showMenu
-        titleVariant="split"
-        zigzag
-        onClose={() => navigate('/')}
-        icon={<IconMotorcycle size={16} />}
-        footer={
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%' }}>
-            {currentIdx > 0 && (
-              <button onClick={handleBack} className="retro-btn retro-btn-sm" style={{ marginRight: 'auto' }}>
-                « {backLabel}
-              </button>
-            )}
-            <div className="retro-progress" style={{ marginLeft: 'auto', gap: 4 }}>
-              {Array.from({ length: totalSteps }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`retro-progress-block ${i < stepNum - 1 ? 'filled' : ''} ${i === stepNum - 1 ? 'active' : ''}`}
-                />
-              ))}
-            </div>
-          </div>
-        }
-      >
-        {/* Step Status — brutalist counter */}
-        <div className="retro-statusbar-top" style={{ borderBottom: '4px solid var(--color-black)', marginBottom: 16 }}>
-          <div className="flex items-center gap-3">
+      {/* Progress bar */}
+      <div className="booking-progress">
+        <div className="booking-progress-inner">
+          {Array.from({ length: totalSteps }).map((_, i) => {
+            const isDone = i < stepNum - 1;
+            const isActive = i === stepNum - 1;
+            return (
+              <span key={i} style={{ display: 'contents' }}>
+                {i > 0 && <span className={`progress-line ${isDone ? 'done' : ''}`} />}
+                <span className={`progress-dot ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}`}>
+                  {isDone ? '✓' : i + 1}
+                </span>
+              </span>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="booking-content">
+        {/* Step label */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginBottom: 16, gap: 12, flexWrap: 'wrap',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <span className="brutal-number" style={{ fontSize: 11 }}>
               {String(stepNum).padStart(2, '0')}
             </span>
@@ -76,26 +75,31 @@ export default function BookingPageLayout({ children, title, subtitle, onBack, b
 
         {/* Title */}
         {title && (
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.12 }}
-          >
-            <h1 className="retro-dialog-title" style={{ fontSize: 24, borderLeft: '6px solid var(--color-hotpink)', paddingLeft: 12 }}>{title}</h1>
+          <div>
+            <h1 className="retro-dialog-title" style={{ fontSize: 24, borderLeft: '6px solid var(--color-hotpink)', paddingLeft: 12 }}>
+              {title}
+            </h1>
             {subtitle && <p className="retro-dialog-subtitle" style={{ marginLeft: 18 }}>{subtitle}</p>}
-          </motion.div>
+          </div>
         )}
 
-        {/* Content */}
-        <motion.div
-          key={location.pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.1 }}
-        >
-          {children}
-        </motion.div>
-      </RetroWindow>
+        {/* Children */}
+        {children}
+      </div>
+
+      {/* Bottom bar */}
+      <div className="booking-bottom">
+        <div className="booking-bottom-inner">
+          {currentIdx > 0 && (
+            <button onClick={handleBack} className="retro-btn retro-btn-sm">
+              « {backLabel}
+            </button>
+          )}
+          <div style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--color-gray)' }}>
+            Step {stepNum} of {totalSteps}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

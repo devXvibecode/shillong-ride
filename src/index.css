@@ -51,110 +51,69 @@ a, button, [role="button"], input[type="submit"], select, .clickable {
 .text-pine { color: var(--color-pine); }
 
 /* ============================================
-   RETRO DESKTOP
+   TOP NAVIGATION (replaces taskbar)
    ============================================ */
-.retro-desktop {
-  background: var(--color-desktop);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  user-select: none;
+.top-nav {
+  background: var(--color-cream);
+  border-bottom: 4px solid var(--color-black);
+  display: flex; align-items: center;
+  padding: 0 20px; height: 52px;
+  font-family: 'JetBrains Mono', monospace;
+  position: sticky; top: 0; z-index: 100;
 }
-.retro-desktop-bg {
-  position: fixed; inset: 0;
-  background: var(--color-desktop);
-  z-index: 0;
+.top-nav-logo {
+  font-family: 'Anton', sans-serif;
+  font-size: 22px; text-transform: uppercase;
+  text-decoration: none; color: var(--color-ink);
+  letter-spacing: 1px; line-height: 1;
+  flex-shrink: 0;
 }
-.retro-desktop-icons {
-  position: relative; z-index: 1;
-  display: flex; flex-wrap: wrap;
-  gap: 12px; padding: 24px;
-  align-content: flex-start;
+.top-nav-links {
+  display: flex; align-items: center; gap: 4px;
+  margin-left: 24px;
 }
-.retro-desktop-icon {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 4px;
-  padding: 8px; width: 80px;
-  text-align: center;
-  cursor: pointer;
+.top-nav-link {
+  padding: 6px 12px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; text-decoration: none;
+  color: var(--color-ink);
   border: 2px solid transparent;
 }
-.retro-desktop-icon:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.15);
+.top-nav-link:hover {
+  background: var(--color-cream-alt);
+  border-color: var(--color-black);
 }
-.retro-desktop-icon:active {
-  background: rgba(255,255,255,0.15);
-}
-.retro-desktop-icon svg {
-  width: 40px; height: 40px;
-  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
-}
-.retro-desktop-icon span {
-  color: white;
-  font-size: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-  line-height: 1.3;
-  word-break: break-word;
-}
-.retro-desktop-icon.selected {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.3);
-}
-
-/* Taskbar */
-.retro-taskbar {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  height: 36px;
-  background: var(--color-cream);
-  border-top: 3px solid var(--color-black);
-  display: flex; align-items: center;
-  padding: 0 4px; gap: 2px;
-  z-index: 1000;
-}
-.retro-start-btn {
+.top-nav-link.active {
   background: var(--color-orange);
   color: white;
-  border: 2px solid var(--color-black);
-  padding: 2px 12px;
+  border-color: var(--color-black);
+}
+.top-nav-cta {
+  margin-left: auto;
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px; font-weight: 700;
-  cursor: pointer;
-  height: 28px;
+  text-transform: uppercase; text-decoration: none;
+  padding: 8px 18px;
+  background: var(--color-hotpink);
+  color: white;
+  border: 3px solid var(--color-black);
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.85);
   display: flex; align-items: center; gap: 6px;
+  line-height: 1;
 }
-.retro-start-btn:active {
-  transform: translate(1px, 1px);
+.top-nav-cta:hover {
+  background: #E82E5C;
 }
-.retro-taskbar-divider {
-  width: 2px; height: 24px;
-  background: var(--color-black);
-  margin: 0 4px;
+.top-nav-cta:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 rgba(0,0,0,0.85);
 }
-.retro-taskbar-item {
-  padding: 2px 10px;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  background: var(--color-cream-light);
-  border: 1px solid var(--color-black);
-  height: 26px;
-  display: flex; align-items: center; gap: 6px;
-  cursor: pointer;
-}
-.retro-taskbar-item.active {
-  background: var(--color-cream-alt);
-  border-bottom: 2px solid var(--color-orange);
-}
-.retro-taskbar-right {
-  margin-left: auto;
-  display: flex; align-items: center; gap: 8px;
-  padding: 0 8px;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  height: 100%;
-  border-left: 2px solid var(--color-black);
+@media (max-width: 640px) {
+  .top-nav { padding: 0 12px; height: 44px; }
+  .top-nav-logo { font-size: 16px; }
+  .top-nav-links { gap: 2px; margin-left: 8px; }
+  .top-nav-link { font-size: 9px; padding: 4px 6px; }
+  .top-nav-cta { font-size: 10px; padding: 6px 12px; }
 }
 
 /* ============================================
@@ -618,17 +577,274 @@ select.retro-input {
 .retro-toast.error { border-left: 6px solid var(--color-error); }
 
 /* ============================================
+   LANDING PAGE
+   ============================================ */
+.landing-page {
+  background: var(--color-cream);
+  min-height: 100vh;
+}
+
+/* Hero */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 70vh;
+  border-bottom: 5px solid var(--color-black);
+}
+.hero-left {
+  background: var(--color-hotpink);
+  padding: 60px 40px;
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 20px;
+  color: white;
+}
+.hero-right {
+  background: var(--color-orange);
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+.hero-tagline {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px; text-transform: uppercase;
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--color-black);
+  color: var(--color-yellow);
+  width: fit-content;
+}
+.hero-heading {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+.hero-sub {
+  font-size: 12px; line-height: 1.5;
+  max-width: 400px; opacity: 0.9;
+}
+.hero-icon-box {
+  width: 120px; height: 120px;
+  border: 5px solid var(--color-black);
+  background: var(--color-yellow);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 8px 8px 0 0 rgba(0,0,0,0.85);
+  transform: rotate(3deg);
+}
+@media (max-width: 768px) {
+  .hero-section { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { padding: 40px 24px; }
+  .hero-right { padding: 40px 24px; align-items: flex-start; }
+  .hero-icon-box { width: 80px; height: 80px; }
+}
+
+/* Section container */
+.section-block {
+  padding: 60px 40px;
+  max-width: 1200px; margin: 0 auto;
+}
+.section-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 32px;
+}
+.section-number {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px; background: var(--color-black);
+  color: var(--color-yellow); padding: 6px 12px;
+  line-height: 1.2; flex-shrink: 0;
+}
+.section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px; text-transform: uppercase; line-height: 1;
+}
+@media (max-width: 640px) {
+  .section-block { padding: 40px 16px; }
+  .section-title { font-size: 24px; }
+}
+
+/* Circuit cards grid */
+.circuit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.circuit-card {
+  border: 4px solid var(--color-black);
+  box-shadow: 8px 8px 0 0 rgba(0,0,0,0.85);
+  background: var(--color-cream-light);
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color-ink);
+}
+.circuit-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 10px 10px 0 0 rgba(0,0,0,0.85);
+}
+.circuit-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.85);
+}
+.circuit-card-img {
+  height: 160px; overflow: hidden;
+  border-bottom: 4px solid var(--color-black);
+  position: relative;
+}
+.circuit-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.circuit-card-body {
+  padding: 14px;
+}
+.circuit-card-body h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px; text-transform: uppercase;
+  line-height: 1.1; margin-bottom: 4px;
+}
+.circuit-card-body p {
+  font-size: 10px; color: var(--color-gray);
+}
+.circuit-card-footer {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-top: 2px solid var(--color-black);
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+}
+
+/* How it works steps */
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.step-card {
+  border: 4px solid var(--color-black);
+  box-shadow: 8px 8px 0 0 rgba(0,0,0,0.85);
+  background: var(--color-cream-light);
+  padding: 24px;
+  text-align: center;
+}
+.step-number-block {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 24px; background: var(--color-black);
+  color: var(--color-yellow);
+  width: 48px; height: 48px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+  line-height: 1;
+}
+.step-card h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px; text-transform: uppercase;
+  line-height: 1.1; margin-bottom: 6px;
+}
+.step-card p {
+  font-size: 11px; color: var(--color-gray);
+}
+@media (max-width: 640px) {
+  .steps-row { grid-template-columns: 1fr; }
+}
+
+/* Stats bar */
+.stats-bar {
+  background: var(--color-black);
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 5px solid var(--color-hotpink);
+  border-bottom: 5px solid var(--color-hotpink);
+}
+.stats-item {
+  padding: 24px 16px;
+  text-align: center;
+  border-right: 2px solid rgba(255,255,255,0.15);
+}
+.stats-item:last-child { border-right: none; }
+.stats-number {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px; color: var(--color-yellow);
+  line-height: 1.3;
+}
+.stats-label {
+  font-size: 10px; text-transform: uppercase;
+  margin-top: 6px; opacity: 0.7;
+}
+@media (max-width: 640px) {
+  .stats-bar { grid-template-columns: 1fr; }
+  .stats-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); }
+}
+
+/* ============================================
    BOOKING PAGE LAYOUT
    ============================================ */
 .booking-page {
   min-height: 100vh;
-  background: var(--color-desktop);
-  display: flex; align-items: flex-start; justify-content: center;
-  padding: 40px 16px 60px;
+  background: var(--color-cream);
+  display: flex; flex-direction: column;
 }
-.booking-page > .retro-window {
+.booking-content {
+  flex: 1;
+  max-width: 800px; margin: 0 auto;
+  padding: 24px 16px 100px;
   width: 100%;
-  max-width: 800px;
+}
+
+/* Booking progress bar */
+.booking-progress {
+  background: var(--color-cream);
+  border-bottom: 4px solid var(--color-black);
+  padding: 12px 16px;
+  position: sticky; top: 52px; z-index: 50;
+}
+.booking-progress-inner {
+  max-width: 800px; margin: 0 auto;
+  display: flex; align-items: center; gap: 0;
+}
+.progress-dot {
+  width: 28px; height: 28px;
+  border: 3px solid var(--color-black);
+  border-radius: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px; font-weight: 700;
+  flex-shrink: 0;
+  background: white;
+  color: var(--color-ink);
+}
+.progress-dot.done {
+  background: var(--color-navy);
+  color: white;
+  border-color: var(--color-navy);
+}
+.progress-dot.active {
+  background: var(--color-hotpink);
+  color: white;
+  border-color: var(--color-hotpink);
+  box-shadow: 3px 3px 0 0 rgba(0,0,0,0.85);
+}
+.progress-line {
+  flex: 1; height: 3px;
+  background: var(--color-black);
+  min-width: 8px;
+}
+.progress-line.done {
+  background: var(--color-navy);
+}
+
+/* Booking bottom bar */
+.booking-bottom {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--color-cream);
+  border-top: 4px solid var(--color-black);
+  padding: 10px 16px;
+  z-index: 50;
+}
+.booking-bottom-inner {
+  max-width: 800px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 
 /* ============================================
@@ -648,7 +864,7 @@ select.retro-input {
 }
 @media (max-width: 640px) {
   .retro-split { grid-template-columns: 1fr; }
-  .booking-page { padding: 16px 8px 48px; }
+  .booking-progress { top: 44px; }
 }
 
 /* ============================================

@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import RetroWindow from '../components/RetroWindow';
-import { IconUser, IconMap, IconWarning, IconCheck } from '../components/icons/PixelIcons';
+import { IconUser, IconMap, IconCheck } from '../components/icons/PixelIcons';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
@@ -36,11 +35,20 @@ export default function Contact() {
   };
 
   return (
-    <div className="booking-page">
-      <RetroWindow title="Contact Us" titleVariant="clash" zigzag
-        footer={<span style={{ fontSize: 10 }}>© Shillong Ride — We reply within 24 hours</span>}
-      >
-        <div className="retro-split">
+    <div style={{ background: 'var(--color-cream)', minHeight: 'calc(100vh - 52px)' }}>
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: '40px 16px 60px' }}>
+        {/* Page header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
+          <span className="brutal-number" style={{ fontSize: 11 }}>CONTACT</span>
+          <h1 style={{
+            fontFamily: "'Anton', sans-serif", fontSize: 32,
+            textTransform: 'uppercase', lineHeight: 1,
+          }}>
+            Get in Touch
+          </h1>
+        </div>
+
+        <div className="retro-split" style={{ gap: 24 }}>
           {/* Form */}
           <div>
             <div className="retro-card" style={{ transform: 'rotate(-0.5deg)' }}>
@@ -174,7 +182,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
-      </RetroWindow>
+      </div>
     </div>
   );
 }

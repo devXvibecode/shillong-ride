@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
+import { useBooking } from '../../context/BookingContext';
 import BookingPageLayout from './BookingPageLayout';
-import { IconCheck, IconStar } from '../../components/icons/PixelIcons';
+import { IconCheck } from '../../components/icons/PixelIcons';
 
 function AnimatedPriceDisplay({ value }) {
   const [display, setDisplay] = useState(0);
@@ -95,7 +95,7 @@ export default function Confirmed() {
         </div>
 
         <h1 className="retro-dialog-title" style={{ fontSize: 22, marginBottom: 6, borderLeft: 'none', paddingLeft: 0 }}>
-          {isPremium ? 'YOUR RIDE IS SET!' : 'LET\'S RIDE!'}
+          {isPremium ? 'YOUR RIDE IS SET!' : "LET'S RIDE!"}
         </h1>
 
         <p style={{ fontSize: 11, color: 'var(--color-gray)', marginBottom: 16 }}>
@@ -130,7 +130,7 @@ export default function Confirmed() {
         </div>
 
         {/* Receipt with torn edge */}
-        <div className="retro-card brutal-torn" style={{ textAlign: 'left', marginBottom: 16, position: 'relative', paddingBottom: 20 }}>
+        <div className="retro-card" style={{ textAlign: 'left', marginBottom: 16, position: 'relative', paddingBottom: 20 }}>
           <div className="brutal-split" style={{
             fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
             padding: '6px 8px', margin: -16, marginBottom: 12,
@@ -157,14 +157,13 @@ export default function Confirmed() {
           </div>
         </div>
 
-        {/* Sticker on top of receipt */}
         <div className="brutal-stamp" style={{
-          right: 10, bottom: 20,
+          position: 'relative', display: 'inline-block', margin: '0 auto 16px',
           background: 'var(--color-yellow)',
           color: 'var(--color-ink)',
-          fontSize: 8,
+          fontSize: 8, transform: 'rotate(2deg)',
         }}>
-          PAY LATER
+          PAY AFTER RIDE
         </div>
 
         <div style={{ fontSize: 9, color: 'var(--color-gray)', marginBottom: 16, maxWidth: 350, margin: '0 auto 16px' }}>

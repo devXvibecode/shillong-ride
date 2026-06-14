@@ -46,7 +46,6 @@ export default function BookingType() {
                 position: 'relative',
               }}
             >
-              {/* Overlapping tape badge */}
               <span className="brutal-stamp" style={{
                 top: -10, right: -8,
                 background: card.id === 'premium' ? 'var(--color-hotpink)' : 'var(--color-navy)',

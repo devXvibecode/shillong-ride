@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import { useData } from '../../context/DataContext';
 import BookingPageLayout from './BookingPageLayout';
+import PlaceImage from '../../components/PlaceImage';
 import { IconMap, IconCheck } from '../../components/icons/PixelIcons';
 
 export default function Spots() {
@@ -68,19 +69,15 @@ export default function Spots() {
                 borderBottom: '3px solid var(--color-black)',
                 position: 'relative', overflow: 'hidden',
               }}>
-                {!imgLoaded[place.id] && (
-                  <div style={{ width: '100%', height: '100%' }} className="skeleton" />
-                )}
-                <img
-                  src={`https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop&sig=${place.id}`}
+                <PlaceImage
+                  placeId={place.id}
                   alt={place.name}
-                  className="pixel-art"
-                  style={{
-                    width: '100%', height: '100%', objectFit: 'cover',
-                    opacity: imgLoaded[place.id] ? 1 : 0,
-                  }}
                   onLoad={() => setImgLoaded(prev => ({ ...prev, [place.id]: true }))}
+                  className="w-full h-full"
                 />
+                {!imgLoaded[place.id] && (
+                  <div style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }} className="skeleton" />
+                )}
                 {isSelected && (
                   <div style={{
                     position: 'absolute', top: 6, right: 6,
