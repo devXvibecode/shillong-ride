@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import { useData } from '../../context/DataContext';
 import { calculateNormalPrice } from '../../engines/pricingEngine';
 import BookingPageLayout from './BookingPageLayout';
+import { IconCheck, IconWarning } from '../../components/icons/PixelIcons';
 
 export default function ConfirmNormal() {
   const navigate = useNavigate();
@@ -41,163 +41,160 @@ export default function ConfirmNormal() {
 
   return (
     <BookingPageLayout
+      title="CONFIRM BOOKING"
+      subtitle="Review your journey and enter your details"
       onBack={() => navigate(BOOKING_ROUTES.time)}
-      backLabel="Time Slot"
+      backLabel="Time"
     >
-      <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 max-w-6xl mx-auto">
+      <div className="retro-split">
         {/* Left: Journey Summary */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-          className="space-y-6"
-        >
-          <div className="neo-card p-6 sm:p-8">
-            <h3 className="font-anton text-xl text-primary mb-5 border-b-3 border-border pb-3 uppercase tracking-wider">
-              Your Journey
-            </h3>
-            <div className="space-y-4">
+        <div>
+          <div className="retro-card" style={{ marginBottom: 12 }}>
+            <div style={{
+              fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
+              borderBottom: '2px solid var(--color-black)',
+              paddingBottom: 6, marginBottom: 10,
+            }}>
+              Journey Summary
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[
                 { label: 'Region', value: selectedCircuit?.name },
                 { label: 'Group', value: groupType },
                 { label: 'Pickup', value: hub?.name || nodalPoint },
                 { label: 'Time', value: timeSlot },
                 { label: 'Spots', value: `${selectedSpots.length} selected` },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.06 }}
-                  className="flex justify-between items-center py-2 border-b border-border/50"
-                >
-                  <span className="text-text-muted font-anton text-xs uppercase tracking-wider">{item.label}</span>
-                  <span className="text-text-primary font-anton text-sm uppercase">{item.value}</span>
-                </motion.div>
+              ].map(item => (
+                <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, borderBottom: '1px solid var(--color-black)', paddingBottom: 4 }}>
+                  <span style={{ color: 'var(--color-gray)', fontWeight: 700, textTransform: 'uppercase', fontSize: 9 }}>{item.label}</span>
+                  <span style={{ fontWeight: 700, textTransform: 'uppercase' }}>{item.value}</span>
+                </div>
               ))}
             </div>
           </div>
 
-          <div className="neo-card p-6 sm:p-8">
-            <h3 className="font-anton text-xl text-primary mb-5 border-b-3 border-border pb-3 uppercase tracking-wider">
+          <div className="retro-card">
+            <div style={{
+              fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
+              borderBottom: '2px solid var(--color-black)',
+              paddingBottom: 6, marginBottom: 10,
+            }}>
               Pricing
-            </h3>
-            <div className="space-y-3 mb-5">
-              <div className="flex justify-between items-center py-1.5">
-                <span className="text-text-muted font-anton text-xs uppercase tracking-wider">Rider Fee</span>
-                <span className="text-text-primary font-bold">₹{price.riderFee}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
+                <span style={{ color: 'var(--color-gray)', textTransform: 'uppercase', fontSize: 9 }}>Rider Fee</span>
+                <span>₹{price.riderFee}</span>
               </div>
-              <div className="flex justify-between items-center py-1.5">
-                <span className="text-text-muted font-anton text-xs uppercase tracking-wider">Fuel (Est.)</span>
-                <span className="text-text-primary font-bold">₹{price.fuelCost}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
+                <span style={{ color: 'var(--color-gray)', textTransform: 'uppercase', fontSize: 9 }}>Fuel (Est.)</span>
+                <span>₹{price.fuelCost}</span>
               </div>
-              <div className="flex justify-between items-center py-1.5">
-                <span className="text-text-muted font-anton text-xs uppercase tracking-wider">Service Fee</span>
-                <span className="text-text-primary font-bold">₹{price.serviceTotal}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
+                <span style={{ color: 'var(--color-gray)', textTransform: 'uppercase', fontSize: 9 }}>Service Fee</span>
+                <span>₹{price.serviceTotal}</span>
               </div>
             </div>
-            <div className="border-t-3 border-border pt-4 flex justify-between items-end">
-              <span className="font-anton text-2xl text-text-primary">Total</span>
-              <motion.span
-                key={price.groupTotal}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="font-anton text-4xl sm:text-5xl text-primary"
-              >
+            <div style={{
+              borderTop: '3px solid var(--color-black)', paddingTop: 8,
+              display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+            }}>
+              <span style={{ fontSize: 16, fontWeight: 700, textTransform: 'uppercase' }}>Total</span>
+              <span style={{ fontSize: 24, fontWeight: 700, fontFamily: "'Anton', sans-serif", color: 'var(--color-orange)' }}>
                 ₹{price.groupTotal}
-              </motion.span>
+              </span>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Right: Contact Form */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.15 }}
-        >
-          <div className="neo-card p-6 sm:p-8">
-            <h3 className="font-anton text-xl text-primary mb-6 border-b-3 border-border pb-3 uppercase tracking-wider">
+        <div>
+          <div className="retro-card">
+            <div style={{
+              fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
+              borderBottom: '2px solid var(--color-black)',
+              paddingBottom: 6, marginBottom: 12,
+            }}>
               Contact Details
-            </h3>
+            </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-1.5">
-                <label className="font-anton text-xs text-text-secondary uppercase tracking-wider">
-                  Your Name <span className="text-error">*</span>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                  Your Name <span style={{ color: 'var(--color-error)' }}>*</span>
                 </label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => { updateFormField('name', e.target.value); setErrors(prev => ({ ...prev, name: '' })); }}
-                  className={`neo-input ${errors.name ? 'border-error' : ''}`}
-                  placeholder="ENTER FULL NAME"
-                  aria-label="Full name"
+                  className={`retro-input ${errors.name ? 'error' : ''}`}
+                  placeholder="FULL NAME"
                 />
-                {errors.name && <p className="text-error text-[10px] font-anton mt-1">{errors.name}</p>}
+                {errors.name && <div style={{ color: 'var(--color-error)', fontSize: 9, marginTop: 2 }}>{errors.name}</div>}
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-anton text-xs text-text-secondary uppercase tracking-wider">
-                  Phone Number <span className="text-error">*</span>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                  Phone Number <span style={{ color: 'var(--color-error)' }}>*</span>
                 </label>
                 <input
                   type="tel"
                   required
                   value={formData.phone}
                   onChange={(e) => { updateFormField('phone', e.target.value); setErrors(prev => ({ ...prev, phone: '' })); }}
-                  className={`neo-input ${errors.phone ? 'border-error' : ''}`}
-                  placeholder="ENTER 10-DIGIT NUMBER"
-                  aria-label="Phone number"
+                  className={`retro-input ${errors.phone ? 'error' : ''}`}
+                  placeholder="10-DIGIT NUMBER"
                 />
-                {errors.phone && <p className="text-error text-[10px] font-anton mt-1">{errors.phone}</p>}
+                {errors.phone && <div style={{ color: 'var(--color-error)', fontSize: 9, marginTop: 2 }}>{errors.phone}</div>}
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-anton text-xs text-text-secondary uppercase tracking-wider">
-                  Special Requests (Optional)
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                  Special Requests
                 </label>
                 <textarea
                   value={formData.notes}
                   onChange={(e) => updateFormField('notes', e.target.value)}
-                  className="neo-input min-h-[80px] resize-none"
+                  className="retro-input"
                   placeholder="DIETARY, ACCESSIBILITY, ETC."
-                  aria-label="Special requests"
+                  style={{ minHeight: 50 }}
                 />
               </div>
 
               {errors.submit && (
-                <div className="neo-card p-4 bg-error/10 border-error">
-                  <p className="text-error font-anton text-xs">{errors.submit}</p>
+                <div className="retro-card" style={{ background: '#FFEEEE', padding: 10, display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <IconWarning size={16} style={{ flexShrink: 0, color: 'var(--color-error)' }} />
+                  <span style={{ fontSize: 10, color: 'var(--color-error)' }}>{errors.submit}</span>
                 </div>
               )}
 
-              <div className="pt-4">
-                <motion.button
+              <div style={{ paddingTop: 4 }}>
+                <button
                   type="submit"
                   disabled={submitting}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="neo-btn-primary w-full py-4 sm:py-5 text-lg sm:text-xl tracking-widest flex items-center justify-center gap-3"
+                  className="retro-btn retro-btn-primary retro-btn-lg"
+                  style={{ width: '100%', justifyContent: 'center' }}
                 >
                   {submitting ? (
-                    <>
-                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div className="retro-spinner" />
                       PROCESSING...
-                    </>
-                  ) : 'CONFIRM BOOKING →'}
-                </motion.button>
-                <p className="text-text-muted text-[10px] font-bold mt-4 text-center uppercase leading-relaxed">
+                    </span>
+                  ) : (
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <IconCheck size={16} />
+                      CONFIRM BOOKING →
+                    </span>
+                  )}
+                </button>
+                <div style={{ fontSize: 8, color: 'var(--color-gray)', textAlign: 'center', marginTop: 8 }}>
                   By confirming, you agree to our terms. Our team will contact you within 2 hours.
-                </p>
+                </div>
               </div>
             </form>
           </div>
-        </motion.div>
+        </div>
       </div>
     </BookingPageLayout>
   );

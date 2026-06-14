@@ -1,40 +1,32 @@
 import { motion } from 'framer-motion';
+import { IconClose } from './icons/PixelIcons';
 
 export default function Modal({ children, open, onClose, title }) {
   if (!open) return null;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-      onClick={onClose}
-    >
+    <div className="retro-overlay" onClick={onClose}>
       <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-        transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-        className="neo-card w-full max-w-xl mx-4 p-6 sm:p-8"
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.85 }}
+        transition={{ duration: 0.12 }}
+        className="retro-window"
+        style={{ maxWidth: 500, width: '100%' }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="font-anton text-xl text-text-primary uppercase tracking-wider">{title || 'Details'}</h3>
-          <button
-            onClick={onClose}
-            className="w-10 h-10 rounded-lg flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-surface-lighter transition-all min-h-[44px] min-w-[44px]"
-            aria-label="Close dialog"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+        <div className="retro-titlebar" style={{ background: 'var(--color-navy)' }}>
+          <div className="retro-titlebar-left">
+            <span className="retro-titlebar-text">{title || 'Dialog'}</span>
+          </div>
+          <div className="retro-titlebar-controls">
+            <button className="retro-control retro-control-close" onClick={onClose} aria-label="Close">×</button>
+          </div>
         </div>
-        <div className="space-y-4">
+        <div className="retro-window-body">
           {children}
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }

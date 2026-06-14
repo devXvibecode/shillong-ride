@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import BookingPageLayout from './BookingPageLayout';
+import { IconCheck } from '../../components/icons/PixelIcons';
 
 function AnimatedPriceDisplay({ value }) {
   const [display, setDisplay] = useState(0);
-  const [started, setStarted] = useState(false);
+  const startedRef = useRef(false);
 
-  useState(() => {
-    if (!started) {
-      setStarted(true);
+  useEffect(() => {
+    if (!startedRef.current) {
+      startedRef.current = true;
       const duration = 800;
       const start = performance.now();
       const frame = requestAnimationFrame(function animate(now) {
@@ -19,15 +19,17 @@ function AnimatedPriceDisplay({ value }) {
         setDisplay(Math.round(progress * value));
         if (progress < 1) requestAnimationFrame(animate);
       });
+      return () => cancelAnimationFrame(frame);
     }
-  });
+  }, [value]);
 
   return <span>₹{display.toLocaleString('en-IN')}</span>;
 }
 
 function RevealId({ id }) {
   const [revealed, setRevealed] = useState('');
-  useState(() => {
+
+  useEffect(() => {
     if (!id) return;
     let i = 0;
     const interval = setInterval(() => {
@@ -36,16 +38,12 @@ function RevealId({ id }) {
       if (i >= id.length) clearInterval(interval);
     }, 50);
     return () => clearInterval(interval);
-  });
+  }, [id]);
 
   return (
-    <span className="text-primary font-anton text-sm tracking-wider">
+    <span style={{ color: 'var(--color-orange)', fontWeight: 700, fontSize: 12 }}>
       {revealed}
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.5, repeat: Infinity }}
-        className="text-primary/50"
-      >|</motion.span>
+      <span className="animate-blink" style={{ color: 'var(--color-orange)' }}>|</span>
     </span>
   );
 }
@@ -57,12 +55,11 @@ export default function Confirmed() {
   if (!booking) {
     return (
       <BookingPageLayout>
-        <div className="neo-card p-12 text-center max-w-lg mx-auto">
-          <p className="text-text-muted font-anton text-xl mb-6">No booking found.</p>
-          <button
-            onClick={() => { reset(); navigate('/'); }}
-            className="neo-btn-primary px-8 py-4"
-          >
+        <div className="retro-card" style={{ textAlign: 'center', padding: 32, maxWidth: 400, margin: '0 auto' }}>
+          <div style={{ fontSize: 12, color: 'var(--color-gray)', marginBottom: 16 }}>
+            No booking found.
+          </div>
+          <button onClick={() => { reset(); navigate('/'); }} className="retro-btn retro-btn-primary">
             Book a Tour
           </button>
         </div>
@@ -75,150 +72,93 @@ export default function Confirmed() {
 
   return (
     <BookingPageLayout>
-      <div className="max-w-lg mx-auto text-center">
-        {/* Success Icon */}
-        <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: 'spring', stiffness: 180, damping: 14 }}
-          className="w-28 h-28 mx-auto mb-6"
-        >
-          <div className="w-full h-full flex items-center justify-center border-4 border-success bg-success/10 shadow-neo">
-            <motion.svg
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </motion.svg>
-          </div>
-        </motion.div>
+      <div style={{ maxWidth: 450, margin: '0 auto', textAlign: 'center' }}>
+        {/* Success icon */}
+        <div style={{
+          width: 72, height: 72, margin: '0 auto 12px',
+          border: '4px solid var(--color-pine)',
+          background: 'var(--color-pine)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '6px 6px 0 0 rgba(0,0,0,0.85)',
+        }}>
+          <IconCheck size={40} style={{ color: 'white' }} />
+        </div>
 
-        {/* Status Badge */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.4, type: 'spring', stiffness: 150 }}
-          className="inline-flex items-center px-6 py-2 mx-auto mb-4 neo-card bg-primary"
-        >
-          <span className="font-anton text-black text-sm uppercase tracking-[0.15em]">
-            {isPremium ? 'PREMIUM CONFIRMED' : 'ADVENTURE CONFIRMED'}
-          </span>
-        </motion.div>
+        {/* Status badge */}
+        <div className="retro-badge retro-badge-green" style={{ fontSize: 8, margin: '0 auto 10px', padding: '4px 12px' }}>
+          {isPremium ? 'PREMIUM CONFIRMED' : 'ADVENTURE CONFIRMED'}
+        </div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="font-anton text-3xl sm:text-4xl text-text-primary uppercase mb-3"
-        >
+        <h1 className="retro-dialog-title" style={{ fontSize: 22, marginBottom: 6 }}>
           {isPremium ? 'Your Premium Experience Is Set!' : 'Your Adventure Is Set!'}
-        </motion.h2>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="text-text-secondary text-sm mb-6 max-w-sm mx-auto leading-relaxed"
-        >
+        <p style={{ fontSize: 11, color: 'var(--color-gray)', marginBottom: 16 }}>
           {isPremium
             ? 'Pack your bags — your premium Meghalaya experience awaits.'
             : 'Pack your bags — your ShillongRide adventure awaits.'}
-        </motion.p>
+        </p>
 
         {/* Booking Details */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="neo-card p-6 sm:p-7 text-left mb-4"
-        >
-          <p className="font-anton text-text-muted text-[10px] uppercase tracking-wider mb-3 border-b-3 border-border pb-2">
+        <div className="retro-card" style={{ textAlign: 'left', marginBottom: 8 }}>
+          <div style={{
+            fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
+            borderBottom: '3px solid var(--color-black)',
+            paddingBottom: 6, marginBottom: 8,
+            color: 'var(--color-gray)',
+          }}>
             Booking Details
-          </p>
-          <div className="space-y-2">
-            <div className="flex justify-between items-center py-1.5 border-b border-border/50">
-              <span className="text-text-muted font-anton text-xs uppercase tracking-wider">Booking ID</span>
-              <RevealId id={booking.id} />
-            </div>
-            <div className="flex justify-between items-center py-1.5 border-b border-border/50">
-              <span className="text-text-muted font-anton text-xs uppercase tracking-wider">Package</span>
-              <span className="text-text-primary font-anton text-sm tracking-wider">{isPremium ? 'Premium' : 'Standard'}</span>
-            </div>
-            <div className="flex justify-between items-center py-1.5 border-b border-border/50">
-              <span className="text-text-muted font-anton text-xs uppercase tracking-wider">Circuit</span>
-              <span className="text-text-primary font-anton text-sm tracking-wider">{booking.circuitName}</span>
-            </div>
-            <div className="flex justify-between items-center py-1.5 border-b border-border/50">
-              <span className="text-text-muted font-anton text-xs uppercase tracking-wider">Name</span>
-              <span className="text-text-primary font-anton text-sm tracking-wider">{booking.name}</span>
-            </div>
-            <div className="flex justify-between items-center py-1.5">
-              <span className="text-text-muted font-anton text-xs uppercase tracking-wider">Phone</span>
-              <span className="text-text-primary font-anton text-sm tracking-wider">{booking.phone}</span>
-            </div>
           </div>
-        </motion.div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {[
+              { label: 'Booking ID', value: <RevealId id={booking.id} /> },
+              { label: 'Package', value: isPremium ? 'Premium' : 'Standard' },
+              { label: 'Circuit', value: booking.circuitName },
+              { label: 'Name', value: booking.name },
+              { label: 'Phone', value: booking.phone },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, borderBottom: '1px solid var(--color-black)', paddingBottom: 4 }}>
+                <span style={{ color: 'var(--color-gray)', fontWeight: 700, textTransform: 'uppercase', fontSize: 9 }}>{item.label}</span>
+                <span style={{ fontWeight: 700 }}>{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Receipt */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="neo-card p-6 sm:p-7 text-left mb-8"
-        >
-          <p className="font-anton text-text-muted text-[10px] uppercase tracking-wider mb-4 border-b-3 border-primary/20 pb-2">
+        <div className="retro-card" style={{ textAlign: 'left', marginBottom: 16 }}>
+          <div style={{
+            fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
+            borderBottom: '3px solid var(--color-orange)',
+            paddingBottom: 6, marginBottom: 8,
+            color: 'var(--color-gray)',
+          }}>
             {isPremium ? 'PREMIUM RECEIPT' : 'PAYMENT RECEIPT'}
-          </p>
-          <div className="space-y-2.5">
-            <div className="flex justify-between items-center py-1.5 border-b border-border/50">
-              <span className="text-text-muted font-anton text-xs">Total</span>
-              <span className="font-anton text-2xl text-primary">
-                <AnimatedPriceDisplay value={p?.total || p?.groupTotal || 0} />
-              </span>
-            </div>
           </div>
-          <div className="mt-4 pt-3 border-t-3 border-dashed border-border text-center">
-            <p className="text-text-muted/50 text-[10px] font-anton uppercase tracking-widest">
-              PACK YOUR BAGS — YOUR ADVENTURE AWAITS
-            </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0' }}>
+            <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>Total</span>
+            <span style={{ fontSize: 28, fontWeight: 700, fontFamily: "'Anton', sans-serif", color: 'var(--color-orange)' }}>
+              <AnimatedPriceDisplay value={p?.total || p?.groupTotal || 0} />
+            </span>
           </div>
-        </motion.div>
+          <div className="retro-divider" style={{ margin: '8px 0' }} />
+          <div style={{ textAlign: 'center', fontSize: 8, color: 'var(--color-gray)' }}>
+            PACK YOUR BAGS — YOUR ADVENTURE AWAITS
+          </div>
+        </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="text-text-muted text-xs mb-8 max-w-sm mx-auto leading-relaxed"
-        >
+        <div style={{ fontSize: 9, color: 'var(--color-gray)', marginBottom: 16, maxWidth: 350, margin: '0 auto 16px' }}>
           Payment is collected after the ride — cash or UPI. A confirmation has been sent to our team. 
           We are a small Shillong startup, and every booking means the world to us.
-        </motion.p>
+        </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => { reset(); navigate('/'); }}
-            className="neo-btn-primary px-8 sm:px-12 py-4 text-base tracking-widest"
-          >
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button onClick={() => { reset(); navigate('/'); }} className="retro-btn retro-btn-primary retro-btn-lg">
             Book Another Tour
-          </motion.button>
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => navigate('/my-bookings')}
-            className="neo-btn px-8 sm:px-12 py-4 text-base tracking-widest"
-          >
+          </button>
+          <button onClick={() => navigate('/my-bookings')} className="retro-btn retro-btn-lg">
             View My Bookings
-          </motion.button>
+          </button>
         </div>
       </div>
     </BookingPageLayout>
