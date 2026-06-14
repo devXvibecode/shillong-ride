@@ -37,7 +37,7 @@ export default function Homestay() {
             <IconHome size={32} style={{ margin: '0 auto 8px', display: 'block', color: 'var(--color-orange)' }} />
             <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 4 }}>No homestays available</div>
             <div style={{ fontSize: 10, color: 'var(--color-gray)' }}>
-              No homestays found for {selectedCircuit?.name || 'this circuit'}. Please go back and select a different circuit.
+              No homestays found for {selectedCircuit?.name || 'this route'}. Please go back and choose a different route.
             </div>
           </div>
         </div>

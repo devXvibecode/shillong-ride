@@ -19,7 +19,7 @@ export default function Circuit() {
 
   return (
     <BookingPageLayout
-      title="SELECT CIRCUIT"
+      title="CHOOSE YOUR ROUTE"
       subtitle="Pick your path through Meghalaya"
       onBack={() => navigate(BOOKING_ROUTES.group)}
       backLabel="Group"
@@ -98,7 +98,7 @@ export default function Circuit() {
               {/* Footer */}
               <div className="circuit-card-footer glass-inner" style={{ background: 'var(--color-glass-heavy)' }}>
                 <IconMap size={14} style={{ color: c.color || 'var(--color-orange)' }} />
-                <span>Select this circuit</span>
+                <span>Choose this route</span>
                 <span style={{ marginLeft: 'auto', fontSize: 12 }}>→</span>
               </div>
             </div>
@@ -109,7 +109,7 @@ export default function Circuit() {
       {(!circuits || circuits.length === 0) && (
         <div className="retro-card glass-brutal" style={{ textAlign: 'center', padding: 24 }}>
           <div className="retro-spinner" style={{ margin: '0 auto 8px' }} />
-          <span style={{ fontSize: 11 }}>Loading circuits...</span>
+          <span style={{ fontSize: 11 }}>Loading routes...</span>
         </div>
       )}
     </BookingPageLayout>

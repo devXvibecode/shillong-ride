@@ -25,7 +25,7 @@ export default function ImageUploader() {
   const circuit = circuits.find(c => c.id === circuitId);
   const availableSpots = circuit
     ? [
-        { id: circuit.id, name: "[CIRCUIT HEADER IMAGE]" },
+        { id: circuit.id, name: "[ROUTE HEADER IMAGE]" },
         ...circuit.spots.map(id => places.find(p => p.id === id)).filter(Boolean)
       ]
     : [];
@@ -41,7 +41,7 @@ export default function ImageUploader() {
 
   const handleUpload = async () => {
     if (!circuitId || !spotId || !file) {
-      setStatus({ type: 'error', text: 'Select a circuit, spot, and image file.' });
+      setStatus({ type: 'error', text: 'Select a route, spot, and image file.' });
       return;
     }
 
@@ -78,7 +78,7 @@ export default function ImageUploader() {
   if (!loaded) {
     return (
       <div className="bg-white border-4 border-var-border shadow-neo-lg p-6 flex items-center justify-center">
-        <p className="text-black/50 text-sm font-bold">Loading circuits & places...</p>
+        <p className="text-black/50 text-sm font-bold">Loading routes & places...</p>
       </div>
     );
   }
@@ -96,13 +96,13 @@ export default function ImageUploader() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="text-black/60 text-xs font-black uppercase tracking-wider mb-1.5 block">Circuit</label>
+          <label className="text-black/60 text-xs font-black uppercase tracking-wider mb-1.5 block">Route</label>
           <select
             value={circuitId}
             onChange={(e) => { setCircuitId(e.target.value); setSpotId(''); }}
             className="w-full px-3 py-2.5 border-4 border-var-border shadow-neo text-black text-sm font-bold focus:outline-none appearance-none"
           >
-            <option value="">Select circuit...</option>
+            <option value="">Select route...</option>
             {circuits.map(c => (
               <option key={c.id} value={c.id}>{c.shortName}</option>
             ))}

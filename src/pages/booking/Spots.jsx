@@ -28,9 +28,9 @@ export default function Spots() {
   return (
     <BookingPageLayout
       title="SELECT SPOTS"
-      subtitle={`Pick up to ${maxSpots} destinations`}
+      subtitle={`Pick up to ${maxSpots} spots`}
       onBack={() => navigate(BOOKING_ROUTES.circuit)}
-      backLabel="Circuit"
+      backLabel="Route"
     >
       {/* Status bar */}
       <div style={{
@@ -40,7 +40,7 @@ export default function Spots() {
         marginBottom: 16, boxShadow: '4px 4px 0 0 rgba(0,0,0,0.85)',
       }}>
         <span className="retro-badge retro-badge-navy" style={{ fontSize: 9 }}>
-          {selectedCircuit?.shortName || 'Circuit'}
+          {selectedCircuit?.shortName || 'Route'}
         </span>
         <span className="brutal-number" style={{ fontSize: 12 }}>
           {selectedSpots.length}/{maxSpots}

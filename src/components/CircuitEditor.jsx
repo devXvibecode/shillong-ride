@@ -94,7 +94,7 @@ function PlaceRow({ place, idx, onEdit, onRemove, onManageImages }) {
                 className="w-full px-3 py-2 text-left text-xs text-red-500 hover:bg-red-100 flex items-center gap-2 font-bold"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
-                Remove from Circuit
+                Remove from Route
               </button>
             </motion.div>
           )}
@@ -387,20 +387,20 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
 
   return (
     <>
-      <Modal open={true} onClose={onClose} title={`Edit Circuit: ${circuit.shortName}`} subtitle={`${circuitSpots.length} spots in this circuit`}>
+      <Modal open={true} onClose={onClose} title={`Edit Route: ${circuit.shortName}`} subtitle={`${circuitSpots.length} spots in this route`}>
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left: Circuit spots */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-4">
-                <p className="font-['Anton'] text-black/50 text-[10px] uppercase tracking-[0.15em]">Spots in this circuit</p>
+                <p className="font-['Anton'] text-black/50 text-[10px] uppercase tracking-[0.15em]">Spots in this route</p>
                 <button
                   type="button"
-                  onClick={() => setManagingImagesPlace({ id: circuit.id, name: `${circuit.name} (Circuit Image)` })}
+                  onClick={() => setManagingImagesPlace({ id: circuit.id, name: `${circuit.name} (Route Image)` })}
                   className="px-3 py-1 bg-black text-white text-[9px] font-black uppercase tracking-wider border-2 border-var-border hover:bg-yellow-500 hover:text-black transition-all flex items-center gap-1"
                 >
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
-                  Manage Circuit Images
+                  Manage Route Images
                 </button>
               </div>
               <span className="text-black/30 text-[9px] font-mono">Drag arrows to reorder</span>
@@ -409,7 +409,7 @@ export default function CircuitEditor({ circuit, allPlaces, onClose, onSaved, on
             <div className="space-y-2 mb-4 max-h-[400px] overflow-y-auto pr-1">
               {circuitSpots.length === 0 ? (
                 <div className="text-center py-8 border-4 border-var-border shadow-neo bg-white">
-                  <p className="text-black/40 text-xs font-['Anton'] uppercase tracking-wider">No spots in this circuit</p>
+                  <p className="text-black/40 text-xs font-['Anton'] uppercase tracking-wider">No spots in this route</p>
                   <p className="text-black/30 text-[10px] font-mono mt-1">Add spots from the right panel</p>
                 </div>
               ) : circuitSpots.map((place, i) => (

@@ -385,7 +385,7 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
               {expandedId === booking.id && (
                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="border-t-4 border-var-border px-4 py-4 bg-white">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                    <div><p className="text-black/50 text-[10px] font-black uppercase tracking-wider mb-0.5">Circuit</p><p className="text-black text-sm font-bold">{booking.circuitName || booking.circuitId || '—'}</p></div>
+                    <div><p className="text-black/50 text-[10px] font-black uppercase tracking-wider mb-0.5">Route</p><p className="text-black text-sm font-bold">{booking.circuitName || booking.circuitId || '—'}</p></div>
                     <div><p className="text-black/50 text-[10px] font-black uppercase tracking-wider mb-0.5">Pickup</p><p className="text-black text-sm font-bold">{booking.timeSlot || 'TBD'} {booking.nodalPoint ? `@ ${booking.nodalPoint}` : ''}</p></div>
                     <div><p className="text-black/50 text-[10px] font-black uppercase tracking-wider mb-0.5">Places</p><p className="text-black text-sm font-bold">{(booking.spotIds || booking.spots || []).map(getPlaceName).join(', ') || '—'}</p></div>
                     <div><p className="text-black/50 text-[10px] font-black uppercase tracking-wider mb-0.5">Distance</p><p className="text-black text-sm font-bold">{getRouteDistance(booking)} km</p></div>
@@ -463,7 +463,7 @@ function BookingsView({ bookings, places, onUpdateStatus, onDeleteBooking, onWha
 function CircuitsView({ places, circuits, onCircuitEdit, onToast, onRefresh }) {
   return (
     <div>
-      <p className="text-black/50 text-xs font-bold mb-4">{places.length} places across {circuits.length} circuits</p>
+      <p className="text-black/50 text-xs font-bold mb-4">{places.length} places across {circuits.length} routes</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {circuits.map((circuit, i) => {
           const spotCount = circuit.spots.length;
@@ -871,7 +871,7 @@ export default function AdminPanel() {
   }, [showToast, refreshAllData]);
 
   const exportCSV = useCallback(() => {
-    const headers = ['ID','Name','Phone','Circuit','Group','Vehicle','Pickup','Spots','Distance','Time','Status','Rider','Revenue','Route Distance','Notes','Created At'];
+    const headers = ['ID','Name','Phone','Route','Group','Vehicle','Pickup','Spots','Distance','Time','Status','Rider','Revenue','Route Distance','Notes','Created At'];
     const rows = allBookings.map(b => [
       b.id, b.name, b.phone, b.circuitName || b.circuitId || '', b.groupType || '', b.vehicleType || 'bike',
       b.nodalPoint || b.pickupLocation || 'Shillong',
@@ -940,7 +940,7 @@ export default function AdminPanel() {
             { id: 'bookings', label: '📋 Bookings' },
             { id: 'catalog', label: '🏷️ Catalog' },
             { id: 'riders', label: '🏍️ Riders' },
-            { id: 'circuits', label: '🗺️ Circuits' },
+            { id: 'circuits', label: '🗺️ Routes' },
             { id: 'images', label: '🖼️ Images' },
             { id: 'activity', label: '📜 Activity' },
           ].map(t => (
@@ -974,7 +974,7 @@ export default function AdminPanel() {
         onCancel={() => setDeleteConfirmId(null)} />
 
       {editingCircuit && <CircuitEditor circuit={editingCircuit} allPlaces={places} onClose={() => setEditingCircuit(null)}
-        onSaved={() => { showToast('Circuit saved!', 'success'); refreshAllData(false); }} onError={(msg) => showToast(msg, 'error')} />}
+        onSaved={() => { showToast('Route saved!', 'success'); refreshAllData(false); }} onError={(msg) => showToast(msg, 'error')} />}
 
       <WhatsAppTemplateSelector
         open={!!whatsAppBooking}

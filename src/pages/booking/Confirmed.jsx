@@ -117,7 +117,7 @@ export default function Confirmed() {
             {[
               { label: 'Booking ID', value: <RevealId id={booking.id} /> },
               { label: 'Package', value: isPremium ? 'Premium' : 'Standard' },
-              { label: 'Circuit', value: booking.circuitName },
+              { label: 'Route', value: booking.circuitName },
               { label: 'Name', value: booking.name },
               { label: 'Phone', value: booking.phone },
             ].map((item, i) => (
