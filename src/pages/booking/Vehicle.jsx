@@ -20,7 +20,9 @@ const VEHICLES = [
 
 export default function Vehicle() {
   const navigate = useNavigate();
-  const { setVehicleType } = useBooking();
+  const { setVehicleType, groupType } = useBooking();
+  const isGroup = groupType !== 'solo';
+  const vehicles = isGroup ? VEHICLES.filter(v => v.id === 'car') : VEHICLES;
 
   const handleSelect = (id) => {
     setVehicleType(id);
@@ -30,12 +32,12 @@ export default function Vehicle() {
   return (
     <BookingPageLayout
       title="SELECT VEHICLE"
-      subtitle="Choose your ride"
+      subtitle={isGroup ? '4-wheeler only for groups' : 'Choose your ride'}
       onBack={() => navigate(BOOKING_ROUTES.spots)}
       backLabel="Spots"
     >
       <div className="retro-radio-group">
-        {VEHICLES.map((v) => (
+        {vehicles.map((v) => (
           <button
             key={v.id}
             onClick={() => handleSelect(v.id)}
@@ -71,6 +73,13 @@ export default function Vehicle() {
             </div>
           </button>
         ))}
+        {isGroup && (
+          <div className="retro-card glass-brutal" style={{ marginTop: 8, padding: 10, textAlign: 'center' }}>
+            <div style={{ fontSize: 9, color: 'var(--color-gray)' }}>
+              Groups are assigned a 4-wheeler automatically for comfort and space.
+            </div>
+          </div>
+        )}
       </div>
     </BookingPageLayout>
   );

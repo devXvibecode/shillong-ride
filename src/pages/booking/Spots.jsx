@@ -19,7 +19,7 @@ function spotImg(placeId) {
 
 export default function Spots() {
   const navigate = useNavigate();
-  const { selectedCircuit, selectedSpots, addSpot, isPremium, groupType } = useBooking();
+  const { selectedCircuit, selectedSpots, addSpot, isPremium } = useBooking();
   const { places } = useData();
   const [imgLoaded, setImgLoaded] = useState({});
   const prevLengthRef = useRef(selectedSpots.length);
@@ -31,7 +31,7 @@ export default function Spots() {
   useEffect(() => {
     const prev = prevLengthRef.current;
     if (prev < selectedSpots.length && selectedSpots.length >= maxSpots) {
-      navigate(isPremium ? (groupType === 'solo' ? BOOKING_ROUTES.vehicle : BOOKING_ROUTES.homestay) : BOOKING_ROUTES.pickup);
+      navigate(isPremium ? BOOKING_ROUTES.vehicle : BOOKING_ROUTES.pickup);
     }
     prevLengthRef.current = selectedSpots.length;
   }, [selectedSpots.length, maxSpots, isPremium, navigate]);

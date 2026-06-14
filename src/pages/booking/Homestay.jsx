@@ -14,7 +14,7 @@ function ratingStars(rating) {
 
 export default function Homestay() {
   const navigate = useNavigate();
-  const { selectedCircuit, setSelectedHomestay, groupType } = useBooking();
+  const { selectedCircuit, setSelectedHomestay } = useBooking();
   const { homestays } = useData();
 
   const filtered = homestays?.filter(h => h.circuitId === selectedCircuit?.id) || [];
@@ -28,8 +28,8 @@ export default function Homestay() {
     <BookingPageLayout
       title="SELECT HOMESTAY"
       subtitle="Where will you rest your helmet?"
-      onBack={() => navigate(groupType === 'solo' ? BOOKING_ROUTES.vehicle : BOOKING_ROUTES.spots)}
-      backLabel={groupType === 'solo' ? 'Vehicle' : 'Spots'}
+      onBack={() => navigate(BOOKING_ROUTES.vehicle)}
+      backLabel="Vehicle"
     >
       {filtered.length === 0 && (
         <div className="retro-card glass-brutal" style={{ textAlign: 'center', padding: 24 }}>
