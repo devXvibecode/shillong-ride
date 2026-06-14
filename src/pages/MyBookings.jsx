@@ -1,45 +1,62 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import { Link } from 'react-router-dom';
 
+const MOCK_BOOKINGS = [
+  {
+    id: 'MOCK-001',
+    placeName: 'Living Root Bridge Trek',
+    date: '2026-06-20',
+    travelers: 2,
+    specialRequests: 'Vegetarian meals preferred',
+    status: 'confirmed',
+    price: 4500,
+  },
+  {
+    id: 'MOCK-002',
+    placeName: 'Dawki Boat Ride',
+    date: '2026-07-05',
+    travelers: 4,
+    specialRequests: '',
+    status: 'pending',
+    price: 3200,
+  },
+];
+
+function StatusBadge({ status }) {
+  const styles = {
+    confirmed: 'bg-success/10 border-success/30 text-success',
+    pending: 'bg-primary/10 border-primary/30 text-primary',
+    cancelled: 'bg-error/10 border-error/30 text-error',
+  };
+
+  return (
+    <span className={`px-3 py-1 rounded-lg border-2 text-[10px] font-anton uppercase tracking-wider ${styles[status] || styles.pending}`}>
+      {status}
+    </span>
+  );
+}
+
 export default function MyBookings() {
-  const { bookings, loading, error } = useBooking();
+  const { bookings: contextBookings, loading, error } = useBooking();
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    // In a real app, this would fetch from localStorage or API
-    // For demo, we'll use mock data
-    if (!bookings || bookings.length === 0) {
-      const mockBookings = [
-        {
-          id: 1,
-          placeName: 'Living Root Bridge Trek',
-          date: '2026-06-20',
-          travelers: 2,
-          specialRequests: 'Vegetarian meals preferred',
-          status: 'confirmed',
-          price: 4500
-        },
-        {
-          id: 2,
-          placeName: 'Dawki Boat Ride',
-          date: '2026-07-05',
-          travelers: 4,
-          specialRequests: '',
-          status: 'pending',
-          price: 3200
-        }
-      ];
-      // Normally we would set this via context, but for demo we'll just use it directly
+    if (contextBookings && contextBookings.length > 0) {
+      setBookings(contextBookings);
+    } else {
+      setBookings(MOCK_BOOKINGS);
     }
-  }, []);
+  }, [contextBookings]);
 
   if (loading) {
     return (
-      <div className="bg-surface min-h-screen">
+      <div className="bg-background min-h-screen">
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
-            <div className="h-12 w-12 border-4 border-primary-transparent rounded-full animate-spin"></div>
-            <p className="mt-4 body-md text-text-secondary">Loading your bookings...</p>
+            <div className="w-12 h-12 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-text-muted font-anton text-sm tracking-wider">Loading bookings...</p>
           </div>
         </div>
       </div>
@@ -48,20 +65,14 @@ export default function MyBookings() {
 
   if (error) {
     return (
-      <div className="bg-surface min-h-screen">
-        <div className="container py-12">
-          <div className="bg-surface rounded-xl shadow-md">
-            <div className="p-6">
-              <h2 className="h2 font-serif text-text-primary mb-4">
-                Something Went Wrong
-              </h2>
-              <p className="body-md text-text-secondary">
-                We're having trouble loading your bookings. Please try again later.
-              </p>
-              <Link to="/" className="btn btn-outline btn-md mt-6">
-                Return Home
-              </Link>
-            </div>
+      <div className="bg-background min-h-screen">
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <div className="neo-card p-8 text-center max-w-lg mx-auto">
+            <h2 className="font-anton text-2xl text-text-primary mb-4">Something Went Wrong</h2>
+            <p className="text-text-muted text-sm mb-6">We're having trouble loading your bookings. Please try again later.</p>
+            <Link to="/" className="neo-btn-primary px-8 py-3 text-sm">
+              Return Home
+            </Link>
           </div>
         </div>
       </div>
@@ -70,16 +81,19 @@ export default function MyBookings() {
 
   if (!bookings || bookings.length === 0) {
     return (
-      <div className="bg-surface min-h-screen">
-        <div className="container py-12">
-          <div className="text-center">
-            <h2 className="h2 font-serif text-text-primary mb-6">
-              No Bookings Yet
-            </h2>
-            <p className="body-lg text-text-secondary max-w-xl mx-auto mb-8">
+      <div className="bg-background min-h-screen">
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <div className="neo-card p-12 text-center max-w-lg mx-auto">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-surface-lighter border-2 border-border flex items-center justify-center">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+            </div>
+            <h2 className="font-anton text-2xl text-text-primary mb-3">No Bookings Yet</h2>
+            <p className="text-text-muted text-sm mb-8 max-w-sm mx-auto">
               You haven't made any bookings yet. Start planning your first adventure to Meghalaya!
             </p>
-            <Link to="/" className="btn btn-primary btn-lg">
+            <Link to="/" className="neo-btn-primary px-8 py-3 text-sm">
               Explore Destinations
             </Link>
           </div>
@@ -89,62 +103,79 @@ export default function MyBookings() {
   }
 
   return (
-    <div className="bg-surface min-h-screen">
-      <div className="container py-12">
-        <div className="mb-8">
-          <h2 className="h2 font-serif text-text-primary mb-4">
+    <div className="bg-background min-h-screen">
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h2 className="font-anton text-4xl sm:text-5xl text-text-primary mb-3 uppercase">
             Your Bookings
           </h2>
-          <p className="body-md text-text-secondary">
+          <p className="text-text-muted text-sm">
             Manage your upcoming and past adventures with Shillong Ride.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="space-y-6">
-          {bookings.map((booking) => (
-            <div key={booking.id} className="bg-surface rounded-xl shadow-md overflow-hidden">
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="h4 font-semibold text-text-primary">{booking.placeName}</h3>
-                  <span className={`badge badge-${
-                    booking.status === 'confirmed' ? 'success' :
-                      booking.status === 'pending' ? 'warning' :
-                        'error'
-                  }`}>
-                    {booking.status.toUpperCase()}
-                  </span>
+        <div className="space-y-5">
+          {bookings.map((booking, i) => (
+            <motion.div
+              key={booking.id || i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              className="neo-card overflow-hidden"
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-5">
+                  <div>
+                    <h3 className="font-anton text-2xl text-text-primary">{booking.placeName || booking.circuitName || 'Adventure'}</h3>
+                    <p className="text-text-muted text-xs font-anton uppercase tracking-wider mt-1">
+                      ID: {booking.id}
+                    </p>
+                  </div>
+                  <StatusBadge status={booking.status || 'pending'} />
                 </div>
-                <div className="grid md:grid-cols-3 gap-4 text-sm text-text-muted">
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
                   <div>
-                    <span className="font-medium">Date:</span> {new Date(booking.date).toLocaleDateString()}
+                    <p className="text-text-muted text-[10px] font-anton uppercase tracking-wider mb-1">Date</p>
+                    <p className="text-text-primary font-anton text-sm">{new Date(booking.date || Date.now()).toLocaleDateString('en-IN')}</p>
                   </div>
                   <div>
-                    <span className="font-medium">Travelers:</span> {booking.travelers}
+                    <p className="text-text-muted text-[10px] font-anton uppercase tracking-wider mb-1">Travelers</p>
+                    <p className="text-text-primary font-anton text-sm">{booking.travelers || booking.groupSize || 1}</p>
                   </div>
                   <div>
-                    <span className="font-medium">Price:</span> ₹{booking.price.toLocaleString()}
+                    <p className="text-text-muted text-[10px] font-anton uppercase tracking-wider mb-1">Price</p>
+                    <p className="text-text-primary font-anton text-sm">₹{(booking.price || booking.total || 0).toLocaleString('en-IN')}</p>
+                  </div>
+                  <div>
+                    <p className="text-text-muted text-[10px] font-anton uppercase tracking-wider mb-1">Type</p>
+                    <p className="text-text-primary font-anton text-sm uppercase">{booking.bookingType || 'Standard'}</p>
                   </div>
                 </div>
+
                 {booking.specialRequests && (
-                  <div className="mt-4">
-                    <p className="font-medium mb-1">Special Requests:</p>
-                    <p className="body-sm text-text-secondary">{booking.specialRequests}</p>
+                  <div className="mb-5 p-4 bg-surface-lighter rounded-lg border border-border">
+                    <p className="text-text-muted text-[10px] font-anton uppercase tracking-wider mb-1">Special Requests</p>
+                    <p className="text-text-secondary text-sm">{booking.specialRequests}</p>
                   </div>
                 )}
-                <div className="mt-6 pt-4 border-t border-border">
-                  <div className="flex justify-between">
-                    <Link to={`/booking/${booking.id}`} className="btn btn-outline btn-sm">
-                      View Details
-                    </Link>
-                    {booking.status === 'confirmed' && (
-                      <button className="btn btn-secondary btn-sm">
-                        Download Ticket
-                      </button>
-                    )}
-                  </div>
+
+                <div className="flex flex-wrap gap-3 pt-4 border-t-3 border-border">
+                  <button className="neo-btn px-5 py-2.5 text-xs">
+                    View Details
+                  </button>
+                  {booking.status === 'confirmed' && (
+                    <button className="neo-btn-primary px-5 py-2.5 text-xs">
+                      Download Ticket
+                    </button>
+                  )}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

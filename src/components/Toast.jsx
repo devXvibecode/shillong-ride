@@ -28,12 +28,12 @@ export function ToastProvider({ children }) {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              className={`pointer-events-auto px-5 py-3 border-4 border-var-border shadow-neo text-sm font-black uppercase tracking-wider ${
+              className={`pointer-events-auto neo-card px-6 py-3 font-anton text-xs uppercase tracking-wider cursor-pointer ${
                 t.type === 'success'
-                  ? 'bg-green-500 text-white'
+                  ? 'bg-success/10 border-success/30 text-success'
                   : t.type === 'error'
-                  ? 'bg-red-500 text-white'
-                  : 'bg-yellow-500 text-black'
+                  ? 'bg-error/10 border-error/30 text-error'
+                  : 'bg-primary/10 border-primary/30 text-primary'
               }`}
               onClick={() => removeToast(t.id)}
               role="status"

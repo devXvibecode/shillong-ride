@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import PlaceImage from './PlaceImage';
 
 export default function Hero() {
   const scrollToCatalog = () => {
@@ -7,75 +6,107 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-0 pb-20 px-4 bg-surface">
-      <div className="container">
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
+    <section className="relative pt-8 sm:pt-12 pb-16 sm:pb-24 px-4 bg-background overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/3 rounded-full blur-3xl" />
+
+      <div className="max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           <motion.div
-            initial={{ x: -100, opacity: 0 }}
+            initial={{ x: -80, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8, type: 'spring' }}
-            className="mb-8 lg:mb-12"
+            transition={{ duration: 0.8, type: 'spring', stiffness: 80, damping: 15 }}
           >
-            <div className="inline-block bg-primary-transparent text-primary text-xs font-medium px-3 py-1 rounded-md mb-6">
-              Shillong's #1 Adventure Startup
-            </div>
-            <h1 className="h1 font-serif text-text-primary mb-6">
-              EXPLORE <br />
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 px-4 py-1.5 rounded-lg mb-6"
+            >
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="font-anton text-[10px] text-primary uppercase tracking-wider">
+                Shillong's #1 Adventure Startup
+              </span>
+            </motion.div>
+
+            <h1 className="font-anton text-5xl sm:text-7xl lg:text-8xl text-text-primary leading-none mb-6">
+              EXPLORE
+              <br />
               <span className="text-primary">MEGHALAYA</span>
             </h1>
-            <p className="body-lg text-text-secondary mb-8 max-w-lg">
-              Curated ride experiences, immersive local stays, and the raw beauty of the clouds. 
+
+            <p className="text-text-secondary text-base sm:text-lg mb-8 max-w-lg leading-relaxed">
+              Curated pillion ride experiences, immersive local stays, and the raw beauty of the clouds. 
               Built for the modern explorer.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <button 
+
+            <div className="flex flex-wrap gap-4 items-center">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={scrollToCatalog}
-                className="btn btn-primary btn-lg"
+                className="neo-btn-primary px-8 py-4 text-sm sm:text-base tracking-widest"
               >
                 VIEW CATALOG ↓
-              </button>
-              <div className="flex flex-col items-start gap-2">
-                <span className="h3 font-semibold text-text-primary">50+</span>
-                <span className="body-sm text-text-muted">Destinations</span>
-              </div>
-              <div className="flex flex-col items-start gap-2">
-                <span className="h3 font-semibold text-text-primary">100%</span>
-                <span className="body-sm text-text-muted">Local Guides</span>
+              </motion.button>
+
+              <div className="flex gap-6">
+                <div className="text-center">
+                  <span className="block font-anton text-3xl text-text-primary">50+</span>
+                  <span className="text-text-muted font-anton text-[10px] uppercase tracking-wider">Destinations</span>
+                </div>
+                <div className="w-px bg-border self-stretch" />
+                <div className="text-center">
+                  <span className="block font-anton text-3xl text-text-primary">100%</span>
+                  <span className="text-text-muted font-anton text-[10px] uppercase tracking-wider">Local Guides</span>
+                </div>
               </div>
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ x: 100, opacity: 0 }}
+            initial={{ x: 80, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8, type: 'spring' }}
+            transition={{ duration: 0.8, type: 'spring', stiffness: 80, damping: 15, delay: 0.2 }}
             className="relative"
           >
-            <div className="rounded-xl shadow-lg overflow-hidden">
-              <PlaceImage
-                placeId="hero"
-                alt="Shillong Ride"
-                className="w-full h-[600px] object-cover"
-              />
+            <div className="rounded-2xl overflow-hidden shadow-neo-lg border-3 border-border">
+              <div className="aspect-[4/3] bg-gradient-to-br from-primary/20 via-surface-lighter to-surface flex items-center justify-center">
+                <div className="text-center">
+                  <div className="font-anton text-8xl text-primary opacity-30">⛰</div>
+                  <p className="font-anton text-text-muted text-sm mt-2 uppercase tracking-wider">Meghalaya Awaits</p>
+                </div>
+              </div>
             </div>
-            <div className="absolute -bottom-8 start-8 bg-surface p-6 rounded-xl shadow-lg w-64">
-              <p className="h2 font-serif text-text-primary mb-2">AUTHENTIC</p>
-              <p className="body-sm text-text-secondary">Meghalaya Vibe Only</p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6, type: 'spring' }}
+              className="absolute -bottom-6 -left-4 sm:left-6 bg-surface p-5 sm:p-6 rounded-xl shadow-neo border-3 border-border max-w-[200px]"
+            >
+              <p className="font-anton text-2xl text-primary mb-1">AUTHENTIC</p>
+              <p className="text-text-muted font-anton text-[10px] uppercase tracking-wider">Meghalaya Vibe Only</p>
+            </motion.div>
           </motion.div>
         </div>
       </div>
-      
-      {/* Marquee Section */}
-      <div className="mt-20 bg-primary">
-        <div className="neo-marquee-content py-4">
-          {[...Array(10)].map((_, i) => (
-            <span key={i} className="mx-12 text-white/90">
-              SHILLONG • SOHRA • DAWKI • MAWLYNNONG • JAINTIA HILLS • 
+
+      {/* Marquee */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+        className="mt-16 sm:mt-20 bg-primary/10 border-y border-primary/20 overflow-hidden"
+      >
+        <div className="neo-marquee-content py-3">
+          {[...Array(8)].map((_, i) => (
+            <span key={i} className="mx-8 text-primary font-anton text-sm tracking-widest">
+              SHILLONG • SOHRA • DAWKI • MAWLYNNONG • JAINTIA HILLS •
             </span>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

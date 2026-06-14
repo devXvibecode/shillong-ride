@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createNormalBooking, createPremiumBooking } from '../engines/bookingService';
 import { sendBookingEmail } from '../engines/emailService';
 import { pushBooking, updateSingleBooking } from '../engines/bookingSyncService';
@@ -8,8 +9,23 @@ const BookingContext = createContext();
 
 const EMPTY_FORM = { name: '', phone: '', notes: '', pickupLocation: '' };
 
+// Route map for navigation between booking steps
+export const BOOKING_ROUTES = {
+  type: '/booking',
+  group: '/booking/group',
+  circuit: '/booking/circuit',
+  spots: '/booking/spots',
+  stay: '/booking/stay',
+  vehicle: '/booking/vehicle',
+  homestay: '/booking/homestay',
+  pickup: '/booking/pickup',
+  time: '/booking/time',
+  confirmNormal: '/booking/confirm-normal',
+  confirmPremium: '/booking/confirm-premium',
+  confirmed: '/booking/confirmed',
+};
+
 export function BookingProvider({ children }) {
-  const [step, setStep] = useState(0);
   const [selectedCircuit, setSelectedCircuit] = useState(null);
   const [selectedSpots, setSelectedSpots] = useState([]);
   const [timeSlot, setTimeSlot] = useState('');
@@ -48,7 +64,6 @@ export function BookingProvider({ children }) {
   }, []);
 
   const reset = useCallback(() => {
-    setStep(0);
     setSelectedCircuit(null);
     setSelectedSpots([]);
     setTimeSlot('');
@@ -129,28 +144,23 @@ export function BookingProvider({ children }) {
     if (!booking) return;
     const updated = { ...booking, [field]: value };
     setBooking(updated);
-    // Update local storage
     setBookings(prev => {
       const updatedList = prev.map(b => b.id === updated.id ? updated : b);
       saveBookings(updatedList);
       return updatedList;
     });
-    // Sync to GitHub
     try {
       await updateSingleBooking(updated.id, { [field]: value });
-    } catch {
-      // Silent fail for sync
-    }
+    } catch {}
   }, [booking]);
 
   const value = {
-    step, setStep,
     selectedCircuit, setSelectedCircuit,
     selectedSpots, addSpot, removeSpot, setSelectedSpots,
     timeSlot, setTimeSlot,
     vehicleType, setVehicleType,
     formData, updateFormField, resetForm,
-    booking, submitting,
+    booking, submitting, setSubmitting,
     submitBooking: submitNormalBooking,
     reset,
     bookings,
