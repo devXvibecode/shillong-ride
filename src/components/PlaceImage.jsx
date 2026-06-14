@@ -41,7 +41,7 @@ export default function PlaceImage({ placeId, alt, className, onLoad, onAllFaile
   }, [onLoad]);
 
   return (
-    <div className={`relative ${className || ''}`}>
+    <div className={`absolute inset-0 ${className || ''}`}>
       {!loaded && (
         <div className="absolute inset-0 skeleton" />
       )}
