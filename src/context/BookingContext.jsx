@@ -11,8 +11,6 @@ const EMPTY_FORM = { name: '', phone: '', notes: '', pickupLocation: '' };
 
 // Route map for navigation between booking steps
 export const BOOKING_ROUTES = {
-  type: '/booking',
-  group: '/booking/group',
   circuit: '/booking/circuit',
   spots: '/booking/spots',
   vehicle: '/booking/vehicle',

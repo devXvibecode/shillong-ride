@@ -1,33 +1,45 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 
-const STANDARD_STEPS = [
-  { route: BOOKING_ROUTES.type, label: 'Type' },
-  { route: BOOKING_ROUTES.group, label: 'Group' },
-  { route: BOOKING_ROUTES.circuit, label: 'Route' },
-  { route: BOOKING_ROUTES.spots, label: 'Spots' },
-  { route: BOOKING_ROUTES.pickup, label: 'Pickup' },
-  { route: BOOKING_ROUTES.time, label: 'Time' },
-  { route: BOOKING_ROUTES.confirmNormal, label: 'Review' },
-];
-
-const PREMIUM_STEPS = [
-  { route: BOOKING_ROUTES.type, label: 'Type' },
-  { route: BOOKING_ROUTES.group, label: 'Group' },
-  { route: BOOKING_ROUTES.circuit, label: 'Route' },
-  { route: BOOKING_ROUTES.spots, label: 'Spots' },
-  { route: BOOKING_ROUTES.vehicle, label: 'Vehicle' },
-  { route: BOOKING_ROUTES.homestay, label: 'Home' },
-  { route: BOOKING_ROUTES.time, label: 'Time' },
-  { route: BOOKING_ROUTES.confirmPremium, label: 'Review' },
-];
+function getSteps(bookingType, groupType) {
+  if (bookingType === 'normal') {
+    return [
+      { route: '/booking', label: 'Group' },
+      { route: BOOKING_ROUTES.circuit, label: 'Route' },
+      { route: BOOKING_ROUTES.spots, label: 'Spots' },
+      { route: BOOKING_ROUTES.pickup, label: 'Pickup' },
+      { route: BOOKING_ROUTES.time, label: 'Time' },
+      { route: BOOKING_ROUTES.confirmNormal, label: 'Review' },
+    ];
+  }
+  if (groupType === 'solo') {
+    return [
+      { route: '/booking', label: 'Group' },
+      { route: BOOKING_ROUTES.circuit, label: 'Route' },
+      { route: BOOKING_ROUTES.spots, label: 'Spots' },
+      { route: BOOKING_ROUTES.vehicle, label: 'Vehicle' },
+      { route: BOOKING_ROUTES.homestay, label: 'Home' },
+      { route: BOOKING_ROUTES.time, label: 'Time' },
+      { route: BOOKING_ROUTES.confirmPremium, label: 'Review' },
+    ];
+  }
+  return [
+    { route: '/booking', label: 'Group' },
+    { route: BOOKING_ROUTES.circuit, label: 'Route' },
+    { route: BOOKING_ROUTES.spots, label: 'Spots' },
+    { route: BOOKING_ROUTES.homestay, label: 'Home' },
+    { route: BOOKING_ROUTES.time, label: 'Time' },
+    { route: BOOKING_ROUTES.confirmPremium, label: 'Review' },
+  ];
+}
 
 export default function BookingPageLayout({ children, title, subtitle, onBack, backLabel = 'Back' }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isPremium } = useBooking();
+  const { isPremium, groupType } = useBooking();
 
-  const steps = isPremium ? PREMIUM_STEPS : STANDARD_STEPS;
+  const bookingType = isPremium ? 'premium' : 'normal';
+  const steps = getSteps(bookingType, groupType);
   const totalSteps = steps.length;
   const currentIdx = steps.findIndex(s => location.pathname === s.route);
   const stepNum = currentIdx >= 0 ? currentIdx + 1 : 1;

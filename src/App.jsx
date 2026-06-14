@@ -10,8 +10,7 @@ import Footer from './components/Footer';
 
 // Lazy load pages for performance
 const Home = lazy(() => import('./pages/Home'));
-const BookingType = lazy(() => import('./pages/booking/BookingType'));
-const GroupType = lazy(() => import('./pages/booking/GroupType'));
+const GroupPackage = lazy(() => import('./pages/booking/GroupPackage'));
 const Circuit = lazy(() => import('./pages/booking/Circuit'));
 const Spots = lazy(() => import('./pages/booking/Spots'));
 
@@ -59,8 +58,7 @@ function AppRoutes() {
     <Suspense fallback={<LoadingFallback />}>
       <Routes location={location}>
         <Route path="/" element={<Home />} />
-        <Route path="/booking" element={<BookingType />} />
-        <Route path="/booking/group" element={<GroupType />} />
+        <Route path="/booking" element={<GroupPackage />} />
         <Route path="/booking/circuit" element={<Circuit />} />
         <Route path="/booking/spots" element={<Spots />} />
         <Route path="/booking/vehicle" element={<Vehicle />} />
