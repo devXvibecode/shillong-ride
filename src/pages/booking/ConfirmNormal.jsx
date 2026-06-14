@@ -44,7 +44,7 @@ export default function ConfirmNormal() {
   return (
     <BookingPageLayout
       title="CONFIRM BOOKING"
-      subtitle="Review your journey and enter your details"
+      subtitle="Almost there — review and confirm"
       onBack={() => navigate(BOOKING_ROUTES.time)}
       backLabel="Time"
     >
@@ -62,6 +62,7 @@ export default function ConfirmNormal() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[
+                { label: 'Package', value: 'Standard Ride' },
                 { label: 'Region', value: selectedCircuit?.name },
                 { label: 'Group', value: groupType },
                 { label: 'Pickup', value: hub?.name || nodalPoint },
@@ -126,7 +127,7 @@ export default function ConfirmNormal() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
-                <span style={{ color: 'var(--color-gray)', textTransform: 'uppercase', fontSize: 9 }}>Rider Fee</span>
+                <span style={{ color: 'var(--color-gray)', textTransform: 'uppercase', fontSize: 9 }}>Guide Fee</span>
                 <span>₹{price.riderFee}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>

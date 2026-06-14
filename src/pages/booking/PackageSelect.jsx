@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import BookingPageLayout from './BookingPageLayout';
-import { IconMotorcycle, IconStar, IconMap, IconHome, IconClock } from '../../components/icons/PixelIcons';
+import { IconMotorcycle, IconStar, IconMap, IconHome, IconClock, IconHelmet, IconMountain, IconSun } from '../../components/icons/PixelIcons';
 
 const PACKAGES = [
   {
@@ -10,22 +10,22 @@ const PACKAGES = [
     tagline: 'For solo explorers',
     color: 'var(--color-navy)',
     features: [
-      { icon: IconMotorcycle, text: 'Bike only — 1 rider' },
+      { icon: IconMotorcycle, text: 'Bike adventure — 1 rider' },
       { icon: IconMap, text: 'Nodal pickup & drop' },
-      { icon: IconMap, text: 'Personal guide' },
-      { icon: IconMap, text: 'Up to 3 scenic spots' },
+      { icon: IconHelmet, text: 'Personal guide included' },
+      { icon: IconMountain, text: 'Up to 3 scenic spots' },
     ],
   },
   {
     id: 'premium',
     label: 'Elite Experience',
-    tagline: 'For groups & premium solo',
+    tagline: 'For groups & solo adventurers',
     color: 'var(--color-hotpink)',
     features: [
       { icon: IconHome, text: 'Homestay + meals included' },
-      { icon: IconMap, text: 'Door-to-door pickup & drop' },
-      { icon: IconStar, text: 'Up to 4 destinations' },
-      { icon: IconClock, text: '24/7 support' },
+      { icon: IconStar, text: 'Door-to-door pickup & drop' },
+      { icon: IconMountain, text: 'Up to 4 destinations' },
+      { icon: IconSun, text: '24/7 support' },
     ],
   },
 ];
@@ -40,7 +40,7 @@ export default function PackageSelect() {
   };
 
   return (
-    <BookingPageLayout title="CHOOSE YOUR RIDE" subtitle="Select your experience">
+    <BookingPageLayout title="CHOOSE YOUR PACKAGE" subtitle="Select how you want to explore Meghalaya">
       <div className="retro-selector-grid">
         {PACKAGES.map((pkg) => {
           return (
@@ -98,7 +98,7 @@ export default function PackageSelect() {
                   fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
                   color: pkg.color,
                 }}>
-                  {pkg.id === 'normal' ? 'Solo riders only' : 'Groups & solo'}
+                  {pkg.id === 'normal' ? 'Start with Standard' : 'Start Elite Experience'}
                 </span>
                 <span style={{ fontSize: 14 }}>→</span>
               </div>

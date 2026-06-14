@@ -44,7 +44,7 @@ export default function ConfirmPremium() {
   return (
     <BookingPageLayout
       title="CONFIRM BOOKING"
-      subtitle="Review your journey and enter your details"
+      subtitle="Almost there — review and confirm"
       onBack={() => navigate(BOOKING_ROUTES.time)}
       backLabel="Time"
     >
@@ -62,6 +62,7 @@ export default function ConfirmPremium() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[
+                { label: 'Package', value: 'Elite Experience' },
                 { label: 'Region', value: selectedCircuit?.name },
                 { label: 'Group', value: groupType },
                 { label: 'Vehicle', value: vehicleType === 'bike' ? '2-Wheeler' : '4-Wheeler' },

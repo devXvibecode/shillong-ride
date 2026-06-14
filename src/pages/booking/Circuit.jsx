@@ -109,7 +109,7 @@ export default function Circuit() {
       {(!circuits || circuits.length === 0) && (
         <div className="retro-card glass-brutal" style={{ textAlign: 'center', padding: 24 }}>
           <div className="retro-spinner" style={{ margin: '0 auto 8px' }} />
-          <span style={{ fontSize: 11 }}>Loading routes...</span>
+          <span style={{ fontSize: 11 }}>Finding available routes...</span>
         </div>
       )}
     </BookingPageLayout>

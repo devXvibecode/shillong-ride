@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import BookingPageLayout from './BookingPageLayout';
-import { IconUser, IconUsers, IconStar, IconMotorcycle } from '../../components/icons/PixelIcons';
+import { IconUser, IconUsers, IconStar } from '../../components/icons/PixelIcons';
 
 const ALL_GROUPS = [
   { id: 'solo', label: 'Solo Explorer', desc: 'Just you and the road', icon: IconUser, subtitle: '1 rider, bike only, nodal pickup', color: 'var(--color-navy)' },
   { id: 'couple', label: 'Couple Escape', desc: 'A journey for two', icon: IconStar, subtitle: '2 riders, car, homestay & meals', color: 'var(--color-hotpink)' },
-  { id: 'friends', label: 'Friends Trip', desc: '3-5 riders, squad goals', icon: IconUsers, subtitle: 'Car, homestay & meals', color: 'var(--color-hotpink)' },
-  { id: 'family', label: 'Family Trip', desc: '5+ riders, memories for all', icon: IconUsers, subtitle: 'Car, homestay & meals', color: 'var(--color-hotpink)' },
+  { id: 'friends', label: 'Friends Trip', desc: 'Adventure with the crew', icon: IconUsers, subtitle: '3-5 riders, car & homestay', color: 'var(--color-hotpink)' },
+  { id: 'family', label: 'Family Trip', desc: 'Create memories together', icon: IconUsers, subtitle: '5+ riders, car & homestay', color: 'var(--color-hotpink)' },
 ];
 
 export default function GroupPackage() {
@@ -35,7 +35,7 @@ export default function GroupPackage() {
   return (
     <BookingPageLayout
       title="WHO'S RIDING?"
-      subtitle={isStandard ? 'Standard Ride — solo only' : 'Select your group size'}
+      subtitle={isStandard ? 'Who is riding today?' : 'Who is riding with you?'}
       onBack={() => navigate('/booking')}
       backLabel="Package"
     >

@@ -39,7 +39,7 @@ export default function Spots() {
   return (
     <BookingPageLayout
       title="SELECT SPOTS"
-      subtitle={`Pick up to ${maxSpots} spots`}
+      subtitle={`Choose up to ${maxSpots} destinations`}
       onBack={() => navigate(BOOKING_ROUTES.circuit)}
       backLabel="Route"
     >
@@ -119,7 +119,7 @@ export default function Spots() {
                   {place.name}
                 </div>
                 <div style={{ fontSize: 10, color: 'var(--color-gray)', marginTop: 2 }}>
-                  {place.description?.slice(0, 60) || 'Discover the beauty.'}
+                  {place.description?.slice(0, 60) || 'Explore this destination'}
                 </div>
                 <div style={{ display: 'flex', gap: 4, marginTop: 6 }}>
                   {place.vibe && (

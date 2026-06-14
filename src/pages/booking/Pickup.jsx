@@ -51,10 +51,10 @@ export default function Pickup() {
         <IconWarning size={20} style={{ flexShrink: 0, color: 'var(--color-orange)' }} />
         <div>
           <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', marginBottom: 2 }}>
-            How Nodal Pickup Works
+            How Pickup Works
           </div>
           <div style={{ fontSize: 10, color: 'var(--color-gray)' }}>
-            Standard packages use nodal points to keep pricing predictable. Our riders will meet you at the selected hub.
+            Pick a meeting point and our rider will meet you there. Nodal points keep pricing predictable and routes efficient.
           </div>
         </div>
       </div>

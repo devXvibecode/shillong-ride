@@ -32,7 +32,7 @@ export default function Vehicle() {
   return (
     <BookingPageLayout
       title="SELECT VEHICLE"
-      subtitle={isGroup ? '4-wheeler only for groups' : 'Choose your ride'}
+      subtitle={isGroup ? 'Comfortable car for your group' : 'Choose your ride'}
       onBack={() => navigate(BOOKING_ROUTES.spots)}
       backLabel="Spots"
     >
@@ -76,7 +76,7 @@ export default function Vehicle() {
         {isGroup && (
           <div className="retro-card glass-brutal" style={{ marginTop: 8, padding: 10, textAlign: 'center' }}>
             <div style={{ fontSize: 9, color: 'var(--color-gray)' }}>
-              Groups are assigned a 4-wheeler automatically for comfort and space.
+              Your group will enjoy a spacious 4-wheeler with room for everyone.
             </div>
           </div>
         )}

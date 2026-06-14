@@ -21,12 +21,12 @@ export default function Time() {
   return (
     <BookingPageLayout
       title="SELECT TIME"
-      subtitle="When should we start?"
+      subtitle="Pick your start time"
       onBack={() => {
         if (isPremium) navigate(BOOKING_ROUTES.homestay);
         else navigate(BOOKING_ROUTES.pickup);
       }}
-      backLabel="Previous"
+      backLabel={isPremium ? 'Homestay' : 'Pickup'}
     >
       <div className="retro-radio-group">
         {SLOTS.map((s) => {
