@@ -19,7 +19,7 @@ export default function Modal({ children, open, onClose, title }) {
         onClick={e => e.stopPropagation()}
       >
         <div className="flex justify-between items-start mb-4">
-          <h3 className="h3 font-semibold text-text-primary">{title || 'Details'}</h2>
+          <h3 className="h3 font-semibold text-text-primary">{title || 'Details'}</h3>
           <button onClick={onClose} className="text-text-secondary hover:text-text-primary hover:underline">
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

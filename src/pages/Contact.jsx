@@ -101,7 +101,7 @@ export default function Contact() {
                     minHeight={150}
                   />
                 </div>
-              </div>
+              </form>
 
               {submitStatus === 'success' && (
                 <div className="alert alert-success">
@@ -135,7 +135,7 @@ export default function Contact() {
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

@@ -544,10 +544,10 @@ body {
 /* Dark Mode (placeholder for future implementation) */
 /* @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: #111827; /* gray-900 */
-    --color-surface: #1f2937; /* gray-800 */
-    --color-border: #374151; /* gray-600 */
-    --color-text-primary: #f9fafb; /* gray-50 */
-    --color-text-secondary: #d1d5db; /* gray-400 */
+    --color-background: #111827;
+    --color-surface: #1f2937;
+    --color-border: #374151;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
   }
 } */
