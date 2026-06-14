@@ -4,7 +4,8 @@ import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 function getSteps(bookingType, groupType) {
   if (bookingType === 'normal') {
     return [
-      { route: '/booking', label: 'Group' },
+      { route: '/booking', label: 'Package' },
+      { route: BOOKING_ROUTES.group, label: 'Group' },
       { route: BOOKING_ROUTES.circuit, label: 'Route' },
       { route: BOOKING_ROUTES.spots, label: 'Spots' },
       { route: BOOKING_ROUTES.pickup, label: 'Pickup' },
@@ -12,22 +13,24 @@ function getSteps(bookingType, groupType) {
       { route: BOOKING_ROUTES.confirmNormal, label: 'Review' },
     ];
   }
-  if (groupType === 'solo') {
+  if (bookingType === 'premium' && groupType === 'solo') {
     return [
-      { route: '/booking', label: 'Group' },
+      { route: '/booking', label: 'Package' },
+      { route: BOOKING_ROUTES.group, label: 'Group' },
       { route: BOOKING_ROUTES.circuit, label: 'Route' },
       { route: BOOKING_ROUTES.spots, label: 'Spots' },
       { route: BOOKING_ROUTES.vehicle, label: 'Vehicle' },
-      { route: BOOKING_ROUTES.homestay, label: 'Home' },
+      { route: BOOKING_ROUTES.homestay, label: 'Homestay' },
       { route: BOOKING_ROUTES.time, label: 'Time' },
       { route: BOOKING_ROUTES.confirmPremium, label: 'Review' },
     ];
   }
   return [
-    { route: '/booking', label: 'Group' },
+    { route: '/booking', label: 'Package' },
+    { route: BOOKING_ROUTES.group, label: 'Group' },
     { route: BOOKING_ROUTES.circuit, label: 'Route' },
     { route: BOOKING_ROUTES.spots, label: 'Spots' },
-    { route: BOOKING_ROUTES.homestay, label: 'Home' },
+    { route: BOOKING_ROUTES.homestay, label: 'Homestay' },
     { route: BOOKING_ROUTES.time, label: 'Time' },
     { route: BOOKING_ROUTES.confirmPremium, label: 'Review' },
   ];

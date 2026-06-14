@@ -43,8 +43,8 @@ export default function ConfirmPremium() {
 
   return (
     <BookingPageLayout
-      title="CONFIRM ELITE"
-      subtitle="Review your elite experience"
+      title="CONFIRM BOOKING"
+      subtitle="Review your journey and enter your details"
       onBack={() => navigate(BOOKING_ROUTES.time)}
       backLabel="Time"
     >
@@ -58,7 +58,7 @@ export default function ConfirmPremium() {
               borderBottom: '2px solid var(--color-black)',
               paddingBottom: 6, marginBottom: 10,
             }}>
-              Premium Experience
+              Journey Summary
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[
@@ -118,7 +118,7 @@ export default function ConfirmPremium() {
               borderBottom: '2px solid var(--color-black)',
               paddingBottom: 6, marginBottom: 10,
             }}>
-              Premium Inclusions
+              Inclusions
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 10 }}>
               {price.breakdown.map((item, idx) => (
@@ -133,7 +133,7 @@ export default function ConfirmPremium() {
               borderTop: '3px solid var(--color-black)', paddingTop: 8,
               display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
             }}>
-              <span style={{ fontSize: 16, fontWeight: 700, textTransform: 'uppercase' }}>Package Total</span>
+              <span style={{ fontSize: 16, fontWeight: 700, textTransform: 'uppercase' }}>                Total</span>
               <span style={{ fontSize: 24, fontWeight: 700, fontFamily: "'Anton', sans-serif", color: 'var(--color-orange)' }}>
                 ₹{price.total}
               </span>
@@ -154,7 +154,7 @@ export default function ConfirmPremium() {
               borderBottom: '2px solid var(--color-orange)',
               paddingBottom: 6, marginBottom: 12, color: 'var(--color-orange)',
             }}>
-              VIP Contact Info
+              Contact Details
             </div>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -223,16 +223,12 @@ export default function ConfirmPremium() {
                   ) : (
                     <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <IconCheck size={16} />
-                      CONFIRM PREMIUM →
+                      CONFIRM BOOKING →
                     </span>
                   )}
                 </button>
-                <div className="glass-brutal" style={{ marginTop: 8, padding: 8, textAlign: 'center' }}>
-                  <div className="glass-inner glass-heavy" style={{ padding: 8 }}>
-                  <span style={{ fontSize: 8, color: 'var(--color-orange)', fontWeight: 700 }}>
-                    EMERGENCY SUPPORT: 24/7 coordination included.
-                  </span>
-                  </div>
+                <div style={{ fontSize: 8, color: 'var(--color-gray)', textAlign: 'center', marginTop: 8 }}>
+                  24/7 support included. By confirming, you agree to our terms.
                 </div>
               </div>
             </form>

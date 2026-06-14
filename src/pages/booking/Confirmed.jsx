@@ -69,6 +69,9 @@ export default function Confirmed() {
 
   const isPremium = booking.bookingType === 'premium';
   const p = booking.priceBreakdown;
+  const packageName = isPremium ? 'Elite Experience' : 'Standard Ride';
+  const groupLabels = { solo: 'Solo', couple: 'Couple', friends: 'Friends', family: 'Family' };
+  const groupLabel = groupLabels[booking.groupType] || booking.groupType || '—';
 
   return (
     <BookingPageLayout>
@@ -77,7 +80,7 @@ export default function Confirmed() {
         <div style={{
           width: 80, height: 80, margin: '0 auto 12px',
           border: '5px solid var(--color-black)',
-          background: isPremium ? 'var(--color-hotpink)' : 'var(--color-pine)',
+          background: 'var(--color-pine)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '8px 8px 0 0 rgba(0,0,0,0.85)',
           transform: 'rotate(2deg)',
@@ -91,17 +94,15 @@ export default function Confirmed() {
           background: isPremium ? 'var(--color-hotpink)' : 'var(--color-navy)',
           fontSize: 9, padding: '5px 16px',
         }}>
-          {isPremium ? '★ PREMIUM CONFIRMED' : '✓ ADVENTURE CONFIRMED'}
+          ✓ ADVENTURE CONFIRMED
         </div>
 
         <h1 className="retro-dialog-title" style={{ fontSize: 22, marginBottom: 6, borderLeft: 'none', paddingLeft: 0 }}>
-          {isPremium ? 'YOUR RIDE IS SET!' : "LET'S RIDE!"}
+          READY TO RIDE!
         </h1>
 
         <p style={{ fontSize: 11, color: 'var(--color-gray)', marginBottom: 16 }}>
-          {isPremium
-            ? 'Pack your bags — your premium Meghalaya experience awaits.'
-            : 'Pack your bags — your ShillongRide adventure awaits.'}
+          Pack your bags — your Meghalaya adventure awaits.
         </p>
 
         {/* Booking Details */}
@@ -116,7 +117,8 @@ export default function Confirmed() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {[
               { label: 'Booking ID', value: <RevealId id={booking.id} /> },
-              { label: 'Group', value: isPremium ? 'Group' : 'Solo' },
+              { label: 'Package', value: packageName },
+              { label: 'Group', value: groupLabel },
               { label: 'Route', value: booking.circuitName },
               { label: 'Name', value: booking.name },
               { label: 'Phone', value: booking.phone },
@@ -136,7 +138,7 @@ export default function Confirmed() {
             padding: '6px 8px', margin: -16, marginBottom: 12,
             color: 'white',
           }}>
-            {isPremium ? '★ RECEIPT' : 'PAYMENT RECEIPT'}
+            PAYMENT RECEIPT
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0' }}>
             <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>Total</span>

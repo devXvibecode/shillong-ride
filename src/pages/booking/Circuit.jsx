@@ -21,7 +21,7 @@ export default function Circuit() {
     <BookingPageLayout
       title="CHOOSE YOUR ROUTE"
       subtitle="Pick your path through Meghalaya"
-      onBack={() => navigate('/booking')}
+      onBack={() => navigate(BOOKING_ROUTES.group)}
       backLabel="Group"
     >
       <div className="circuit-grid">

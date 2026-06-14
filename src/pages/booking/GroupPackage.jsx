@@ -1,35 +1,46 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooking, BOOKING_ROUTES } from '../../context/BookingContext';
 import BookingPageLayout from './BookingPageLayout';
-import { IconUser, IconUsers, IconStar, IconMotorcycle, IconCheck } from '../../components/icons/PixelIcons';
+import { IconUser, IconUsers, IconStar, IconMotorcycle } from '../../components/icons/PixelIcons';
 
-const GROUPS = [
-  { id: 'solo', label: 'Solo Explorer', desc: 'Just you and the road', icon: IconUser, subtitle: '1 rider, bike only, nodal pickup' },
-  { id: 'couple', label: 'Couple Escape', desc: 'A journey for two', icon: IconStar, subtitle: '2 riders, car, homestay & meals' },
-  { id: 'friends', label: 'Friends Trip', desc: '3-5 riders, squad goals', icon: IconUsers, subtitle: 'Car, homestay & meals' },
-  { id: 'family', label: 'Family Trip', desc: '5+ riders, memories for all', icon: IconUsers, subtitle: 'Car, homestay & meals' },
+const ALL_GROUPS = [
+  { id: 'solo', label: 'Solo Explorer', desc: 'Just you and the road', icon: IconUser, subtitle: '1 rider, bike only, nodal pickup', color: 'var(--color-navy)' },
+  { id: 'couple', label: 'Couple Escape', desc: 'A journey for two', icon: IconStar, subtitle: '2 riders, car, homestay & meals', color: 'var(--color-hotpink)' },
+  { id: 'friends', label: 'Friends Trip', desc: '3-5 riders, squad goals', icon: IconUsers, subtitle: 'Car, homestay & meals', color: 'var(--color-hotpink)' },
+  { id: 'family', label: 'Family Trip', desc: '5+ riders, memories for all', icon: IconUsers, subtitle: 'Car, homestay & meals', color: 'var(--color-hotpink)' },
 ];
 
 export default function GroupPackage() {
   const navigate = useNavigate();
-  const { setGroupType, setBookingType, setVehicleType } = useBooking();
+  const { bookingType, setGroupType, setVehicleType } = useBooking();
+
+  useEffect(() => {
+    if (!bookingType) navigate('/booking', { replace: true });
+  }, [bookingType, navigate]);
+
+  const isStandard = bookingType === 'normal';
+  const groups = isStandard ? ALL_GROUPS.filter(g => g.id === 'solo') : ALL_GROUPS;
 
   const handleSelect = (id) => {
     setGroupType(id);
     if (id === 'solo') {
-      setBookingType('normal');
       setVehicleType('bike');
     } else {
-      setBookingType('premium');
       setVehicleType('car');
     }
     navigate(BOOKING_ROUTES.circuit);
   };
 
   return (
-    <BookingPageLayout title="WHO'S RIDING?" subtitle="Choose your group size">
+    <BookingPageLayout
+      title="WHO'S RIDING?"
+      subtitle={isStandard ? 'Standard Ride — solo only' : 'Select your group size'}
+      onBack={() => navigate('/booking')}
+      backLabel="Package"
+    >
       <div className="retro-selector-grid">
-        {GROUPS.map((g) => {
+        {groups.map((g) => {
           const Icon = g.icon;
           return (
             <button
@@ -45,7 +56,7 @@ export default function GroupPackage() {
               <div style={{ fontSize: 9, color: 'var(--color-gray)' }}>{g.desc}</div>
               <div style={{
                 fontSize: 7, color: 'white', marginTop: 4,
-                background: g.id === 'solo' ? 'var(--color-navy)' : 'var(--color-hotpink)',
+                background: g.color,
                 padding: '2px 8px', fontWeight: 700, textTransform: 'uppercase',
                 border: '2px solid var(--color-black)',
               }}>

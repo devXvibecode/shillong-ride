@@ -14,7 +14,7 @@ function ratingStars(rating) {
 
 export default function Homestay() {
   const navigate = useNavigate();
-  const { selectedCircuit, setSelectedHomestay } = useBooking();
+  const { selectedCircuit, setSelectedHomestay, groupType } = useBooking();
   const { homestays } = useData();
 
   const filtered = homestays?.filter(h => h.circuitId === selectedCircuit?.id) || [];
@@ -28,17 +28,23 @@ export default function Homestay() {
     <BookingPageLayout
       title="SELECT HOMESTAY"
       subtitle="Where will you rest your helmet?"
-      onBack={() => navigate(BOOKING_ROUTES.vehicle)}
-      backLabel="Vehicle"
+      onBack={() => navigate(groupType === 'solo' ? BOOKING_ROUTES.vehicle : BOOKING_ROUTES.spots)}
+      backLabel={groupType === 'solo' ? 'Vehicle' : 'Spots'}
     >
       {filtered.length === 0 && (
         <div className="retro-card glass-brutal" style={{ textAlign: 'center', padding: 24 }}>
           <div className="glass-inner">
             <IconHome size={32} style={{ margin: '0 auto 8px', display: 'block', color: 'var(--color-orange)' }} />
             <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 4 }}>No homestays available</div>
-            <div style={{ fontSize: 10, color: 'var(--color-gray)' }}>
-              No homestays found for {selectedCircuit?.name || 'this route'}. Please go back and choose a different route.
+            <div style={{ fontSize: 10, color: 'var(--color-gray)', marginBottom: 12 }}>
+              No homestays found for {selectedCircuit?.name || 'this route'}.
             </div>
+            <button
+              onClick={() => navigate(BOOKING_ROUTES.circuit)}
+              className="retro-btn retro-btn-sm"
+            >
+              ← Choose a different route
+            </button>
           </div>
         </div>
       )}
