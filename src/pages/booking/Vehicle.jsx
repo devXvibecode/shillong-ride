@@ -6,13 +6,13 @@ import { IconMotorcycle } from '../../components/icons/PixelIcons';
 const VEHICLES = [
   {
     id: 'bike',
-    label: '2-Wheeler Premium',
+    label: '2-Wheeler',
     desc: 'Designed for solo explorers & backpackers. Lightweight adventure through narrow mountain roads.',
     features: ['Navigate narrow roads', 'Park anywhere', 'Feel the wind', 'Budget friendly'],
   },
   {
     id: 'car',
-    label: '4-Wheeler Premium',
+    label: '4-Wheeler',
     desc: 'Designed for couples & families. Scenic comfort and relaxed travel with extra space.',
     features: ['Comfortable seating', 'Weather protection', 'Extra luggage space', 'Smooth ride'],
   },

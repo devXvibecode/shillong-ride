@@ -116,7 +116,7 @@ export default function Confirmed() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {[
               { label: 'Booking ID', value: <RevealId id={booking.id} /> },
-              { label: 'Package', value: isPremium ? 'Premium' : 'Standard' },
+              { label: 'Group', value: isPremium ? 'Group' : 'Solo' },
               { label: 'Route', value: booking.circuitName },
               { label: 'Name', value: booking.name },
               { label: 'Phone', value: booking.phone },

@@ -43,8 +43,8 @@ export default function ConfirmPremium() {
 
   return (
     <BookingPageLayout
-      title="CONFIRM PREMIUM"
-      subtitle="Review your premium experience"
+      title="CONFIRM ELITE"
+      subtitle="Review your elite experience"
       onBack={() => navigate(BOOKING_ROUTES.time)}
       backLabel="Time"
     >
