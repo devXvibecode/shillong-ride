@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IconHome, IconFolder, IconMap, IconUser } from './icons/PixelIcons';
+import { IconHome, IconFolder, IconMap, IconUser, IconClock } from './icons/PixelIcons';
 
 const NAV_LINKS = [
   { to: '/', label: 'Home', icon: IconHome },
@@ -29,7 +29,7 @@ export default function Navbar() {
   if (isBooking) return null;
 
   return (
-    <div className="retro-taskbar">
+    <div className="retro-taskbar brutal-checker">
       {/* Start Button */}
       <div style={{ position: 'relative' }}>
         <button
@@ -37,7 +37,7 @@ export default function Navbar() {
           onClick={() => setStartOpen(!startOpen)}
           onBlur={() => setTimeout(() => setStartOpen(false), 150)}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="square">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square">
             <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
@@ -53,10 +53,10 @@ export default function Navbar() {
               style={{
                 position: 'absolute', bottom: '100%', left: 0,
                 background: 'var(--color-cream-light)',
-                border: '3px solid var(--color-black)',
-                boxShadow: '4px 4px 0 0 rgba(0,0,0,0.85)',
-                minWidth: 180, zIndex: 2000,
-                marginBottom: 2, padding: 4,
+                border: '4px solid var(--color-black)',
+                boxShadow: '6px 6px 0 0 rgba(0,0,0,0.85)',
+                minWidth: 200, zIndex: 2000,
+                marginBottom: 2, padding: 6,
               }}
             >
               {NAV_LINKS.map(link => {
@@ -68,32 +68,35 @@ export default function Navbar() {
                     to={link.to}
                     onClick={() => setStartOpen(false)}
                     style={{
-                      display: 'flex', alignItems: 'center', gap: 8,
-                      padding: '6px 10px', fontFamily: "'JetBrains Mono', monospace",
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      padding: '8px 12px', fontFamily: "'JetBrains Mono', monospace",
                       fontSize: 12, textDecoration: 'none',
                       color: isActive ? 'white' : 'var(--color-ink)',
                       background: isActive ? 'var(--color-orange)' : 'transparent',
+                      border: isActive ? '2px solid var(--color-black)' : '2px solid transparent',
                     }}
                     onMouseEnter={e => { if (!isActive) e.target.style.background = 'var(--color-cream-alt)'; }}
                     onMouseLeave={e => { if (!isActive) e.target.style.background = 'transparent'; }}
                   >
-                    <Icon size={16} />
+                    <Icon size={18} />
                     {link.label}
                   </Link>
                 );
               })}
-              <div style={{ borderTop: '2px solid var(--color-black)', margin: '4px 0' }} />
+              <div style={{ borderTop: '3px solid var(--color-black)', margin: '6px 0' }} />
               <Link
                 to="/booking"
                 onClick={() => setStartOpen(false)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 8,
-                  padding: '6px 10px', fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: 12, fontWeight: 700, textDecoration: 'none',
-                  color: 'white', background: 'var(--color-orange)',
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '8px 12px', fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: 13, fontWeight: 700, textDecoration: 'none',
+                  color: 'var(--color-ink)', background: 'var(--color-yellow)',
+                  border: '3px solid var(--color-black)',
+                  boxShadow: '3px 3px 0 0 rgba(0,0,0,0.85)',
                 }}
               >
-                <IconMap size={16} />
+                <IconMap size={18} />
                 BOOK NOW
               </Link>
             </motion.div>
@@ -107,7 +110,7 @@ export default function Navbar() {
         const Icon = link.icon;
         return (
           <div key={link.to} className="retro-taskbar-item active">
-            <Icon size={12} />
+            <Icon size={14} />
             {link.label}
           </div>
         );
@@ -115,6 +118,7 @@ export default function Navbar() {
 
       {/* Right side: clock */}
       <div className="retro-taskbar-right">
+        <IconClock size={12} />
         {clock}
       </div>
     </div>

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BOOKING_ROUTES } from '../../context/BookingContext';
 import RetroWindow from '../../components/RetroWindow';
+import { IconMotorcycle } from '../../components/icons/PixelIcons';
 
 const STEP_ORDER = [
   { route: BOOKING_ROUTES.type, label: 'Type' },
@@ -36,22 +37,18 @@ export default function BookingPageLayout({ children, title, subtitle, onBack, b
       <RetroWindow
         title={`Step ${stepNum} of ${totalSteps}`}
         showMenu
-        titleVariant="navy"
+        titleVariant="split"
+        zigzag
         onClose={() => navigate('/')}
-        icon={
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="square">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-        }
+        icon={<IconMotorcycle size={16} />}
         footer={
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%' }}>
             {currentIdx > 0 && (
               <button onClick={handleBack} className="retro-btn retro-btn-sm" style={{ marginRight: 'auto' }}>
                 « {backLabel}
               </button>
             )}
-            <div className="retro-progress" style={{ marginLeft: 'auto' }}>
+            <div className="retro-progress" style={{ marginLeft: 'auto', gap: 4 }}>
               {Array.from({ length: totalSteps }).map((_, i) => (
                 <div
                   key={i}
@@ -62,13 +59,19 @@ export default function BookingPageLayout({ children, title, subtitle, onBack, b
           </div>
         }
       >
-        {/* Step Status */}
-        <div className="retro-statusbar-top">
-          <div className="flex items-center gap-2">
-            <span className="retro-badge retro-badge-navy">STEP</span>
-            <span className="text-sm font-bold">{stepNum}/{totalSteps}</span>
+        {/* Step Status — brutalist counter */}
+        <div className="retro-statusbar-top" style={{ borderBottom: '4px solid var(--color-black)', marginBottom: 16 }}>
+          <div className="flex items-center gap-3">
+            <span className="brutal-number" style={{ fontSize: 11 }}>
+              {String(stepNum).padStart(2, '0')}
+            </span>
+            <span className="retro-badge retro-badge-navy" style={{ fontSize: 8 }}>
+              OF {totalSteps}
+            </span>
           </div>
-          <span className="text-xs text-gray">{currentIdx >= 0 ? STEP_ORDER[currentIdx].label : ''}</span>
+          <span className="brutal-underline" style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>
+            {currentIdx >= 0 ? STEP_ORDER[currentIdx].label : ''}
+          </span>
         </div>
 
         {/* Title */}
@@ -78,8 +81,8 @@ export default function BookingPageLayout({ children, title, subtitle, onBack, b
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.12 }}
           >
-            <h1 className="retro-dialog-title">{title}</h1>
-            {subtitle && <p className="retro-dialog-subtitle">{subtitle}</p>}
+            <h1 className="retro-dialog-title" style={{ fontSize: 24, borderLeft: '6px solid var(--color-hotpink)', paddingLeft: 12 }}>{title}</h1>
+            {subtitle && <p className="retro-dialog-subtitle" style={{ marginLeft: 18 }}>{subtitle}</p>}
           </motion.div>
         )}
 

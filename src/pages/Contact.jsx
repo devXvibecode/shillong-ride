@@ -37,31 +37,38 @@ export default function Contact() {
 
   return (
     <div className="booking-page">
-      <RetroWindow title="Contact Us"
+      <RetroWindow title="Contact Us" titleVariant="clash" zigzag
         footer={<span style={{ fontSize: 10 }}>© Shillong Ride — We reply within 24 hours</span>}
       >
         <div className="retro-split">
           {/* Form */}
           <div>
-            <div className="retro-card">
-              <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', borderBottom: '2px solid var(--color-black)', paddingBottom: 6, marginBottom: 10 }}>
+            <div className="retro-card" style={{ transform: 'rotate(-0.5deg)' }}>
+              <div style={{
+                fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
+                borderLeft: '5px solid var(--color-hotpink)',
+                padding: '6px 10px', marginBottom: 10,
+                background: 'var(--color-cream-alt)',
+              }}>
                 Send a Message
               </div>
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div>
                   <label style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>
-                    Full Name <span style={{ color: 'var(--color-error)' }}>*</span>
+                    Full Name <span style={{ color: 'var(--color-hotpink)', fontSize: 14 }}>*</span>
                   </label>
                   <input type="text" value={form.name} onChange={(e) => updateField('name', e.target.value)}
-                    className={`retro-input ${errors.name ? 'error' : ''}`} placeholder="YOUR NAME" />
+                    className={`retro-input ${errors.name ? 'error' : ''}`} placeholder="YOUR NAME"
+                    style={{ borderLeft: errors.name ? '6px solid var(--color-error)' : '6px solid var(--color-yellow)' }} />
                   {errors.name && <div style={{ color: 'var(--color-error)', fontSize: 9, marginTop: 2 }}>{errors.name}</div>}
                 </div>
                 <div>
                   <label style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>
-                    Email <span style={{ color: 'var(--color-error)' }}>*</span>
+                    Email <span style={{ color: 'var(--color-hotpink)', fontSize: 14 }}>*</span>
                   </label>
                   <input type="email" value={form.email} onChange={(e) => updateField('email', e.target.value)}
-                    className={`retro-input ${errors.email ? 'error' : ''}`} placeholder="YOU@EMAIL.COM" />
+                    className={`retro-input ${errors.email ? 'error' : ''}`} placeholder="YOU@EMAIL.COM"
+                    style={{ borderLeft: errors.email ? '6px solid var(--color-error)' : '6px solid var(--color-yellow)' }} />
                   {errors.email && <div style={{ color: 'var(--color-error)', fontSize: 9, marginTop: 2 }}>{errors.email}</div>}
                 </div>
                 <div>
@@ -69,20 +76,25 @@ export default function Contact() {
                     Phone (Optional)
                   </label>
                   <input type="tel" value={form.phone} onChange={(e) => updateField('phone', e.target.value)}
-                    className="retro-input" placeholder="+91 12345 67890" />
+                    className="retro-input" placeholder="+91 12345 67890"
+                    style={{ borderLeft: '6px solid var(--color-gray-light)' }} />
                 </div>
                 <div>
                   <label style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>
-                    Message <span style={{ color: 'var(--color-error)' }}>*</span>
+                    Message <span style={{ color: 'var(--color-hotpink)', fontSize: 14 }}>*</span>
                   </label>
                   <textarea value={form.message} onChange={(e) => updateField('message', e.target.value)}
                     className={`retro-input ${errors.message ? 'error' : ''}`} placeholder="YOUR MESSAGE..."
-                    style={{ minHeight: 80, resize: 'vertical' }} />
+                    style={{ minHeight: 80, resize: 'vertical', borderLeft: errors.message ? '6px solid var(--color-error)' : '6px solid var(--color-yellow)' }} />
                   {errors.message && <div style={{ color: 'var(--color-error)', fontSize: 9, marginTop: 2 }}>{errors.message}</div>}
                 </div>
 
                 {submitStatus === 'success' && (
-                  <div className="retro-card" style={{ background: '#EEFFEE', padding: 10, display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <div className="retro-card" style={{
+                    background: '#EEFFEE', padding: 10,
+                    display: 'flex', gap: 8, alignItems: 'center',
+                    borderLeft: '6px solid var(--color-pine)',
+                  }}>
                     <IconCheck size={16} style={{ flexShrink: 0, color: 'var(--color-pine)' }} />
                     <div>
                       <div style={{ fontSize: 10, fontWeight: 700 }}>Thank you!</div>
@@ -92,7 +104,8 @@ export default function Contact() {
                 )}
 
                 <button type="submit" disabled={isSubmitting}
-                  className="retro-btn retro-btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                  className="retro-btn retro-btn-brutal retro-btn-primary"
+                  style={{ width: '100%', justifyContent: 'center', transform: 'rotate(0.5deg)' }}>
                   {isSubmitting ? 'SENDING...' : 'Send Message →'}
                 </button>
               </form>
@@ -101,8 +114,13 @@ export default function Contact() {
 
           {/* Info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div className="retro-card">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <div className="retro-card" style={{ transform: 'rotate(0.8deg)' }}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10,
+                background: 'var(--color-cream-alt)',
+                padding: '6px 8px', margin: -16, marginBottom: 10,
+                borderBottom: '3px solid var(--color-black)',
+              }}>
                 <IconMap size={20} style={{ color: 'var(--color-orange)' }} />
                 <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>Our Office</span>
               </div>
@@ -127,8 +145,13 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="retro-card">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <div className="retro-card" style={{ transform: 'rotate(-0.5deg)' }}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10,
+                background: 'var(--color-cream-alt)',
+                padding: '6px 8px', margin: -16, marginBottom: 10,
+                borderBottom: '3px solid var(--color-black)',
+              }}>
                 <IconUser size={20} style={{ color: 'var(--color-orange)' }} />
                 <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>Follow Us</span>
               </div>
@@ -136,8 +159,16 @@ export default function Contact() {
                 Stay updated with our latest adventures, travel tips, and special offers.
               </p>
               <div style={{ display: 'flex', gap: 6 }}>
-                {['Instagram', 'Twitter', 'YouTube'].map(s => (
-                  <a key={s} href="#" className="retro-btn retro-btn-sm" style={{ fontSize: 8, padding: '3px 8px' }}>{s}</a>
+                {['Instagram', 'Twitter', 'YouTube'].map((s, i) => (
+                  <a key={s} href="#"
+                    className="retro-btn retro-btn-sm"
+                    style={{
+                      fontSize: 8, padding: '3px 8px',
+                      transform: `rotate(${i * 2 - 1.5}deg)`,
+                      background: i === 0 ? 'var(--color-hotpink)' : i === 1 ? 'var(--color-cyan)' : 'var(--color-orange)',
+                      color: 'white',
+                    }}
+                  >{s}</a>
                 ))}
               </div>
             </div>

@@ -32,24 +32,37 @@ export default function BookingType() {
 
   return (
     <BookingPageLayout title="SELECT PACKAGE" subtitle="Choose your adventure style">
-      <div className="retro-radio-group">
-        {CARDS.map((card) => {
+      <div className="retro-radio-group" style={{ gap: 12 }}>
+        {CARDS.map((card, idx) => {
           const Icon = card.icon;
           return (
             <button
               key={card.id}
               onClick={() => handleSelect(card.id)}
               className="retro-radio"
-              style={{ display: 'block', textAlign: 'left', width: '100%', padding: 16 }}
+              style={{
+                display: 'block', textAlign: 'left', width: '100%', padding: 16,
+                transform: `rotate(${idx === 0 ? '-0.5' : '0.8'}deg)`,
+                position: 'relative',
+              }}
             >
+              {/* Overlapping tape badge */}
+              <span className="brutal-stamp" style={{
+                top: -10, right: -8,
+                background: card.id === 'premium' ? 'var(--color-hotpink)' : 'var(--color-navy)',
+                fontSize: 7, padding: '3px 8px',
+              }}>
+                {card.id === 'premium' ? '★ BEST' : 'BASE'}
+              </span>
               <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
                 <div style={{
-                  width: 44, height: 44, flexShrink: 0,
-                  border: '3px solid var(--color-black)',
-                  background: 'var(--color-cream-alt)',
+                  width: 48, height: 48, flexShrink: 0,
+                  border: '4px solid var(--color-black)',
+                  background: card.id === 'premium' ? 'var(--color-yellow)' : 'var(--color-cream-alt)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '3px 3px 0 0 rgba(0,0,0,0.85)',
                 }}>
-                  <Icon size={24} />
+                  <Icon size={26} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 2, textTransform: 'uppercase' }}>
@@ -60,7 +73,7 @@ export default function BookingType() {
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                     {card.features.map((f, i) => (
-                      <span key={i} className="retro-badge retro-badge-outline" style={{ fontSize: 8 }}>
+                      <span key={i} className={`retro-badge ${i % 2 === 0 ? 'retro-badge-outline' : 'retro-badge-navy'}`} style={{ fontSize: 8 }}>
                         {f}
                       </span>
                     ))}

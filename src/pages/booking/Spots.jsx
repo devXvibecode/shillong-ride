@@ -29,20 +29,21 @@ export default function Spots() {
       {/* Status bar */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '8px 12px', border: '3px solid var(--color-black)',
-        background: 'var(--color-cream-alt)', marginBottom: 16,
+        padding: '10px 14px', border: '4px solid var(--color-black)',
+        background: 'repeating-linear-gradient(-45deg, var(--color-cream-alt) 0px, var(--color-cream-alt) 4px, var(--color-cream) 4px, var(--color-cream) 8px)',
+        marginBottom: 16, boxShadow: '4px 4px 0 0 rgba(0,0,0,0.85)',
       }}>
-        <span className="retro-badge retro-badge-navy">
+        <span className="retro-badge retro-badge-navy" style={{ fontSize: 9 }}>
           {selectedCircuit?.shortName || 'Circuit'}
         </span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 700 }}>
-          {selectedSpots.length} / {maxSpots}
+        <span className="brutal-number" style={{ fontSize: 12 }}>
+          {selectedSpots.length}/{maxSpots}
         </span>
       </div>
 
       {/* Spots grid */}
       <div className="retro-selector-grid">
-        {spots.map((place) => {
+        {spots.map((place, idx) => {
           const isSelected = selectedSpots.includes(place.id);
           const isDisabled = !isSelected && selectedSpots.length >= maxSpots;
 
@@ -56,6 +57,9 @@ export default function Spots() {
                 flexDirection: 'column', alignItems: 'stretch', padding: 0,
                 textAlign: 'left', opacity: isDisabled ? 0.35 : 1,
                 cursor: isDisabled ? 'not-allowed' : 'pointer',
+                transform: `rotate(${(idx % 3 - 1) * 0.8}deg)`,
+                border: isSelected ? '4px solid var(--color-orange)' : '3px solid var(--color-black)',
+                boxShadow: isSelected ? '5px 5px 0 0 rgba(0,0,0,0.85)' : '3px 3px 0 0 rgba(0,0,0,0.85)',
               }}
             >
               {/* Image area */}
@@ -80,11 +84,12 @@ export default function Spots() {
                 {isSelected && (
                   <div style={{
                     position: 'absolute', top: 6, right: 6,
-                    width: 24, height: 24, background: 'var(--color-orange)',
-                    border: '2px solid var(--color-black)',
+                    width: 28, height: 28, background: 'var(--color-orange)',
+                    border: '3px solid var(--color-black)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '2px 2px 0 0 rgba(0,0,0,0.85)',
                   }}>
-                    <IconCheck size={14} />
+                    <IconCheck size={16} />
                   </div>
                 )}
               </div>
@@ -118,9 +123,9 @@ export default function Spots() {
         <div style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
           background: 'var(--color-cream-light)',
-          borderTop: '4px solid var(--color-black)',
-          padding: '10px 16px',
-          boxShadow: '0 -4px 0 0 rgba(0,0,0,0.85)',
+          borderTop: '5px solid var(--color-black)',
+          padding: '12px 16px',
+          boxShadow: '0 -6px 0 0 rgba(0,0,0,0.85)',
         }}>
           <div style={{
             maxWidth: 800, margin: '0 auto',
@@ -136,7 +141,7 @@ export default function Spots() {
                 );
               })}
             </div>
-            <button onClick={handleContinue} className="retro-btn retro-btn-primary">
+            <button onClick={handleContinue} className="retro-btn retro-btn-brutal retro-btn-primary">
               CONTINUE →
             </button>
           </div>

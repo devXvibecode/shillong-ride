@@ -11,6 +11,7 @@ export default function RetroWindow({
   onClose,
   titleVariant = 'navy',
   fullscreen = false,
+  zigzag = false,
 }) {
   const navigate = useNavigate();
 
@@ -23,6 +24,8 @@ export default function RetroWindow({
     navy: '',
     orange: 'variant-orange',
     pine: 'variant-pine',
+    split: 'variant-split',
+    clash: 'variant-clash',
   }[titleVariant] || '';
 
   return (
@@ -34,7 +37,7 @@ export default function RetroWindow({
       className={`retro-window ${fullscreen ? 'fullscreen' : ''} ${className}`}
     >
       {/* Title Bar */}
-      <div className={`retro-titlebar ${variantClass}`}>
+      <div className={`retro-titlebar ${variantClass} ${zigzag ? 'zigzag' : ''}`}>
         <div className="retro-titlebar-left">
           {icon && <span className="retro-titlebar-icon">{icon}</span>}
           <span className="retro-titlebar-text">{title}</span>
